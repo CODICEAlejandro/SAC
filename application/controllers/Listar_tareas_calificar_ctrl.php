@@ -48,5 +48,54 @@ class Listar_tareas_calificar_ctrl extends CI_Controller {
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 		$this->load->view('Listar_tareas_calificar_vw',$data);
 	}
+
+
+	public function listarGerente(){
+		$this->load->model('Tarea');
+		$this->load->model('Retrabajo');
+
+		$pendientes = array();
+		$terminados = array();
+		$calificados = array();
+
+		$tareas = $this->Tarea->traerTodo();
+		$retrabajos = $this->Retrabajo->traerTodo();
+
+		foreach($tareas as $tarea){
+			$tarea->retrabajo = false;
+
+			if(($tarea->responsable->idArea)==($this->session->userdata('idArea'))){
+				if($tarea->idEstado == 1){
+					array_push($pendientes, $tarea);
+				}else if($tarea->idEstado == 2){
+					array_push($terminados, $tarea);
+				}else if($tarea->idEstado == 3){
+					array_push($calificados, $tarea);
+				}
+			}
+		}
+
+		foreach($retrabajos as $tarea){
+			$tarea->titulo = $tarea->tareaOrigen->titulo;
+			$tarea->retrabajo = true;
+
+			if(($tarea->responsable->idArea)==($this->session->userdata('idArea'))){
+				if($tarea->idEstado == 1){
+					array_push($pendientes, $tarea);
+				}else if($tarea->idEstado == 2){
+					array_push($terminados, $tarea);
+				}else if($tarea->idEstado == 3){
+					array_push($calificados, $tarea);
+				}
+			}
+		}
+
+		$data['pendientes'] = $pendientes;
+		$data['terminados'] = $terminados;
+		$data['calificados'] = $calificados;
+
+		$data['menu'] = $this->load->view('Menu_principal',null,true);
+		$this->load->view('Listar_tareas_calificar_vw',$data);
+	}
 }
 ?>

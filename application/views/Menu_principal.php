@@ -39,19 +39,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<li>
 									<a href="<?php echo base_url().'index.php/Listar_tareas_ctrl'; ?>">Tareas</a>
 								</li>
-								<!-- Actividades disponibles solo para el gerente y administrados -->
-								<?php if($this->session->userdata('tipo') == 1 || $this->session->userdata('tipo') == 2){ ?>
+								<!-- Actividades disponibles solo para el gerente -->
+								<?php if($this->session->userdata('tipo') == 1){ ?>
+								<li>
+									<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente'; ?>">Calificar</a>
+								</li>
+								<?php }else if($this->session->userdata('tipo') == 2){ ?>
+								<!-- Actividades disponibles solo para el administrador -->
 								<li>
 									<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl'; ?>">Calificar</a>
 								</li>
-								<?php } ?>
-								<!-- Actividades disponibles solo para el administrador -->
-								<?php if($this->session->userdata('tipo') == 2){ ?>
 								<li>
 									<a href="<?php echo base_url().'index.php/Nuevo_proyecto_ctrl'; ?>">Nuevo proyecto</a>
 								</li>
 								<?php } ?>
-
 								<li>
 									<a href="<?php echo base_url().'index.php/Logout_ctrl'; ?>">Salir</a>
 								</li>							
