@@ -26,6 +26,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre del proyecto">
 					</div>
 					<div class="form-group">
+						<label for="idCotizacion">ID de la cotización</label>
+						<input type="text" class="form-control" id="idCotizacion" name="idCotizacion" placeholder="0000">
+					</div>
+					<div class="form-group">
 						<label>Cliente</label>
 						<select name="idCliente" class="form-control">
 							<?php foreach($clientes as $cliente){ ?>
@@ -43,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 					<div class="form-group">
 						<input type="hidden" name="estado" value="1">
-						<input type="hidden" name="idCotizacion" value="1">
 						<input type="submit" class="btn btn-success" value="Crear">
 					</div>
 				</form>

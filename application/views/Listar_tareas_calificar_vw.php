@@ -38,10 +38,18 @@
 								class = "info"
 								>
 								<?php }else{ ?>
-									<?php if(!$tarea->retrabajo){ ?>
-										<tr class="success">
+									<?php 
+										$taskDay = explode(" ",explode("-",$tarea->creacion)[2])[0];
+										$curDay = date("d");
+										if($taskDay == $curDay){ 
+									?>
+										<?php if(!$tarea->retrabajo){ ?>
+											<tr class="success">
+										<?php }else{ ?>
+											<tr class="danger">										
+										<?php } ?>
 									<?php }else{ ?>
-										<tr class="danger">										
+										<tr style="background-color: black; color: white;">
 									<?php } ?>
 								<?php } ?>
 									<td align="center"><?php echo $tarea->creacion; ?></td>
