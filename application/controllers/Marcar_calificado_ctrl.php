@@ -78,5 +78,16 @@ class Marcar_calificado_ctrl extends CI_Controller {
 
 		redirect(base_url().'index.php/Listar_tareas_calificar_ctrl');		//Falta la vista y el controlador de esto
 	}
+
+	public function downloadFile($curID,$isRetrabajo,$path){
+		$this->load->model('FileUtil');
+		$this->FileUtil->download($path);
+
+		if($isRetrabajo){
+			$this->traerRetrabajo($id);
+		}else{
+			$this->traerTarea($id);
+		}
+	}
 }
 ?>

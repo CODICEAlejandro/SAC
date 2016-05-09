@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
@@ -8,42 +8,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<title>SAC</title>
 		<?php includeJQuery(); ?>
 		<?php includeBootstrap(); ?>
-		<script>
-			$(function(){
-				$(".AInputField").addClass("AValidField");
-			});
-
-			function validarTiempo(obj){
-				var regExpTiempo = new RegExp("^\\d{2}:\\d{2}$");
-				var tiempoEstimado = obj.value;
-				var field = "#m"+obj.id;
-				var valido = true;
-
-				if(!regExpTiempo.test(tiempoEstimado)){
-					$(field).html("<p style='color: red;'>Error de formato (hh:mm)</p>");
-					$("#"+obj.id).addClass("AInvalidField").removeClass("AValidField");
-				}else{
-					$(field).html("<p style='color: green;'>OK</p>");
-					$("#"+obj.id).removeClass("AInvalidField").addClass("AValidField");
-				}
-
-				valido = validarFormulario();
-				$(".btnCorrecto").prop("disabled",valido);
-				$(".btnIncorrecto").prop("disabled",valido);					
-			}
-
-			function validarFormulario(){
-				var estado = true;
-
-				$(".AInputField").each(function(index){
-					if(estado && $(this).hasClass("AValidField")){
-						estado = false;
-					}
-				});
-
-				return estado;
-			}
-		</script>
 	</head>
 	<body>
 		<?=$menu ?>
@@ -102,6 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						value="<?php echo $cTarea->tiempo; ?>"
 						onchange="validarTiempo(this)"
 						class="AInputField form-control"
+						disabled
 				>
 				<label id="mTiempoRealTarea"></label>
 			</div>
@@ -112,15 +77,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						id="comentarioConsultor" 
 						placeholder="Comentario de quien califica"
 						class="form-control"
-						rows="5"></textarea> 
-			</div>
-			<div class="form-group">
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<input type="submit" name="action" class="btnCorrecto btn btn-success form-control" value="Correcto">
-				</div>
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<input type="submit" name="action" class="btnIncorrecto btn btn-danger form-control" value="Incorrecto">
-				</div>
+						rows="5"
+						disabled><?php echo $cTarea->comentarioConsultor; ?></textarea> 
 			</div>
 		</form>
 
@@ -178,6 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						value="<?php echo $cRetrabajo->tiempo; ?>"
 						class="AInputField form-control"
 						onchange="validarTiempo(this)"
+						disabled
 				>
 				<label id="mTiempoRealRetrabajo"></label>
 			</div>
@@ -189,24 +148,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					id="comentarioConsultor" 
 					placeholder="Comentario de quien califica" 
 					class="form-control" 
-					rows="5"></textarea>
+					rows="5"
+					disabled><?php echo $cRetrabajo->comentarioConsultor; ?></textarea>
 			</div>
-			<div class="form-group">
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<input type="submit" name="action" class="btnCorrecto btn btn-success form-control" value="Correcto">
-				</div>
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<input type="submit" name="action" class="btnIncorrecto btn btn-danger form-control" value="Incorrecto">
-				</div>
-			</div>			
 		</form>
 		<?php } ?>
-
+			<div class="row">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl' ?>">
-					<button class="btn btn-warning form-control">Cancelar</button>
+					<button class="btn btn-warning form-control">Regresar</button>
 				</a>
 				</div>
+			</div>
 
 			</div>
 		</div>

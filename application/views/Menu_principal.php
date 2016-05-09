@@ -3,27 +3,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <html>
-	<head>
-		<title>SAC</title>
-	</head>
-	<body>
-		<ul>
-			<li>
-				<a href="<?php echo base_url().'index.php/Listar_proyectos_ctrl'; ?>">Proyectos</a>
-			</li>
-			<li>
-				<a href="<?php echo base_url().'index.php/Listar_tareas_ctrl'; ?>">Tareas</a>
-			</li>
-			<!-- Actividades disponibles solo para el administrador -->
-			<?php if($this->session->userdata('tipo') == 1){ ?>
-			<li>
-				<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl'; ?>">Calificar</a>
-			</li>
-			<?php } ?>
+<head>
+	<title>SAC</title>
+	<?php includeJQuery(); ?>
+	<?php includeBootstrap(); ?>
 
-			<li>
-				<a href="<?php echo base_url().'index.php/Logout_ctrl'; ?>">Salir</a>
-			</li>
-		</ul>
-	</body>
+	<style type="text/css">
+		body {
+			padding-top: 70px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+
+				<nav class="navbar navbar-default navbar-fixed-top">
+					<div class="container-fluid">
+						<ul class="nav navbar-nav navbar-left">
+							<li>
+								<a href="<?php echo base_url().'index.php/Listar_proyectos_ctrl'; ?>">Proyectos</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url().'index.php/Listar_tareas_ctrl'; ?>">Tareas</a>
+							</li>
+							<!-- Actividades disponibles solo para el gerente y administrados -->
+							<?php if($this->session->userdata('tipo') == 1 || $this->session->userdata('tipo') == 2){ ?>
+							<li>
+								<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl'; ?>">Calificar</a>
+							</li>
+							<?php } ?>
+							<!-- Actividades disponibles solo para el administrador -->
+							<?php if($this->session->userdata('tipo') == 2){ ?>
+							<li>
+								<a href="<?php echo base_url().'index.php/Nuevo_proyecto_ctrl'; ?>">Nuevo proyecto</a>
+							</li>
+							<?php } ?>
+
+							<li>
+								<a href="<?php echo base_url().'index.php/Logout_ctrl'; ?>">Salir</a>
+							</li>							
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<p class="navbar-text">
+								<?php echo $this->session->userdata('nombre'); ?>				
+							</p>
+							<img class="navbar-brand" src="<?php echo base_url().'img/logoPerfil.png'; ?>">							
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+</body>
 </html>

@@ -9,7 +9,11 @@ class Login_ctrl extends CI_Controller {
 	public function index(){
 		$this->ingresar();
 		if($this->session->userdata('user_active')){
-			redirect(base_url().'index.php/Listar_proyectos_ctrl');
+			if ($this->session->userdata('tipo') == 0) {
+				redirect(base_url().'index.php/Listar_proyectos_ctrl');
+			}else{
+				redirect(base_url().'index.php/Listar_tareas_calificar_ctrl');				
+			}
 		}else{
 			$this->load->view('index');
 		}
@@ -27,6 +31,15 @@ class Login_ctrl extends CI_Controller {
 				$this->session->set_userdata($key,$value);
 
 			$this->session->set_userdata('user_active',true);
+
+			//Define llave global correspondiente al candado asignado al rol del usuario
+			if($this->session->userdata('tipo')==0){
+				define('NORMAL_USER',true);
+			}else if($this->session->userdata('tipo')==1){
+				define('MANAGER_USER',true);
+			}else if($this->session->userdata('tipo')==2){
+				define('ADMIN_USER',true);
+			}
 
 			return true;
 		}else return false;

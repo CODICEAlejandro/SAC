@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class Alta_tarea_ctrl extends CI_Controller{
 	public function load_vw($id){
 		$dataCP = $this->cargarInfo($id);

@@ -16,5 +16,25 @@ class Proyecto extends CI_Model {
 
 		return $clienteProyectos;
 	}
+
+	public function insertar($data){
+		if($this->db->insert('catProyecto',$data))
+			return true;
+		else return false;
+	}
+
+	public function eliminar($id){
+		$this->db->where("id =",$id);
+		if($this->db->delete('catProyecto'))
+			return true;
+		else return false;
+	}
+
+	public function actualizar($id,$data){
+		$this->db->where("id =",$id);
+		if($this->db->update('catProyecto',$data))
+			return true;
+		else return false;
+	}
 }
 ?>

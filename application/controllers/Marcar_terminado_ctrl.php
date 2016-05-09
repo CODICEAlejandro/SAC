@@ -1,6 +1,7 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class Marcar_terminado_ctrl extends CI_Controller {
 	public function traerTarea($idTarea){
 		$this->load->model('Tarea');
@@ -13,6 +14,7 @@ class Marcar_terminado_ctrl extends CI_Controller {
 	public function traerRetrabajo($idRetrabajo){
 		$this->load->model('Retrabajo');
 		$data['cRetrabajo'] = $this->Retrabajo->traer($idRetrabajo);
+		$data['historial'] = $this->Retrabajo->traerHistorialAsociado($idRetrabajo);
 
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 		$this->load->view('Marcar_terminado_vw',$data);
@@ -90,7 +92,8 @@ class Marcar_terminado_ctrl extends CI_Controller {
 			if($k == ($length-1)) 
 				$uniqueName .= microtime().'.'.$parts[$k];
 			else{
-				$uniqueName .= $parts[$k];
+				//$uniqueName .= $parts[$k];
+				$uniqueName .= rand(0,9);
 			}
 		}
 

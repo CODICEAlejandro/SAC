@@ -36,7 +36,7 @@ class Tarea extends CI_Model {
 
 	//Obtiene un arreglo con todas las tareas en el catAlogo de tareas
 	public function traerTodo(){
-		$this->db->order_by('creacion','desc');
+		$this->db->order_by('creacion','asc');
 		$tareas = $this->db->get('catTarea')->result();
 
 		foreach($tareas as $tarea){
@@ -47,7 +47,7 @@ class Tarea extends CI_Model {
 	}
 
 	public function traerAsociadas($id){
-		$this->db->order_by('creacion','desc');
+		$this->db->order_by('creacion','asc');
 		$this->db->where('idResponsable =', $id);
 		$tareas = $this->db->get('catTarea')->result();
 
@@ -60,7 +60,7 @@ class Tarea extends CI_Model {
 
 
 	public function traerAsociadasPendientes($id){
-		$this->db->order_by('creacion','desc');
+		$this->db->order_by('creacion','asc');
 		$this->db->where('idEstado = 1');
 		$this->db->where('idResponsable =',$id);
 		$tareas = $this->db->get('catTareas')->result();

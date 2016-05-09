@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 class Listar_proyectos_ctrl extends CI_Controller {
 	public function index(){
 		$data['clientes_proyectos'] = $this->listar_proyectos();

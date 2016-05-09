@@ -29,7 +29,7 @@ class Retrabajo extends CI_Model {
 	}
 
 	public function traerTodo(){
-		$this->db->order_by('creacion','desc');
+		$this->db->order_by('creacion','asc');
 		$retrabajos = $this->db->get('catRetrabajo')->result();
 
 		foreach($retrabajos as $retrabajo){
@@ -40,6 +40,7 @@ class Retrabajo extends CI_Model {
 	}
 
 	public function traerAsociados($id){
+		$this->db->order_by('creacion','asc');
 		$retrabajos = $this->db->get('catRetrabajo')->result();
 
 		foreach($retrabajos as $key=>$retrabajo){
@@ -58,6 +59,7 @@ class Retrabajo extends CI_Model {
 	//Generación del retrabajo con estado 4 -> Completar los datos del retrabajo para pasar al estado 1 (Pendiente)
 	//-> Marcar el retrabajo como completado (Estado 2) -> Marcar el retrabajo como calificado (Estado 3) 
 	public function traerAsociadosParaEditar($id){
+		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado = 4');
 		$retrabajos = $this->db->get('catRetrabajo')->result();
 
@@ -74,6 +76,7 @@ class Retrabajo extends CI_Model {
 	}
 
 	public function traerAsociadosPendientes($id){
+		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado = 1');
 		$retrabajos = $this->db->get('catRetrabajo')->result();
 
@@ -89,11 +92,13 @@ class Retrabajo extends CI_Model {
 	}
 
 	public function traerParaEditar(){
+		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado =',4);
 		return $this->db->get('catRetrabajo')->result();
 	}
 
 	public function traerParaTerminar(){
+		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado =',1);
 		return $this->db->get('catRetrabajo')->result();
 	}
@@ -109,8 +114,8 @@ class Retrabajo extends CI_Model {
 		//Obtener tarea origen
 		$tareaOrigen = $this->Tarea->traer($retrabajo->idTareaOrigen);
 
-		//Obtener retrabajos asociados con fecha descendiente
-		$this->db->order_by('creacion','desc');
+		//Obtener retrabajos asociados con fecha ascendente
+		$this->db->order_by('creacion','asc');
 		$this->db->where('idTareaOrigen =',$retrabajo->idTareaOrigen);
 		$this->db->where('id !=',$idRetrabajo);
 		$retrabajosAsociados = $this->db->get('catRetrabajo')->result();
