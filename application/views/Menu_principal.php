@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <html>
 <head>
-	<title>SAC</title>
+	<title>JOBS</title>
 	<?php includeJQuery(); ?>
 	<?php includeBootstrap(); ?>
 
@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<span class="navbar-brand">Códice | SAC</span>
+							<span class="navbar-brand">Códice | JOBS</span>
 						</div>
 
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

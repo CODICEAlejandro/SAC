@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>SAC</title>
+		<title>JOBS</title>
 		<?php includeJQuery(); ?>
 		<?php includeBootstrap(); ?>
 		<script>

@@ -4,7 +4,7 @@
 <html>
 <head>
 	<?php includeMetaInformation(); ?>
-	<title>SAC</title>
+	<title>JOBS</title>
 	<?php includeJQuery(); ?>
 	<?php includeBootstrap(); ?>
 	<?php includeAuxiliars(); ?>

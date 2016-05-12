@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>SAC</title>
+		<title>JOBS</title>
 		<?php includeJQuery(); ?>
 		<?php includeBootstrap(); ?>		
 	</head>
