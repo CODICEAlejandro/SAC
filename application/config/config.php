@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //$config['base_url'] = 'http://localhost:8888/SAC/';
-$config['base_url'] = 'http://jobs.codice.com'
+$config['base_url'] = 'http://jobs.codice.com';
 /*
 |--------------------------------------------------------------------------
 | Index File
