@@ -35,7 +35,12 @@
 					id="form_login"
 				>
 					<div class="form-group">
-						<input type="mail" name="user" id="mail" placeholder="Correo electrónico" class="form-control">						
+						<select name="user" id="mail" class="form-control">
+							<option value="NoOption">Selecciona una opción</option>
+							<?php foreach($correos as $correo){ ?>
+								<option><?php echo $correo->correo; ?></option>
+							<?php } ?>
+						</select>
 					</div>
 					<div class="form-group">
 						<input type="password" name="password" id="password" placeholder="Contraseña" class="form-control">

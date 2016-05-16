@@ -76,7 +76,11 @@ class Marcar_calificado_ctrl extends CI_Controller {
 			}
 		}
 
-		redirect(base_url().'index.php/Listar_tareas_calificar_ctrl');		//Falta la vista y el controlador de esto
+		if($this->session->userdata('tipo') == 1){
+			redirect(base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente');
+		}else if($this->session->userdata('tipo') == 2){
+			redirect(base_url().'index.php/Listar_tareas_calificar_ctrl');
+		}
 	}
 
 	public function downloadFile($curID,$isRetrabajo,$path){

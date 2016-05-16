@@ -19,6 +19,9 @@ class Welcome extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index(){
-		$this->load->view('index');
+		$correos = $this->db->get('catUsuario')->result();
+		$data['correos'] = $correos;
+
+		$this->load->view('index',$data);
 	}
 }

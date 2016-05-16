@@ -3,7 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login_ctrl extends CI_Controller {
 	public function load_vw(){
-		$this->load->view('index');	
+		$correos = $this->db->get('catUsuario')->result();
+		$data['correos'] = $correos;
+
+		$this->load->view('index',$data);	
 	}
 
 	public function index(){
