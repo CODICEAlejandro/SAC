@@ -101,8 +101,8 @@ $db['default']['hostname'] = '71.19.228.199';
 //$db['default']['username'] = 'root';
 //$db['default']['password'] = 'ql7-dc,mrE0Eg8uC.P1I';
 
-$db['default']['username'] = ' jobscodice';
-$db['default']['password'] = '?qfhWAuR8KlX';
+$db['default']['username'] = 'jobscodi_user';
+$db['default']['password'] = 'X7Tk74~AiZ.O';
 
 $db['default']['database'] = 'jobscodi_sac_db';
 $db['default']['dbdriver'] = 'mysqli';
