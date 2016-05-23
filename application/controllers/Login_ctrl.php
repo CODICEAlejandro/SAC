@@ -21,7 +21,7 @@ class Login_ctrl extends CI_Controller {
 			}
 		}else{
 			//$this->load->view('index');
-			redirect(base_url().'index.php/Welcome.php');
+			$this->load_vw();
 		}
 	}
 
