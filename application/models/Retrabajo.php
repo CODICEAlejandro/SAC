@@ -3,26 +3,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Retrabajo extends CI_Model {
 	public function insert($data){
-		if($this->db->insert('catRetrabajo',$data))
+		if($this->db->insert('catretrabajo',$data))
 			return true;
 		else return false;
 	}
 
 	public function delete($id){
 		$this->db->where('id =',$id);
-		if($this->db->delete('catRetrabajo'))
+		if($this->db->delete('catretrabajo'))
 			return true;
 		else return false;
 	}
 
 	public function update($id, $data){
 		$this->db->where('id =',$id);
-		return $this->db->update('catRetrabajo',$data);
+		return $this->db->update('catretrabajo',$data);
 	}
 
 	public function traer($id){
 		$this->db->where('id =',$id);
-		$retrabajo = $this->db->get('catRetrabajo')->row();
+		$retrabajo = $this->db->get('catretrabajo')->row();
 
 		$this->parseForeignKeys($retrabajo);
 		return $retrabajo;
@@ -30,7 +30,7 @@ class Retrabajo extends CI_Model {
 
 	public function traerTodo(){
 		$this->db->order_by('creacion','asc');
-		$retrabajos = $this->db->get('catRetrabajo')->result();
+		$retrabajos = $this->db->get('catretrabajo')->result();
 
 		foreach($retrabajos as $retrabajo){
 			$this->parseForeignKeys($retrabajo);
@@ -41,7 +41,7 @@ class Retrabajo extends CI_Model {
 
 	public function traerAsociados($id){
 		$this->db->order_by('creacion','asc');
-		$retrabajos = $this->db->get('catRetrabajo')->result();
+		$retrabajos = $this->db->get('catretrabajo')->result();
 
 		foreach($retrabajos as $key=>$retrabajo){
 			$this->parseForeignKeys($retrabajo);
@@ -61,7 +61,7 @@ class Retrabajo extends CI_Model {
 	public function traerAsociadosParaEditar($id){
 		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado = 4');
-		$retrabajos = $this->db->get('catRetrabajo')->result();
+		$retrabajos = $this->db->get('catretrabajo')->result();
 
 		foreach($retrabajos as $key=>$retrabajo){
 			$this->parseForeignKeys($retrabajo);
@@ -78,7 +78,7 @@ class Retrabajo extends CI_Model {
 	public function traerAsociadosPendientes($id){
 		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado = 1');
-		$retrabajos = $this->db->get('catRetrabajo')->result();
+		$retrabajos = $this->db->get('catretrabajo')->result();
 
 		foreach($retrabajos as $key=>$retrabajo){
 			$this->parseForeignKeys($retrabajo);
@@ -94,13 +94,13 @@ class Retrabajo extends CI_Model {
 	public function traerParaEditar(){
 		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado =',4);
-		return $this->db->get('catRetrabajo')->result();
+		return $this->db->get('catretrabajo')->result();
 	}
 
 	public function traerParaTerminar(){
 		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado =',1);
-		return $this->db->get('catRetrabajo')->result();
+		return $this->db->get('catretrabajo')->result();
 	}
 
 	//Obtener lista enlazada de retrabajos (Más reciente -> ... -> Origen)
@@ -108,7 +108,7 @@ class Retrabajo extends CI_Model {
 		$this->load->model('Tarea');
 
 		//Obtener retrabajo actual
-		$this->db->where('id =',$idRetrabajo);
+		$this->db->where('id =',$idretrabajo);
 		$retrabajo = $this->traer($idRetrabajo);
 
 		//Obtener tarea origen
@@ -118,7 +118,7 @@ class Retrabajo extends CI_Model {
 		$this->db->order_by('creacion','asc');
 		$this->db->where('idTareaOrigen =',$retrabajo->idTareaOrigen);
 		$this->db->where('id !=',$idRetrabajo);
-		$retrabajosAsociados = $this->db->get('catRetrabajo')->result();
+		$retrabajosAsociados = $this->db->get('catretrabajo')->result();
 
 		foreach($retrabajosAsociados as $retrabajo){
 			$this->parseForeignKeys($retrabajo);
@@ -139,7 +139,7 @@ class Retrabajo extends CI_Model {
 		$retrabajo->tareaOrigen = $tareaOrigen;
 
 		$this->db->where('id =',$retrabajo->idEstado);
-		$retrabajo->estado = $this->db->get('catEstado')->row();
+		$retrabajo->estado = $this->db->get('catestado')->row();
 	}
 }
 

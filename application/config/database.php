@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-/*
+
 $active_group = 'default';
 $active_record = TRUE;
 
@@ -93,8 +93,8 @@ $db['default']['dbcollat'] = 'utf8_unicode_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
-*/
-$active_group = 'default';
+
+/*$active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = '71.19.228.199';
@@ -115,5 +115,5 @@ $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_unicode_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+$db['default']['stricton'] = FALSE;*/
 ?>

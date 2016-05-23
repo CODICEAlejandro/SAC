@@ -21,11 +21,11 @@ class Listar_tareas_ctrl extends CI_Controller {
 	// . => {cliente1 => {proy1 => {tarea1,tarea2,...}, proy2 => {...}, ...}, cliente2 => {...}, ... }
 	/*public function traerTodo(){
 		$total = array();
-		$clientes = $this->db->get('catCliente')->result();
+		$clientes = $this->db->get('catcliente')->result();
 
 		foreach($clientes as $cliente){
 			$this->db->where('id =', $cliente->idCliente);
-			$total[$cliente->nombre] = $this->db->get('catProyecto')->result();
+			$total[$cliente->nombre] = $this->db->get('catproyecto')->result();
 
 			foreach($total[$cliente->nombre] as $proyecto){
 				$this->db->where('id =', $proyecto->id);

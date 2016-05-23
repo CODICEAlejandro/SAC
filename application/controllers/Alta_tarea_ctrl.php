@@ -32,12 +32,12 @@ class Alta_tarea_ctrl extends CI_Controller{
 	//idProyecto => {'cliente'=>StdClass Object, 'proyecto'=>StdClass Object}
 	public function cargarInfo($idProyecto){
 		$this->db->where('id =', $idProyecto);
-		$format['proyecto'] = $this->db->get('catProyecto')->row();
+		$format['proyecto'] = $this->db->get('catproyecto')->row();
 
 		$this->db->where('id =', $format['proyecto']->idCliente);
-		$format['cliente'] = $this->db->get('catCliente')->row();
+		$format['cliente'] = $this->db->get('catcliente')->row();
 
-		$format['fases'] = $this->db->get('catFase')->result();
+		$format['fases'] = $this->db->get('catfase')->result();
 
 		return $format;
 	}

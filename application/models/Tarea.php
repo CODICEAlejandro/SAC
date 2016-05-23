@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Tarea extends CI_Model {
 	public function insertar($data){
-		if($this->db->insert('catTarea',$data)) 
+		if($this->db->insert('cattarea',$data)) 
 			return true;
 		else
 			return false;
@@ -11,7 +11,7 @@ class Tarea extends CI_Model {
 
 	public function delete($id){
 		$this->db->where('id =',$id);
-		if($this->db->delete('catTarea'))
+		if($this->db->delete('cattarea'))
 			return true;
 		else 
 			return false;
@@ -19,7 +19,7 @@ class Tarea extends CI_Model {
 
 	public function update($id,$data){
 		$this->db->where('id =',$id);
-		if($this->db->update('catTarea',$data))
+		if($this->db->update('cattarea',$data))
 			return true;
 		else
 			return false;
@@ -28,7 +28,7 @@ class Tarea extends CI_Model {
 	//Obtiene una objeto Tarea
 	public function traer($id){
 		$this->db->where('id =',$id);
-		$tarea = $this->db->get('catTarea')->row();
+		$tarea = $this->db->get('cattarea')->row();
 
 		$this->parseForeignKeys($tarea);
 		return $tarea;
@@ -37,7 +37,7 @@ class Tarea extends CI_Model {
 	//Obtiene un arreglo con todas las tareas en el catAlogo de tareas
 	public function traerTodo(){
 		$this->db->order_by('creacion','asc');
-		$tareas = $this->db->get('catTarea')->result();
+		$tareas = $this->db->get('cattarea')->result();
 
 		foreach($tareas as $tarea){
 			$this->parseForeignKeys($tarea);
@@ -49,7 +49,7 @@ class Tarea extends CI_Model {
 	public function traerAsociadas($id){
 		$this->db->order_by('creacion','asc');
 		$this->db->where('idResponsable =', $id);
-		$tareas = $this->db->get('catTarea')->result();
+		$tareas = $this->db->get('cattarea')->result();
 
 		foreach($tareas as $tarea){
 			$this->parseForeignKeys($tarea);
@@ -63,7 +63,7 @@ class Tarea extends CI_Model {
 		$this->db->order_by('creacion','asc');
 		$this->db->where('idEstado = 1');
 		$this->db->where('idResponsable =',$id);
-		$tareas = $this->db->get('catTareas')->result();
+		$tareas = $this->db->get('cattarea')->result();
 
 		foreach($tareas as $tarea){
 			$this->parseForeignKeys($tareas);
@@ -80,19 +80,19 @@ class Tarea extends CI_Model {
 	// responsable -> Responsable
 	public function parseForeignKeys($tarea){
 		$this->db->where('id =',$tarea->idProyecto);
-		$tarea->proyecto = $this->db->get('catProyecto')->row();
+		$tarea->proyecto = $this->db->get('catproyecto')->row();
 
 		$this->db->where('id =',$tarea->proyecto->idCliente);
-		$tarea->cliente = $this->db->get('catCliente')->row();
+		$tarea->cliente = $this->db->get('catcliente')->row();
 
 		$this->db->where('id =',$tarea->idEstado);
-		$tarea->estado = $this->db->get('catEstado')->row();
+		$tarea->estado = $this->db->get('catestado')->row();
 
 		$this->db->where('id =',$tarea->idFase);
-		$tarea->fase = $this->db->get('catFase')->row();
+		$tarea->fase = $this->db->get('catfase')->row();
 
 		$this->db->where('id =',$tarea->idResponsable);
-		$tarea->responsable = $this->db->get('catUsuario')->row();
+		$tarea->responsable = $this->db->get('catusuario')->row();
 	}
 }
 ?>

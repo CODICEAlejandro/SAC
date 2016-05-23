@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cliente extends CI_Model {
 	public function traerTodo(){
-		$result = $this->db->get('catCliente')->result();
+		$result = $this->db->get('catcliente')->result();
 
 		return $result;
 	}
