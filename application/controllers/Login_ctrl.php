@@ -20,7 +20,8 @@ class Login_ctrl extends CI_Controller {
 				redirect(base_url().'index.php/Listar_tareas_calificar_ctrl');				
 			}
 		}else{
-			$this->load->view('index');
+			//$this->load->view('index');
+			redirect(base_url().'index.php/Welcome.php');
 		}
 	}
 
