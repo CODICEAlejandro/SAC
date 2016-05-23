@@ -20,6 +20,7 @@ class Welcome extends CI_Controller {
 	 */
 	public function index(){
 		$correos = $this->db->get('catusuario')->result();
+		
 		$data['correos'] = $correos;
 
 		$this->load->view('index',$data);
