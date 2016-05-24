@@ -29,6 +29,7 @@ class Marcar_calificado_ctrl extends CI_Controller {
 
 			$info['tiempo'] = $data['tiempo'];							//Es el tiempo real apreciado por el Gerente
 			$info['comentarioGerente'] = $data['comentarioGerente'];
+			$info['retrabajo'] = (isset($data['retrabajo']))? $data['retrabajo'] : 0;
 
 			if($action == 'Incorrecto'){
 				$info['idEstado'] = 3;
@@ -52,6 +53,7 @@ class Marcar_calificado_ctrl extends CI_Controller {
 
 			$info['tiempo'] = $data['tiempo'];
 			$info['comentarioGerente'] = $data['comentarioGerente'];
+			$info['retrabajo'] = (isset($data['retrabajo']))? $data['retrabajo'] : 0;
 
 			if($action == 'Incorrecto'){
 				$info['idEstado'] = 3;

@@ -115,6 +115,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						rows="5"></textarea> 
 			</div>
 			<div class="form-group">
+				<label for="retrabajo">Es retrabajo </label>
+				<input type="checkbox" name="retrabajo" value="1" id="retrabajo">
+			<div>			
+			<div class="form-group">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<input type="submit" name="action" class="btnCorrecto btn btn-success form-control" value="Correcto">
 				</div>
@@ -192,6 +196,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					rows="5"></textarea>
 			</div>
 			<div class="form-group">
+				<label for="retrabajo">Es retrabajo</label>
+				<input type="checkbox" name="retrabajo" value="1" id="retrabajo">
+			<div>
+			<div class="form-group">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<input type="submit" name="action" class="btnCorrecto btn btn-success form-control" value="Correcto">
 				</div>
@@ -203,9 +211,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php } ?>
 
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl' ?>">
-					<button class="btn btn-warning form-control">Cancelar</button>
+				<?php if($this->session->userdata("tipo") == 2){ ?>
+				<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl' ?>" class="btn btn-warning form-control">
+					Cancelar
 				</a>
+				<?php }else if($this->session->userdata("tipo") == 1){ ?>
+				<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente' ?>" class="btn btn-warning form-control">
+					Cancelar
+				</a>
+				<?php } ?>
 				</div>
 
 			</div>

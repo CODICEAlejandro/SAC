@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}else{
 					$(field).html("OK");				
 					$(field).html("<p style='color: green;'>OK</p>");
+					$("#"+obj.id).addClass("AValidField").removeClass("AInvalidField");
 				}
 
 				$("#btnTerminar").prop("disabled", validarFormulario());
