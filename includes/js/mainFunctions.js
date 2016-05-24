@@ -1,6 +1,6 @@
 function parseDate(){
 	var date = new Date();
-	var day = date.getDay();
+	var day = date.toString().split(" ")[2];
 	var month = date.getMonth();
 	var year = date.getFullYear();
 

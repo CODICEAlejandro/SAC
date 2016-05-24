@@ -1,6 +1,6 @@
 <?php
 function includeJQuery(){
-	echo '<script src="/SAC/includes/js/jQuery.js"></script>';
+	echo '<script src="'.base_url().'/includes/js/jQuery.js"></script>';
 }
 
 function includeBootstrap(){
