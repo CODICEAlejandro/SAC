@@ -58,7 +58,7 @@
 									<td align="center"><?php echo $tarea->cliente->nombre; ?></td>
 									<td align="center"><?php echo $tarea->proyecto->nombre; ?></td>
 									<td align="center"><?php echo $tarea->titulo; ?></td>
-									<td align="center"><?php echo ($tarea->retrabajo)? "Retrabajo" : "Tarea"; ?></td>
+									<td align="center"><?php echo ($tarea->retrabajo)? "Error" : "Tarea"; ?></td>
 									<td align="center"><?php echo $tarea->estado->nombre; ?></td>
 								</tr>
 							<?php } ?>
@@ -110,7 +110,7 @@
 									<td align="center"><?php echo $tarea->cliente->nombre; ?></td>
 									<td align="center"><?php echo $tarea->proyecto->nombre; ?></td>
 									<td align="center"><?php echo $tarea->titulo; ?></td>
-									<td align="center"><?php echo ($tarea->retrabajo)? "Retrabajo" : "Tarea"; ?></td>
+									<td align="center"><?php echo ($tarea->retrabajo)? "Error" : "Tarea"; ?></td>
 									<td align="center"><?php echo $tarea->estado->nombre; ?></td>
 								</tr>
 							<?php } ?>

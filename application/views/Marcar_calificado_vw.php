@@ -10,7 +10,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php includeBootstrap(); ?>
 		<script>
 			$(function(){
+				var idSubmitClicked = "";
+
 				$(".AInputField").addClass("AValidField");
+
+				$("#form_calificado input.submitInput").click(function(event){
+					idSubmitClicked = $(this).attr("id");
+				});
+
+				$("#form_calificado").submit(function(event){
+					if(idSubmitClicked == "btnCorrecto"){
+						var needTest = confirm("¿Requiere enviar a área de pruebas?");
+						var inputNeedTest = $("#inputNeedTest");
+						var inputTableTest = $("#inputTableTest");
+
+						if(needTest){
+							inputNeedTest.val("true");
+						}else{
+							inputNeedTest.val("false");
+						}
+					}
+				});
 			});
 
 			function validarTiempo(obj){
@@ -117,13 +137,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="form-group">
 				<label for="retrabajo">Es retrabajo </label>
 				<input type="checkbox" name="retrabajo" value="1" id="retrabajo">
-			<div>			
+			<div>	
+			<div>
+				<input type="hidden" id="inputTableTest" name="tableTest" value="tarea">
+				<input type="hidden" id="inputNeedTest" name="needTest" value="false">
+			</div>		
 			<div class="form-group">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<input type="submit" name="action" class="btnCorrecto btn btn-success form-control" value="Correcto">
+				<input type="submit" name="action" id="btnCorrecto" class="btnCorrecto btn btn-success form-control submitInput" value="Correcto">
 				</div>
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<input type="submit" name="action" class="btnIncorrecto btn btn-danger form-control" value="Incorrecto">
+				<input type="submit" name="action" id="btnIncorrecto" class="btnIncorrecto btn btn-danger form-control submitInput" value="Incorrecto">
 				</div>
 			</div>
 		</form>
@@ -199,12 +223,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<label for="retrabajo">Es retrabajo</label>
 				<input type="checkbox" name="retrabajo" value="1" id="retrabajo">
 			<div>
+			<div>
+				<input type="hidden" id="inputTableTest" name="tableTest" value="error">
+				<input type="hidden" id="inputNeedTest" name="needTest" value="false">
+			</div>
 			<div class="form-group">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<input type="submit" name="action" class="btnCorrecto btn btn-success form-control" value="Correcto">
+				<input type="submit" name="action" id="btnCorrecto" class="btnCorrecto btn btn-success form-control submitInput" value="Correcto">
 				</div>
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<input type="submit" name="action" class="btnIncorrecto btn btn-danger form-control" value="Incorrecto">
+				<input type="submit" name="action" id="btnIncorrecto" class="btnIncorrecto btn btn-danger form-control submitInput" value="Incorrecto">
 				</div>
 			</div>			
 		</form>

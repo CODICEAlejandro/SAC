@@ -26,6 +26,8 @@ class Marcar_calificado_ctrl extends CI_Controller {
 			$data = $this->input->post();
 			$tarea = $this->Tarea->traer($id);
 			$action = $data['action'];
+			$solicitaPruebas = $data["needTest"];
+			$cTabla = "tarea";
 
 			$info['tiempo'] = $data['tiempo'];							//Es el tiempo real apreciado por el Gerente
 			$info['comentarioGerente'] = $data['comentarioGerente'];
@@ -50,6 +52,8 @@ class Marcar_calificado_ctrl extends CI_Controller {
 		}else if($tipo == 'Retrabajo'){
 			$data = $this->input->post();
 			$action = $data['action'];
+			$solicitaPruebas = $data["needTest"];
+			$cTabla = "retrabajo";
 
 			$info['tiempo'] = $data['tiempo'];
 			$info['comentarioGerente'] = $data['comentarioGerente'];
@@ -78,10 +82,19 @@ class Marcar_calificado_ctrl extends CI_Controller {
 			}
 		}
 
+		//Comprobación de si es administrador o gerente, luego, comprobación de si se deberá generar un pendiente en solicitudprueba
 		if($this->session->userdata('tipo') == 1){
-			redirect(base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente');
+			if($solicitaPruebas == "true"){
+				redirect(base_url().'index.php/Solicitud_pruebas_ctrl/generarReporte/'.$id.'/'.$cTabla);
+			}else{
+				redirect(base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente');
+			}
 		}else if($this->session->userdata('tipo') == 2){
-			redirect(base_url().'index.php/Listar_tareas_calificar_ctrl');
+			if($solicitaPruebas == "true"){
+				redirect(base_url().'index.php/Solicitud_pruebas_ctrl/generarReporte/'.$id.'/'.$cTabla);
+			}else{
+				redirect(base_url().'index.php/Listar_tareas_calificar_ctrl');
+			}
 		}
 	}
 
