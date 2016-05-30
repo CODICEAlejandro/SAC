@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Nuevo_proyecto_ctrl extends CI_Controller {
 	public function index(){
+		checkSession();
+
 		$this->load->model('Cliente');
 
 		$data['clientes'] = $this->Cliente->traerTodo();
@@ -12,6 +14,8 @@ class Nuevo_proyecto_ctrl extends CI_Controller {
 	}
 
 	public function insertar(){
+		checkSession();
+
 		$data = $this->input->post();
 
 		$this->load->model('Proyecto');

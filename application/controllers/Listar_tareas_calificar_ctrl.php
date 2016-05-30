@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Listar_tareas_calificar_ctrl extends CI_Controller {
 	public function index(){
+		checkSession();
+
 		$this->load->model('Tarea');
 		$this->load->model('Retrabajo');
 
@@ -51,6 +53,8 @@ class Listar_tareas_calificar_ctrl extends CI_Controller {
 
 
 	public function listarGerente(){
+		checkSession();
+
 		$this->load->model('Tarea');
 		$this->load->model('Retrabajo');
 

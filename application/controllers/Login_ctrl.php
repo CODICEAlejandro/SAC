@@ -3,6 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login_ctrl extends CI_Controller {
 	public function load_vw(){
+		$this->session->sess_destroy();	
+
+		$this->db->order_by("correo", "ASC");
 		$correos = $this->db->get('catusuario')->result();
 		$data['correos'] = $correos;
 

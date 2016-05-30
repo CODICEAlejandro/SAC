@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Marcar_calificado_ctrl extends CI_Controller {
 	public function traerTarea($idTarea){
+		checkSession();
+
 		$this->load->model('Tarea');
 		$data['cTarea'] = $this->Tarea->traer($idTarea);
 
@@ -11,6 +13,8 @@ class Marcar_calificado_ctrl extends CI_Controller {
 	}
 
 	public function traerRetrabajo($idRetrabajo){
+		checkSession();
+
 		$this->load->model('Retrabajo');
 		$data['cRetrabajo'] = $this->Retrabajo->traer($idRetrabajo);
 
@@ -19,6 +23,8 @@ class Marcar_calificado_ctrl extends CI_Controller {
 	}
 
 	public function actualizarTarea($id, $tipo){
+		checkSession();
+
 		$this->load->model('Tarea');
 		$this->load->model('Retrabajo');
 
@@ -99,6 +105,8 @@ class Marcar_calificado_ctrl extends CI_Controller {
 	}
 
 	public function downloadFile($curID,$isRetrabajo,$path){
+		checkSession();
+
 		$this->load->model('FileUtil');
 		$this->FileUtil->download($path);
 

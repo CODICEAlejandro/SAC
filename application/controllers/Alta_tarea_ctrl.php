@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Alta_tarea_ctrl extends CI_Controller{
 	public function load_vw($id){
+		checkSession();
+
 		$dataCP = $this->cargarInfo($id);
 		$data['cliente'] = $dataCP['cliente'];
 		$data['proyecto'] = $dataCP['proyecto'];
@@ -14,6 +16,8 @@ class Alta_tarea_ctrl extends CI_Controller{
 	}
 
 	public function editarRetrabajo($idRetrabajo){
+		checkSession();
+
 		$this->load->model('Retrabajo');
 
 		$data['retrabajo'] = $this->Retrabajo->traer($idRetrabajo);
@@ -69,7 +73,7 @@ class Alta_tarea_ctrl extends CI_Controller{
 		redirect(base_url().'index.php/Listar_proyectos_ctrl');
 	}
 
-	public function driverActividades(){
+	public function driverActividades(){		
 		$data = $this->input->post();
 		$action = $data['action'];
 		unset($data['action']);

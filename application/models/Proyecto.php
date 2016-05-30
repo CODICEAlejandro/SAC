@@ -5,6 +5,7 @@ class Proyecto extends CI_Model {
 	//Obtiene todos los proyectos activos asociados a cada uno de los clientes
 	//Retorna un arreglo: {cliente1 => {proyecto1, proyecto2, ...}, cliente2 ..., ...}
 	public function traer_cp(){
+		$this->db->order_by("nombre","ASC");
 		$clientes = $this->db->get('catcliente')->result();
 		$clienteProyectos = array();
 

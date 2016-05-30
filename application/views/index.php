@@ -10,8 +10,15 @@
 	<?php includeAuxiliars(); ?>
 	<script type="text/javascript">
 	$(function(){
-		$("#curDate").html(parseDate());
-		$("#curTime").html(parseTime());
+		$("#curDate").html(parseDate);
+		$("#curTime").html(parseTime);
+
+		$("#central_section_form").hide();
+		$("#central_section_form").slideDown("slow");
+
+		setInterval(function(){
+			$("#curTime").html(parseTime);
+		},1000);
 	});		
 	</script>
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url().'includes/css/AStyles.css'; ?>">
@@ -26,7 +33,7 @@
 		<div class="row">
 			<div class="col-xs-0 col-sm-3 col-md-3 col-lg-3"></div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 section_ctx" 
-				style="margin: auto; ">
+				style="margin: auto; " id="central_section_form">
 				<h3>Login</h3>
 				<form
 					method="POST"
@@ -46,7 +53,7 @@
 						<input type="password" name="password" id="password" placeholder="Contraseña" class="form-control">
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Ingresar" class="btn btn-primary">
+						<input type="submit" value="Ingresar" style="width: 100%;" class="btn btn-warning">
 					</div>
 				</form>
 			</div>
@@ -54,15 +61,15 @@
 	</div>
 
 	<div class="row" id="footer_ctx">
-		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="font-size: 20px;">
-			Hoy es:
-			<div id="curDate" style="font-size: 35px;"></div>
+		<div class="col-xs-5 col-sm-3 col-md-3 col-lg-3" style="font-size: 20px;">
+			<h4>Hoy es:</h4>
+			<div id="curDate" style="font-size: 100%;"></div>
 		</div>
-		<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+		<div class="col-xs-2 col-sm-7 col-md-7 col-lg-7">
 		</div>
-		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="font-size: 20px;">
-			La hora actual:
-			<div id="curTime" style="font-size: 40px;"></div>
+		<div class="col-xs-5 col-sm-2 col-md-2 col-lg-2" style="font-size: 20px;">
+			<h4>La hora actual:</h4>
+			<div id="curTime" style="font-size: 100%;"></div>
 		</div>
 	</div>
 

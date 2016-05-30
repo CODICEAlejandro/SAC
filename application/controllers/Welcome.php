@@ -19,7 +19,8 @@ class Welcome extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index(){
-		$this->session->sess_destroy();		
+		$this->session->sess_destroy();	
+		$this->db->order_by("correo","ASC");	
 		$correos = $this->db->get('catusuario')->result();
 		
 		$data['correos'] = $correos;

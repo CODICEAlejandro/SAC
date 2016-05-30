@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Marcar_terminado_ctrl extends CI_Controller {
 	public function traerTarea($idTarea){
+		checkSession();
+
 		$this->load->model('Tarea');
 		$data['cTarea'] = $this->Tarea->traer($idTarea);
 
@@ -12,6 +14,8 @@ class Marcar_terminado_ctrl extends CI_Controller {
 	}
 
 	public function traerRetrabajo($idRetrabajo){
+		checkSession();
+
 		$this->load->model('Retrabajo');
 		$data['cRetrabajo'] = $this->Retrabajo->traer($idRetrabajo);
 		$data['historial'] = $this->Retrabajo->traerHistorialAsociado($idRetrabajo);
@@ -21,6 +25,8 @@ class Marcar_terminado_ctrl extends CI_Controller {
 	}
 
 	public function actualizarTarea($id){
+		checkSession();
+
 		$this->load->model('Tarea');
 		$data = $this->input->post();
 
@@ -36,6 +42,8 @@ class Marcar_terminado_ctrl extends CI_Controller {
 	}
 
 	public function actualizarRetrabajo($id){
+		checkSession();
+
 		$this->load->model('Retrabajo');
 		$data = $this->input->post();
 
@@ -53,6 +61,8 @@ class Marcar_terminado_ctrl extends CI_Controller {
 	//Sube los archivos indicados al servidor 
 	//nombre del input con el archivo a subir => boolean
 	public function upload($nameField){
+		checkSession();
+
 		//Arreglo de retorno
 		$result = array();
 		

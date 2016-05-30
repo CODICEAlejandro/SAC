@@ -21,4 +21,12 @@ function includeMetaInformation(){
 function includeAuxiliars(){
 	echo '<script type="text/javascript" src="'.base_url().'includes/js/mainFunctions.js"></script>';
 }
+
+function checkSession(){
+	if(!empty($_SESSION) && isset($_SESSION['user_active']) && $_SESSION['user_active']==1){
+		return true;
+	}else{
+		redirect(base_url().'index.php/Login_ctrl/load_vw');
+	}
+}
 ?>

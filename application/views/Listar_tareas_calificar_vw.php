@@ -3,7 +3,17 @@
 	<head>
 		<title>JOBS</title>
 		<?php includeJQuery(); ?>
-		<?php includeBootstrap(); ?>		
+		<?php includeBootstrap(); ?>
+
+		<script type="text/javascript">
+			$(function(){
+				$(".DiscoverRow").hide();
+
+				$(".DiscoverRow").each(function(i){
+					$(this).delay(i*50).fadeIn(200);
+				});
+			});
+		</script>		
 	</head>
 	<body>
 		<?=$menu ?>
@@ -44,12 +54,12 @@
 										if($taskDay == $curDay){ 
 									?>
 										<?php if(!$tarea->retrabajo){ ?>
-											<tr class="success">
+											<tr class="success DiscoverRow">
 										<?php }else{ ?>
-											<tr class="danger">										
+											<tr class="danger DiscoverRow">										
 										<?php } ?>
 									<?php }else{ ?>
-										<tr style="background-color: black; color: white;">
+										<tr style="background-color: black; color: white;" class="DiscoverRow">
 									<?php } ?>
 								<?php } ?>
 									<td align="center"><?php echo $tarea->creacion; ?></td>
@@ -93,16 +103,16 @@
 								<?php if(!$tarea->retrabajo){ ?>
 									<tr
 									onclick="location='<?php echo base_url().'index.php/Marcar_calificado_ctrl/traerTarea/'.($tarea->id); ?>'"
-									class = "info"
+									class = "info DiscoverRow"
 									>
 								<?php }else{ ?>
 									<tr
 									onclick="location='<?php echo base_url().'index.php/Marcar_calificado_ctrl/traerRetrabajo/'.($tarea->id); ?>'"
-									class = "danger"
+									class = "danger DiscoverRow"
 									>
 								<?php } ?>
 								<?php }else{ ?>
-								<tr class="success">
+								<tr class="success DiscoverRow">
 								<?php } ?>
 									<td align="center"><?php echo $tarea->creacion; ?></td>
 									<td align="center"><?php echo $tarea->id; ?></td>
@@ -145,16 +155,16 @@
 								<?php if(!$tarea->retrabajo){ ?>
 									<tr
 									onclick="location='<?php echo base_url().'index.php/Detalle_tarea_ctrl/traerTarea/'.($tarea->id); ?>'"
-									class = "success"
+									class = "success DiscoverRow"
 									>
 								<?php }else{ ?>
 									<tr
 									onclick="location='<?php echo base_url().'index.php/Detalle_tarea_ctrl/traerRetrabajo/'.($tarea->id); ?>'"
-									class = "danger"
+									class = "danger DiscoverRow"
 									>
 								<?php } ?>
 								<?php }else{ ?>
-								<tr class="success">
+								<tr class="success DiscoverRow">
 								<?php } ?>
 									<td align="center"><?php echo $tarea->creacion; ?></td>
 									<td align="center"><?php echo $tarea->id; ?></td>

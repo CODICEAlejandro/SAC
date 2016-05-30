@@ -15,6 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</style>
 </head>
 <body>
+	<?php $page = $this->uri->segment(1); ?>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
@@ -33,23 +34,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav navbar-left">
-								<li>
+								<li <?php ($page=="Listar_proyectos_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
 									<a href="<?php echo base_url().'index.php/Listar_proyectos_ctrl'; ?>">Proyectos</a>
 								</li>
-								<li>
+								<li <?php ($page=="Listar_tareas_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
 									<a href="<?php echo base_url().'index.php/Listar_tareas_ctrl'; ?>">Tareas</a>
 								</li>
 								<!-- Actividades disponibles solo para el gerente -->
 								<?php if($this->session->userdata('tipo') == 1){ ?>
-								<li>
+								<li <?php ($page=="Listar_tareas_calificar_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
 									<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente'; ?>">Calificar</a>
 								</li>
 								<?php }else if($this->session->userdata('tipo') == 2){ ?>
 								<!-- Actividades disponibles solo para el administrador -->
-								<li>
+								<li <?php ($page=="Listar_tareas_calificar_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
 									<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl'; ?>">Calificar</a>
 								</li>
-								<li>
+								<li <?php ($page=="Nuevo_proyecto_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
 									<a href="<?php echo base_url().'index.php/Nuevo_proyecto_ctrl'; ?>">Nuevo proyecto</a>
 								</li>
 								<?php } ?>

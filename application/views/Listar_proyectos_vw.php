@@ -7,7 +7,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 	<title>JOBS</title>
 	<?php includeJQuery(); ?>
-	<?php includeBootstrap(); ?>	
+	<?php includeBootstrap(); ?>
+
+	<script type="text/javascript">
+		$(function(){
+			$(".DiscoverRow").hide();
+
+			$(".DiscoverRow").each(function(i){
+				$(this).delay(i*50).fadeIn(200);
+			});
+		});			
+	</script>				
 </head>
 <body>
 	<?=$menu ?>
@@ -26,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 						<?php foreach ($clientes_proyectos as $cliente => $proyectos){ ?>
 							<?php foreach ($proyectos as $cProyecto){ ?>
-							<tr>
+							<tr class="DiscoverRow">
 								<td>
 									<a href="<?php echo base_url().'index.php/Alta_tarea_ctrl/load_vw/'.($cProyecto->id); ?>">
 										<?php echo $cProyecto->nombre; ?>

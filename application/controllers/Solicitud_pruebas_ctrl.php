@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Solicitud_pruebas_ctrl extends CI_Controller {
 	public function generarReporte($id,$table){
+		checkSession();
+
 		$this->load->model('Tarea');
 		$this->load->model('Retrabajo');
 
@@ -21,6 +23,8 @@ class Solicitud_pruebas_ctrl extends CI_Controller {
 	}
 
 	public function crearReporte(){
+		checkSession();
+
 		$data = $this->input->post();
 		$this->load->model('Solicitud_pruebas_mdl');
 

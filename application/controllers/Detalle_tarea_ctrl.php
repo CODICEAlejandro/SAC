@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Detalle_tarea_ctrl extends CI_Controller {
 	public function traerTarea($idTarea){
+		checkSession();
+
 		$this->load->model('Tarea');
 		$data['cTarea'] = $this->Tarea->traer($idTarea);
 
@@ -12,6 +14,8 @@ class Detalle_tarea_ctrl extends CI_Controller {
 	}
 
 	public function traerRetrabajo($idRetrabajo){
+		checkSession();
+
 		$this->load->model('Retrabajo');
 		$data['cRetrabajo'] = $this->Retrabajo->traer($idRetrabajo);
 
