@@ -1,6 +1,8 @@
 <?php
 function includeJQuery(){
 	echo '<script src="'.base_url().'/includes/js/jQuery.js"></script>';
+	echo '<script src="'.base_url().'/includes/jquery-ui/jquery-ui.js'.'"></script>';
+	echo '<link rel="stylesheet" href="'.base_url().'/includes/jquery-ui/jquery-ui.css">';
 }
 
 function includeBootstrap(){

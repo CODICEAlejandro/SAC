@@ -8,6 +8,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<title>JOBS</title>
 		<?php includeJQuery(); ?>
 		<?php includeBootstrap(); ?>
+		<script>
+		$(function(){
+			$('#fechaSugerida').datepicker();
+			$( "#fechaSugerida" ).datepicker( "option", "showAnim", "drop");			
+		});
+		</script>
 	</head>
 	<body>
 		<?=$menu ?>
@@ -24,10 +30,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input type="hidden" name="tabla" value="<?php echo $tabla; ?>">
 							<input type="hidden" name="idTarea" value="<?php echo $idTarea; ?>">
 						</div>
+						<!-- Calendario -->
 						<div class="form-group">
 							<label for="fechaSugerida">Fecha sugerida</label>
-							<input type="text" class="form-control" name="fechaSugerida" id="fechaSugerida">
+							<div class="input-group">
+								<input class="form-control" name="fechaSugerida" id="fechaSugerida" type="text" readonly="readonly">
+								<div class="input-group-addon">
+								    <span class="glyphicon glyphicon-th"></span>
+								</div>
+							</div>
 						</div>
+						<!--<div class="form-group">
+							<label for="fechaSugerida">Fecha sugerida</label>
+							<input type="text" class="form-control" name="fechaSugerida" id="fechaSugerida">
+						</div>-->
 						<div class="form-group">
 							<label for="comentarioSolicitante">Comentario</label>
 							<textarea id="comentarioSolicitante" class="form-control" name="comentarioSolicitante" rows="5"></textarea>

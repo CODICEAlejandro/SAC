@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				>
 					<div class="form-group">
 						<label for="titulo">Título</label>
-						<input type="text" name="titulo" id="titulo" placeholder="Título" class="form-control" required>
+						<input type="text" name="titulo" id="titulo" placeholder="Título" class="form-control" maxlength="30" required>
 					</div>
 					<div class="form-group">
 						<label for="descripcion">Descripción</label>
@@ -82,6 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								required>
 						<label id="mTiempoEstimadoTarea"></label>
 					</div>
+
 					<div class="form-group">
 						<label for="idFase">Fase</label>
 						<select name="idFase" id="idFase" class="form-control">
