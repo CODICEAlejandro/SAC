@@ -69,7 +69,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 					<div class="form-group">
 						<label for="descripcion">Descripción</label>
-						<input type="text" name="descripcion" id="descripcion" placeholder="Descripción" class="form-control" required>
+						<textarea name="descripcion" id="descripcion" class="form-control" rows="10" required>
+						</textarea>
 					</div>
 					<div class="form-group">
 						<label for="TiempoEstimadoTarea">Tiempo estimado</label>
@@ -117,7 +118,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 					<div>
 						<label for="descripcion">Descripción</label>
-						<input type="text" name="descripcion" id="descripcion" placeholder="Descripción" required>
+						<textarea name="descripcion" id="descripcion" class="form-control" rows="10" required>
+						</textarea>
 					</div>
 					<div>
 						<label for="tiempoEstimado">Tiempo estimado</label>
