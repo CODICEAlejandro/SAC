@@ -16,10 +16,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		function validarTiempo(obj){
 			var regExpTiempo = new RegExp("^\\d{2}:\\d{2}$");
 			var tiempoEstimado = obj.value;
+			var hours = parseInt(tiempoEstimado.split(":")[0]);
+			var minutes = parseInt(tiempoEstimado.split(":")[1]);
+			var totalMinutes = (hours*60)+minutes;
 			var field = "#m"+obj.id;
 
 			if(!regExpTiempo.test(tiempoEstimado)){
 				$(field).html("<p style='color: red;'>Error de formato (hh:mm)</p>");
+				$("#"+obj.id).addClass("AInvalidField").removeClass("AValidField");
+			}else if((totalMinutes>(8*60)) || (totalMinutes<=0)){
+				$(field).html("<p style='color: red;'>El tiempo no debe ser inferior a 0 ni debe exceder 8 horas</p>");
 				$("#"+obj.id).addClass("AInvalidField").removeClass("AValidField");
 			}else{
 				$(field).html("<p style='color: green;'>OK</p>");				

@@ -25,15 +25,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						if($(this).attr("id")=="showPendientesBtn")
 							$("#tablePendientes tbody tr").each(function(i){
-								$(this).delay(i*100).fadeOut(100);
+								$(this).delay(i*50).fadeOut(200);
 							});
 						else if($(this).attr("id")=="showTerminadosBtn")
 							$("#tableTerminados tbody tr").each(function(i){
-								$(this).delay(i*100).fadeOut(100);
+								$(this).delay(i*50).fadeOut(200);
 							});
 						else if($(this).attr("id")=="showCalificadosBtn"){
 							$("#tableCalificados tbody tr").each(function(i){
-								$(this).delay(i*100).fadeOut(100);
+								$(this).delay(i*50).fadeOut(200);
 							});
 							//$("#tableCalificados").slideUp("slow");
 						}
@@ -43,15 +43,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 						if($(this).attr("id")=="showPendientesBtn")
 							$("#tablePendientes tbody tr").each(function(i){
-								$(this).delay(i*100).fadeIn(100);
+								$(this).delay(i*50).fadeIn(200);
 							});
 						else if($(this).attr("id")=="showTerminadosBtn")
 							$("#tableTerminados tbody tr").each(function(i){
-								$(this).delay(i*100).fadeIn(100);
+								$(this).delay(i*50).fadeIn(200);
 							});
 						else if($(this).attr("id")=="showCalificadosBtn"){
 							$("#tableCalificados tbody tr").each(function(i){
-								$(this).delay(i*100).fadeIn(100);
+								$(this).delay(i*50).fadeIn(200);
 							});
 						}
 							//$("#tableCalificados").slideDown("fast");

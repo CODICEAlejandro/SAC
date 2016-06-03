@@ -58,6 +58,18 @@ class Tarea extends CI_Model {
 		return $tareas;
 	}
 
+	public function traerAsociadasTerminadas($id){
+		$this->db->order_by('creacion','asc');
+		$this->db->where('idEstado = 2');
+		$this->db->where('idResponsable =',$id);
+		$tareas = $this->db->get('cattarea')->result();
+
+		foreach ($tareas as $cTarea) {
+			$this->parseForeignKeys($cTarea);
+		}
+
+		return $tareas;
+	}
 
 	public function traerAsociadasPendientes($id){
 		$this->db->order_by('creacion','asc');

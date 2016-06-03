@@ -7,6 +7,7 @@ class Nuevo_proyecto_ctrl extends CI_Controller {
 
 		$this->load->model('Cliente');
 
+		$this->db->order_by('nombre','asc');
 		$data['clientes'] = $this->Cliente->traerTodo();
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 

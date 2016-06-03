@@ -155,9 +155,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php } ?>
 			<div class="row">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl' ?>">
-					<button class="btn btn-warning form-control">Regresar</button>
-				</a>
+				<?php if($this->session->userdata('tipo') == 0){ ?>
+					<a href="<?php echo base_url().'index.php/Listar_tareas_ctrl' ?>">
+						<button class="btn btn-warning form-control">Regresar</button>
+					</a>					
+				<?php }else if($this->session->userdata('tipo') == 1){ ?>
+					<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente' ?>">
+						<button class="btn btn-warning form-control">Regresar</button>
+					</a>
+				<?php }else if($this->session->userdata('tipo') == 2){ ?>
+					<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl' ?>">
+						<button class="btn btn-warning form-control">Regresar</button>
+					</a>
+				<?php } ?>
 				</div>
 			</div>
 

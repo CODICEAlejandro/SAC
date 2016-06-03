@@ -91,6 +91,22 @@ class Retrabajo extends CI_Model {
 		return $retrabajos;
 	}
 
+	public function traerAsociadosTerminados($id){
+		$this->db->order_by('creacion','asc');		
+		$this->db->where('idEstado = 2');
+		$retrabajos = $this->db->get('caterror')->result();
+
+		foreach($retrabajos as $key=>$retrabajo){
+			$this->parseForeignKeys($retrabajo);
+
+			if(($retrabajo->responsable->id) != $id){
+				unset($retrabajos[$key]);
+			}
+		}
+
+		return $retrabajos;
+	}
+
 	public function traerParaEditar(){
 		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado =',4);

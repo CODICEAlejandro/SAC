@@ -35,12 +35,15 @@ class Alta_tarea_ctrl extends CI_Controller{
 	//Carga las fases registradas en la base
 	//idProyecto => {'cliente'=>StdClass Object, 'proyecto'=>StdClass Object}
 	public function cargarInfo($idProyecto){
+		$this->db->order_by('nombre','asc');
 		$this->db->where('id =', $idProyecto);
 		$format['proyecto'] = $this->db->get('catproyecto')->row();
 
+		$this->db->order_by('nombre','asc');
 		$this->db->where('id =', $format['proyecto']->idCliente);
 		$format['cliente'] = $this->db->get('catcliente')->row();
 
+		$this->db->order_by('nombre','asc');
 		$format['fases'] = $this->db->get('catfase')->result();
 
 		return $format;
