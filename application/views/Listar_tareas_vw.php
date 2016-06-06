@@ -109,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td align="center"><?php echo $retrabajo->proyecto->nombre; ?></td>
 							<td align="center"><?php echo $retrabajo->tareaOrigen->titulo; ?></td>
 							<td align="center"><?php echo $retrabajo->tareaOrigen->fase->nombre; ?></td>
-							<td align="center">Retrabajo</td>
+							<td align="center">Error</td>
 							<td align="center"><?php echo $retrabajo->estado->nombre; ?></td>
 						</tr>
 						<?php } ?>
@@ -124,7 +124,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td align="center"><?php echo $retrabajo->proyecto->nombre; ?></td>
 							<td align="center"><?php echo $retrabajo->tareaOrigen->titulo; ?></td>
 							<td align="center"><?php echo $retrabajo->tareaOrigen->fase->nombre; ?></td>
-							<td align="center">Retrabajo</td>
+							<td align="center">Error</td>
 							<td align="center"><?php echo $retrabajo->estado->nombre; ?></td>
 						</tr>
 						<?php } ?>
@@ -206,7 +206,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td align="center"><?php echo $retrabajo->proyecto->nombre; ?></td>
 							<td align="center"><?php echo $retrabajo->tareaOrigen->titulo; ?></td>
 							<td align="center"><?php echo $retrabajo->tareaOrigen->fase->nombre; ?></td>
-							<td align="center">Retrabajo</td>
+							<td align="center">Error</td>
 							<td align="center"><?php echo $retrabajo->estado->nombre; ?></td>
 						</tr>
 						<?php } ?>

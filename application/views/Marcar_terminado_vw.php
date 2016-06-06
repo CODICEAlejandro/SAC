@@ -17,6 +17,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var regExpTiempo = new RegExp("^\\d{2}:\\d{2}$");
 				var tiempoEstimado = obj.value;
 				var field = "#m"+obj.id;
+				var hoursReal, hoursEstimado;
+				var minutesReal, minutesEstimado;
+				var minutesRealTot, minutesEstimadoTot;
+
+				hoursEstimado = $("#TiempoEstimado").html().split(":")[0];
+				minutesEstimado = $("#TiempoEstimado").html().split(":")[1];				
+				minutesEstimadoTot = (parseInt(hoursEstimado)*60) + parseInt(minutesEstimado);
 
 				if(!regExpTiempo.test(tiempoEstimado)){
 					$(field).html("<p style='color: red;'>Error de formato (hh:mm)</p>");
@@ -25,6 +32,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$(field).html("OK");				
 					$(field).html("<p style='color: green;'>OK</p>");
 					$("#"+obj.id).addClass("AValidField").removeClass("AInvalidField");
+
+					hoursReal = $("#TiempoReal").val().split(":")[0];
+					minutesReal = $("#TiempoReal").val().split(":")[1];
+					minutesRealTot = (parseInt(hoursReal)*60) + parseInt(minutesReal);
+
+					if( (((minutesEstimadoTot+(0.2*minutesEstimadoTot)))<minutesRealTot) || (((minutesEstimadoTot-(0.2*minutesEstimadoTot)))>minutesRealTot) )
+						alert("El tiempo estimado difiere del valor real indicado en más del 20%.");
+					else
+						console.log(minutesEstimadoTot+(0.2*minutesEstimadoTot));		
 				}
 
 				$("#btnTerminar").prop("disabled", validarFormulario());
@@ -72,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<br>
 							<label>Estado: <?php echo $cTarea->estado->nombre; ?></label>
 							<br>
-							<label>Tiempo estimado: <?php echo $cTarea->tiempoEstimado; ?></label>
+							<label>Tiempo estimado: <span id="TiempoEstimado"><?php echo $cTarea->tiempoEstimado; ?></span></label>
 							<br>
 						</div>
 						<div class="form-group">
@@ -127,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<br>
 							<label>Estado: <?php echo $cRetrabajo->estado->nombre; ?></label>
 							<br>
-							<label>Tiempo estimado: <?php echo $cRetrabajo->tiempoEstimado; ?></label>
+							<label>Tiempo estimado: <span id="TiempoEstimado"><?php echo $cRetrabajo->tiempoEstimado; ?></span></label>
 							<br>
 						</div>
 						<div class="form-group">

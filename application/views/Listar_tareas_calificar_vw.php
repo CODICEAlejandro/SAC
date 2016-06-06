@@ -12,10 +12,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<script type="text/javascript">
 			$(function(){
+				//Fecha actual
+				var cDate = new Date();
+				var formatCDate = (cDate.getMonth()+1)+"/"+cDate.getDate()+"/"+cDate.getFullYear();
+				$("#fechaOrigen").val(formatCDate);
+				$("#fechaFin").val(formatCDate);
+				
+				$('#fechaOrigen').datepicker();
+				$('#fechaFin').datepicker();
+				$( "#fechaOrigen" ).datepicker( "option", "showAnim", "drop");			
+				$( "#fechaFin" ).datepicker( "option", "showAnim", "drop");					
+
 				$(".DiscoverRow").hide();
 
 				$(".DiscoverRow").each(function(i){
 					$(this).delay(i*50).fadeIn(200);
+				});
+
+				checkIntervalTerminados();
+
+				$("#fechaOrigen, #fechaFin").change(function(){
+					checkIntervalTerminados();
 				});
 
 				$("#showPendientesBtn, #showTerminadosBtn, #showCalificadosBtn").click(function(){
@@ -58,6 +75,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 				});
 			});
+
+			function checkIntervalTerminados(){
+				//Verificar que fecha origen sea menor o igual que fecha fin
+				var origen = $("#fechaOrigen").val().split("/");
+				var fin = $("#fechaFin").val().split("/");
+				var dateOrigen = new Date(parseInt(origen[2]), parseInt(origen[0])-1, parseInt(origen[1]));
+				var dateFin = new Date(parseInt(fin[2]), parseInt(fin[0])-1, parseInt(fin[1]));
+
+				if(dateOrigen > dateFin){
+					$("#fechaFin").val($("#fechaOrigen").val());
+				}
+
+				$("#tableCalificados tbody tr").each(function(i){
+					var cElement = $(this).children().first();
+					var elementDate = cElement.html().split(" ")[0].split("-");
+
+					//cDate = Año, Mes, Día
+					var date = new Date(elementDate[0], (elementDate[1]-1), elementDate[2]);
+					if(!(date >= dateOrigen) || !(date <= dateFin)){
+						$(this).fadeOut(200);
+					}else{
+						$(this).fadeIn(200);						
+					}
+				});
+			}
 		</script>		
 	</head>
 	<body>
@@ -179,11 +221,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<!-- Calificados -->
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<h3>Calificados
+				<div class="col-xs-6 col-sm-6 col-md-6">
+					<h3>Calificados</h3>
+				</div>
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<!-- Calendario -->
+					<div class="form-group">
+						<label for="fechaOrigen">Desde</label>
+						<div class="input-group">
+							<input class="form-control" id="fechaOrigen" type="text" readonly="readonly">
+							<div class="input-group-addon">
+							    <span class="glyphicon glyphicon-th"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<!-- Calendario -->
+					<div class="form-group">
+						<label for="fechaFin">Hasta</label>
+						<div class="input-group">
+							<input class="form-control" id="fechaFin" type="text" readonly="readonly">
+							<div class="input-group-addon">
+							    <span class="glyphicon glyphicon-th"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+					<h3>
 						<span id="showCalificadosBtn" class="active glyphicon glyphicon-eye-open btn btn-md" style="float: right;"></span>
 					</h3>
-				</div>
+				</div>	
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
@@ -223,7 +292,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<td align="center"><?php echo $tarea->cliente->nombre; ?></td>
 									<td align="center"><?php echo $tarea->proyecto->nombre; ?></td>
 									<td align="center"><?php echo $tarea->titulo; ?></td>
-									<td align="center"><?php echo ($tarea->retrabajo)? "Retrabajo" : "Tarea"; ?></td>
+									<td align="center"><?php echo ($tarea->retrabajo)? "Error" : "Tarea"; ?></td>
 									<td align="center"><?php echo $tarea->estado->nombre; ?></td>
 								</tr>
 							<?php } ?>

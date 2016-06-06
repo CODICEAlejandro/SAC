@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				$("#form_calificado").submit(function(event){
 					if(idSubmitClicked == "btnCorrecto"){
-						var needTest = confirm("¿Requiere enviar a área de pruebas?");
+						var needTest = confirm("¿Requiere enviar al área de pruebas?");
 						var inputNeedTest = $("#inputNeedTest");
 						var inputTableTest = $("#inputTableTest");
 
@@ -31,6 +31,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 					}
 				});
+
+				/*$( "#dialog-confirm" ).dialog({
+				    resizable: false,
+				    height:140,
+				    modal: true,
+				    buttons: {
+				        "Sí": function() {
+				          	$( this ).dialog( "close" );
+				          	inputNeedTest.val("true");
+				        },
+				        "No": function() {
+				          	$( this ).dialog( "close" );
+				          	inputNeedTest.val("false");
+				        }
+				    }
+				});*/
 			});
 
 			function validarTiempo(obj){
@@ -137,6 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="form-group">
 				<label for="retrabajo">Es retrabajo </label>
 				<input type="checkbox" name="retrabajo" value="1" id="retrabajo">
+				<span>Es una tarea con errores debidos a ambigüedades o cambios por parte del cliente en los requerimientos.</span>
 			<div>	
 			<div>
 				<input type="hidden" id="inputTableTest" name="tableTest" value="tarea">
@@ -222,6 +239,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="form-group">
 				<label for="retrabajo">Es retrabajo</label>
 				<input type="checkbox" name="retrabajo" value="1" id="retrabajo">
+				<span>Es una tarea con errores debidos a ambigüedades o cambios por parte del cliente en los requerimientos.</span>
 			<div>
 			<div>
 				<input type="hidden" id="inputTableTest" name="tableTest" value="error">
@@ -253,5 +271,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 	</div>
+
+	<!--<div id="dialog-confirm" title="Mensaje de JOBS">
+	  	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>¿Desea enviar al área de pruebas?</p>
+	</div>-->
 	</body>
 </html>
