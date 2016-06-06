@@ -11,6 +11,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script>
 			$(function(){
 				var idSubmitClicked = "";
+				var inputNeedTest = $("#inputNeedTest");
+				$("#container-form-cancelado").hide();
 
 				$(".AInputField").addClass("AValidField");
 
@@ -18,35 +20,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					idSubmitClicked = $(this).attr("id");
 				});
 
-				$("#form_calificado").submit(function(event){
-					if(idSubmitClicked == "btnCorrecto"){
-						var needTest = confirm("¿Requiere enviar al área de pruebas?");
-						var inputNeedTest = $("#inputNeedTest");
-						var inputTableTest = $("#inputTableTest");
-
-						if(needTest){
-							inputNeedTest.val("true");
-						}else{
-							inputNeedTest.val("false");
-						}
+				$("#cancelarTarea").change(function(){
+					if($("#cancelarTarea").is(":checked")){
+						$("#container-form-cancelado").slideDown();
+						$("#container-form-marcar-calificado").slideUp();
+					}else{
+						$("#container-form-cancelado").slideUp();
+						$("#container-form-marcar-calificado").slideDown();						
 					}
 				});
-
-				/*$( "#dialog-confirm" ).dialog({
-				    resizable: false,
-				    height:140,
-				    modal: true,
-				    buttons: {
-				        "Sí": function() {
-				          	$( this ).dialog( "close" );
-				          	inputNeedTest.val("true");
-				        },
-				        "No": function() {
-				          	$( this ).dialog( "close" );
-				          	inputNeedTest.val("false");
-				        }
-				    }
-				});*/
 			});
 
 			function validarTiempo(obj){
@@ -83,7 +65,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</head>
 	<body>
 		<?=$menu ?>
+
 		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div class="form-group alert alert-danger">
+						<label for="cancelarTarea">Cancelar tarea</label>
+						<input type="checkbox" name="activo" value="1" id="cancelarTarea">
+					</div>	
+				</div>
+			</div>
+		</div>
+
+		<div class="container" id="container-form-cancelado">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+				<?php if(isset($cRetrabajo)){ ?>
+						<a class="btn btn-warning" href="<?php echo base_url().'index.php/Marcar_calificado_ctrl/actualizarTarea/'.($cRetrabajo->id).'/RetrabajoCancelado'; ?>">Continuar</a>
+				<?php }else if(isset($cTarea)){ ?>
+						<a class="btn btn-success" href="<?php echo base_url().'index.php/Marcar_calificado_ctrl/actualizarTarea/'.($cTarea->id).'/TareaCancelada'; ?>">Continuar</a>
+				<?php } ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="container" id="container-form-marcar-calificado">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 
@@ -154,10 +160,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<label for="retrabajo">Es retrabajo </label>
 				<input type="checkbox" name="retrabajo" value="1" id="retrabajo">
 				<span>Es una tarea con errores debidos a ambigüedades o cambios por parte del cliente en los requerimientos.</span>
-			<div>	
+			<div>
 			<div>
 				<input type="hidden" id="inputTableTest" name="tableTest" value="tarea">
-				<input type="hidden" id="inputNeedTest" name="needTest" value="false">
+				<input type="hidden" id="inputNeedTest" name="needTest" value="true">
 			</div>		
 			<div class="form-group">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -243,7 +249,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div>
 			<div>
 				<input type="hidden" id="inputTableTest" name="tableTest" value="error">
-				<input type="hidden" id="inputNeedTest" name="needTest" value="false">
+				<input type="hidden" id="inputNeedTest" name="needTest" value="true">
 			</div>
 			<div class="form-group">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -272,8 +278,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 
-	<!--<div id="dialog-confirm" title="Mensaje de JOBS">
-	  	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>¿Desea enviar al área de pruebas?</p>
-	</div>-->
 	</body>
 </html>

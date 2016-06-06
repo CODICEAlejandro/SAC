@@ -11,13 +11,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script>
 		$(function(){
 			$('#fechaSugerida').datepicker();
-			$( "#fechaSugerida" ).datepicker( "option", "showAnim", "drop");			
+			$( "#fechaSugerida" ).datepicker( "option", "showAnim", "drop");
+			$("#container-form-pruebas").hide();
+
+			$("#pruebasSi, #pruebasNo").change(function(){
+				if($("#pruebasSi").is(":checked")){
+					$("#container-form-pruebas").slideDown(500);
+					$("#container-form-no-pruebas").slideUp(500);
+				}else{
+					$("#container-form-pruebas").slideUp(500);
+					$("#container-form-no-pruebas").slideDown(500);
+				}
+			});			
 		});
 		</script>
 	</head>
 	<body>
 		<?=$menu ?>
 		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<p>¿Desea enviar solicitud de revisión a área de pruebas?</p>
+					<div class="form-group" id="group-solicita-pruebas">
+						<input type="radio" name="pruebas" id="pruebasSi">
+						<label for="pruebasSi">Sí</label>
+						<br>
+						<input type="radio" name="pruebas" id="pruebasNo" checked>
+						<label for="pruebasNo">No</label>
+					</div>
+				</div>				
+			</div>
+		</div>
+		<div class="container" id="container-form-pruebas">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<form
@@ -52,6 +77,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input type="submit" class="btn btn-success" name="generaSolicitud">
 						</div>
 					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="container" id="container-form-no-pruebas">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<?php if($this->session->userdata('tipo') == 1){ ?>
+						<a class="btn btn-primary" href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente'; ?>">Continuar</a>
+				<?php }else if($this->session->userdata('tipo') == 2){ ?>
+						<a class="btn btn-primary" href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl'; ?>">Continuar</a>
+				<?php } ?>
 				</div>
 			</div>
 		</div>

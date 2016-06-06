@@ -35,7 +35,7 @@ class Marcar_calificado_ctrl extends CI_Controller {
 			$solicitaPruebas = $data["needTest"];
 			$cTabla = "tarea";
 
-			$info['tiempo'] = $data['tiempo'];							//Es el tiempo real apreciado por el Gerente
+			$info['tiempoRealGerente'] = $data['tiempo'];							//Es el tiempo real apreciado por el Gerente
 			$info['comentarioGerente'] = $data['comentarioGerente'];
 			$info['retrabajo'] = (isset($data['retrabajo']))? $data['retrabajo'] : 0;
 
@@ -61,7 +61,7 @@ class Marcar_calificado_ctrl extends CI_Controller {
 			$solicitaPruebas = $data["needTest"];
 			$cTabla = "retrabajo";
 
-			$info['tiempo'] = $data['tiempo'];
+			$info['tiempoRealGerente'] = $data['tiempo'];
 			$info['comentarioGerente'] = $data['comentarioGerente'];
 			$info['retrabajo'] = (isset($data['retrabajo']))? $data['retrabajo'] : 0;
 
@@ -86,6 +86,16 @@ class Marcar_calificado_ctrl extends CI_Controller {
 				$info['calificacion'] = 1;
 				$this->Retrabajo->update($id,$info);
 			}
+		}else if($tipo == "TareaCancelada"){
+			$info['activo'] = "0";
+			$info['idEstado'] = 3;
+			$solicitaPruebas = false;			
+			$this->Tarea->update($id,$info);
+		}else if($tipo == "RetrabajoCancelado"){
+			$info['activo'] = "0";
+			$info['idEstado'] = 3;
+			$solicitaPruebas = false;
+			$this->Retrabajo->update($id,$info);
 		}
 
 		//Comprobación de si es administrador o gerente, luego, comprobación de si se deberá generar un pendiente en solicitudprueba

@@ -53,6 +53,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<li <?php ($page=="Nuevo_proyecto_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
 									<a href="<?php echo base_url().'index.php/Nuevo_proyecto_ctrl'; ?>">Nuevo proyecto</a>
 								</li>
+								<li <?php ($page=="Reportes_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
+									<a href="<?php echo base_url().'index.php/Reportes_ctrl'; ?>">Reportes</a>
+								</li>
 								<?php } ?>
 								<li>
 									<a href="<?php echo base_url().'index.php/Logout_ctrl'; ?>">Salir</a>
