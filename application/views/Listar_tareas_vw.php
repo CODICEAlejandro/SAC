@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<title>JOBS</title>
 	<?php includeJQuery(); ?>
 	<?php includeBootstrap(); ?>
-	<?php print_r($tareas); ?>
+
 	<script type="text/javascript">
 		$(function(){
 			//Fecha actual
