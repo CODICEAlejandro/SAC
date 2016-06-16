@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							});
 						else if($(this).attr("id")=="showCalificadosBtn"){
 							$("#tableCalificados tbody tr").each(function(i){
-								$(this).delay(i*50).fadeOut(200);
+								$(this).hide();
 							});
 							//$("#tableCalificados").slideUp("slow");
 						}
@@ -68,7 +68,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							});
 						else if($(this).attr("id")=="showCalificadosBtn"){
 							$("#tableCalificados tbody tr").each(function(i){
-								$(this).delay(i*50).fadeIn(200);
+								$(this).show();
+								checkIntervalTerminados();
 							});
 						}
 							//$("#tableCalificados").slideDown("fast");
@@ -186,6 +187,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>Título</th>
 								<th>Tipo</th>
 								<th>Estado</th>
+								<th>Tiempo estimado</th>
+								<th>Tiempo real</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -213,6 +216,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<td align="center"><?php echo $tarea->titulo; ?></td>
 									<td align="center"><?php echo ($tarea->retrabajo)? "Error" : "Tarea"; ?></td>
 									<td align="center"><?php echo $tarea->estado->nombre; ?></td>
+									<td align="center"><?php echo $tarea->tiempoEstimado; ?></td>
+									<td align="center"><?php echo $tarea->tiempo; ?></td>
 								</tr>
 							<?php } ?>
 						</tbody>
@@ -267,6 +272,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>Título</th>
 								<th>Tipo</th>
 								<th>Estado</th>
+								<th>Tiempo estimado</th>
+								<th>Tiempo real</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -275,16 +282,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php if(!$tarea->retrabajo){ ?>
 									<tr
 									onclick="location='<?php echo base_url().'index.php/Detalle_tarea_ctrl/traerTarea/'.($tarea->id); ?>'"
-									class = "success DiscoverRow"
+									class = "success"
 									>
 								<?php }else{ ?>
 									<tr
 									onclick="location='<?php echo base_url().'index.php/Detalle_tarea_ctrl/traerRetrabajo/'.($tarea->id); ?>'"
-									class = "danger DiscoverRow"
+									class = "danger"
 									>
 								<?php } ?>
 								<?php }else{ ?>
-								<tr class="success DiscoverRow">
+								<tr class="success">
 								<?php } ?>
 									<td align="center"><?php echo $tarea->creacion; ?></td>
 									<td align="center"><?php echo $tarea->id; ?></td>
@@ -294,6 +301,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<td align="center"><?php echo $tarea->titulo; ?></td>
 									<td align="center"><?php echo ($tarea->retrabajo)? "Error" : "Tarea"; ?></td>
 									<td align="center"><?php echo $tarea->estado->nombre; ?></td>
+									<td align="center"><?php echo $tarea->tiempoEstimado; ?></td>
+									<td align="center"><?php echo $tarea->tiempoRealGerente; ?></td>									
 								</tr>
 							<?php } ?>
 						</tbody>

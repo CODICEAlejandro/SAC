@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<title>JOBS</title>
 	<?php includeJQuery(); ?>
 	<?php includeBootstrap(); ?>
+	<?php print_r($tareas); ?>
 	<script type="text/javascript">
 		$(function(){
 			//Fecha actual
@@ -79,6 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>Fase</th>
 							<th>Tipo</th>
 							<th>Estado</th>
+							<th>Tiempo estimado</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -95,6 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td align="center"><?php echo $tarea->fase->nombre; ?></td>
 							<td align="center">Tarea</td>
 							<td align="center"><?php echo $tarea->estado->nombre; ?></td>
+							<td align="center"><?php echo $tarea->tiempoEstimado; ?></td>
 						</tr>
 						<?php } ?>
 						<?php } ?>
@@ -111,6 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td align="center"><?php echo $retrabajo->tareaOrigen->fase->nombre; ?></td>
 							<td align="center">Error</td>
 							<td align="center"><?php echo $retrabajo->estado->nombre; ?></td>
+							<td align="center"><?php echo $retrabajo->tiempoEstimado; ?></td>
 						</tr>
 						<?php } ?>
 
@@ -126,6 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td align="center"><?php echo $retrabajo->tareaOrigen->fase->nombre; ?></td>
 							<td align="center">Error</td>
 							<td align="center"><?php echo $retrabajo->estado->nombre; ?></td>
+							<td align="center"><?php echo $retrabajo->tiempoEstimado; ?></td>
 						</tr>
 						<?php } ?>
 					</tbody>
