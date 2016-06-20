@@ -128,6 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>Título</th>
 								<th>Tipo</th>
 								<th>Estado</th>
+								<th>Tiempo estimado</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -160,6 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<td align="center"><?php echo $tarea->titulo; ?></td>
 									<td align="center"><?php echo ($tarea->retrabajo)? "Error" : "Tarea"; ?></td>
 									<td align="center"><?php echo $tarea->estado->nombre; ?></td>
+									<td align="center"><?php echo $tarea->tiempoEstimado; ?></td>
 								</tr>
 							<?php } ?>
 						</tbody>
