@@ -41,17 +41,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$(this).removeClass("glyphicon-eye-open").addClass("glyphicon-eye-close");
 
 						if($(this).attr("id")=="showPendientesBtn")
-							$("#tablePendientes tbody tr").each(function(i){
-								$(this).delay(i*50).fadeOut(200);
-							});
+							$("#tablePendientes tbody tr").hide();
 						else if($(this).attr("id")=="showTerminadosBtn")
-							$("#tableTerminados tbody tr").each(function(i){
-								$(this).delay(i*50).fadeOut(200);
-							});
+							$("#tableTerminados tbody tr").hide()
 						else if($(this).attr("id")=="showCalificadosBtn"){
-							$("#tableCalificados tbody tr").each(function(i){
-								$(this).hide();
-							});
+							$("#tableCalificados tbody tr").hide();
 							//$("#tableCalificados").slideUp("slow");
 						}
 					}else{
@@ -59,18 +53,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$(this).removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open");
 				
 						if($(this).attr("id")=="showPendientesBtn")
-							$("#tablePendientes tbody tr").each(function(i){
-								$(this).delay(i*50).fadeIn(200);
-							});
+							$("#tablePendientes tbody tr").show();
 						else if($(this).attr("id")=="showTerminadosBtn")
-							$("#tableTerminados tbody tr").each(function(i){
-								$(this).delay(i*50).fadeIn(200);
-							});
+							$("#tableTerminados tbody tr").show();
 						else if($(this).attr("id")=="showCalificadosBtn"){
-							$("#tableCalificados tbody tr").each(function(i){
-								$(this).show();
-								checkIntervalTerminados();
-							});
+							$("#tableCalificados tbody tr").show();
+							checkIntervalTerminados();
 						}
 							//$("#tableCalificados").slideDown("fast");
 					}
@@ -95,9 +83,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					//cDate = Año, Mes, Día
 					var date = new Date(elementDate[0], (elementDate[1]-1), elementDate[2]);
 					if(!(date >= dateOrigen) || !(date <= dateFin)){
-						$(this).fadeOut(200);
+						$(this).hide();
 					}else{
-						$(this).fadeIn(200);						
+						$(this).show();						
 					}
 				});
 			}
@@ -145,12 +133,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										if($taskDay == $curDay){ 
 									?>
 										<?php if(!$tarea->retrabajo){ ?>
-											<tr class="success DiscoverRow">
+											<tr class="success">
 										<?php }else{ ?>
-											<tr class="danger DiscoverRow">										
+											<tr class="danger">										
 										<?php } ?>
 									<?php }else{ ?>
-										<tr style="background-color: black; color: white;" class="DiscoverRow">
+										<tr style="background-color: black; color: white;">
 									<?php } ?>
 								<?php } ?>
 									<td align="center"><?php echo $tarea->creacion; ?></td>
@@ -199,16 +187,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php if(!$tarea->retrabajo){ ?>
 									<tr
 									onclick="location='<?php echo base_url().'index.php/Marcar_calificado_ctrl/traerTarea/'.($tarea->id); ?>'"
-									class = "info DiscoverRow"
+									class = "info"
 									>
 								<?php }else{ ?>
 									<tr
 									onclick="location='<?php echo base_url().'index.php/Marcar_calificado_ctrl/traerRetrabajo/'.($tarea->id); ?>'"
-									class = "danger DiscoverRow"
+									class = "danger"
 									>
 								<?php } ?>
 								<?php }else{ ?>
-								<tr class="success DiscoverRow">
+								<tr class="success">
 								<?php } ?>
 									<td align="center"><?php echo $tarea->creacion; ?></td>
 									<td align="center"><?php echo $tarea->id; ?></td>

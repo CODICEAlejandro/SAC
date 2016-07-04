@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 						<?php foreach ($clientes_proyectos as $cliente => $proyectos){ ?>
 							<?php foreach ($proyectos as $cProyecto){ ?>
-							<tr class="DiscoverRow">
+							<tr>
 								<td>
 									<a href="<?php echo base_url().'index.php/Alta_tarea_ctrl/load_vw/'.($cProyecto->id); ?>">
 										<?php echo $cProyecto->nombre; ?>

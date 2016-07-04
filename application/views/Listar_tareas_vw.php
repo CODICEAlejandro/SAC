@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if($tarea->idEstado == 1){ ?>
 						<tr 
 							onclick="location='<?php echo base_url().'index.php/Marcar_terminado_ctrl/traerTarea/'.($tarea->id); ?>'"
-							class="info DiscoverRow"
+							class="info"
 						>
 							<td align="center"><?php echo $tarea->id; ?></td>
 							<td align="center"><?php echo $tarea->cliente->nombre; ?></td>
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php foreach($retrabajos as $retrabajo){ ?>
 						<tr 
 							onclick="location='<?php echo base_url().'index.php/Marcar_terminado_ctrl/traerRetrabajo/'.($retrabajo->id); ?>'"
-							class="danger DiscoverRow"
+							class="danger"
 						>
 							<td align="center"><?php echo $retrabajo->tareaOrigen->id; ?></td>
 							<td align="center"><?php echo $retrabajo->cliente->nombre; ?></td>
@@ -121,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php foreach($retrabajosEdit as $retrabajo){ ?>
 						<tr 
 							onclick="location='<?php echo base_url().'index.php/Alta_tarea_ctrl/editarRetrabajo/'.($retrabajo->id); ?>'"
-							class="danger DiscoverRow"
+							class="danger"
 						>
 							<td align="center"><?php echo $retrabajo->tareaOrigen->id; ?></td>
 							<td align="center"><?php echo $retrabajo->cliente->nombre; ?></td>
@@ -186,7 +186,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if($tarea->idEstado == 2){ ?>
 						<tr 
 							onclick="location='<?php echo base_url().'index.php/Detalle_tarea_ctrl/traerTarea/'.($tarea->id); ?>'"
-							class = "success DiscoverRow"
+							class = "success"
 						>
 							<td style="display:none" class="creacion"><?php echo $tarea->creacion; ?></td>
 							<td align="center"><?php echo $tarea->id; ?></td>
@@ -203,7 +203,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php foreach($retrabajosTerminados as $retrabajo){ ?>
 						<tr 
 							onclick="location='<?php echo base_url().'index.php/Detalle_tarea_ctrl/traerRetrabajo/'.($retrabajo->id); ?>'"
-							class = "danger DiscoverRow"
+							class = "danger"
 						>
 							<td style="display:none" class="creacion"><?php echo $tarea->creacion; ?></td>
 							<td align="center"><?php echo $retrabajo->tareaOrigen->id; ?></td>

@@ -49,8 +49,9 @@ class Estadistica extends CI_Model {
 
 	//Cuenta el valor de una columna con contenido de tiempo en formato 00:00 y retorna la sumatoria
 	//String, String -> Integer
-	public function count_time_field($tableName, $field){
+	public function count_time_field($tableName, $field, $condition = '1'){
 		$this->db->select($field);
+		$this->db->where($condition);
 		$query = $this->db->get($tableName)->result();
 		$resultHours = 0;
 		$resultMinutes = 0;
@@ -68,8 +69,8 @@ class Estadistica extends CI_Model {
 			}
 		}
 
-		(strlen($resultHours) == 1)? $resultHours = "0".$resultHours : $resultHours;
-		(strlen($resultMinutes) == 1)? $resultMinutes = "0".$resultMinutes : $resultMinutes;
+		$resultHours = (strlen($resultHours) == 1)? "0".$resultHours : $resultHours;
+		$resultMinutes = (strlen($resultMinutes) == 1)? "0".$resultMinutes : $resultMinutes;
 
 		$result = $resultHours.':'.$resultMinutes;
 

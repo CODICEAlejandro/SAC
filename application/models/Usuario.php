@@ -24,7 +24,7 @@ class Usuario extends CI_Model {
 
 	public function traerTodo(){
 		$result = $this->db->get("catusuario")->result();
-
+		
 		return $this->parseUsuario($result);
 	}
 
@@ -45,7 +45,7 @@ class Usuario extends CI_Model {
 			$cUsuario->puesto = $this->db->get("catpuesto")->row();
 		}
 
-		return $data
+		return $data;
 	}
 }
 ?>

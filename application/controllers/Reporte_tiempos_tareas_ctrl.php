@@ -5,7 +5,9 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 	public function index(){
 		checkSession();
 		$data = $this->doResults();
-
+		
+		$data["menu"] = $this->load->view("Menu_principal",null,true);
+		$this->load->view("Panel_control_vw", $data);
 		$this->load->view("Reporte_tiempos_tareas_vw", $data);
 	}
 
