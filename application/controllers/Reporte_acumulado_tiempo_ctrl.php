@@ -1,9 +1,12 @@
 <?php
 
 class Reporte_acumulado_tiempo_ctrl extends CI_Controller {
+	public function __contruct(){
+		parent::__contruct();
+	}
+
 	public function index(){
-		//$results = $this->doResults();
-		//$data['users'] = $results['users'];
+		checkSession();
 		$data['users'] = array();
 
 		$data['menu'] = $this->load->view('Menu_principal',null,false);
@@ -11,6 +14,7 @@ class Reporte_acumulado_tiempo_ctrl extends CI_Controller {
 	}
 
 	public function doResults($condition=''){
+		checkSession();
 		$this->load->model('Usuario');
 		$result['users'] = $this->Usuario->traerTodo();
 
@@ -34,6 +38,7 @@ class Reporte_acumulado_tiempo_ctrl extends CI_Controller {
 	}
 
 	public function formatString($data){
+		checkSession();
 		$result = '';
 
 		if(is_array($data)){
@@ -52,6 +57,7 @@ class Reporte_acumulado_tiempo_ctrl extends CI_Controller {
 	}
 
 	public function refreshTimes(){
+		checkSession();
 		$post = $this->input->post();
 
 		$dateDesde = (isset($post['dateDesde']))? explode('/', $post['dateDesde']): array('00','00','0000');
