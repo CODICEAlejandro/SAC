@@ -21,12 +21,15 @@ class Estadistica extends CI_Model {
 	//Cuenta el valor de una columna con contenido numérico y retorna la sumatoria
 	//String, String -> Integer
 	public function count_field($tableName, $field){
-		$this->db->select($field);
+		$fieldAlias = explode('.',$field);
+		if(count($fieldAlias)>1) $fieldAlias = $fieldAlias[1];
+
+		$this->db->select($field.' AS '.$fieldAlias);
 		$query = $this->db->get($tableName)->result();
 		$result = 0;
 
 		foreach($query as $current){
-			$result += $current->$field;
+			$result += $current->$fieldAlias;
 		}
 
 		return $result;
@@ -35,13 +38,16 @@ class Estadistica extends CI_Model {
 	//Cuenta el valor de una columna con contenido numérico que verifiquen una condición dada y retorna la sumatoria
 	//String, String -> Integer
 	public function count_field_where($tableName, $field, $condition){
-		$this->db->select($field);
+		$fieldAlias = explode('.',$field);
+		if(count($fieldAlias)>1) $fieldAlias = $fieldAlias[1];
+
+		$this->db->select($field.' AS '.$fieldAlias);
 		$this->db->where($condition);
 		$query = $this->db->get($tableName)->result();
 		$result = 0;
 
 		foreach($query as $current){
-			$result += $current->$field;
+			$result += $current->$fieldAlias;
 		}
 
 		return $result;
@@ -49,19 +55,23 @@ class Estadistica extends CI_Model {
 
 	//Cuenta el valor de una columna con contenido de tiempo en formato 00:00 y retorna la sumatoria
 	//String, String -> Integer
-	public function count_time_field($tableName, $field, $condition = '1'){
-		$this->db->select($field);
+	public function count_time_field($tableName, $field, $condition = '1 = 1'){
+		$fieldAlias = explode('.',$field);
+		if(count($fieldAlias)>1) $fieldAlias = $fieldAlias[1]; 
+		else $fieldAlias = $fieldAlias[0];
+
+		$this->db->select($field.' AS '.$fieldAlias);
 		$this->db->where($condition);
 		$query = $this->db->get($tableName)->result();
 		$resultHours = 0;
 		$resultMinutes = 0;
 
 		foreach($query as $current){
-			$fieldExplode = explode(":", $current->$field);
+			$fieldExplode = explode(":", $current->$fieldAlias);
 
 			if(count($fieldExplode) == 2){
-				$hours = explode(":", $current->$field)[0];
-				$minutes = explode(":", $current->$field)[1];
+				$hours = explode(":", $current->$fieldAlias)[0];
+				$minutes = explode(":", $current->$fieldAlias)[1];
 			}else{
 				$hours = 0;
 				$minutes = 0;				
