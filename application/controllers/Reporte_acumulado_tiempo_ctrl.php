@@ -32,7 +32,7 @@ class Reporte_acumulado_tiempo_ctrl extends CI_Controller {
 	public function getTimes($user, $condition=''){
 		$this->load->model('Estadistica');
 		$tiempo['tiempoEstimado'] = $this->Estadistica->count_time_field('cattarea','tiempoEstimado','idResponsable = '.$user->id.' '.$condition);
-		$tiempo['tiempoReal'] = $this->Estadistica->count_time_field('cattarea','tiempo','idResponsable = '.$user->id.' '.$condition);
+		$tiempo['tiempoReal'] = $this->Estadistica->count_time_field('cattarea','tiempoRealGerente','idResponsable = '.$user->id.' '.$condition);
 
 		return $tiempo;
 	}
