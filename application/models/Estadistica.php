@@ -57,10 +57,15 @@ class Estadistica extends CI_Model {
 		$resultMinutes = 0;
 
 		foreach($query as $current){
-			echo " -- ".$current->$field." -- ";
+			$fieldExplode = explode(":", $current->$field);
 
-			$hours = explode(":", $current->$field)[0];
-			$minutes = explode(":", $current->$field)[1];
+			if(count($fieldExplode) == 2){
+				$hours = explode(":", $current->$field)[0];
+				$minutes = explode(":", $current->$field)[1];
+			}else{
+				$hours = 0;
+				$minutes = 0;				
+			}
 
 			$resultMinutes += $minutes;
 			$resultHours += $hours;
