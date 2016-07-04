@@ -8,6 +8,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<title>JOBS</title>
 	<?php includeJQuery(); ?>
 	<?php includeBootstrap(); ?>
+	<style type="text/css">
+		select {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+		}
+	</style>
 	<script type="text/javascript">
 		$(function(){
 			var cDate = new Date();
@@ -64,6 +71,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="input-group">
 						<div class="input-group-addon">Hasta:</div>
 						<input name="dateHasta" id="dateHasta" class="form-control datepicker" readonly="readonly"></input>
+					</div>
+					<div class="input-group">
+						<div class="input-group-addon">Filtrar por proyecto:</div>
+						<span class="input-group-addon">
+						  <input name="isProyectoFilterActive" type="checkbox" aria-label="..." value="S">
+						</span>
+						<select name="proyectoFilter" id="proyectoFilter" class="form-control" readonly="readonly" style="max-width:200px;">
+							<option>Seleccione una opción</option>
+							<?php 
+							foreach($clients as $cliente => $proyectos){
+								foreach($proyectos as $proyecto){
+							?>
+								<option value="<?php echo $proyecto->id; ?>">
+									<?php echo $proyecto->nombre; ?>
+								</option>
+							<?php 
+								} 
+							} 
+							?>
+						</select>
 					</div>
 					<div class="form-group">
 						<input type="submit" name="recalcular" class="btn btn-success" value="Recalcular ">
