@@ -92,7 +92,32 @@ class Estadistica extends CI_Model {
 		$result = $resultHours.':'.$resultMinutes;
 
 		return $result;
-	}	
+	}
+
+	//Suma un tiempo dado con otro
+	// 'hh1:mm1', 'hh2:mm2' => 'hh(1+2):mm(1+2)'
+	// String, String => String
+	public function addTimes($time1, $time2){
+		$time1 = explode(":",$time1);
+		$time2 = explode(":",$time2);
+
+		if((count($time1) == 2) && (count($time2) == 2)){
+			$time1[0] = (int) $time1[0];
+			$time1[1] = (int) $time1[1];
+			$time2[0] = (int) $time2[0];
+			$time2[1] = (int) $time2[1];
+
+			$time3 = array($time1[0]+$time2[0], $time1[1]+$time2[1]);
+
+			$minutes = (int) $time3[1]%60;
+			$hours = ((int) ($time3[1]/60)) + $time3[0];
+
+			$minutes = ($minutes < 10)? "0".$minutes : $minutes;
+			$hours = ($hours<10)? "0".$hours : $hours;
+
+			return $hours.':'.$minutes; 
+		}else return "00:00";
+	}
 }
 
 ?>

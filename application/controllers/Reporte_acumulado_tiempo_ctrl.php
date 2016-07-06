@@ -17,13 +17,13 @@ class Reporte_acumulado_tiempo_ctrl extends CI_Controller {
 		$this->load->view('Reporte_acumulado_tiempo_vw',$data);
 	}
 
-	public function doResults($condition=''){
+	public function doResults($condition_tblTareas='',$condition_tblErrores=''){
 		checkSession();
 		$this->load->model('Usuario');
 		$result['users'] = $this->Usuario->traerTodo();
 		echo "POLLO";
 		foreach($result['users'] as $user){
-			$cTiempo = $this->getTimes($user,$condition);
+			$cTiempo = $this->getTimes($user,$condition_tblTareas,$condition_tblErrores);
 			$user->sumaTiempoReal = $cTiempo['tiempoReal'];
 			$user->sumaTiempoEstimado = $cTiempo['tiempoEstimado'];
 		}
@@ -33,37 +33,25 @@ class Reporte_acumulado_tiempo_ctrl extends CI_Controller {
 
 	// Obtiene la suma de tiempos de un usuario
 	// User, condition{'AND ... } -> tiempo['tiempoReal','tiempoEstimado']
-	public function getTimes($user, $condition=''){
+	public function getTimes($user, $condition_tblTareas='',$condition_tblErrores=''){
 		$this->load->model('Estadistica');
-		$tiempoEstimadoTarea = $this->Estadistica->count_time_field('cattarea AS ct','ct.tiempoEstimado','ct.idResponsable = '.$user->id.' '.$condition);
-		$tiempoRealTarea = $this->Estadistica->count_time_field('cattarea AS ct','ct.tiempoRealGerente','ct.idResponsable = '.$user->id.' '.$condition);
+		$tiempoEstimadoTarea = $this->Estadistica->count_time_field('cattarea AS ct','ct.tiempoEstimado','ct.idResponsable = '.$user->id.' '.$condition_tblTareas);
+		$tiempoRealTarea = $this->Estadistica->count_time_field('cattarea AS ct','ct.tiempoRealGerente','ct.idResponsable = '.$user->id.' '.$condition_tblTareas);
 
 		$tiempoEstimadoError = $this->Estadistica->count_time_field('cattarea AS ct, caterror AS ce',
 																	'ce.tiempoEstimado',
 																	'ct.idResponsable = '.$user->id.' '.
 																	'AND ce.idTareaOrigen = ct.id '
-																	.$condition);
+																	.$condition_tblErrores);
 		$tiempoRealError = $this->Estadistica->count_time_field('cattarea AS ct, caterror AS ce',
 																'ce.tiempoRealGerente',
 																'ct.idResponsable = '.$user->id.' '.
 																'AND ce.idTareaOrigen = ct.id '
-																.$condition);
+																.$condition_tblErrores);
 
-		$tiempoEstimadoTarea = explode(':',$tiempoEstimadoTarea);
-		$tiempoRealTarea = explode(':',$tiempoRealTarea);
-		$tiempoEstimadoError = explode(':',$tiempoEstimadoError);
-		$tiempoRealError = explode(':',$tiempoRealError);
 
-		$horasEstimadasTarea = ((int) $tiempoEstimadoTarea[0]) + ((int) $tiempoEstimadoError[0]);
-		$minutosEstimadosTarea = ((int) $tiempoEstimadoTarea[1]) + ((int) $tiempoEstimadoError[1]);
-		
-		$horasRealesTarea = ((int) $tiempoRealTarea[0]) + ((int) $tiempoRealError[0]);
-		$minutosRealesTarea = ((int) $tiempoRealTarea[1]) + ((int) $tiempoRealError[1]);
-
-		$tiempo['tiempoEstimado'] = (($horasEstimadasTarea<10)? '0'.$horasEstimadasTarea: $horasEstimadasTarea).':'.
-									(($minutosEstimadosTarea<10)? '0'.$minutosEstimadosTarea: $minutosEstimadosTarea);
-		$tiempo['tiempoReal'] = (($horasRealesTarea<10)? '0'.$horasRealesTarea: $horasRealesTarea).':'.
-								(($minutosRealesTarea<10)? '0'.$minutosRealesTarea: $minutosRealesTarea);
+		$tiempo['tiempoEstimado'] = $this->Estadistica->addTimes($tiempoEstimadoTarea, $tiempoEstimadoError);
+		$tiempo['tiempoReal'] = $this->Estadistica->addTimes($tiempoRealTarea,$tiempoRealError);
 
 		return $tiempo;
 	}
@@ -108,15 +96,17 @@ class Reporte_acumulado_tiempo_ctrl extends CI_Controller {
 		$dateDesde = $yearDesde.'-'.$monthDesde.'-'.$dayDesde;
 		$dateHasta = $yearHasta.'-'.$monthHasta.'-'.$dayHasta;
 
-		$condition = "AND ct.creacion BETWEEN '".$dateDesde."' AND DATE_ADD('".$dateHasta."', INTERVAL 1 DAY)";
+		$condition_tblTareas = "AND ct.creacion BETWEEN '".$dateDesde."' AND DATE_ADD('".$dateHasta."', INTERVAL 1 DAY)";
+		$condition_tblErrores = "AND ce.creacion BETWEEN '".$dateDesde."' AND DATE_ADD('".$dateHasta."', INTERVAL 1 DAY)";
 
 		//Pregunta si se debe filtrar por proyecto
 		if(isset($post['isProyectoFilterActive']) && $post['isProyectoFilterActive']=='S'){
 			$proyectoFilter = htmlentities($post['proyectoFilter'], ENT_QUOTES, 'UTF-8');
-			$condition .= " AND idProyecto = '".$proyectoFilter."'";
+			$condition_tblTareas .= " AND ct.idProyecto = '".$proyectoFilter."'";
+			$condition_tblErrores .= " AND ct.idProyecto = '".$proyectoFilter."'";
 		}
 
-		$result = $this->formatString($this->doResults($condition)['users']);
+		$result = $this->formatString($this->doResults($condition_tblTareas,$condition_tblErrores)['users']);
 
 		echo $result;
 	}
