@@ -20,7 +20,7 @@ class Login_ctrl extends CI_Controller {
 			}else if($this->session->userdata('tipo') == 1){
 				redirect(base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente');				
 			}else if($this->session->userdata('tipo') == 2){
-				redirect(base_url().'index.php/Listar_tareas_calificar_ctrl');				
+				redirect(base_url().'index.php/Listar_proyectos_ctrl');				
 			}
 		}else{
 			//$this->load->view('index');
