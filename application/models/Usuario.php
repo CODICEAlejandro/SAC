@@ -3,6 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Usuario extends CI_Model {
 	public function insertar($data){
+		foreach($data as $key => $value){
+			$data[$key] = htmlentities($value,ENT_QUOTES,'UTF-8');
+		}
+
 		if($this->db->insert("catusuario", $data))
 			return true;
 		else
@@ -10,6 +14,7 @@ class Usuario extends CI_Model {
 	}
 
 	public function eliminar($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->where("id =",$id);
 		if($this->db->delete("catusuario"))
 			return true;
@@ -18,6 +23,7 @@ class Usuario extends CI_Model {
 	}
 
 	public function traer($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->where("id =",$id);
 		return $this->db->get("catusuario")->row();
 	}
@@ -29,6 +35,11 @@ class Usuario extends CI_Model {
 	}
 
 	public function actualizar($id, $data){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
+		foreach($data as $key => $value){
+			$data[$key] = htmlentities($value,ENT_QUOTES,'UTF-8');
+		}
+
 		$this->db->where("id =",$id);
 		if($this->db->update("catusuario",$data))
 			return true;

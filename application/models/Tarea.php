@@ -3,6 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Tarea extends CI_Model {
 	public function insertar($data){
+		foreach($data as $key => $value){
+			$data[$key] = htmlentities($value,ENT_QUOTES,'UTF-8');
+		}
+
 		if($this->db->insert('cattarea',$data)) 
 			return true;
 		else
@@ -10,6 +14,8 @@ class Tarea extends CI_Model {
 	}
 
 	public function delete($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
+
 		$this->db->where('id =',$id);
 		if($this->db->delete('cattarea'))
 			return true;
@@ -18,6 +24,11 @@ class Tarea extends CI_Model {
 	}
 
 	public function update($id,$data){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
+		foreach($data as $key => $value){
+			$data[$key] = htmlentities($value,ENT_QUOTES,'UTF-8');
+		}
+
 		$this->db->where('id =',$id);
 		if($this->db->update('cattarea',$data))
 			return true;
@@ -27,6 +38,7 @@ class Tarea extends CI_Model {
 
 	//Obtiene una objeto Tarea
 	public function traer($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->where('id =',$id);
 		$tarea = $this->db->get('cattarea')->row();
 
@@ -47,6 +59,7 @@ class Tarea extends CI_Model {
 	}
 
 	public function traerAsociadas($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->order_by('creacion','asc');
 		$this->db->where('idResponsable =', $id);
 		$tareas = $this->db->get('cattarea')->result();
@@ -59,6 +72,7 @@ class Tarea extends CI_Model {
 	}
 
 	public function traerAsociadasTerminadas($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->order_by('creacion','asc');
 		$this->db->where('idEstado = 2');
 		$this->db->where('idResponsable =',$id);
@@ -72,6 +86,7 @@ class Tarea extends CI_Model {
 	}
 
 	public function traerAsociadasPendientes($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->order_by('creacion','asc');
 		$this->db->where('idEstado = 1');
 		$this->db->where('idResponsable =',$id);

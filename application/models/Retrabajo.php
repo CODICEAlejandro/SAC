@@ -3,12 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Retrabajo extends CI_Model {
 	public function insert($data){
+		foreach($data as $key => $value){
+			$data[$key] = htmlentities($value,ENT_QUOTES,'UTF-8');
+		}
+
 		if($this->db->insert('caterror',$data))
 			return true;
 		else return false;
 	}
 
 	public function delete($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
+
 		$this->db->where('id =',$id);
 		if($this->db->delete('caterror'))
 			return true;
@@ -16,11 +22,17 @@ class Retrabajo extends CI_Model {
 	}
 
 	public function update($id, $data){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
+		foreach($data as $key => $value){
+			$data[$key] = htmlentities($value,ENT_QUOTES,'UTF-8');
+		}
+
 		$this->db->where('id =',$id);
 		return $this->db->update('caterror',$data);
 	}
 
 	public function traer($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->where('id =',$id);
 		$retrabajo = $this->db->get('caterror')->row();
 
@@ -40,6 +52,7 @@ class Retrabajo extends CI_Model {
 	}
 
 	public function traerAsociados($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->order_by('creacion','asc');
 		$retrabajos = $this->db->get('caterror')->result();
 
@@ -59,6 +72,7 @@ class Retrabajo extends CI_Model {
 	//Generación del retrabajo con estado 4 -> Completar los datos del retrabajo para pasar al estado 1 (Pendiente)
 	//-> Marcar el retrabajo como completado (Estado 2) -> Marcar el retrabajo como calificado (Estado 3) 
 	public function traerAsociadosParaEditar($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado = 4');
 		$retrabajos = $this->db->get('caterror')->result();
@@ -76,6 +90,7 @@ class Retrabajo extends CI_Model {
 	}
 
 	public function traerAsociadosPendientes($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado = 1');
 		$retrabajos = $this->db->get('caterror')->result();
@@ -92,6 +107,7 @@ class Retrabajo extends CI_Model {
 	}
 
 	public function traerAsociadosTerminados($id){
+		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->order_by('creacion','asc');		
 		$this->db->where('idEstado = 2');
 		$retrabajos = $this->db->get('caterror')->result();
@@ -121,6 +137,7 @@ class Retrabajo extends CI_Model {
 
 	//Obtener lista enlazada de retrabajos (Más reciente -> ... -> Origen)
 	public function traerHistorialAsociado($idRetrabajo){
+		$idRetrabajo = htmlentities($idRetrabajo,ENT_QUOTES,'UTF-8');
 		$this->load->model('Tarea');
 
 		//Obtener retrabajo actual

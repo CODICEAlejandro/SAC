@@ -50,9 +50,9 @@ class Alta_tarea_ctrl extends CI_Controller{
 	}
 
 	public function generarNuevaTarea($data){
-		$idCliente = $data['idCliente'];
-		$idResponsable = $data['idResponsable'];
-		$idProyecto = $data['idProyecto'];
+		$idCliente = htmlentities($data['idCliente'],ENT_QUOTES,'UTF-8');
+		$idResponsable = htmlentities($data['idResponsable'],ENT_QUOTES,'UTF-8');
+		$idProyecto = htmlentities($data['idProyecto'],ENT_QUOTES,'UTF-8');
 
 		$data["stamp"] = $idProyecto.':'.$idCliente.':'.$idResponsable;
 		unset($data['idCliente']);
@@ -63,8 +63,8 @@ class Alta_tarea_ctrl extends CI_Controller{
 	}
 
 	public function generarRetrabajoPendiente($id,$data){
-		$info['tiempoEstimado'] = $data['tiempoEstimado'];
-		$info['descripcion'] = $data['descripcion'];
+		$info['tiempoEstimado'] = htmlentities($data['tiempoEstimado'],ENT_QUOTES,'UTF-8');
+		$info['descripcion'] = htmlentities($data['descripcion'],ENT_QUOTES,'UTF-8');
 		$info['idEstado'] = 1;
 
 		$this->load->model('Retrabajo');
@@ -78,7 +78,7 @@ class Alta_tarea_ctrl extends CI_Controller{
 
 	public function driverActividades(){		
 		$data = $this->input->post();
-		$action = $data['action'];
+		$action = htmlentities($data['action'],ENT_QUOTES,'UTF-8');
 		unset($data['action']);
 
 		if($action == "Alta"){
