@@ -67,7 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 
 		.APanel:hover .APanelTitle {
-			background: orange;
+			background: #00C1E9;
 			color: white;
 		}
 
@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		.APanelBody div.APanelLeft {
 			background: #DDD;
-			border-right: 3px solid orange;
+			border-right: 3px solid #00C1E9;
 		}
 
 		.APanelBody div.APanelRight {
@@ -100,7 +100,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 	<?= $menu; ?>
-
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
