@@ -136,7 +136,7 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 		<div class="row">
 		<?php foreach($areas as $area){ ?>
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-			<div class="APanel">
+			<div class="APanel" id-area="<?php echo $area->id; ?>">
 				<div class="APanelTitle">
 					<h2><?php echo $area->nombre; ?></h2>
 				</div>
@@ -170,6 +170,13 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 		</div>
 		<?php } ?>
 		</div>
+
+		<script>
+		$(".APanel").click(function(event){
+			var self = $(this);
+			window.location.replace('<?php echo base_url()."index.php/Reporte_tiempos_tareas_area_ctrl/index/"; ?>'+(self.attr("id-area")));
+		});
+		</script>
 		<?php
 	}
 
@@ -193,8 +200,8 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 		$dateDesde = $yearDesde.'-'.$monthDesde.'-'.$dayDesde;
 		$dateHasta = $yearHasta.'-'.$monthHasta.'-'.$dayHasta;
 
-		$condition_tblTareas = "AND ct.creacion BETWEEN '".$dateDesde."' AND DATE_ADD('".$dateHasta."', INTERVAL 1 DAY)";
-		$condition_tblErrores = "AND ce.creacion BETWEEN '".$dateDesde."' AND DATE_ADD('".$dateHasta."', INTERVAL 1 DAY)";
+		$condition_tblTareas = " AND ct.creacion BETWEEN '".$dateDesde."' AND DATE_ADD('".$dateHasta."', INTERVAL 1 DAY)";
+		$condition_tblErrores = " AND ce.creacion BETWEEN '".$dateDesde."' AND DATE_ADD('".$dateHasta."', INTERVAL 1 DAY)";
 
 		$this->formatString($this->doResults($condition_tblTareas, $condition_tblErrores));
 	}

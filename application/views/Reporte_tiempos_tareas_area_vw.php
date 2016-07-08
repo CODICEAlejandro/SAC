@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$("#form-dates").submit(function(event){
 				event.preventDefault();
 				$.ajax({
-					url: '<?php echo base_url()."index.php/Reporte_tiempos_tareas_ctrl/refreshData" ?>',
+					url: '<?php echo base_url()."index.php/Reporte_tiempos_tareas_area_ctrl/refreshData/".$idArea; ?>',
 					method: 'POST',
 					dataType: 'text',
 					data: $('#form-dates').serialize(),
