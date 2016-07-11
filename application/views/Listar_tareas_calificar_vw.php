@@ -306,7 +306,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>	
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12" style="min-height: 700px;">
+				<div class="col-xs-12 col-sm-12 col-md-12" style="min-height: 800px;">
 					<table border="1" class="table table-striped" id="tableCalificados">
 						<thead>
 							<tr>
