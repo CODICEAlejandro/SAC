@@ -18,6 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$("#fechaOrigen").val(formatCDate);
 				$("#fechaFin").val(formatCDate);
 				$("#statusChargeCalificados").hide();
+				$("#messagesCalificados").hide();
 				
 				$('#fechaOrigen').datepicker();
 				$('#fechaFin').datepicker();
@@ -80,12 +81,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						},
 						beforeSend: function(){
 							$("#tableCalificados > tbody tr").remove();
+							$("#messagesCalificados").hide();
 							$("#statusChargeCalificados").show();
 						},
 						error: function(){
 							$("#statusChargeCalificados").hide();
 							$("#tableCalificados > tbody tr").remove();
-							$("#tableCalificados > tbody").append('<h3>Demasiada información. Seleccione un intervalo más pequeño.</h3>');
+							$("#messagesCalificados").show();
 						}
 					});
 				});
@@ -327,6 +329,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tbody>
 					</table>
 					<div id="statusChargeCalificados" class="progress-bar progress-bar-success progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">Cargando</div>
+					<div id="messagesCalificados">Demasiado información. Intente con un intervalo más pequeño.</div>
 				</div>
 			</div>
 		</div>
