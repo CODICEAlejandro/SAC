@@ -37,6 +37,7 @@ class Retrabajo extends CI_Model {
 		$retrabajo = $this->db->get('caterror')->row();
 
 		$this->parseForeignKeys($retrabajo);
+
 		return $retrabajo;
 	}
 
@@ -49,6 +50,66 @@ class Retrabajo extends CI_Model {
 		}
 
 		return $retrabajos;		
+	}
+
+	public function traerPendientes($idArea='', $fechaInicio='', $fechaFin=''){
+		return $this->get('PENDIENTES', $idArea, $fechaInicio, $fechaFin);
+	}
+
+	public function traerTerminados($idArea='', $fechaInicio='', $fechaFin=''){
+		return $this->get('TERMINADOS', $idArea, $fechaInicio, $fechaFin);
+	}
+
+	public function traerCalificados($idArea='', $fechaInicio='', $fechaFin=''){
+		return $this->get('CALIFICADOS', $idArea, $fechaInicio, $fechaFin);
+	}
+
+	public function get($edo='', $idArea = '', $fechaInicio='', $fechaFin=''){
+		$idArea = htmlentities($idArea, ENT_QUOTES, 'UTF-8');
+		$fechaInicio = htmlentities($fechaInicio, ENT_QUOTES, 'UTF-8');
+		$fechaFin = htmlentities($fechaFin, ENT_QUOTES, 'UTF-8');
+		$edo = strtoupper( htmlentities($edo, ENT_QUOTES, 'UTF-8') );
+
+		switch($edo){
+			case 'PENDIENTES':
+				$edo = 1;
+				break;
+			case 'TERMINADOS':
+				$edo = 2;
+				break;
+			case 'CALIFICADOS':
+				$edo = 3;
+				break;
+			default:
+				$edo = -1;
+				break;
+		}
+
+		$query = "SELECT ce.*,
+					ct.`titulo` as titulo,
+					'Error' as tipo,
+					'S' AS retrabajo
+				FROM 
+					`caterror` AS ce
+				INNER JOIN
+					`cattarea` AS ct
+					ON ct.`id` = ce.`idTareaOrigen`
+				INNER JOIN
+					`catusuario` AS cu
+					ON ct.`idResponsable` = cu.`id`
+				WHERE
+					ce.`idEstado` = ".$edo;
+
+		if( ($idArea != '') && ($idArea != 'ALL') && is_numeric($idArea) ){
+			$query .= " AND cu.`idArea` = ".$idArea;
+		}
+
+		if( ($fechaInicio != '') && ($fechaFin != '') ) 
+			$query .= " AND ct.`creacion` BETWEEN '".$fechaInicio."' AND '".$fechaFin."'";
+
+		$query .= ' ORDER BY ce.`creacion` DESC';
+
+		return $this->parseForeignKeys($this->db->query($query)->result());
 	}
 
 	public function traerAsociados($id){
@@ -165,14 +226,30 @@ class Retrabajo extends CI_Model {
 
 	public function parseForeignKeys($retrabajo){
 		$this->load->model('Tarea');
-		$tareaOrigen = $this->Tarea->traer($retrabajo->idTareaOrigen);
-		$retrabajo->responsable = $tareaOrigen->responsable;
-		$retrabajo->cliente = $tareaOrigen->cliente;
-		$retrabajo->proyecto = $tareaOrigen->proyecto;
-		$retrabajo->tareaOrigen = $tareaOrigen;
 
-		$this->db->where('id =',$retrabajo->idEstado);
-		$retrabajo->estado = $this->db->get('catestado')->row();
+		if(is_array($retrabajo)){
+			foreach($retrabajo as $r){
+				$tareaOrigen = $this->Tarea->traer($r->idTareaOrigen);
+				$r->responsable = $tareaOrigen->responsable;
+				$r->cliente = $tareaOrigen->cliente;
+				$r->proyecto = $tareaOrigen->proyecto;
+				$r->tareaOrigen = $tareaOrigen;
+
+				$this->db->where('id =',$r->idEstado);
+				$r->estado = $this->db->get('catestado')->row();				
+			}
+		}else{
+			$tareaOrigen = $this->Tarea->traer($retrabajo->idTareaOrigen);
+			$retrabajo->responsable = $tareaOrigen->responsable;
+			$retrabajo->cliente = $tareaOrigen->cliente;
+			$retrabajo->proyecto = $tareaOrigen->proyecto;
+			$retrabajo->tareaOrigen = $tareaOrigen;
+
+			$this->db->where('id =',$retrabajo->idEstado);
+			$retrabajo->estado = $this->db->get('catestado')->row();
+		}
+
+		return $retrabajo;
 	}
 }
 

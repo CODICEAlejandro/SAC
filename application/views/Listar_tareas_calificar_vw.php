@@ -32,7 +32,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				checkIntervalTerminados();
 
 				$("#fechaOrigen, #fechaFin").change(function(){
-					checkIntervalTerminados();
+					//checkIntervalTerminados();
+					var fechaOrigenVal = $("#fechaOrigen").val().split('/');
+					var fechaFinVal = $("#fechaFin").val().split('/');
+
+					fechaOrigenVal = fechaOrigenVal[2]+'/'+fechaOrigenVal[0]+'/'+fechaOrigenVal[1];
+					fechaFinVal = fechaFinVal[2]+'/'+fechaFinVal[0]+'/'+fechaFinVal[1];
+
+					$.ajax({
+						url:"<?php echo base_url(); ?>index.php/Listar_tareas_calificar_ctrl/getCalificadosAJAX",
+						method: 'POST',
+						data: { fechaOrigen: fechaOrigenVal , fechaFin: fechaFinVal },
+						dataType: 'json',
+						success: function(response){
+							var link = '';
+							$("#tableCalificados > tbody tr").remove();
+
+							for(var t in response){
+								if(response[t].retrabajo == 'S'){
+									$("#tableCalificados > tbody:last-child").append('<tr class="danger"></tr>');
+									link = '<?php echo base_url()."index.php/Detalle_tarea_ctrl/traerRetrabajo/"; ?>'+response[t].id;
+								}
+								else{
+									$("#tableCalificados > tbody:last-child").append('<tr class="success"></tr>');
+									link = '<?php echo base_url()."index.php/Detalle_tarea_ctrl/traerTarea/"; ?>'+response[t].id;
+								}
+
+								$("#tableCalificados > tbody:last-child tr:last-child").attr('goto', link);
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].creacion+'</td>');
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].id+'</td>');
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].responsable.nombre+'</td>');
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].cliente.nombre+'</td>');
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].proyecto.nombre+'</td>');
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].titulo+'</td>');
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].tipo+'</td>');
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].estado.nombre+'</td>');
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].tiempoEstimado+'</td>');
+								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].tiempoRealGerente+'</td>');
+							}
+
+							$("#tableCalificados > tbody tr").click(function(){
+								window.location.replace($(this).attr('goto'));
+							});
+						}
+					});
 				});
 
 				$("#showPendientesBtn, #showTerminadosBtn, #showCalificadosBtn").click(function(){
@@ -63,6 +106,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							//$("#tableCalificados").slideDown("fast");
 					}
 				});
+
+				$("#fechaOrigen").change();
 			});
 
 			function checkIntervalTerminados(){

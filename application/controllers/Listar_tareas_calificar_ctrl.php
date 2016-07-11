@@ -12,45 +12,49 @@ class Listar_tareas_calificar_ctrl extends CI_Controller {
 		$terminados = array();
 		$calificados = array();
 
-		//$data['tareas'] = $this->Tarea->traerTodo();
-		//$data['retrabajos'] = $this->Retrabajo->traerTodo();
+		if($_SESSION['tipo'] == 1)
+			$idArea = $_SESSION['idArea'];
+		else
+			$idArea = '';
 
-		$tareas = $this->Tarea->traerTodo();
-		$retrabajos = $this->Retrabajo->traerTodo();
-
-		foreach($tareas as $tarea){
-			$tarea->retrabajo = false;
-
-			if($tarea->idEstado == 1){
-				array_push($pendientes, $tarea);
-			}else if($tarea->idEstado == 2){
-				array_push($terminados, $tarea);
-			}else if($tarea->idEstado == 3){
-				array_push($calificados, $tarea);
-			}
-		}
-
-		foreach($retrabajos as $tarea){
-			$tarea->titulo = $tarea->tareaOrigen->titulo;
-			$tarea->retrabajo = true;
-
-			if($tarea->idEstado == 1){
-				array_push($pendientes, $tarea);
-			}else if($tarea->idEstado == 2){
-				array_push($terminados, $tarea);
-			}else if($tarea->idEstado == 3){
-				array_push($calificados, $tarea);
-			}
-		}
+		$pendientes = array_merge($this->Tarea->traerPendientes($idArea), $this->Retrabajo->traerPendientes($idArea));
+		$terminados = array_merge($this->Tarea->traerTerminados($idArea), $this->Retrabajo->traerTerminados($idArea));
 
 		$data['pendientes'] = $pendientes;
 		$data['terminados'] = $terminados;
-		$data['calificados'] = $calificados;
+		$data['calificados'] = array();
 
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 		$this->load->view('Listar_tareas_calificar_vw',$data);
 	}
 
+	public function getCalificados($idArea='', $fechaInicio='', $fechaFin=''){
+		checkSession();
+
+		$this->load->model('Tarea');
+		$this->load->model('Retrabajo');
+
+		$idArea = htmlentities($idArea, ENT_QUOTES, 'UTF-8');
+		$fechaInicio = htmlentities($fechaInicio, ENT_QUOTES, 'UTF-8');
+		$fechaFin = htmlentities($fechaFin, ENT_QUOTES, 'UTF-8');
+
+		return array_merge($this->Tarea->traerCalificados($idArea, $fechaInicio, $fechaFin), 
+						   $this->Retrabajo->traerCalificados($idArea, $fechaInicio, $fechaFin));
+	}
+
+	public function getCalificadosAJAX(){
+		if($_SESSION['tipo'] == 1)
+			$idArea = $_SESSION['idArea'];
+		else
+			$idArea = '';
+
+		$fechaInicio = $this->input->post('fechaOrigen');
+		$fechaFin = $this->input->post('fechaFin');
+
+		$response = $this->getCalificados($idArea, $fechaInicio, $fechaFin);
+		
+		echo json_encode($response);
+	}
 
 	public function listarGerente(){
 		checkSession();
@@ -58,45 +62,21 @@ class Listar_tareas_calificar_ctrl extends CI_Controller {
 		$this->load->model('Tarea');
 		$this->load->model('Retrabajo');
 
+		if($_SESSION['tipo'] == 1)
+			$idArea = $_SESSION['idArea'];
+		else
+			$idArea = '';
+
 		$pendientes = array();
 		$terminados = array();
 		$calificados = array();
 
-		$tareas = $this->Tarea->traerTodo();
-		$retrabajos = $this->Retrabajo->traerTodo();
-
-		foreach($tareas as $tarea){
-			$tarea->retrabajo = false;
-
-			if(($tarea->responsable->idArea)==($this->session->userdata('idArea'))){
-				if($tarea->idEstado == 1){
-					array_push($pendientes, $tarea);
-				}else if($tarea->idEstado == 2){
-					array_push($terminados, $tarea);
-				}else if($tarea->idEstado == 3){
-					array_push($calificados, $tarea);
-				}
-			}
-		}
-
-		foreach($retrabajos as $tarea){
-			$tarea->titulo = $tarea->tareaOrigen->titulo;
-			$tarea->retrabajo = true;
-
-			if(($tarea->responsable->idArea)==($this->session->userdata('idArea'))){
-				if($tarea->idEstado == 1){
-					array_push($pendientes, $tarea);
-				}else if($tarea->idEstado == 2){
-					array_push($terminados, $tarea);
-				}else if($tarea->idEstado == 3){
-					array_push($calificados, $tarea);
-				}
-			}
-		}
+		$pendientes = array_merge($this->Tarea->traerPendientes($idArea), $this->Retrabajo->traerPendientes($idArea));
+		$terminados = array_merge($this->Tarea->traerTerminados($idArea), $this->Retrabajo->traerTerminados($idArea));
 
 		$data['pendientes'] = $pendientes;
 		$data['terminados'] = $terminados;
-		$data['calificados'] = $calificados;
+		$data['calificados'] = array();
 
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 		$this->load->view('Listar_tareas_calificar_vw',$data);

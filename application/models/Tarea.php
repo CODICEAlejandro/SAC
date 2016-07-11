@@ -99,6 +99,62 @@ class Tarea extends CI_Model {
 		return $tareas;
 	}
 
+	public function traerPendientes($idArea='', $fechaInicio='', $fechaFin=''){
+		return $this->get('PENDIENTES', $idArea, $fechaInicio, $fechaFin);
+	}
+
+	public function traerTerminados($idArea='', $fechaInicio='', $fechaFin=''){
+		return $this->get('TERMINADOS', $idArea, $fechaInicio, $fechaFin);
+	}
+
+	public function traerCalificados($idArea='', $fechaInicio='', $fechaFin=''){
+		return $this->get('CALIFICADOS', $idArea, $fechaInicio, $fechaFin);
+	}
+
+	public function get($edo='', $idArea = '', $fechaInicio='', $fechaFin=''){
+		$idArea = htmlentities($idArea, ENT_QUOTES, 'UTF-8');
+		$fechaInicio = htmlentities($fechaInicio, ENT_QUOTES, 'UTF-8');
+		$fechaFin = htmlentities($fechaFin, ENT_QUOTES, 'UTF-8');
+		$edo = strtoupper( htmlentities($edo, ENT_QUOTES, 'UTF-8') );
+
+		switch($edo){
+			case 'PENDIENTES':
+				$edo = 1;
+				break;
+			case 'TERMINADOS':
+				$edo = 2;
+				break;
+			case 'CALIFICADOS':
+				$edo = 3;
+				break;
+			default:
+				$edo = -1;
+				break;
+		}
+
+		$query = "SELECT ct.*,
+				'N' AS esRetrabajo,
+				'Tarea' AS tipo
+				FROM 
+					`cattarea` AS ct
+				INNER JOIN
+					`catusuario` AS cu
+					ON ct.`idResponsable` = cu.`id`
+				WHERE
+					ct.`idEstado` = ".$edo;
+
+		if( ($idArea != '') && ($idArea != 'ALL') && is_numeric($idArea) ){
+			$query .= " AND cu.`idArea` = ".$idArea;
+		}
+
+		if( ($fechaInicio != '') && ($fechaFin != '') ) 
+			$query .= " AND ct.`creacion` BETWEEN '".$fechaInicio."' AND '".$fechaFin."'";
+
+		$query .= ' ORDER BY ct.`creacion` DESC';
+
+		return $this->parseForeignKeys($this->db->query($query)->result());
+	}
+
 	//Anexa a la estructura de la tarea recibida, los campos obtenidos desde la base de datos:
 	// proyecto -> Proyecto
 	// cliente -> Cliente
@@ -106,20 +162,41 @@ class Tarea extends CI_Model {
 	// fase -> Fase
 	// responsable -> Responsable
 	public function parseForeignKeys($tarea){
-		$this->db->where('id =',$tarea->idProyecto);
-		$tarea->proyecto = $this->db->get('catproyecto')->row();
+		if( is_array($tarea) ){
+			foreach($tarea as $t){
+				$this->db->where('id =',$t->idProyecto);
+				$t->proyecto = $this->db->get('catproyecto')->row();
 
-		$this->db->where('id =',$tarea->proyecto->idCliente);
-		$tarea->cliente = $this->db->get('catcliente')->row();
+				$this->db->where('id =',$t->proyecto->idCliente);
+				$t->cliente = $this->db->get('catcliente')->row();
 
-		$this->db->where('id =',$tarea->idEstado);
-		$tarea->estado = $this->db->get('catestado')->row();
+				$this->db->where('id =',$t->idEstado);
+				$t->estado = $this->db->get('catestado')->row();
 
-		$this->db->where('id =',$tarea->idFase);
-		$tarea->fase = $this->db->get('catfase')->row();
+				$this->db->where('id =',$t->idFase);
+				$t->fase = $this->db->get('catfase')->row();
 
-		$this->db->where('id =',$tarea->idResponsable);
-		$tarea->responsable = $this->db->get('catusuario')->row();
+				$this->db->where('id =',$t->idResponsable);
+				$t->responsable = $this->db->get('catusuario')->row();	
+			}
+		}else{
+			$this->db->where('id =',$tarea->idProyecto);
+			$tarea->proyecto = $this->db->get('catproyecto')->row();
+
+			$this->db->where('id =',$tarea->proyecto->idCliente);
+			$tarea->cliente = $this->db->get('catcliente')->row();
+
+			$this->db->where('id =',$tarea->idEstado);
+			$tarea->estado = $this->db->get('catestado')->row();
+
+			$this->db->where('id =',$tarea->idFase);
+			$tarea->fase = $this->db->get('catfase')->row();
+
+			$this->db->where('id =',$tarea->idResponsable);
+			$tarea->responsable = $this->db->get('catusuario')->row();
+		}
+
+		return $tarea;
 	}
 }
 ?>

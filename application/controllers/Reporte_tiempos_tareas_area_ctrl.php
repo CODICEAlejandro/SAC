@@ -16,6 +16,9 @@ class Reporte_tiempos_tareas_area_ctrl extends CI_Controller {
 		$idArea = htmlentities($idArea,ENT_QUOTES,'UTF-8');
 		$condition_area = " AND cu.idArea = ".$idArea;
 
+		$this->db->where('id ='.$idArea);
+		$result['nombreArea'] = $this->db->get('catarea')->row()->nombre;
+
 		$result['totalTareas'] = ($this->Estadistica->count_where('cattarea AS ct, catusuario AS cu',
 																	'1=1 
 																	AND cu.id = ct.idResponsable'
