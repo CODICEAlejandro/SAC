@@ -89,14 +89,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							}
 
 							if(lenReponse > itemsPerPageCalificados)
-								$("#nextCalificados").removeClass('disabled');
+								$("#nextCalificados").removeClass('disabled').css('pointer-events', 'auto');
 							else
-								$("#nextCalificados").addClass('disabled');
+								$("#nextCalificados").addClass('disabled').css('pointer-events', 'none');
 
 							if(cPageCalificados == 0)
-								$("#prevCalificados").addClass('disabled');
+								$("#prevCalificados").addClass('disabled').css('pointer-events', 'none');
 							else
-								$("#prevCalificados").removeClass('disabled');								
+								$("#prevCalificados").removeClass('disabled').css('pointer-events', 'auto');								
 
 							$("#tableCalificados > tbody tr").click(function(){
 								window.location.replace($(this).attr('goto'));
