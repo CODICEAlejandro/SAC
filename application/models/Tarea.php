@@ -148,7 +148,7 @@ class Tarea extends CI_Model {
 		}
 
 		if( ($fechaInicio != '') && ($fechaFin != '') ) 
-			$query .= " AND ct.`creacion` BETWEEN '".$fechaInicio."' AND '".$fechaFin."'";
+			$query .= " AND ct.`creacion` BETWEEN '".$fechaInicio."' AND DATE_ADD('".$fechaFin."', INTERVAL 1 DAY)";
 
 		$query .= ' ORDER BY ct.`creacion` DESC';
 
