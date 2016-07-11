@@ -312,36 +312,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach($calificados as $tarea){ ?>
-								<?php if($tarea->idEstado==3){ ?>
-								<?php if(!$tarea->retrabajo){ ?>
-									<tr
-									onclick="location='<?php echo base_url().'index.php/Detalle_tarea_ctrl/traerTarea/'.($tarea->id); ?>'"
-									class = "success"
-									>
-								<?php }else{ ?>
-									<tr
-									onclick="location='<?php echo base_url().'index.php/Detalle_tarea_ctrl/traerRetrabajo/'.($tarea->id); ?>'"
-									class = "danger"
-									>
-								<?php } ?>
-								<?php }else{ ?>
-								<tr class="success">
-								<?php } ?>
-									<td align="center"><?php echo $tarea->creacion; ?></td>
-									<td align="center"><?php echo $tarea->id; ?></td>
-									<td align="center"><?php echo $tarea->responsable->nombre; ?></td>
-									<td align="center"><?php echo $tarea->cliente->nombre; ?></td>
-									<td align="center"><?php echo $tarea->proyecto->nombre; ?></td>
-									<td align="center"><?php echo $tarea->titulo; ?></td>
-									<td align="center"><?php echo ($tarea->retrabajo)? "Error" : "Tarea"; ?></td>
-									<td align="center"><?php echo $tarea->estado->nombre; ?></td>
-									<td align="center"><?php echo $tarea->tiempoEstimado; ?></td>
-									<td align="center"><?php echo $tarea->tiempoRealGerente; ?></td>									
-								</tr>
-							<?php } ?>
 						</tbody>
-					</table>					
+					</table>
 				</div>
 			</div>
 		</div>
