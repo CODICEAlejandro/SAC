@@ -17,6 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var formatCDate = (cDate.getMonth()+1)+"/"+cDate.getDate()+"/"+cDate.getFullYear();
 				$("#fechaOrigen").val(formatCDate);
 				$("#fechaFin").val(formatCDate);
+				$("#statusChargeCalificados").hide();
 				
 				$('#fechaOrigen').datepicker();
 				$('#fechaFin').datepicker();
@@ -44,9 +45,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						method: 'POST',
 						data: { fechaOrigen: fechaOrigenVal , fechaFin: fechaFinVal },
 						dataType: 'json',
+						complete: function(){
+							$("#statusChargeCalificados").hide();
+						},
 						success: function(response){
 							var link = '';
-							$("#tableCalificados > tbody tr").remove();
 
 							for(var t in response){
 								if(response[t].retrabajo == 'S'){
@@ -74,6 +77,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							$("#tableCalificados > tbody tr").click(function(){
 								window.location.replace($(this).attr('goto'));
 							});
+						},
+						beforeSend: function(){
+							$("#tableCalificados > tbody tr").remove();
+							$("#statusChargeCalificados").show();
+						},
+						error: function(){
+							$("#statusChargeCalificados").hide();
+							$("#tableCalificados > tbody tr").remove();
+							$("#tableCalificados > tbody").append('<h3>Demasiada información. Seleccione un intervalo más pequeño.</h3>');
 						}
 					});
 				});
@@ -314,6 +326,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tbody>
 						</tbody>
 					</table>
+					<div id="statusChargeCalificados" class="progress-bar progress-bar-success progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">Cargando</div>
 				</div>
 			</div>
 		</div>
