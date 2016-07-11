@@ -13,6 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script type="text/javascript">
 			$(function(){
 				//Fecha actual
+				var cPageCalificados = 0;
+				var itemsPerPageCalificados = 10;
+
 				var cDate = new Date();
 				var formatCDate = (cDate.getMonth()+1)+"/"+cDate.getDate()+"/"+cDate.getFullYear();
 				$("#fechaOrigen").val(formatCDate);
@@ -31,6 +34,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$(this).delay(i*50).fadeIn(200);
 				});
 
+				$("#prevCalificados").click(function(event){
+					event.preventDefault();
+					cPageCalificados--;
+					$("#fechaOrigen").change();
+				});
+
+				$("#nextCalificados").click(function(event){
+					event.preventDefault();
+					cPageCalificados++;
+					$("#fechaOrigen").change();
+				});
+
 				$("#fechaOrigen, #fechaFin").change(function(){
 					var fechaOrigenVal = $("#fechaOrigen").val().split('/');
 					var fechaFinVal = $("#fechaFin").val().split('/');
@@ -41,15 +56,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$.ajax({
 						url:"<?php echo base_url(); ?>index.php/Listar_tareas_calificar_ctrl/getCalificadosAJAX",
 						method: 'POST',
-						data: { fechaOrigen: fechaOrigenVal , fechaFin: fechaFinVal },
+						data: { fechaOrigen: fechaOrigenVal , fechaFin: fechaFinVal, cPage: cPageCalificados, itemsPerPage: itemsPerPageCalificados},
 						dataType: 'json',
 						complete: function(){
 							$("#statusChargeCalificados").hide();
 						},
 						success: function(response){
 							var link = '';
+							var lenReponse = response.length;
 
-							for(var t in response){
+							for(var t=0; (t<itemsPerPageCalificados) && (t<lenReponse); t++){
 								if(response[t].retrabajo == 'S'){
 									$("#tableCalificados > tbody:last-child").append('<tr class="danger"></tr>');
 									link = '<?php echo base_url()."index.php/Detalle_tarea_ctrl/traerRetrabajo/"; ?>'+response[t].id;
@@ -71,6 +87,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].tiempoEstimado+'</td>');
 								$("#tableCalificados > tbody:last-child tr:last-child").append('<td>'+response[t].tiempoRealGerente+'</td>');
 							}
+
+							if(lenReponse > itemsPerPageCalificados)
+								$("#nextCalificados").removeClass('disabled');
+							else
+								$("#nextCalificados").addClass('disabled');
+
+							if(cPageCalificados == 0)
+								$("#prevCalificados").addClass('disabled');
+							else
+								$("#prevCalificados").removeClass('disabled');								
 
 							$("#tableCalificados > tbody tr").click(function(){
 								window.location.replace($(this).attr('goto'));
@@ -300,7 +326,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tbody>
 					</table>
 					<div id="statusChargeCalificados" class="progress-bar progress-bar-success progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">Cargando</div>
-					<h2 id="messagesCalificados">Demasiada información. Intente con un intervalo más pequeño.</h2>
+					<ul id="paginationCalificados" class="pagination" style="float: right">
+						<li id="prevCalificados"><a href="#">&laquo; Anterior</a></li>
+						<li id="nextCalificados"><a href="#">Siguiente &raquo;</a></li>						
+					</ul>
 				</div>
 			</div>
 		</div>

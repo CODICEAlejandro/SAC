@@ -39,7 +39,7 @@ class Listar_tareas_calificar_ctrl extends CI_Controller {
 		$this->load->view('Listar_tareas_calificar_vw',$data);
 	}
 
-	public function getCalificados($idArea='', $fechaInicio='', $fechaFin=''){
+	public function getCalificados($idArea='', $fechaInicio='', $fechaFin='', $itemsPerPage='', $cPage=''){
 		checkSession();
 
 		$this->load->model('Tarea');
@@ -49,8 +49,8 @@ class Listar_tareas_calificar_ctrl extends CI_Controller {
 		$fechaInicio = htmlentities($fechaInicio, ENT_QUOTES, 'UTF-8');
 		$fechaFin = htmlentities($fechaFin, ENT_QUOTES, 'UTF-8');
 
-		$result = array_merge($this->Tarea->traerCalificados($idArea, $fechaInicio, $fechaFin), 
-						   $this->Retrabajo->traerCalificados($idArea, $fechaInicio, $fechaFin));
+		$result = array_merge($this->Tarea->traerCalificados($idArea, $fechaInicio, $fechaFin, $itemsPerPage, $cPage), 
+						   $this->Retrabajo->traerCalificados($idArea, $fechaInicio, $fechaFin, $itemsPerPage, $cPage));
 
 		usort($result, "compareDateTimes");
 
@@ -65,8 +65,10 @@ class Listar_tareas_calificar_ctrl extends CI_Controller {
 
 		$fechaInicio = $this->input->post('fechaOrigen');
 		$fechaFin = $this->input->post('fechaFin');
+		$itemsPerPage = $this->input->post('itemsPerPage');
+		$cPage = $this->input->post('cPage');
 
-		$response = $this->getCalificados($idArea, $fechaInicio, $fechaFin);
+		$response = $this->getCalificados($idArea, $fechaInicio, $fechaFin, $itemsPerPage, $cPage);
 
 		echo json_encode($response);
 	}

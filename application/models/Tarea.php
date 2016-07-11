@@ -107,11 +107,11 @@ class Tarea extends CI_Model {
 		return $this->get('TERMINADOS', $idArea, $fechaInicio, $fechaFin);
 	}
 
-	public function traerCalificados($idArea='', $fechaInicio='', $fechaFin=''){
-		return $this->get('CALIFICADOS', $idArea, $fechaInicio, $fechaFin);
+	public function traerCalificados($idArea='', $fechaInicio='', $fechaFin='', $itemsPerPage='', $cPage=''){
+		return $this->get('CALIFICADOS', $idArea, $fechaInicio, $fechaFin, $itemsPerPage, $cPage, 1);
 	}
 
-	public function get($edo='', $idArea = '', $fechaInicio='', $fechaFin=''){
+	public function get($edo='', $idArea = '', $fechaInicio='', $fechaFin='', $itemsPerPage='', $cPage='', $nPages=''){
 		$idArea = htmlentities($idArea, ENT_QUOTES, 'UTF-8');
 		$fechaInicio = htmlentities($fechaInicio, ENT_QUOTES, 'UTF-8');
 		$fechaFin = htmlentities($fechaFin, ENT_QUOTES, 'UTF-8');
@@ -151,6 +151,9 @@ class Tarea extends CI_Model {
 			$query .= " AND ct.`creacion` BETWEEN '".$fechaInicio."' AND DATE_ADD('".$fechaFin."', INTERVAL 1 DAY)";
 
 		$query .= ' ORDER BY ct.`creacion` DESC';
+
+		if( ($itemsPerPage!='') && ($cPage!='') && ($nPages!='') )
+			$query .= ' LIMIT '.($itemsPerPage+1).' OFFSET '.($cPage * $itemsPerPage);
 
 		return $this->parseForeignKeys($this->db->query($query)->result());
 	}
