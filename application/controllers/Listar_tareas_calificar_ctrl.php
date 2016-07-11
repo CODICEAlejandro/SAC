@@ -6,7 +6,7 @@ function compareDateTimes($a, $b)
     $t1 = strtotime($a->creacion);
     $t2 = strtotime($b->creacion);
 
-    return ($t2 - $t1);
+    return ($t1 - $t2);
 }
 
 class Listar_tareas_calificar_ctrl extends CI_Controller {
