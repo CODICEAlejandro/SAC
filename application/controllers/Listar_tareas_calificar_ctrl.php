@@ -53,6 +53,8 @@ class Listar_tareas_calificar_ctrl extends CI_Controller {
 						   $this->Retrabajo->traerCalificados($idArea, $fechaInicio, $fechaFin));
 
 		usort($result, "compareDateTimes");
+
+		return $result;
 	}
 
 	public function getCalificadosAJAX(){
