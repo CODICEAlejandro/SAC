@@ -31,10 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$(this).delay(i*50).fadeIn(200);
 				});
 
-				checkIntervalTerminados();
-
 				$("#fechaOrigen, #fechaFin").change(function(){
-					//checkIntervalTerminados();
 					var fechaOrigenVal = $("#fechaOrigen").val().split('/');
 					var fechaFinVal = $("#fechaFin").val().split('/');
 
@@ -115,7 +112,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							$("#tableTerminados tbody tr").show();
 						else if($(this).attr("id")=="showCalificadosBtn"){
 							$("#tableCalificados tbody tr").show();
-							checkIntervalTerminados();
 						}
 							//$("#tableCalificados").slideDown("fast");
 					}
@@ -123,31 +119,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				$("#fechaOrigen").change();
 			});
-
-			function checkIntervalTerminados(){
-				//Verificar que fecha origen sea menor o igual que fecha fin
-				var origen = $("#fechaOrigen").val().split("/");
-				var fin = $("#fechaFin").val().split("/");
-				var dateOrigen = new Date(parseInt(origen[2]), parseInt(origen[0])-1, parseInt(origen[1]));
-				var dateFin = new Date(parseInt(fin[2]), parseInt(fin[0])-1, parseInt(fin[1]));
-
-				if(dateOrigen > dateFin){
-					$("#fechaFin").val($("#fechaOrigen").val());
-				}
-
-				$("#tableCalificados tbody tr").each(function(i){
-					var cElement = $(this).children().first();
-					var elementDate = cElement.html().split(" ")[0].split("-");
-
-					//cDate = Año, Mes, Día
-					var date = new Date(elementDate[0], (elementDate[1]-1), elementDate[2]);
-					if(!(date >= dateOrigen) || !(date <= dateFin)){
-						$(this).hide();
-					}else{
-						$(this).show();						
-					}
-				});
-			}
 		</script>		
 	</head>
 	<body>
@@ -329,7 +300,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tbody>
 					</table>
 					<div id="statusChargeCalificados" class="progress-bar progress-bar-success progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">Cargando</div>
-					<h2 id="messagesCalificados">Demasiado información. Intente con un intervalo más pequeño.</h2>
+					<h2 id="messagesCalificados">Demasiada información. Intente con un intervalo más pequeño.</h2>
 				</div>
 			</div>
 		</div>
