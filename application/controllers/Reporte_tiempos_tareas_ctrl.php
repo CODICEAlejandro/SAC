@@ -18,8 +18,8 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 								+ ($this->Estadistica->count_where('caterror AS ce','1=1 '.$condition_tblErrores));
 		
 		$result['totalPendientes'] = ($this->Estadistica->count_where('cattarea AS ct','idEstado = 1 '.$condition_tblTareas)) + ($this->Estadistica->count_where('caterror AS ce','idEstado = 1 '.$condition_tblErrores));
-		$result['totalTerminadas'] = ($this->Estadistica->count_where('cattarea AS ct','idEstado = 2 '.$condition_tblTareas)) + ($this->Estadistica->count_where('caterror AS ce','idEstado = 1 '.$condition_tblErrores));
-		$result['totalCalificadas'] = ($this->Estadistica->count_where('cattarea AS ct','idEstado = 3 '.$condition_tblTareas)) + ($this->Estadistica->count_where('caterror AS ce','idEstado = 1 '.$condition_tblErrores));
+		$result['totalTerminadas'] = ($this->Estadistica->count_where('cattarea AS ct','idEstado = 2 '.$condition_tblTareas)) + ($this->Estadistica->count_where('caterror AS ce','idEstado = 2 '.$condition_tblErrores));
+		$result['totalCalificadas'] = ($this->Estadistica->count_where('cattarea AS ct','idEstado = 3 '.$condition_tblTareas)) + ($this->Estadistica->count_where('caterror AS ce','idEstado = 3 '.$condition_tblErrores));
 
 		$this->db->order_by('nombre ASC');
 		$resultAreas = $this->db->get('catarea')->result();
