@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script type="text/javascript">
 		$(function(){
 
-			$("input[name='correo']").keyup(function(){
+			$("input[name='correo']").change(function(){
 				var correoVal = $(this).val();
 
 				$.ajax({
@@ -23,15 +23,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					dataType: 'text',
 					success: function(response){
 						if(response == "OK"){
-							$("#messCorreo").html("<span style='color:green;'>Correo válido.</span>");
+							$("#messCorreo").html("Correo válido.");
 							$("input[name='action']").removeClass('disabled');
 						}else{
-							$("#messCorreo").html("<span style='color:red'>El correo indicado ya ha sido usado por otro usuario. Piense en otro disponible.</span>");	
+							$("#messCorreo").html("El correo indicado ya ha sido usado por otro usuario. Piense en otro disponible.");	
 							$("input[name='action']").addClass('disabled');
 						}
 					},
 					error: function(){
 						$("#messCorreo").html('Error al intentar conectar con la base de datos.');
+					}
+				});
+			});
+
+			$("#form-consulta-usuario").submit(function(event){
+				event.preventDefault();
+				var idConsulta = $("select[name='usuario-actual']").val();
+
+				$.ajax({
+					url: '<?php echo base_url(); ?>index.php/Edit_usuario_ctrl/getUserInfo',
+					method: 'post',
+					data: { 'id': idConsulta },
+					dataType: 'json',
+					success: function(response){
+						$("input[name='id']").val(response.id);
+						$("input[name='nombre']").val(response.nombre);
+						$("input[name='password']").val(response.password);
+						$("input[name='correo']").val(response.correo);
+						$("input[name='horasLunes']").val(response.horasLunes);
+						$("input[name='horasMartes']").val(response.horasMartes);
+						$("input[name='horasMiercoles']").val(response.horasMiercoles);
+						$("input[name='horasJueves']").val(response.horasJueves);
+						$("input[name='horasViernes']").val(response.horasViernes);
+						$("select[name='idArea']").find($("option[value='"+response.idArea+"']")).attr('selected','selected');
+						$("select[name='idPuesto']").find($("option[value='"+response.idPuesto+"']")).attr('selected','selected');
+						$("select[name='tipo']").find($("option[value='"+response.tipo+"']")).attr('selected','selected');
+					},
+					error: function(){
+						alert('Error al intentar consultar el usuario indicado.');
 					}
 				});
 			});
@@ -42,12 +71,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?=$menu ?>
 
 	<div class="container">
-		<!-- Control de Usuarios -->
-		<div class="row">
+		<div class="row" style="border-bottom: 2px solid #AAA; padding-bottom: 10px;">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<form
+					class="form form-inline"
+					id="form-consulta-usuario"
+				>
+					<div class="form-group">
+						<label>Usuario actual</label>
+						<select name="usuario-actual" id="usuario-actual" class="form-control">
+							<?php foreach($usuarios as $usuario){ ?>
+							<option value="<?php echo $usuario->id; ?>"><?php echo $usuario->nombre; ?></option>
+							<?php } ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-success" name="consultar" value="Consultar" class="form-control">
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="row" style="padding-top: 10px;">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<form
 					class="form"
-					action="<?php echo base_url(); ?>index.php/Alta_usuario_ctrl/nuevoUsuario"
+					action="<?php echo base_url(); ?>index.php/Edit_usuario_ctrl/updateUser"
 					method="POST"
 					id="form-alta-usuario"
 				>
@@ -127,8 +176,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 					<div class="form-group">
-						<input class="form-control btn btn-info" name="action" placeholder="Nombre" type="submit" value="Crear"></input>
+						<input class="form-control btn btn-info" name="action" type="submit" value="Guardar"></input>
 					</div>
+					<input type="hidden" name="id" value="-1">
 				</form>
 			</div>
 		</div>
