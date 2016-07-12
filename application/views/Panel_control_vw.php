@@ -25,7 +25,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="list-group">
 					<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Alta_usuario_ctrl" style="text-align: left;">Agregar</a>
 					<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Edit_usuario_ctrl" style="text-align: left;">Editar</a>
-					<a class="btn list-group-item disabled" href="#" style="text-align: left;">Dar de baja</a>
 				</div>
 			</div>
 		</div>
