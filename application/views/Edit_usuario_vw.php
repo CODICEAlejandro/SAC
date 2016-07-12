@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<div class="form-group">
 						<label>Contraseña</label>
-						<input class="form-control" name="password" placeholder="Contraseña" type="text"></input>						
+						<input class="form-control" name="password" placeholder="Contraseña" type="password"></input>						
 					</div>
 
 					<div class="form-group">
