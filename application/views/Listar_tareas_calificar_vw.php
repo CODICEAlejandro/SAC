@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$(function(){
 				//Fecha actual
 				var cPageCalificados = 0;
-				var itemsPerPageCalificados = 10;
+				var itemsPerPageCalificados = 20;
 
 				var cDate = new Date();
 				var formatCDate = (cDate.getMonth()+1)+"/"+cDate.getDate()+"/"+cDate.getFullYear();
@@ -34,13 +34,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$(this).delay(i*50).fadeIn(200);
 				});
 
-				$("#prevCalificados").click(function(event){
+				$(".prevCalificados").click(function(event){
 					event.preventDefault();
 					cPageCalificados--;
 					$("#fechaOrigen").change();
 				});
 
-				$("#nextCalificados").click(function(event){
+				$(".nextCalificados").click(function(event){
 					event.preventDefault();
 					cPageCalificados++;
 					$("#fechaOrigen").change();
@@ -89,14 +89,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							}
 
 							if(lenReponse > itemsPerPageCalificados)
-								$("#nextCalificados").removeClass('disabled').css('pointer-events', 'auto');
+								$(".nextCalificados").removeClass('disabled').css('pointer-events', 'auto');
 							else
-								$("#nextCalificados").addClass('disabled').css('pointer-events', 'none');
+								$(".nextCalificados").addClass('disabled').css('pointer-events', 'none');
 
 							if(cPageCalificados == 0)
-								$("#prevCalificados").addClass('disabled').css('pointer-events', 'none');
+								$(".prevCalificados").addClass('disabled').css('pointer-events', 'none');
 							else
-								$("#prevCalificados").removeClass('disabled').css('pointer-events', 'auto');								
+								$(".prevCalificados").removeClass('disabled').css('pointer-events', 'auto');								
 
 							$("#tableCalificados > tbody tr").click(function(){
 								window.location.replace($(this).attr('goto'));
@@ -272,10 +272,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<!-- Calificados -->
 			<div class="row">
-				<div class="col-xs-6 col-sm-6 col-md-6">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<h3>Calificados</h3>
 				</div>
-				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 					<!-- Calendario -->
 					<div class="form-group">
 						<label for="fechaOrigen">Desde</label>
@@ -299,6 +299,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<ul id="paginationCalificados" class="pagination" style="float: right">
+						<li class="prevCalificados"><a href="#">&laquo; Anterior</a></li>
+						<li class="nextCalificados"><a href="#">Siguiente &raquo;</a></li>						
+					</ul>
+				</div>
 				<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 					<h3>
 						<span id="showCalificadosBtn" class="active glyphicon glyphicon-eye-open btn btn-md" style="float: right;"></span>
@@ -306,7 +312,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>	
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12" style="min-height: 800px;">
+				<div class="col-xs-12 col-sm-12 col-md-12" style="min-height: 300px;">
 					<table border="1" class="table table-striped" id="tableCalificados">
 						<thead>
 							<tr>
@@ -327,8 +333,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</table>
 					<div id="statusChargeCalificados" class="progress-bar progress-bar-success progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">Cargando</div>
 					<ul id="paginationCalificados" class="pagination" style="float: right">
-						<li id="prevCalificados"><a href="#">&laquo; Anterior</a></li>
-						<li id="nextCalificados"><a href="#">Siguiente &raquo;</a></li>						
+						<li class="prevCalificados"><a href="#">&laquo; Anterior</a></li>
+						<li class="nextCalificados"><a href="#">Siguiente &raquo;</a></li>						
 					</ul>
 				</div>
 			</div>
