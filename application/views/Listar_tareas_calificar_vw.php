@@ -36,14 +36,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				$(".prevCalificados").click(function(event){
 					event.preventDefault();
+
+					var fechaOrigenVal = $("#fechaOrigen").val().split('/');
+					var fechaFinVal = $("#fechaFin").val().split('/');
+
+					fechaOrigenVal = fechaOrigenVal[2]+'/'+fechaOrigenVal[0]+'/'+fechaOrigenVal[1];
+					fechaFinVal = fechaFinVal[2]+'/'+fechaFinVal[0]+'/'+fechaFinVal[1];
+
 					cPageCalificados--;
-					$("#fechaOrigen").change();
+					chargeCalificadosAJAX(fechaOrigenVal, fechaFinVal);
 				});
 
 				$(".nextCalificados").click(function(event){
 					event.preventDefault();
+
+					var fechaOrigenVal = $("#fechaOrigen").val().split('/');
+					var fechaFinVal = $("#fechaFin").val().split('/');
+
+					fechaOrigenVal = fechaOrigenVal[2]+'/'+fechaOrigenVal[0]+'/'+fechaOrigenVal[1];
+					fechaFinVal = fechaFinVal[2]+'/'+fechaFinVal[0]+'/'+fechaFinVal[1];
+
 					cPageCalificados++;
-					$("#fechaOrigen").change();
+					chargeCalificadosAJAX(fechaOrigenVal, fechaFinVal);
 				});
 
 				$("#fechaOrigen, #fechaFin").change(function(){
@@ -53,6 +67,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					fechaOrigenVal = fechaOrigenVal[2]+'/'+fechaOrigenVal[0]+'/'+fechaOrigenVal[1];
 					fechaFinVal = fechaFinVal[2]+'/'+fechaFinVal[0]+'/'+fechaFinVal[1];
 
+					cPageCalificados = 0;
+					chargeCalificadosAJAX(fechaOrigenVal, fechaFinVal);
+				});
+
+				function chargeCalificadosAJAX(fechaOrigenVal, fechaFinVal){
 					$.ajax({
 						url:"<?php echo base_url(); ?>index.php/Listar_tareas_calificar_ctrl/getCalificadosAJAX",
 						method: 'POST',
@@ -112,8 +131,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							$("#tableCalificados > tbody tr").remove();
 							$("#messagesCalificados").show();
 						}
-					});
-				});
+					});					
+				}
 
 				$("#showPendientesBtn, #showTerminadosBtn, #showCalificadosBtn").click(function(){
 					if($(this).hasClass("active")){
