@@ -45,13 +45,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<li <?php ($page=="Listar_tareas_calificar_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
 									<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl/listarGerente'; ?>">Calificar</a>
 								</li>
+								<li <?php ($page=="Reportes_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
+									<a href="<?php echo base_url().'index.php/Reportes_ctrl'; ?>">Reportes</a>
+								</li>
 								<?php }else if($this->session->userdata('tipo') == 2){ ?>
 								<!-- Actividades disponibles solo para el administrador -->
 								<li <?php ($page=="Listar_tareas_calificar_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
 									<a href="<?php echo base_url().'index.php/Listar_tareas_calificar_ctrl'; ?>">Calificar</a>
 								</li>
-								<li <?php ($page=="Nuevo_proyecto_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
-									<a href="<?php echo base_url().'index.php/Nuevo_proyecto_ctrl'; ?>">Nuevo proyecto</a>
+								<li <?php ($page=="Panel_control_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
+									<a href="<?php echo base_url().'index.php/Panel_control_ctrl'; ?>">Panel de control</a>
 								</li>
 								<li <?php ($page=="Reportes_ctrl")? $text = "class = active" : $text = ""; echo $text;?>>
 									<a href="<?php echo base_url().'index.php/Reportes_ctrl'; ?>">Reportes</a>

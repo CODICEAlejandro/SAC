@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Usuario extends CI_Model {
 	public function insertar($data){
 		foreach($data as $key => $value){
-			$data[$key] = htmlentities($value,ENT_QUOTES,'UTF-8');
+			$data[htmlentities($key,ENT_QUOTES,'UTF-8')] = htmlentities($value,ENT_QUOTES,'UTF-8');
 		}
 
 		if($this->db->insert("catusuario", $data))
@@ -25,7 +25,7 @@ class Usuario extends CI_Model {
 	public function traer($id){
 		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		$this->db->where("id =",$id);
-		return $this->db->get("catusuario")->row();
+		return $this->parseUsuario( $this->db->get("catusuario")->row() );
 	}
 
 	public function traerTodo(){
@@ -48,12 +48,20 @@ class Usuario extends CI_Model {
 	}
 
 	public function parseUsuario($data){
-		foreach ($data as $cUsuario) {
-			$this->db->where("id =",$cUsuario->idArea);
-			$cUsuario->area = $this->db->get("catarea")->row();
+		if( is_array($data) ){
+			foreach ($data as $cUsuario) {
+				$this->db->where("id =",$cUsuario->idArea);
+				$cUsuario->area = $this->db->get("catarea")->row();
 
-			$this->db->where("id =",$cUsuario->idPuesto);
-			$cUsuario->puesto = $this->db->get("catpuesto")->row();
+				$this->db->where("id =",$cUsuario->idPuesto);
+				$cUsuario->puesto = $this->db->get("catpuesto")->row();
+			}
+		}else{
+			$this->db->where("id =",$data->idArea);
+			$data->area = $this->db->get("catarea")->row();
+
+			$this->db->where("id =",$data->idPuesto);
+			$data->puesto = $this->db->get("catpuesto")->row();
 		}
 
 		return $data;

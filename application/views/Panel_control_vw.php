@@ -1,8 +1,11 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
 	<title>JOBS</title>
 	<?php includeJQuery(); ?>
 	<?php includeBootstrap(); ?>
@@ -20,9 +23,9 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="list-group">
-					<a class="btn list-group-item" href="#" style="text-align: left;">Agregar</a>
-					<a class="btn list-group-item" href="#" style="text-align: left;">Editar</a>
-					<a class="btn list-group-item" href="#" style="text-align: left;">Dar de baja</a>
+					<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Alta_usuario_ctrl" style="text-align: left;">Agregar</a>
+					<a class="btn list-group-item disabled" href="<?php echo base_url(); ?>index.php/Alta_usuario_ctrl" style="text-align: left;">Editar</a>
+					<a class="btn list-group-item disabled" href="#" style="text-align: left;">Dar de baja</a>
 				</div>
 			</div>
 		</div>
@@ -35,9 +38,9 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<a class="btn list-group-item" href="#" style="text-align: left;">Agregar</a>
-				<a class="btn list-group-item" href="#" style="text-align: left;">Editar</a>
-				<a class="btn list-group-item" href="#" style="text-align: left;">Dar de baja</a>
+				<a class="btn list-group-item disabled" href="#" style="text-align: left;">Agregar</a>
+				<a class="btn list-group-item disabled" href="#" style="text-align: left;">Editar</a>
+				<a class="btn list-group-item disabled" href="#" style="text-align: left;">Dar de baja</a>
 			</div>
 		</div>
 
@@ -49,9 +52,9 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<a class="btn list-group-item" href="http://localhost:8888/JOBS/index.php/Nuevo_proyecto_ctrl" style="text-align: left;">Agregar</a>
-				<a class="btn list-group-item" href="#" style="text-align: left;">Editar</a>
-				<a class="btn list-group-item" href="#" style="text-align: left;">Dar de baja</a>
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Nuevo_proyecto_ctrl" style="text-align: left;">Agregar</a>
+				<a class="btn list-group-item disabled" href="#" style="text-align: left;">Editar</a>
+				<a class="btn list-group-item disabled" href="#" style="text-align: left;">Dar de baja</a>
 			</div>
 		</div>		
 	</div>
