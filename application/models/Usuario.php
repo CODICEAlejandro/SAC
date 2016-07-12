@@ -29,8 +29,9 @@ class Usuario extends CI_Model {
 	}
 
 	public function traerTodo(){
+		$this->db->where("activo = 'S'");
 		$result = $this->db->get("catusuario")->result();
-		
+
 		return $this->parseUsuario($result);
 	}
 
@@ -45,6 +46,15 @@ class Usuario extends CI_Model {
 			return true;
 		else
 			return false;
+	}
+
+	public function darBaja($id){
+		$id = htmlentities($id, ENT_QUOTES, 'UTF-8');
+		$this->db->query("UPDATE `catusuario` AS cu
+						SET cu.`activo` = 'N'
+						WHERE
+							cu.`id` = ".$id
+					);
 	}
 
 	public function parseUsuario($data){

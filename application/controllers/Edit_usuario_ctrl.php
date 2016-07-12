@@ -11,11 +11,12 @@ class Edit_usuario_ctrl extends CI_Controller {
 
 	public function cargaInicial(){
 		$this->load->model('Proyecto');
+		$this->load->model('Usuario');
 
 		$proyectos = $this->Proyecto->traer_cp();
 		$areas = $this->db->get('catarea')->result();
 		$puestos = $this->db->get('catpuesto')->result();
-		$usuarios = $this->db->get('catusuario')->result();
+		$usuarios = $this->Usuario->traerTodo();
 
 		$data['proyectos'] = $proyectos;
 		$data['areas'] = $areas;
@@ -41,6 +42,12 @@ class Edit_usuario_ctrl extends CI_Controller {
 		$this->load->model('Usuario');
 		$this->Usuario->actualizar($userId, $data);
 		$this->index();
+	}
+
+	public function darDeBaja(){
+		$userId = $this->input->post('id');
+		$this->load->model('Usuario');
+		$this->Usuario->darBaja($userId);
 	}
 }
 ?>

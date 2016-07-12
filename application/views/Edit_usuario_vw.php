@@ -64,6 +64,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 				});
 			});
+
+			$("#baja").click(function(){
+				var idConsulta = $("select[name='usuario-actual']").val();
+
+				$.ajax({
+					url: '<?php echo base_url(); ?>index.php/Edit_usuario_ctrl/darDeBaja',
+					method: 'post',
+					data: { 'id': idConsulta },
+					success: function(){
+						window.location.replace(window.location);
+					},
+					error: function(){
+						alert('Error al intentar consultar el usuario indicado.');
+					}
+				});
+			});
 		});
 	</script>
 </head>
@@ -77,6 +93,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					class="form form-inline"
 					id="form-consulta-usuario"
 				>
+					<div class="form-group" style="float:right">
+						<button class="btn btn-danger" id="baja">Dar de baja</button>
+					</div>
 					<div class="form-group">
 						<label>Usuario actual</label>
 						<select name="usuario-actual" id="usuario-actual" class="form-control">
@@ -129,7 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<div class="form-group">
 						<label>Contraseña</label>
-						<input class="form-control" name="password" placeholder="Contraseña" type="password"></input>						
+						<input class="form-control" name="password" placeholder="Contraseña" type="password"></input>	
 					</div>
 
 					<div class="form-group">
