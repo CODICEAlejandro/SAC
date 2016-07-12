@@ -50,9 +50,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					var fechaOrigenVal = $("#fechaOrigen").val().split('/');
 					var fechaFinVal = $("#fechaFin").val().split('/');
 
-					//Regresar a página 0
-					cPageCalificados = 0;
-
 					fechaOrigenVal = fechaOrigenVal[2]+'/'+fechaOrigenVal[0]+'/'+fechaOrigenVal[1];
 					fechaFinVal = fechaFinVal[2]+'/'+fechaFinVal[0]+'/'+fechaFinVal[1];
 
