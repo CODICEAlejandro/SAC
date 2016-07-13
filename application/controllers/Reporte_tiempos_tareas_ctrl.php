@@ -166,7 +166,8 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 			$timeAvailable = $timeAvailable->TEMPO;
 			$timeAvailable = ($timeAvailable < 10)? '0'.$timeAvailable : $timeAvailable;
 			$timeAvailable = $timeAvailable.':00';
-			$area->tiempoTotalDisponible = $this->Estadistica->subTimes($timeAvailable, $area->tiempoTotalPendientes);
+			$timeAvailable = $this->Estadistica->subTimes($timeAvailable, $area->tiempoTotalPendientes);
+			$area->tiempoTotalDisponible = $this->Estadistica->subTimes($timeAvailable, $area->tiempoTotalReal);
 		}
 
 		$result['areas'] = $resultAreas;
