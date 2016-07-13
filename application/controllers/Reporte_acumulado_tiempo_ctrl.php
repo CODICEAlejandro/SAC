@@ -21,7 +21,6 @@ class Reporte_acumulado_tiempo_ctrl extends CI_Controller {
 		checkSession();
 		$this->load->model('Usuario');
 		$result['users'] = $this->Usuario->traerTodo();
-		echo "POLLO";
 		foreach($result['users'] as $user){
 			$cTiempo = $this->getTimes($user,$condition_tblTareas,$condition_tblErrores);
 			$user->sumaTiempoReal = $cTiempo['tiempoReal'];

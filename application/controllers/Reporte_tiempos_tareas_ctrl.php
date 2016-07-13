@@ -14,49 +14,80 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 	public function doResults($condition_tblTareas='', $condition_tblErrores=''){
 		$this->load->model("Estadistica");
 
-		$result['totalTareas'] = ($this->Estadistica->count_where('cattarea AS ct','1=1 '.$condition_tblTareas)) 
-								+ ($this->Estadistica->count_where('caterror AS ce','1=1 '.$condition_tblErrores));
+		$result['totalTareas'] = ($this->Estadistica->count_where('cattarea AS ct, catusuario AS cu',
+																'cu.id=ct.idResponsable
+																 AND cu.activo="S" '.$condition_tblTareas)) 
+								+ ($this->Estadistica->count_where('caterror AS ce, cattarea AS ct, catusuario AS cu',
+																'cu.id=ct.idResponsable 
+																AND ce.idTareaOrigen=ct.id
+																AND cu.activo="S" '.$condition_tblErrores));
 		
-		$result['totalPendientes'] = ($this->Estadistica->count_where('cattarea AS ct','idEstado = 1 '.$condition_tblTareas)) + ($this->Estadistica->count_where('caterror AS ce','idEstado = 1 '.$condition_tblErrores));
-		$result['totalTerminadas'] = ($this->Estadistica->count_where('cattarea AS ct','idEstado = 2 '.$condition_tblTareas)) + ($this->Estadistica->count_where('caterror AS ce','idEstado = 2 '.$condition_tblErrores));
-		$result['totalCalificadas'] = ($this->Estadistica->count_where('cattarea AS ct','idEstado = 3 '.$condition_tblTareas)) + ($this->Estadistica->count_where('caterror AS ce','idEstado = 3 '.$condition_tblErrores));
+		$result['totalPendientes'] = ($this->Estadistica->count_where('cattarea AS ct, catusuario cu',
+																		'ct.idEstado = 1 
+																		AND cu.id = ct.idResponsable
+																		AND cu.activo="S" '.$condition_tblTareas))
+								+ ($this->Estadistica->count_where('caterror AS ce, cattarea AS ct, catusuario AS cu',
+								 									'ce.idEstado = 1 
+								 									AND ce.idTareaOrigen = ct.id
+								 									AND ct.idResponsable = cu.id
+								 									AND cu.activo="S" '.$condition_tblErrores));
+
+		$result['totalTerminadas'] = ($this->Estadistica->count_where('cattarea AS ct, catusuario AS cu',
+																	'ct.idEstado = 2 
+																	AND cu.id = ct.idResponsable
+																	AND cu.activo="S" '.$condition_tblTareas)) 
+								+ ($this->Estadistica->count_where('caterror AS ce, cattarea AS ct, catusuario AS cu',
+																	'ce.idEstado = 2 
+																	AND cu.id = ct.idResponsable
+																	AND ce.idTareaOrigen = ct.id
+																	AND cu.activo="S" '.$condition_tblErrores));
+
+		$result['totalCalificadas'] = ($this->Estadistica->count_where('cattarea AS ct, catusuario AS cu',
+																	'ct.idEstado = 3  
+																	AND cu.id=ct.idResponsable
+																	AND cu.activo="S" '.$condition_tblTareas)) 
+									+ ($this->Estadistica->count_where('caterror AS ce, cattarea AS ct, catusuario AS cu',
+																	'ce.idEstado = 3 
+																	AND ce.idTareaOrigen = ct.id
+																	AND ct.idResponsable = cu.id
+																	AND cu.activo="S" '.$condition_tblErrores));
 
 		$this->db->order_by('nombre ASC');
 		$resultAreas = $this->db->get('catarea')->result();
 
 		foreach($resultAreas as $area){
 			$area->totalTareas = $this->Estadistica->count_where('cattarea AS ct, catusuario AS cu', 
-																'cu.id = ct.idResponsable 
+																'cu.id = ct.idResponsable AND cu.activo="S"
 																AND cu.idArea = '.$area->id.' '.$condition_tblTareas);
 			$area->totalTerminadas = $this->Estadistica->count_where('cattarea AS ct, catusuario AS cu', 
-																'cu.id = ct.idResponsable 
+																'cu.id = ct.idResponsable AND cu.activo="S"
 																AND ct.idEstado = 2
 																AND cu.idArea = '.$area->id.' '.$condition_tblTareas);
 			$area->totalCalificadas = $this->Estadistica->count_where('cattarea AS ct, catusuario AS cu', 
-																'cu.id = ct.idResponsable 
+																'cu.id = ct.idResponsable AND cu.activo="S" 
 																AND ct.idEstado = 3
 																AND cu.idArea = '.$area->id.' '.$condition_tblTareas);
 			$area->totalPendientes = $this->Estadistica->count_where('cattarea AS ct, catusuario AS cu', 
-																'cu.id = ct.idResponsable 
+																'cu.id = ct.idResponsable AND cu.activo="S" 
 																AND ct.idEstado = 1
 																AND cu.idArea = '.$area->id.' '.$condition_tblTareas);
 			$area->totalErrores = $this->Estadistica->count_where('cattarea AS ct, caterror AS ce, catusuario AS cu', 
-																'cu.id = ct.idResponsable 
+																'cu.id = ct.idResponsable AND cu.activo="S" 
 																AND ce.idTareaOrigen = ct.id
 																AND cu.idArea = '.$area->id.' '.$condition_tblErrores);
 			$area->totalErroresPendientes = $this->Estadistica->count_where('cattarea AS ct, caterror AS ce, catusuario AS cu', 
-																'cu.id = ct.idResponsable 
+																'cu.id = ct.idResponsable AND cu.activo="S" 
 																AND ce.idTareaOrigen = ct.id
 																AND ce.idEstado = 1
 																AND cu.idArea = '.$area->id.' '.$condition_tblErrores);
 			//Tiempo total estimado considerando tiempo de errores y de tareas sin regeneración
 			$tiempoTotalEstimadoTareas = $this->Estadistica->count_time_field('cattarea AS ct, catusuario AS cu',
 																'ct.tiempoEstimado',
-																'ct.idResponsable = cu.id
+																'ct.idResponsable = cu.id AND cu.activo="S"
 																AND cu.idArea = '.$area->id.' '.$condition_tblTareas);
 			$tiempoTotalEstimadoErrores = $this->Estadistica->count_time_field('cattarea AS ct, caterror AS ce, catusuario AS cu',
 																'ce.tiempoEstimado',
-																'ct.idResponsable = cu.id
+																'ct.idResponsable = cu.id AND cu.activo="S"
 																AND ce.idTareaOrigen = ct.id
 																AND cu.idArea ='.$area->id.' '.$condition_tblErrores);
 			$area->tiempoTotalEstimado = $this->Estadistica->addTimes($tiempoTotalEstimadoTareas,$tiempoTotalEstimadoErrores);
@@ -64,11 +95,11 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 			//Tiempo total real considerando tiempo de errores y de tareas sin regeneración
 			$tiempoTotalRealTareas = $this->Estadistica->count_time_field('cattarea AS ct, catusuario As cu',
 																'ct.tiempoRealGerente',
-																'ct.idResponsable = cu.id
+																'ct.idResponsable = cu.id AND cu.activo="S"
 																AND cu.idArea ='. $area->id.' '.$condition_tblTareas);
 			$tiempoTotalRealErrores = $this->Estadistica->count_time_field('cattarea AS ct, caterror AS ce, catusuario AS cu',
 																'ce.tiempoRealGerente',
-																'ct.idResponsable = cu.id
+																'ct.idResponsable = cu.id AND cu.activo="S"
 																AND ce.idTareaOrigen = ct.id
 																AND cu.idArea ='.$area->id.' '.$condition_tblErrores);
 			$area->tiempoTotalReal = $this->Estadistica->addTimes($tiempoTotalRealTareas, $tiempoTotalRealErrores);
@@ -76,12 +107,12 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 			//Tiempo total de tareas y errores pendientes
 			$tiempoTotalTareasPendientes = $this->Estadistica->count_time_field('cattarea AS ct, catusuario AS cu',
 																'ct.tiempoEstimado',
-																'ct.idResponsable = cu.id
+																'ct.idResponsable = cu.id AND cu.activo="S"
 																AND ct.idEstado = 1
 																AND cu.idArea = '.$area->id.' '.$condition_tblTareas);
 			$tiempoTotalErroresPendientes = $this->Estadistica->count_time_field('cattarea AS ct, catusuario AS cu, caterror AS ce',
 																'ce.tiempoEstimado',
-																'ct.idResponsable = cu.id
+																'ct.idResponsable = cu.id AND cu.activo="S"
 																AND ce.idTareaOrigen = ct.id
 																AND ce.idEstado = 1
 																AND cu.idArea = '.$area->id.' '.$condition_tblErrores);
@@ -97,12 +128,28 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 		$result['totalErrores'] = $this->Estadistica->count_where('caterror AS ce','1=1 '.$condition_tblErrores);
 
 		
-		$tiempoTotalEstimadoTareas =  $this->Estadistica->count_time_field('cattarea AS ct','ct.tiempoEstimado', '1=1 '.$condition_tblTareas);
-		$tiempoTotalEstimadoErrores = $this->Estadistica->count_time_field('caterror AS ce','ce.tiempoEstimado', '1=1 '.$condition_tblErrores);
+		$tiempoTotalEstimadoTareas =  $this->Estadistica->count_time_field('cattarea AS ct, catusuario AS cu',
+																'ct.tiempoEstimado', 
+																'cu.id = ct.idResponsable 
+																 AND cu.activo="S" '
+																.$condition_tblTareas);
+		$tiempoTotalEstimadoErrores = $this->Estadistica->count_time_field('caterror AS ce, catusuario AS cu, cattarea AS ct',
+																'ce.tiempoEstimado', 
+																'cu.id = ct.idResponsable
+																AND ct.id = ce.idTareaOrigen
+																 AND cu.activo="S" '.$condition_tblErrores);
 		$result['tiempoTotalEstimado'] = $this->Estadistica->addTimes($tiempoTotalEstimadoTareas,$tiempoTotalEstimadoErrores);
 
-		$tiempoTotalRealTareas = $this->Estadistica->count_time_field('cattarea AS ct','ct.tiempoRealGerente', '1=1 '.$condition_tblTareas);
-		$tiempoTotalRealErrores = $this->Estadistica->count_time_field('caterror AS ce','ce.tiempoRealGerente', '1=1 '.$condition_tblErrores);
+		$tiempoTotalRealTareas = $this->Estadistica->count_time_field('cattarea AS ct, catusuario AS cu',
+																'ct.tiempoRealGerente', 
+																'cu.id = ct.idResponsable
+																 AND cu.activo="S" '.$condition_tblTareas);
+
+		$tiempoTotalRealErrores = $this->Estadistica->count_time_field('caterror AS ce, catusuario AS cu, cattarea AS ct',
+																'ce.tiempoRealGerente', 
+																'cu.id=ct.idResponsable
+																AND ct.id = ce.idTareaOrigen
+																 AND cu.activo="S" '.$condition_tblErrores);
 		$result['tiempoTotalReal'] = $this->Estadistica->addTimes($tiempoTotalRealTareas,$tiempoTotalRealErrores);
 
 		return $result;
