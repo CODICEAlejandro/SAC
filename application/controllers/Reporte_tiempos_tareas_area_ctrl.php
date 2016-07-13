@@ -214,7 +214,13 @@ class Reporte_tiempos_tareas_area_ctrl extends CI_Controller {
 																	AND cu.activo="S" 
 																	AND ct.idResponsable = cu.id'
 																	.$condition_tblTareas.$condition_area);
-		$tiempoTotalRealErrores = $this->Estadistica->count_time_field('caterror AS ce','ce.tiempoRealGerente', '1=1 '.$condition_tblErrores);
+		$tiempoTotalRealErrores = $this->Estadistica->count_time_field('caterror AS ce, catusuario AS cu, cattarea AS ct',
+																	'ce.tiempoRealGerente', 
+																	'1=1 
+																	AND ct.idResponsable = cu.id
+																	AND ce.idTareaOrigen = ct.id
+																	AND cu.activo="S" '
+																	.$condition_tblErrores.$condition_area);
 		$result['tiempoTotalReal'] = $this->Estadistica->addTimes($tiempoTotalRealTareas,$tiempoTotalRealErrores);
 
 		return $result;		
