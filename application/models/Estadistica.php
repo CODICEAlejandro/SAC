@@ -118,6 +118,39 @@ class Estadistica extends CI_Model {
 			return $hours.':'.$minutes; 
 		}else return "00:00";
 	}
+
+	//Realiza la sustración de tiempos time1 - time2
+	public function subTimes($time1, $time2){
+		$time1 = explode(":",$time1);
+		$time2 = explode(":",$time2);
+
+		if((count($time1) == 2) && (count($time2) == 2)){
+			$time1[0] = (int) $time1[0];
+			$time1[1] = (int) $time1[1];
+			$time2[0] = (int) $time2[0];
+			$time2[1] = (int) $time2[1];
+
+			$time3 = array($time1[0]-$time2[0], $time1[1]-$time2[1]);
+
+			while( $time3[1] < 0 ){ 
+				$time3[1] = $time3[1] + 60;
+				$time3[0]--;
+
+				if($time3[0] < 0){
+					$time3[0] = 0;
+					$time3[1] = 0;
+				}
+			}
+
+			$minutes = $time3[1];
+			$hours = $time3[0];
+
+			$minutes = ($minutes < 10)? "0".$minutes : $minutes;
+			$hours = ($hours<10)? "0".$hours : $hours;
+
+			return $hours.':'.$minutes; 
+		}else return "00:00";
+	}
 }
 
 ?>

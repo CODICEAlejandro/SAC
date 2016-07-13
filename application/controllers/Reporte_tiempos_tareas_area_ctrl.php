@@ -180,8 +180,58 @@ class Reporte_tiempos_tareas_area_ctrl extends CI_Controller {
 			$consultor->tiempoTotalPendientes = $this->Estadistica->addTimes($tiempoTotalTareasPendientes, $tiempoTotalErroresPendientes);
 
 			//Tiempo total disponible
+			switch(date('w')){
+				case 1:
+					$timeAvailable = $this->db->query("SELECT sum(horasLunes) TEMPO
+												FROM catusuario cu 
+												WHERE 
+													cu.`idArea` = ".($consultor->idArea)
+													." AND cu.activo = 'S'
+													AND cu.id = ".($consultor->id)
+												)->row();
+					break;
+				case 2:
+					$timeAvailable = $this->db->query("SELECT sum(horasMartes) TEMPO
+												FROM catusuario cu 
+												WHERE 
+													cu.`idArea` = ".($consultor->idArea)
+													." AND cu.activo = 'S'
+													AND cu.id =".($consultor->id)
+												)->row();
+					break;
+				case 3:
+					$timeAvailable = $this->db->query("SELECT sum(horasMiercoles) TEMPO
+												FROM catusuario cu 
+												WHERE 
+													cu.`idArea` = ".($consultor->idArea)
+													." AND cu.activo = 'S'
+													AND cu.id =".($consultor->id)
+												)->row();
+					break;
+				case 4:
+					$timeAvailable = $this->db->query("SELECT sum(horasJueves) TEMPO
+												FROM catusuario cu 
+												WHERE 
+													cu.`idArea` = ".($consultor->idArea)
+													." AND cu.activo = 'S'
+													AND cu.id =".($consultor->id)
+												)->row();
+					break;
+				case 5:
+					$timeAvailable = $this->db->query("SELECT sum(horasViernes) TEMPO
+												FROM catusuario cu 
+												WHERE 
+													cu.`idArea` = ".($consultor->idArea)
+													." AND cu.activo = 'S'
+													AND cu.id =".($consultor->id)
+												)->row();
+					break;
+			}
 
-			$consultor->tiempoTotalDisponible = 0;
+			$timeAvailable = $timeAvailable->TEMPO;
+			$timeAvailable = ($timeAvailable < 10)? '0'.$timeAvailable : $timeAvailable;
+			$timeAvailable = $timeAvailable.':00';
+			$consultor->tiempoTotalDisponible = $this->Estadistica->subTimes($timeAvailable, $consultor->tiempoTotalPendientes);
 		}
 
 		$result['areas'] = $resultConsultores;
