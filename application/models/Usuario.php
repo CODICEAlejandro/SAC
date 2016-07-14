@@ -30,6 +30,7 @@ class Usuario extends CI_Model {
 
 	public function traerTodo(){
 		$this->db->where("activo = 'S'");
+		$this->db->order_by('nombre ASC');
 		$result = $this->db->get("catusuario")->result();
 
 		return $this->parseUsuario($result);
@@ -55,6 +56,22 @@ class Usuario extends CI_Model {
 						WHERE
 							cu.`id` = ".$id
 					);
+	}
+
+	public function traerAsociados_area($idArea){
+		$idArea = htmlentities($idArea, ENT_QUOTES, 'UTF-8');
+
+		$result = $this->db->query("SELECT * 
+								FROM
+									`catusuario` AS cu
+								WHERE
+									cu.`idArea` = ".$idArea."
+									AND cu.`activo` = 'S'
+								ORDER BY
+									cu.`nombre` ASC
+							")->result();
+
+		return $result;
 	}
 
 	public function parseUsuario($data){

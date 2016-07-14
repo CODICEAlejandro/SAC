@@ -18,6 +18,18 @@ class Proyecto extends CI_Model {
 		return $clienteProyectos;
 	}
 
+	public function traerAsociados_cliente($idCliente){
+		$result = $this->db->query("SELECT *
+									FROM
+										catproyecto AS cp
+									WHERE
+										cp.`idCliente` = ".$idCliente
+									." ORDER BY
+										cp.`nombre` ASC")->result();
+
+		return $result;
+	}
+
 	public function insertar($data){
 		if($this->db->insert('catproyecto',$data))
 			return true;
