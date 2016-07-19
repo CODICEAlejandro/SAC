@@ -24,6 +24,8 @@ img.ACenter {
 #body_ctx {
 	background-color: #FF9A00;
 	background-image: url("../../img/backgroundBody.jpg");
+	background-size: 100%;
+	overflow: hidden;
 }
 
 .section_ctx {
