@@ -152,11 +152,16 @@ class Rentabilidad_xls extends CI_Controller {
 	    $this->phpexcel->setActiveSheetIndex(0);
 	    
 	    // redireccionamos la salida al navegador del cliente (Excel2007)
-	    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-	    header('Content-Disposition: attachment;filename="reporte_rentabilidad.xls"');
-	    header('Cache-Control: max-age=0');
+	    // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	    // header('Content-Disposition: attachment;filename="reporte_rentabilidad.xls"');
+	    // header('Cache-Control: max-age=0');
+		header('Content-Type: application/vnd.ms-excel; encoding: UTF-8');
+		header('Content-Disposition: attachment;filename="reporte_rentabilidad.xls"');
+		header('Cache-Control: max-age=0');
+		iconv_set_encoding('internal_encoding', 'UTF-8'); 
+		iconv_set_encoding('output_encoding', 'UTF-8'); 
 	    
-	    PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP); 
+
 	    $objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
 	    $objWriter->save('php://output');
 	     
