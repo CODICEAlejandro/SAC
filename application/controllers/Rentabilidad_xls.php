@@ -157,10 +157,7 @@ class Rentabilidad_xls extends CI_Controller {
 	    // header('Cache-Control: max-age=0');
 		header('Content-Type: application/vnd.ms-excel; encoding: UTF-8');
 		header('Content-Disposition: attachment;filename="reporte_rentabilidad.xls"');
-		header('Cache-Control: max-age=0');
-		iconv_set_encoding('internal_encoding', 'UTF-8'); 
-		iconv_set_encoding('output_encoding', 'UTF-8'); 
-	    
+		header('Cache-Control: max-age=0');	    
 
 	    $objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
 	    $objWriter->save('php://output');
