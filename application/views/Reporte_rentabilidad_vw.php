@@ -139,6 +139,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-success">
+					<h5><span class="glyphicon glyphicon-thumbs-up" style="margin-right: 10px"></span> ¡Saludos!. ¡Ya pueden descargar el reporte en Excel!</h5>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<form
 					id="form-filtros"
 					class="form"
