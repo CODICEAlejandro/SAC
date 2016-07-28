@@ -139,9 +139,9 @@ class Rentabilidad_xls extends CI_Controller {
 	    }
 
 		//####################### Auto size cells
-		for($shDv->gotoMark('DOCUMENT_BEGIN'), $n=getIntegerFromCol($originCol_END_DOC); $cRow<$n; $cRow++, $cCol = getNextCol($cCol)){
-			$cSheet->getColumnDimension($cCol)->setAutoSize(true);
-		}
+		// for($shDv->gotoMark('DOCUMENT_BEGIN'), $n=getIntegerFromCol($originCol_END_DOC); $cRow<$n; $cRow++, $cCol = getNextCol($cCol)){
+		// 	$cSheet->getColumnDimension($cCol)->setAutoSize(true);
+		// }
 
 	    // Renombramos la hoja de trabajo
 	    $this->phpexcel->getActiveSheet()->setTitle('Reporte de rentabilidad');
