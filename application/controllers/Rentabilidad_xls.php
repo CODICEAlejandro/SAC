@@ -159,7 +159,7 @@ class Rentabilidad_xls extends CI_Controller {
 		header('Content-Disposition: attachment;filename="reporte_rentabilidad.xls"');
 		header('Cache-Control: max-age=0');	    
 
-	    $objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
+	    $objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel5');
 	    $objWriter->save('php://output');
 	     
 	}
