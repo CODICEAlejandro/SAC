@@ -60,6 +60,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				});
 			});
 
+			$("#exportar-XLS").click(function(event){
+				event.preventDefault();
+				var url = 'Rentabilidad_xls/setExcel';
+				var getData = "/";
+				var dateInf = $("#dateDesdeAlt").val();
+				var dateHasta = $("#dateHastaAlt").val();
+				dateInf = dateInf.replace("/","_");
+				dateHasta = dateHasta.replace("/","_");
+				dateInf = dateInf.replace("/","_");
+				dateHasta = dateHasta.replace("/","_");
+
+				getData += dateHasta+"/";
+				getData += dateInf+"/";
+				getData += ($("#filtroProyecto").val())+"/";
+				getData += ($("#filtroConsultor").val())+"/";
+				getData += ($("#filtroArea").val())+"/";
+				getData += ($("#filtroCliente").val());
+
+				url += getData;
+
+				window.location.replace(url);
+			});
+
 			$("#form-filtros").submit(function(event){
 				event.preventDefault();
 				var idCliente = $("#filtroCliente").val();
