@@ -129,13 +129,13 @@ class Rentabilidad_xls extends CI_Controller {
 		    $shDv->gotoMark('DOCUMENT_BEGIN');
 			$shDv->setRow($row);
 
-			$sheet->setCellValue($shDv->getPosition(),html_entity_decode($data[$k]->nombre));
+			$sheet->setCellValue($shDv->getPosition(),html_entity_decode(utf8_decode($data[$k]->nombre)));
 			$shDv->nextCol();
-			$sheet->setCellValue($shDv->getPosition(),html_entity_decode($data[$k]->fase));
+			$sheet->setCellValue($shDv->getPosition(),html_entity_decode(utf8_decode($data[$k]->fase)));
 			$shDv->nextCol();
-			$sheet->setCellValue($shDv->getPosition(),html_entity_decode($data[$k]->total));
+			$sheet->setCellValue($shDv->getPosition(),html_entity_decode(utf8_decode($data[$k]->total)));
 			$shDv->nextCol();
-			$sheet->setCellValue($shDv->getPosition(),html_entity_decode($data[$k]->tiempoReal));
+			$sheet->setCellValue($shDv->getPosition(),html_entity_decode(utf8_decode($data[$k]->tiempoReal)));
 	    }
 
 		//####################### Auto size cells
