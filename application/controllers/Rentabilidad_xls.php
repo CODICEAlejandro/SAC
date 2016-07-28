@@ -129,13 +129,13 @@ class Rentabilidad_xls extends CI_Controller {
 		    $shDv->gotoMark('DOCUMENT_BEGIN');
 			$shDv->setRow($row);
 
-			$sheet->setCellValue($shDv->getPosition(),$data[$k]->nombre);
+			$sheet->setCellValue(html_entity_decode($shDv->getPosition(),$data[$k]->nombre));
 			$shDv->nextCol();
-			$sheet->setCellValue($shDv->getPosition(),$data[$k]->fase);
+			$sheet->setCellValue(html_entity_decode($shDv->getPosition(),$data[$k]->fase));
 			$shDv->nextCol();
-			$sheet->setCellValue($shDv->getPosition(),$data[$k]->total);
+			$sheet->setCellValue(html_entity_decode($shDv->getPosition(),$data[$k]->total));
 			$shDv->nextCol();
-			$sheet->setCellValue($shDv->getPosition(),$data[$k]->tiempoReal);
+			$sheet->setCellValue(html_entity_decode($shDv->getPosition(),$data[$k]->tiempoReal));
 	    }
 
 		//####################### Auto size cells
@@ -158,8 +158,6 @@ class Rentabilidad_xls extends CI_Controller {
 		header('Content-Type: application/vnd.ms-excel; encoding: UTF-8');
 		header('Content-Disposition: attachment;filename="reporte_rentabilidad.xls"');
 		header('Cache-Control: max-age=0');
-		iconv_set_encoding('internal_encoding', 'UTF-8'); 
-		iconv_set_encoding('output_encoding', 'UTF-8'); 	    
 
 	    $objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel5');
 	    $objWriter->save('php://output');
