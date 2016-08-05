@@ -145,23 +145,23 @@ class ControlTareas_xls extends CI_Controller {
 	    	    $shDv->gotoMark('DOCUMENT_BEGIN');
 	    		$shDv->setRow($row);
 
-	    		$sheet->setCellValue($shDv->getPosition(), html_entity_decode(utf8_decode($data[$k]->consultor)));
+	    		$sheet->setCellValue($shDv->getPosition(), (utf8_decode($data[$k]->consultor)));
 	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), html_entity_decode(utf8_decode($data[$k]->area)));
+	    		$sheet->setCellValue($shDv->getPosition(), (utf8_decode($data[$k]->area)));
 	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), html_entity_decode(utf8_decode($data[$k]->cliente)));
+	    		$sheet->setCellValue($shDv->getPosition(), (utf8_decode($data[$k]->cliente)));
 	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), html_entity_decode(utf8_decode($data[$k]->proyecto)));
+	    		$sheet->setCellValue($shDv->getPosition(), (utf8_decode($data[$k]->proyecto)));
 	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), html_entity_decode(utf8_decode($data[$k]->fase)));
+	    		$sheet->setCellValue($shDv->getPosition(), (utf8_decode($data[$k]->fase)));
 	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), html_entity_decode(utf8_decode($data[$k]->tiempoEstimado)));
+	    		$sheet->setCellValue($shDv->getPosition(), (utf8_decode($data[$k]->tiempoEstimado)));
 	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), html_entity_decode(utf8_decode($data[$k]->tiempoReal)));
+	    		$sheet->setCellValue($shDv->getPosition(), (utf8_decode($data[$k]->tiempoReal)));
 	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), html_entity_decode(utf8_decode($data[$k]->titulo)));
+	    		$sheet->setCellValue($shDv->getPosition(), (utf8_decode($data[$k]->titulo)));
 	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), html_entity_decode(utf8_decode($data[$k]->descripcion)));
+	    		$sheet->setCellValue($shDv->getPosition(), (utf8_decode($data[$k]->descripcion)));
 		    }
 
 	        // Renombramos la hoja de trabajo
