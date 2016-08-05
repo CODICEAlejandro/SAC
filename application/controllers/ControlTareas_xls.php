@@ -123,9 +123,9 @@ class ControlTareas_xls extends CI_Controller {
 		    //Agregar encabezados
 		    $sheet->setCellValue($shDv->getPosition(),'Consultor');
 		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), "Área");
+		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Área"));
 		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), "Cliente");
+		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Cliente"));
 		    $shDv->nextCol();
 		    $sheet->setCellValue($shDv->getPosition(), "Proyecto");
 		    $shDv->nextCol();
@@ -135,7 +135,7 @@ class ControlTareas_xls extends CI_Controller {
 		    $shDv->nextCol();
 		    $sheet->setCellValue($shDv->getPosition(), "Tiempo Real");
 		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), "Título");
+		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Título"));
 		    $shDv->nextCol();
 		    $sheet->setCellValue($shDv->getPosition(), "Descripción");
 
