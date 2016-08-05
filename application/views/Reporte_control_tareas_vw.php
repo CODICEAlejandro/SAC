@@ -97,6 +97,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 				});
 			});
+
+			$("#exportExcel").click(function(event){
+				event.preventDefault();
+				var url = 'ControlTareas_xls/setExcel';
+				var getData = "/";
+				var dateInf = $("#dateDesdeAlt").val();
+				var dateHasta = $("#dateHastaAlt").val();
+				dateInf = dateInf.split("/").join("_");
+				dateHasta = dateHasta.split("/").join("_");
+
+				getData += dateHasta+"/";
+				getData += dateInf+"/";
+				getData += ($("#filtroProyecto").val())+"/";
+				getData += ($("#filtroConsultor").val())+"/";
+				getData += ($("#filtroArea").val())+"/";
+				getData += ($("#filtroCliente").val());
+
+				url += getData;
+
+				window.location.replace(url);
+			});
 		});
 	</script>
 </head>
@@ -186,6 +207,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 					</tbody>
 				</table>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<button class="btn btn-success" id="exportExcel">Exportar Excel</button>
 			</div>
 		</div>
 	</div>
