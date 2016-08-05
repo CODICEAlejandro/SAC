@@ -137,7 +137,7 @@ class ControlTareas_xls extends CI_Controller {
 		    $shDv->nextCol();
 		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Título"));
 		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), "Descripción");
+		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Descripción"));
 
 		    //Agregar contenido
 		    $shDv->gotoMark('DOCUMENT_BEGIN');
