@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						dataType: 'json',
 						success: function(response){
 							$("#nombre:visible").val(response.nombre);
-							$("input[name='estadoActivo']").val(response.estado);
+							$("input[name='estadoActivo']").val(response.estadoActivo);
 							$("input[name='id']").val(cCliente);
 
 							checkEstadoActivo();
