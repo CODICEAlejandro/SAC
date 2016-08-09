@@ -18,6 +18,22 @@ class Proyecto extends CI_Model {
 		return $clienteProyectos;
 	}
 
+	public function traer($id){
+		$this->db->where('id =', $id);
+		return $this->db->get('catproyecto')->row();
+	}
+
+	public function traerTodo(){
+		$this->db->where('estado = 1');
+		$this->db->order_by('nombre', 'ASC');
+		return $this->db->get('catproyecto')->result();
+	}
+
+	public function traerTodo_AI(){
+		$this->db->order_by('nombre', 'ASC');
+		return $this->db->get('catproyecto')->result();
+	}
+
 	public function traerAsociados_cliente($idCliente){
 		$result = $this->db->query("SELECT *
 									FROM

@@ -49,9 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Nuevo_proyecto_ctrl" style="text-align: left;">Agregar</a>
-				<a class="btn list-group-item disabled" href="#" style="text-align: left;">Editar</a>
-				<a class="btn list-group-item disabled" href="#" style="text-align: left;">Dar de baja</a>
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Nuevo_proyecto_ctrl" style="text-align: left;">Ir a administrador</a>
 			</div>
 		</div>		
 	</div>
