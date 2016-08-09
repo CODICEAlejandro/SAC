@@ -24,17 +24,31 @@ class Nuevo_proyecto_ctrl extends CI_Controller {
 	}
 
 	public function actualizarProyecto_AJAX($id){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+
 		$data = $this->input->post();
-		if($this->Proyecto->actualizar($id, $data)) echo "OK";
-		else echo "ERROR";
+		if($this->Proyecto->actualizar($id, $data)){ 
+			$response['status'] = "OK";
+			$response['data'] = $this->Proyecto->traerTodo_AI();
+		}else $response['status'] = "ERROR";
+
+		echo json_encode($response);
 	}
 
-	public function insertar(){
+	public function nuevoProyecto_AJAX(){
 		checkSession();
 
+		$response['data'] = array();
+		$response['status'] = "ERROR";
+
 		$data = $this->input->post();
-		$this->Proyecto->insertar($data);
-		redirect(base_url().'index.php/Listar_proyectos_ctrl');
+		if($this->Proyecto->insertar($data)){
+			$response['status'] = "OK";
+			$response['data'] = $this->Proyecto->traerTodo_AI();
+		}else $response['status'] = "ERROR";
+
+		echo json_encode($response);
 	}
 }
 ?>

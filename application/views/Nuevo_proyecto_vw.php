@@ -74,11 +74,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				url: '<?php echo base_url(); ?>index.php/Nuevo_proyecto_ctrl/actualizarProyecto_AJAX/'+currentProyect,
 				method: 'post',
 				data: {'nombre': nombre, 'idCotizacion': idCotizacion, 'idCliente': idCliente, 'tipo':tipo, 'estado': estadoActivo},
-				dataType: 'text',
+				dataType: 'json',
 				success: function(response){
-					if(response == 'OK'){
+					if(response.status == 'OK'){
+						$("#cProyecto *").remove();
+
+						var proyectos = $("#cProyecto");
+
+						proyectos.append("<option value='-1'>Ninguno</option>");
+						for(var k = 0; k < response.data.length; k++){
+							proyectos.append("<option value='"+response.data[k].id+"'>"+response.data[k].nombre+"</option>");
+						}
+
+						isEditing();
 						alert('Se ha realizado la operación satisfactoriamente.');
-						window.location.reload();
 					}else
 						alert('Ha ocurrido un error al intentar actualizar. Intente de nuevo, por favor.');
 				},
@@ -86,6 +95,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					alert('Ha ocurrido un error al intentar actualizar. Intente de nuevo, por favor.');
 				}
 			});
+		});
+
+		$("#form_alta_proyecto").submit(function(event){
+			event.preventDefault();
+
+			var nombre = $("#rowNuevoProyecto #nombre").val();
+			var idCotizacion = $("#rowNuevoProyecto #idCotizacion").val();
+			var idCliente = $("#rowNuevoProyecto #idCliente").val();
+			var tipo = $("#rowNuevoProyecto #tipo").val();
+			var estadoActivo = $("#rowNuevoProyecto #estado").val();
+
+			$.ajax({
+				url: '<?php echo base_url(); ?>index.php/Nuevo_proyecto_ctrl/nuevoProyecto_AJAX',
+				method: 'post',
+				data: {'nombre': nombre, 'idCotizacion': idCotizacion, 'idCliente': idCliente, 'tipo':tipo, 'estado': estadoActivo},
+				dataType: 'json',
+				success: function(response){
+					if(response.status == 'OK'){
+						$("#rowNuevoProyecto #nombre").val("");
+						$("#rowNuevoProyecto #idCotizacion").val("");
+						$("#cProyecto *").remove();
+						
+						var proyectos = $("#cProyecto");
+
+						proyectos.append("<option value='-1'>Ninguno</option>");
+						for(var k = 0; k < response.data.length; k++){
+							proyectos.append("<option value='"+response.data[k].id+"'>"+response.data[k].nombre+"</option>");
+						}
+
+						isEditing();
+						alert('Se ha realizado la operación satisfactoriamente.');
+					}else
+						alert('Ha ocurrido un error al intentar actualizar. Intente de nuevo, por favor.');
+				},
+				error: function(){
+					alert('Ha ocurrido un error al intentar actualizar. Intente de nuevo, por favor.');
+				}
+			});			
 		});
 
 		$("#btn-estado").click(function(event){
@@ -179,8 +226,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row" id="rowNuevoProyecto">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<form
-					method = "POST"
-					action = "<?php echo base_url().'index.php/Nuevo_proyecto_ctrl/insertar' ?>"
 					name= "form_alta_proyecto"
 					id = "form_alta_proyecto"
 				>
@@ -202,7 +247,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 					<div class="form-group">
 						<label>Tipo</label>
-						<select name="tipo" class="form-control">
+						<select name="tipo" id="tipo" class="form-control">
 							<option>DESARROLLO</option>
 							<option>SERVICIO</option>
 							<option>CAMPAÑA</option>

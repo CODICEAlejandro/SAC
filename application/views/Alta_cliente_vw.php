@@ -75,12 +75,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$.ajax({
 					url: '<?php echo base_url(); ?>index.php/Alta_cliente_ctrl/nuevoCliente_AJAX',
 					method: 'post',
-					dataType: 'text',
+					dataType: 'json',
 					data: {'nombre' : nombreComercial},
 					success: function(response){
-						if(response == "OK") {
+						if(response.status == "OK") {
+							$("#cCliente *").remove();
+							$("input[name='nombre']:visible").val("");
+							var clientes = $("#cCliente");
+
+							clientes.append("<option value='-1'>Ninguno</option>");
+							for(var k = 0; k < response.data.length; k++){
+								clientes.append("<option value='"+response.data[k].id+"'>"+response.data[k].nombre+"</option>");
+							}
+
 							alert("Operación realizada con éxito.");
-							window.location.reload();
 						}else alert("Ha ocurrido un error. Intente de nuevo, por favor.");
 					},
 					error: function(){
@@ -98,12 +106,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$.ajax({
 					url: '<?php echo base_url(); ?>index.php/Alta_cliente_ctrl/editarCliente_AJAX',
 					method: 'post',
-					dataType: 'text',
+					dataType: 'json',
 					data: {'nombre' : nombreComercial, 'estadoActivo' : estadoActivo, 'id' : id},
 					success: function(response){
-						if(response == "OK") {
+						if(response.status == "OK") {
+							$("#cCliente *").remove();
+							$("input[name='nombre']:visible").val("");
+							var clientes = $("#cCliente");
+
+							clientes.append("<option value='-1'>Ninguno</option>");
+							for(var k = 0; k < response.data.length; k++){
+								clientes.append("<option value='"+response.data[k].id+"'>"+response.data[k].nombre+"</option>");
+							}
+
+							checkCCliente();
+
 							alert("Operación realizada con éxito.");
-							window.location.reload();
 						}else alert("Ha ocurrido un error. Intente de nuevo, por favor.");
 					},
 					error: function(){

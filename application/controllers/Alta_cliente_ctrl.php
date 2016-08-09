@@ -25,18 +25,29 @@ class Alta_cliente_ctrl extends CI_Controller {
 	public function nuevoCliente_AJAX(){
 		$data = $this->input->post();
 
+		$response['status'] = "OK";
+		$response['data'] = array();
+
 		if(isset($data['nombre'])){
 			
 			$data['estadoActivo'] = 1;
 			$data['tipo'] = 0;
 
-			if( $this->Cliente->insertar($data) ) echo "OK";
-			else echo "ERROR";
-		}else echo "ERROR";
+			if( $this->Cliente->insertar($data) ){
+				$response['data'] = $this->Cliente->traer_AI();
+				$response['status'] = "OK";
+			}else
+				$response['status'] = "ERROR";
+		}else $response['status'] = "ERROR";
+
+		echo json_encode($response);
 	}
 
 	public function editarCliente_AJAX(){
 		$data = $this->input->post();
+
+		$response['status'] = "OK";
+		$response['data'] = array();
 
 		if(
 			isset($data['nombre'])
@@ -47,12 +58,15 @@ class Alta_cliente_ctrl extends CI_Controller {
 			$info['nombre'] = $data['nombre'];
 			$info['estadoActivo'] = $data['estadoActivo'];
 
-			if( $this->Cliente->actualizar($data['id'], $data) ) echo "OK";
-			else echo "ERROR";
+			if( $this->Cliente->actualizar($data['id'], $data) ){ 
+				$response['status'] = "OK";
+				$response['data'] = $this->Cliente->traer_AI();
+			}else $response['status'] = "ERROR";
 
 		}else
-			echo "ERROR";
+			$response['status'] = "ERROR";
 
+		echo json_encode($response);
 	}	
 }
 ?>
