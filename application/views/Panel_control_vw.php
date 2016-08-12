@@ -41,6 +41,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
+		<!-- Control de proveedores -->
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h3>Control de proveedores</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_proveedor_ctrl" style="text-align: left;">Ir a administrador</a>
+			</div>
+		</div>
+
 		<!-- Control de Proyectos -->
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -51,7 +63,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Nuevo_proyecto_ctrl" style="text-align: left;">Ir a administrador</a>
 			</div>
-		</div>		
+		</div>
+
 	</div>
 </body>
 </html>

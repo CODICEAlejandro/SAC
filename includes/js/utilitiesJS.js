@@ -49,3 +49,7 @@ function parseDatetime(datetime){
 
 	format = dia+" "+mes+" "+anio+" | "+horas+":"+minutos;
 }
+
+function jEntityDecode(str) {
+    return $("<div/>").html(str).text();
+}

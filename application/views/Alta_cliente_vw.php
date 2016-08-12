@@ -10,130 +10,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php includeJQuery(); ?>
 	<?php includeBootstrap(); ?>
 
-	<script type="text/javascript">
-		$(function(){
-			function checkCCliente(){
-				var cCliente = $("#cCliente").val();
+	<style type="text/css">
+		.dotted-bottom {
+			border-bottom: 2px dotted gray;
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
 
-				if(cCliente == -1){
-					$("#rowNuevoCliente").show();
-					$("#rowEdicionCliente").hide();
-				}else{
-					$.ajax({
-						url: '<?php echo base_url(); ?>index.php/Alta_cliente_ctrl/consultarCliente_AJAX/'+cCliente,
-						method: 'post',
-						dataType: 'json',
-						success: function(response){
-							$("#nombre:visible").val(response.nombre);
-							$("input[name='estadoActivo']").val(response.estadoActivo);
-							$("input[name='id']").val(cCliente);
+		.sectionTitle {
+			padding-bottom: 15px;
+		}
+	</style>
 
-							checkEstadoActivo();
-						},
-						error: function(){
-							alert("Ha ocurrido un error al intentar consultar el cliente seleccionado. Intente de nuevo, por favor.")
-						}
-					});
-
-					$("#rowNuevoCliente").hide();
-					$("#rowEdicionCliente").show();				
-				}
-			}
-
-			function checkEstadoActivo(){
-				var estadoActivo = $("input[name='estadoActivo']").val();
-
-				if(estadoActivo == 1){ 
-					$("#btn-estado").removeClass("btn-success").addClass("btn-danger").html("Inactivar");
-					$("#labelEstado").html("Estado: Activo");
-				}else if(estadoActivo == 0){ 
-					$("#btn-estado").removeClass("btn-danger").addClass("btn-success").html("Activar");
-					$("#labelEstado").html("Estado: Inactivo");
-				}
-
-			}
-
-			$("#cCliente").change(function(){
-				checkCCliente();
-			});
-
-			$("#btn-estado").click(function(event){
-				event.preventDefault();
-				var inpEstadoActivo = $("input[name='estadoActivo']");
-
-				if(inpEstadoActivo.val() == 1) inpEstadoActivo.val(0); 
-				else if(inpEstadoActivo.val() == 0) inpEstadoActivo.val(1);
-
-				checkEstadoActivo(); 
-			});
-
-
-			$("#form_alta").submit(function(event){
-				event.preventDefault();
-				var nombreComercial = $("input[name='nombre']:visible").val();
-
-				$.ajax({
-					url: '<?php echo base_url(); ?>index.php/Alta_cliente_ctrl/nuevoCliente_AJAX',
-					method: 'post',
-					dataType: 'json',
-					data: {'nombre' : nombreComercial},
-					success: function(response){
-						if(response.status == "OK") {
-							$("#cCliente *").remove();
-							$("input[name='nombre']:visible").val("");
-							var clientes = $("#cCliente");
-
-							clientes.append("<option value='-1'>Ninguno</option>");
-							for(var k = 0; k < response.data.length; k++){
-								clientes.append("<option value='"+response.data[k].id+"'>"+response.data[k].nombre+"</option>");
-							}
-
-							alert("Operación realizada con éxito.");
-						}else alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-					},
-					error: function(){
-						alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-					}
-				});
-			});
-
-			$("#form-edita").submit(function(event){
-				event.preventDefault();
-				var nombreComercial = $("input[name='nombre']:visible").val();
-				var estadoActivo = $("input[name='estadoActivo']").val();
-				var id = $("input[name='id']").val();
-
-				$.ajax({
-					url: '<?php echo base_url(); ?>index.php/Alta_cliente_ctrl/editarCliente_AJAX',
-					method: 'post',
-					dataType: 'json',
-					data: {'nombre' : nombreComercial, 'estadoActivo' : estadoActivo, 'id' : id},
-					success: function(response){
-						if(response.status == "OK") {
-							$("#cCliente *").remove();
-							$("input[name='nombre']:visible").val("");
-							var clientes = $("#cCliente");
-
-							clientes.append("<option value='-1'>Ninguno</option>");
-							for(var k = 0; k < response.data.length; k++){
-								clientes.append("<option value='"+response.data[k].id+"'>"+response.data[k].nombre+"</option>");
-							}
-
-							checkCCliente();
-
-							alert("Operación realizada con éxito.");
-						}else alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-					},
-					error: function(){
-						alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-					}					
-				});
-			});
-
-			checkEstadoActivo();
-			checkCCliente();
-		});
-	</script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/utilitiesJS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_DireccionFiscal_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_DireccionOperativa_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Banco_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Commons_JS.js"></script>
 
 </head>
 <body>
@@ -166,41 +60,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type="text" name="nombre" placeholder="Nombre comercial" class="form-control" required>
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Crear" class="btn btn-primary">
+						<input type="submit" value="Crear" class="form-control btn btn-primary">
 					</div>
 				</form>
 			</div>
 		</div>
 
-		<div class="row" id="rowEdicionCliente">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<form
-					action = "Alta_cliente_ctrl/editarCliente"
-					method = "post"
-					id = "form-edita"
-				>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
-								<label for="nombre">Nombre comercial</label>
-								<input type="text" name="nombre" id="nombre" placeholder="Nombre comercial" class="form-control" required>
-							</div>
-							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-								<label id="labelEstado">Estado: Activo</label>
-								<button style="width: 100%;" id="btn-estado" class="btn btn-danger">Inactivar</button>
+
+		<!-- Inicia la sección de edición -->
+		<span id="rowEdicionCliente">
+			<div class="row dotted-bottom">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<form
+						action = "Alta_cliente_ctrl/editarCliente"
+						method = "post"
+						id = "form-edita"
+					>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
+									<label for="nombre">Nombre comercial</label>
+									<input type="text" name="nombre" id="nombre" placeholder="Nombre comercial" class="form-control" required>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+									<label id="labelEstado">Estado: Activo</label>
+									<button style="width: 100%;" id="btn-estado" class="btn btn-danger">Inactivar</button>
+								</div>
 							</div>
 						</div>
-					</div>
-					
-					<input type="hidden" name="id" value="-1">
-					<input type="hidden" name="estadoActivo" value="1">
+						
+						<input type="hidden" name="id" value="-1">
+						<input type="hidden" name="estadoActivo" value="1">
 
-					<div class="form-group">
-						<input type="submit" value="Actualizar" class="btn btn-info">
-					</div>
-				</form>
+						<div class="form-group">
+							<input type="submit" value="Actualizar" class="form-control btn btn-info">
+						</div>
+					</form>
+				</div>
 			</div>
-		</div>
+
+			<!-- Inicia sección de información financiera -->
+			<?=$form_direccion_fiscal ?>
+
+			<!-- Dirección operativa -->
+			<?=$form_direccion_operativa ?>
+
+			<!-- Bancos -->
+			<?=$form_banco; ?>
+
+		</span>
+		<!-- FIN ROW CLIENTE EDICIÓN -->
+
 	</div>
 </body>
 </html>

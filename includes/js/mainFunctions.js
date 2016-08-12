@@ -60,6 +60,10 @@ function parseTime(){
 	return hours+":"+minutes;
 }
 
+function jEntityDecode(str) {
+    return $("<div/>").html(str).text();
+}
+
 /*
 function parseDate(datetime){
 	var date = datetime;
