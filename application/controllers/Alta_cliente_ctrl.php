@@ -26,8 +26,6 @@ class Alta_cliente_ctrl extends CI_Controller {
 		$data['bancos'] = $this->Banco->traerTodo();
 
 		$data['form_direccion_fiscal'] = $this->load->view("Form_direccion_fiscal_vw", $data, true);
-		$data['form_direccion_operativa'] = $this->load->view("Form_direccion_operativa_vw", $data, true);
-		$data['form_banco'] = $this->load->view("Form_Banco_vw", $data, true);
 		$data['form_agenda'] = $this->load->view("Form_agenda_vw", $data, true);
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 
