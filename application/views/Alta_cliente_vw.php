@@ -117,10 +117,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			<section id="main-info-financiera" style="display: none;">
 			<!-- Inicia sección de información financiera -->
-			<?=$form_direccion_fiscal ?>
+			<?=$form_direccion_fiscal; ?>
 
 			<!-- Dirección operativa -->
-			<?=$form_direccion_operativa ?>
+			<?=$form_direccion_operativa; ?>
 
 			<!-- Bancos -->
 			<?=$form_banco; ?>
