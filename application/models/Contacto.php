@@ -47,6 +47,11 @@ class Contacto extends CI_Model {
 		return $this->db->update($this->table, $data);
 	}
 
+	public function eliminar($id){
+		$this->db->where('id =', $id);
+		return $this->db->delete($this->table);
+	}
+
 	public function traerAsociados($idPadre){
 		$idPadre = htmlentities($idPadre, ENT_QUOTES, 'UTF-8');
 

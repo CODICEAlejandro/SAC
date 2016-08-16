@@ -1,28 +1,19 @@
-//************************** Acciones de botón de activo e inactivo
-
-// Revisa si el cliente seleccionado es -1 o diferente, para saber acción que se está realizando
-// -1 : Ninguna acción (Solo mostrar u ocultar renglón correspondiente)
-// != -1 : Traer datos de cliente con ajax y vaciar en formulario. Mostrar u ocultar renglón correspondiente
-function checkCCliente(){
+function putMainInformation(){
 	var cCliente = $("#cCliente").val();
 
 	if(cCliente == -1){
 		$("#rowNuevoCliente").show();
 		$("#rowEdicionCliente").hide();
 	}else{
+
 		$.ajax({
-			url: 'Alta_cliente_ctrl/consultarCliente_AJAX/'+cCliente,
+			url: 'Alta_cliente_ctrl/traerInformacionPrincipal_AJAX/'+cCliente,
 			method: 'post',
 			dataType: 'json',
 			success: function(response){
 				$("#form-edita #nombre:visible").val(response.cliente.nombre);
 				$("#form-edita input[name='estadoActivo']").val(response.cliente.estadoActivo);
 				$("#form-edita input[name='id']").val(cCliente);
-
-				//Direcciones fiscales
-				appendDireccionesFiscales(response.direccionesFiscales);
-				appendDireccionesOperativas(response.direccionesOperativas);
-				appendBancosAsociados(response.bancosAsociados);
 
 				checkEstadoActivo();
 			},
@@ -34,6 +25,31 @@ function checkCCliente(){
 		$("#rowNuevoCliente").hide();
 		$("#rowEdicionCliente").show();				
 	}
+
+}
+
+//************************** Acciones de botón de activo e inactivo
+
+// Revisa si el cliente seleccionado es -1 o diferente, para saber acción que se está realizando
+// -1 : Ninguna acción (Solo mostrar u ocultar renglón correspondiente)
+// != -1 : Traer datos de cliente con ajax y vaciar en formulario. Mostrar u ocultar renglón correspondiente
+function checkCCliente(){
+	var cCliente = $("#cCliente").val();
+
+	$.ajax({
+		url: 'Alta_cliente_ctrl/consultarCliente_AJAX/'+cCliente,
+		method: 'post',
+		dataType: 'json',
+		success: function(response){
+			//Direcciones fiscales
+			appendDireccionesFiscales(response.direccionesFiscales);
+			appendDireccionesOperativas(response.direccionesOperativas);
+			appendBancosAsociados(response.bancosAsociados);
+		},
+		error: function(){
+			alert("Ha ocurrido un error al intentar consultar el cliente seleccionado. Intente de nuevo, por favor.")
+		}
+	});
 }
 
 //Cambio apariencia de botón de activo e inactivo comparando el valor del input de estado activo del formulario de edición
@@ -63,12 +79,6 @@ $(function(){
 	});
 
 	//********************** Fin de acciones de botón de activo e inactivo 
-
-
-	//Evento de cambio en combo de clientes
-	$("#cCliente").change(function(){
-		checkCCliente();
-	});
 
 	//********************** Eventos submit de formularios
 
@@ -131,6 +141,6 @@ $(function(){
 
 	//************************* Acciones iniciales esenciales
 	checkEstadoActivo();
-	checkCCliente();
+	putMainInformation();
 	$("#main-info-financiera").show();
 });

@@ -24,16 +24,21 @@ class Alta_cliente_ctrl extends CI_Controller {
 		$data['paises'] = $this->Pais->traerTodo();
 		$data['clientes'] = $this->Cliente->traer_AI();
 		$data['bancos'] = $this->Banco->traerTodo();
+		$data['tiposContacto'] = $this->db->get('cattipocontacto')->result();
 
-		$data['form_direccion_fiscal'] = $this->load->view("Form_direccion_fiscal_vw", $data, true);
+		$data['form_seccion1'] = $this->load->view("Form_Seccion1_Control_Cliente_vw", $data, true);
 		$data['form_agenda'] = $this->load->view("Form_agenda_vw", $data, true);
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 
 		$this->load->view("Alta_cliente_vw", $data);
 	}
 
+	public function traerInformacionPrincipal_AJAX($id){
+		$result['cliente'] = $this->Cliente->traer($id);		
+		echo json_encode($result);
+	}
+
 	public function consultarCliente_AJAX($id){
-		$result['cliente'] = $this->Cliente->traer($id);
 		$result['direccionesFiscales'] = $this->DireccionFiscal->traerAsociadas($id);
 		$result['direccionesOperativas'] = $this->DireccionOperativa->traerAsociadas($id);
 		$result['bancosAsociados'] = $this->BancoAsociado->traerAsociados($id);
@@ -214,6 +219,23 @@ class Alta_cliente_ctrl extends CI_Controller {
 
 		if($this->Contacto->actualizar($id, $data))
 			$response['status'] = "OK";
+
+		echo json_encode($response);
+	}
+
+	public function eliminarContacto_AJAX($id){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+
+		if($this->Contacto->eliminar($id))
+			$response['status'] = "OK";
+
+		echo json_encode($response);			
+	}
+
+	public function traerContactos_AJAX($id){
+		$response['status'] = "ERROR";
+		$response['data'] = $this->Contacto->traerAsociados($id);
 
 		echo json_encode($response);
 	}

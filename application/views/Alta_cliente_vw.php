@@ -27,6 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_DireccionOperativa_JS.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Banco_JS.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_agenda_JS.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Commons_JS.js"></script>
 
 </head>
@@ -117,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			<section id="main-info-financiera" style="display: none;">
 			<!-- Inicia sección de información financiera -->
-			<?=$form_direccion_fiscal; ?>
+			<?=$form_seccion1; ?>
 
 			</section>
 

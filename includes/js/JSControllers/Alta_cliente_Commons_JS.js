@@ -104,7 +104,15 @@ $(function(){
 
 		$("#main-menu-cliente li").removeClass("active");
 		$(this).parent().addClass("active");
-		checkCCliente();
+		putContacts();
+	});
+
+	//Evento de cambio en combo de clientes
+	$("#cCliente").change(function(){
+		putMainInformation();
+
+		if( $("#btn-bancos-direcciones").parent().hasClass("active") ) checkCCliente();
+		else if( $("#btn-agenda").parent().hasClass("active") ) putContacts();
 	});
 
 
