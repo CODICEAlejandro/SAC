@@ -1,83 +1,3 @@
-function submitEdit_DireccionFiscal(event, element){
-	event.preventDefault();
-
-	var form = element;
-	var id = form.attr("id-direccion-fiscal");
-	var razonSocial = form.find("#razonSocial").val();
-	var estadoActivo = form.find("#estadoActivo").val();
-	var calle = form.find("#calle").val();
-	var numero = form.find("#numero").val();
-	var colonia = form.find("#colonia").val();
-	var ciudad = form.find("#idCiudad").val();
-	var estado = form.find("#idEstado").val();
-	var pais = form.find("#idPais").val();
-	var cp = form.find("#cp").val();
-	var rfc = form.find("#rfc").val();
-
-	$.ajax({
-		url: 'Alta_cliente_ctrl/editarDireccionFiscal_AJAX/'+id,
-		data: { 'razonSocial' : razonSocial,
-				'estadoActivo' : estadoActivo,
-				'calle' : calle,
-				'numero' : numero,
-				'colonia' : colonia,
-				'idCiudad' : ciudad,
-				'idEstado' : estado,
-				'idPais' : pais,
-				'cp' : cp,
-				'rfc' : rfc
-			},
-		method: 'post',
-		dataType: 'json',
-		success: function(response){
-			if(response.status == "OK") alert("Dirección actualizada.");
-			else alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-		},
-		error: function(){
-			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-		}
-	});
-
-};
-
-function submitEdit_DireccionOperativa(event, element){
-	event.preventDefault();
-
-	var form = element;
-	var id = form.attr("id-direccion-operativa");
-	var estadoActivo = form.find("#estadoActivo").val();
-	var calle = form.find("#calle").val();
-	var numero = form.find("#numero").val();
-	var colonia = form.find("#colonia").val();
-	var ciudad = form.find("#idCiudad").val();
-	var estado = form.find("#idEstado").val();
-	var pais = form.find("#idPais").val();
-	var cp = form.find("#cp").val();
-
-	$.ajax({
-		url: 'Alta_cliente_ctrl/editarDireccionOperativa_AJAX/'+id,
-		data: { 'estadoActivo' : estadoActivo,
-				'calle' : calle,
-				'numero' : numero,
-				'colonia' : colonia,
-				'idCiudad' : ciudad,
-				'idEstado' : estado,
-				'idPais' : pais,
-				'cp' : cp
-			},
-		method: 'post',
-		dataType: 'json',
-		success: function(response){
-			if(response.status == "OK") alert("Dirección actualizada.");
-			else alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-		},
-		error: function(){
-			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-		}
-	});
-
-};
-
 //************************* Appends
 
 function appendDireccionesFiscales(data, removeActual = true){
@@ -166,6 +86,27 @@ function appendBancosAsociados(data){
 }
 
 $(function(){
+
+	$("#btn-bancos-direcciones").click(function(event){
+		event.preventDefault();
+		$("#main-info-financiera").show();
+		$("#main-agenda").hide();
+
+		$("#main-menu-cliente li").removeClass("active");
+		$(this).parent().addClass("active");
+		checkCCliente();
+	});
+
+	$("#btn-agenda").click(function(event){
+		event.preventDefault();
+		$("#main-info-financiera").hide();
+		$("#main-agenda").show();
+
+		$("#main-menu-cliente li").removeClass("active");
+		$(this).parent().addClass("active");
+		checkCCliente();
+	});
+
 
 	$(".idPais").change(function(){
 		var currentCountry = $(this).val();

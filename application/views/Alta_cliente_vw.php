@@ -69,6 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<!-- Inicia la sección de edición -->
 		<span id="rowEdicionCliente">
+
 			<div class="row dotted-bottom">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<form
@@ -99,6 +100,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 
+			<div class="row" style="border-bottom: 2px dotted gray;">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<nav class="navbar navbar-default" style="background: none; box-shadow: none; border-color: transparent; margin: 0px;">
+					  <div class="container-fluid">
+					    <ul class="nav navbar-nav" id="main-menu-cliente">
+					      <li><a href="#" id="btn-bancos-direcciones">Bancos y direcciones</a></li>
+					      <li><a href="#" id="btn-agenda">Agenda</a></li>
+					      <li><a href="#" id="btn-perfiles">Perfiles</a></li>
+					      <li><a href="#" id="btn-servicios">Servicios</a></li>
+					    </ul>
+					  </div>
+					</nav>
+				</div>
+			</div>
+
+			<section id="main-info-financiera" style="display: none;">
 			<!-- Inicia sección de información financiera -->
 			<?=$form_direccion_fiscal ?>
 
@@ -107,6 +124,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			<!-- Bancos -->
 			<?=$form_banco; ?>
+			</section>
+
+			<!-- Fin de la información financiera -->
+
+			<!-- Inicia agenda -->
+			<section id="main-agenda" style="display: none;">
+			<?=$form_agenda; ?>
+			</section>
+			<!-- Fin de la agenda -->
+
+			<!-- Inician los Perfiles -->
+
+			<!-- Fin de los perfiles -->
+
+			<!-- Inician los servicios -->
+
+			<!-- Fin de los servicios -->
 
 		</span>
 		<!-- FIN ROW CLIENTE EDICIÓN -->

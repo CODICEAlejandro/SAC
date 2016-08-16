@@ -1,5 +1,7 @@
 function appendFormBanco(appendSection, data = null){
 	var form = $("#sc-banco").clone(true);
+
+	form.attr("id", "sc-banco-appended");
 	form.unbind('submit');
 
 	if(data != null){
@@ -15,7 +17,7 @@ function appendFormBanco(appendSection, data = null){
 		form.find("#sucursal").val(data.sucursal);
 		form.find("#clabe").val(data.clabe);
 		form.find("#cuenta").val(data.cuenta);
-
+		form.find("#sc-banco-detail").hide();
 		traerDireccionesFiscales(form, data.idDireccionFiscal);
 
 	}else{
@@ -25,9 +27,15 @@ function appendFormBanco(appendSection, data = null){
 		});
 
 		traerDireccionesFiscales(form);
-		form.find("#btn-ver-detalle-banco").hide();			
+		form.find("#btn-ver-detalle-banco").hide();
+		form.find("#sc-banco-detail").show();		
 	
 	}
+
+	form.find("#btn-ver-detalle-banco").click(function(event){
+		event.preventDefault();
+		$(this).closest("form").find("#sc-banco-detail").toggle();
+	});
 
 	form.css("display", "inherit");
 	form.appendTo(appendSection);
@@ -78,6 +86,16 @@ function submitNewBanco(event, element){
 		success: function(response){
 			if( response.status == "OK" ){
 				alert("Operación realizada con éxito.");
+				
+				form.unbind('submit');
+				form.submit(function(event){
+					submitEditBanco(event, $(this));
+				});
+
+				form.attr('id-banco', response.data);
+				form.find("#btn-ver-detalle-banco").show();
+				form.find("#sc-banco-detail").hide();
+				form.appendTo("#existent-section-banco");
 			}else
 				alert("Ha ocurrido un error. Por favor, intente de nuevo.");
 		},

@@ -14,6 +14,10 @@ class Alta_cliente_ctrl extends CI_Controller {
 		$this->load->model("Ciudad");
 		$this->load->model("Banco");
 		$this->load->model("BancoAsociado");
+		$this->load->model("Contacto");
+		$this->load->model("PerfilAsociado");
+		$this->load->model("ServicioAsociado");
+		$this->load->model("SitioWeb");
 	}
 
 	public function index(){
@@ -24,6 +28,7 @@ class Alta_cliente_ctrl extends CI_Controller {
 		$data['form_direccion_fiscal'] = $this->load->view("Form_direccion_fiscal_vw", $data, true);
 		$data['form_direccion_operativa'] = $this->load->view("Form_direccion_operativa_vw", $data, true);
 		$data['form_banco'] = $this->load->view("Form_Banco_vw", $data, true);
+		$data['form_agenda'] = $this->load->view("Form_agenda_vw", $data, true);
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 
 		$this->load->view("Alta_cliente_vw", $data);
@@ -169,9 +174,12 @@ class Alta_cliente_ctrl extends CI_Controller {
 		$response['status'] = "ERROR";
 		$response['data'] = array();
 		$data = $this->input->post();
+		$result = $this->BancoAsociado->insertar($data);
 
-		if($this->BancoAsociado->insertar($data))
+		if($result)
 			$response['status'] = "OK";
+
+		$response['data'] = $result;
 
 		echo json_encode($response);
 	}
@@ -186,6 +194,106 @@ class Alta_cliente_ctrl extends CI_Controller {
 
 		echo json_encode($response);
 	}
+
+	public function nuevoContacto_AJAX(){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+		$data = $this->input->post();
+		$result = $this->Contacto->insertar($data);
+
+		if($result)
+			$response['status'] = "OK";
+
+		$response['data'] = $result;
+
+		echo json_encode($response);		
+	}
+
+	public function editarContacto_AJAX($id){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+		$data = $this->input->post();
+
+		if($this->Contacto->actualizar($id, $data))
+			$response['status'] = "OK";
+
+		echo json_encode($response);
+	}
+
+	public function nuevoPerfil_AJAX(){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+		$data = $this->input->post();
+		$result = $this->PerfilAsociado->insertar($data);
+
+		if($result)
+			$response['status'] = "OK";
+
+		$response['data'] = $result;
+
+		echo json_encode($response);		
+	}
+
+	public function editarPerfil_AJAX($id){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+		$data = $this->PerfilAsociado->post();
+
+		if($this->Contacto->actualizar($id, $data))
+			$response['status'] = "OK";
+
+		echo json_encode($response);
+	}
+
+	public function nuevoServicio_AJAX(){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+		$data = $this->input->post();
+		$result = $this->ServicioAsociado->insertar($data);
+
+		if($result)
+			$response['status'] = "OK";
+
+		$response['data'] = $result;
+
+		echo json_encode($response);		
+	}
+
+	public function editarServicio_AJAX($id){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+		$data = $this->input->post();
+
+		if($this->ServicioAsociado->actualizar($id, $data))
+			$response['status'] = "OK";
+
+		echo json_encode($response);
+	}
+
+	public function nuevoSitioWeb_AJAX(){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+		$data = $this->input->post();
+		$result = $this->SitioWeb->insertar($data);
+
+		if($result)
+			$response['status'] = "OK";
+
+		$response['data'] = $result;
+
+		echo json_encode($response);		
+	}
+
+	public function editarSitioWeb_AJAX($id){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+		$data = $this->input->post();
+
+		if($this->SitioWeb->actualizar($id, $data))
+			$response['status'] = "OK";
+
+		echo json_encode($response);
+	}		
 
 	public function traerDireccionesFiscales_AJAX($idPadre){
 		echo json_encode( $this->DireccionFiscal->traerAsociadas($idPadre) );

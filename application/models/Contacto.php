@@ -1,15 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class BancoAsociado extends CI_Model {
-	var $table = "bancoasociado";
+class Contacto extends CI_Model {
+	var $table = "contacto";
 
 	public function __construct(){
 		parent::__construct();
 	}
 
 	public function traerTodo(){
-		//$this->db->where("estadoActivo = 1");
+		$this->db->where("estadoActivo = 1");
 		return $this->db->get($this->table)->result();
 	}
 
@@ -26,9 +26,9 @@ class BancoAsociado extends CI_Model {
 		if($this->db->insert($this->table, $data)){
 			$queryMaxID = "SELECT max(`id`) maxID
 					FROM
-						`bancoasociado` ba
+						`contacto` co
 					WHERE
-						ba.`idDireccionFiscal` = ".$data['idDireccionFiscal']."
+						co.`idPadre` = ".$data['idPadre']."
 					";
 
 			$result = $this->db->query($queryMaxID)->row();
@@ -51,12 +51,11 @@ class BancoAsociado extends CI_Model {
 		$idPadre = htmlentities($idPadre, ENT_QUOTES, 'UTF-8');
 
 		$query = "SELECT
-					cb.*
+					co.*
 				FROM
-					".$this->table." cb
-					INNER JOIN `direccionfiscal` df ON df.`id` = cb.`idDireccionFiscal`
+					".$this->table." co
 				WHERE
-					df.`idPadre` = ".$idPadre."
+					co.`idPadre` = ".$idPadre."
 				";
 
 		return $this->db->query($query)->result();

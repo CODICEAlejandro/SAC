@@ -51,6 +51,7 @@
 					</div>
 				</div>
 
+				<section id="sc-banco-detail">
 				<div class="form-group">
 					<label>Sucursal</label>
 					<input type="text" name="sucursal" id="sucursal" class="form-control">

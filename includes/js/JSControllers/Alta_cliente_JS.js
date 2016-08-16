@@ -1,56 +1,56 @@
+//************************** Acciones de botón de activo e inactivo
+
+// Revisa si el cliente seleccionado es -1 o diferente, para saber acción que se está realizando
+// -1 : Ninguna acción (Solo mostrar u ocultar renglón correspondiente)
+// != -1 : Traer datos de cliente con ajax y vaciar en formulario. Mostrar u ocultar renglón correspondiente
+function checkCCliente(){
+	var cCliente = $("#cCliente").val();
+
+	if(cCliente == -1){
+		$("#rowNuevoCliente").show();
+		$("#rowEdicionCliente").hide();
+	}else{
+		$.ajax({
+			url: 'Alta_cliente_ctrl/consultarCliente_AJAX/'+cCliente,
+			method: 'post',
+			dataType: 'json',
+			success: function(response){
+				$("#form-edita #nombre:visible").val(response.cliente.nombre);
+				$("#form-edita input[name='estadoActivo']").val(response.cliente.estadoActivo);
+				$("#form-edita input[name='id']").val(cCliente);
+
+				//Direcciones fiscales
+				appendDireccionesFiscales(response.direccionesFiscales);
+				appendDireccionesOperativas(response.direccionesOperativas);
+				appendBancosAsociados(response.bancosAsociados);
+
+				checkEstadoActivo();
+			},
+			error: function(){
+				alert("Ha ocurrido un error al intentar consultar el cliente seleccionado. Intente de nuevo, por favor.")
+			}
+		});
+
+		$("#rowNuevoCliente").hide();
+		$("#rowEdicionCliente").show();				
+	}
+}
+
+//Cambio apariencia de botón de activo e inactivo comparando el valor del input de estado activo del formulario de edición
+function checkEstadoActivo(){
+	var estadoActivo = $("#form-edita input[name='estadoActivo']").val();
+
+	if(estadoActivo == 1){ 
+		$("#form-edita #btn-estado").removeClass("btn-success").addClass("btn-danger").html("Inactivar");
+		$("#form-edita #labelEstado").html("Estado: Activo");
+	}else if(estadoActivo == 0){ 
+		$("#form-edita #btn-estado").removeClass("btn-danger").addClass("btn-success").html("Activar");
+		$("#form-edita #labelEstado").html("Estado: Inactivo");
+	}
+
+}
+
 $(function(){
-	//************************** Acciones de botón de activo e inactivo
-
-	// Revisa si el cliente seleccionado es -1 o diferente, para saber acción que se está realizando
-	// -1 : Ninguna acción (Solo mostrar u ocultar renglón correspondiente)
-	// != -1 : Traer datos de cliente con ajax y vaciar en formulario. Mostrar u ocultar renglón correspondiente
-	function checkCCliente(){
-		var cCliente = $("#cCliente").val();
-
-		if(cCliente == -1){
-			$("#rowNuevoCliente").show();
-			$("#rowEdicionCliente").hide();
-		}else{
-			$.ajax({
-				url: 'Alta_cliente_ctrl/consultarCliente_AJAX/'+cCliente,
-				method: 'post',
-				dataType: 'json',
-				success: function(response){
-					$("#form-edita #nombre:visible").val(response.cliente.nombre);
-					$("#form-edita input[name='estadoActivo']").val(response.cliente.estadoActivo);
-					$("#form-edita input[name='id']").val(cCliente);
-
-					//Direcciones fiscales
-					appendDireccionesFiscales(response.direccionesFiscales);
-					appendDireccionesOperativas(response.direccionesOperativas);
-					appendBancosAsociados(response.bancosAsociados);
-
-					checkEstadoActivo();
-				},
-				error: function(){
-					alert("Ha ocurrido un error al intentar consultar el cliente seleccionado. Intente de nuevo, por favor.")
-				}
-			});
-
-			$("#rowNuevoCliente").hide();
-			$("#rowEdicionCliente").show();				
-		}
-	}
-
-	//Cambio apariencia de botón de activo e inactivo comparando el valor del input de estado activo del formulario de edición
-	function checkEstadoActivo(){
-		var estadoActivo = $("#form-edita input[name='estadoActivo']").val();
-
-		if(estadoActivo == 1){ 
-			$("#form-edita #btn-estado").removeClass("btn-success").addClass("btn-danger").html("Inactivar");
-			$("#form-edita #labelEstado").html("Estado: Activo");
-		}else if(estadoActivo == 0){ 
-			$("#form-edita #btn-estado").removeClass("btn-danger").addClass("btn-success").html("Activar");
-			$("#form-edita #labelEstado").html("Estado: Inactivo");
-		}
-
-	}
-	
 	//Evento de click en botón de activo e inactivo de cliente
 	$("#btn-estado").click(function(event){
 		event.preventDefault();
@@ -132,4 +132,5 @@ $(function(){
 	//************************* Acciones iniciales esenciales
 	checkEstadoActivo();
 	checkCCliente();
+	$("#main-info-financiera").show();
 });
