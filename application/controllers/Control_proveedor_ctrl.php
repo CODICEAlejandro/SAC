@@ -69,7 +69,7 @@ class Control_proveedor_ctrl extends CI_Controller {
 		if(isset($data['nombre'])){
 			
 			$data['estadoActivo'] = 1;
-			$data['tipo'] = 0;
+			$data['tipo'] = 1;
 
 			if( $this->Proveedor->insertar($data) ){
 				$response['data'] = $this->Proveedor->traer_AI();
