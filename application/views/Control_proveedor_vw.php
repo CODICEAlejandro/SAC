@@ -10,130 +10,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php includeJQuery(); ?>
 	<?php includeBootstrap(); ?>
 
+	<style type="text/css">
+		.dotted-bottom {
+			border-bottom: 2px dotted gray;
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
+
+		.sectionTitle {
+			padding-bottom: 15px;
+		}
+	</style>
+
 	<script type="text/javascript">
-		$(function(){
-			function checkCProveedor(){
-				var cProveedor = $("#cProveedor").val();
-
-				if(cProveedor == -1){
-					$("#rowNuevoProveedor").show();
-					$("#rowEdicionProveedor").hide();
-				}else{
-					$.ajax({
-						url: '<?php echo base_url(); ?>index.php/Control_proveedor_ctrl/consultarProveedor_AJAX/'+cProveedor,
-						method: 'post',
-						dataType: 'json',
-						success: function(response){
-							$("#nombre:visible").val(response.nombre);
-							$("input[name='estadoActivo']").val(response.estadoActivo);
-							$("input[name='id']").val(cProveedor);
-
-							checkEstadoActivo();
-						},
-						error: function(){
-							alert("Ha ocurrido un error al intentar consultar el proveedor seleccionado. Intente de nuevo, por favor.")
-						}
-					});
-
-					$("#rowNuevoProveedor").hide();
-					$("#rowEdicionProveedor").show();				
-				}
-			}
-
-			function checkEstadoActivo(){
-				var estadoActivo = $("input[name='estadoActivo']").val();
-
-				if(estadoActivo == 1){ 
-					$("#btn-estado").removeClass("btn-success").addClass("btn-danger").html("Inactivar");
-					$("#labelEstado").html("Estado: Activo");
-				}else if(estadoActivo == 0){ 
-					$("#btn-estado").removeClass("btn-danger").addClass("btn-success").html("Activar");
-					$("#labelEstado").html("Estado: Inactivo");
-				}
-
-			}
-
-			$("#cProveedor").change(function(){
-				checkCProveedor();
-			});
-
-			$("#btn-estado").click(function(event){
-				event.preventDefault();
-				var inpEstadoActivo = $("input[name='estadoActivo']");
-
-				if(inpEstadoActivo.val() == 1) inpEstadoActivo.val(0); 
-				else if(inpEstadoActivo.val() == 0) inpEstadoActivo.val(1);
-
-				checkEstadoActivo(); 
-			});
-
-
-			$("#form_alta").submit(function(event){
-				event.preventDefault();
-				var nombreComercial = $("input[name='nombre']:visible").val();
-
-				$.ajax({
-					url: '<?php echo base_url(); ?>index.php/Control_proveedor_ctrl/nuevoProveedor_AJAX',
-					method: 'post',
-					dataType: 'json',
-					data: {'nombre' : nombreComercial},
-					success: function(response){
-						if(response.status == "OK") {
-							$("#cProveedor *").remove();
-							$("input[name='nombre']:visible").val("");
-							var proveedores = $("#cProveedor");
-
-							proveedores.append("<option value='-1'>Ninguno</option>");
-							for(var k = 0; k < response.data.length; k++){
-								proveedores.append("<option value='"+response.data[k].id+"'>"+response.data[k].nombre+"</option>");
-							}
-
-							alert("Operación realizada con éxito.");
-						}else alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-					},
-					error: function(){
-						alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-					}
-				});
-			});
-
-			$("#form-edita").submit(function(event){
-				event.preventDefault();
-				var nombreComercial = $("input[name='nombre']:visible").val();
-				var estadoActivo = $("input[name='estadoActivo']").val();
-				var id = $("input[name='id']").val();
-
-				$.ajax({
-					url: '<?php echo base_url(); ?>index.php/Control_proveedor_ctrl/editarProveedor_AJAX',
-					method: 'post',
-					dataType: 'json',
-					data: {'nombre' : nombreComercial, 'estadoActivo' : estadoActivo, 'id' : id},
-					success: function(response){
-						if(response.status == "OK") {
-							$("#cProveedor *").remove();
-							$("input[name='nombre']:visible").val("");
-							var proveedores = $("#cProveedor");
-
-							proveedores.append("<option value='-1'>Ninguno</option>");
-							for(var k = 0; k < response.data.length; k++){
-								proveedores.append("<option value='"+response.data[k].id+"'>"+response.data[k].nombre+"</option>");
-							}
-
-							checkCProveedor();
-
-							alert("Operación realizada con éxito.");
-						}else alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-					},
-					error: function(){
-						alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-					}					
-				});
-			});
-
-			checkEstadoActivo();
-			checkCProveedor();
-		});
+		var pageController = "Control_proveedor_ctrl";
 	</script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/utilitiesJS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_DireccionFiscal_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_DireccionOperativa_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Banco_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_agenda_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Perfil_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Servicio_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Commons_JS.js"></script>
 
 </head>
 <body>
@@ -143,8 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group">
-					<label for="cProveedor">Proveedor en edición</label>
-					<select id="cProveedor" class="form-control">
+					<label for="cCliente">Proveedor en edición</label>
+					<select id="cCliente" class="form-control">
 						<option value="-1">Ninguno</option>
 						<?php foreach($proveedores as $proveedor){ ?>
 							<option value="<?php echo $proveedor->id; ?>"><?php echo $proveedor->nombre; ?></option>
@@ -154,9 +54,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
-		<div class="row" id="rowNuevoProveedor">
+		<div class="row" id="rowNuevoCliente">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<form
+					action = "Alta_cliente_ctrl/nuevoCliente"
 					method = "post"
 					id = "form_alta"
 				>
@@ -165,40 +66,94 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type="text" name="nombre" placeholder="Nombre comercial" class="form-control" required>
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Crear" class="btn btn-primary">
+						<input type="submit" value="Crear" class="form-control btn btn-primary">
 					</div>
 				</form>
 			</div>
 		</div>
 
-		<div class="row" id="rowEdicionProveedor">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<form
-					method = "post"
-					id = "form-edita"
-				>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
-								<label for="nombre">Nombre comercial</label>
-								<input type="text" name="nombre" id="nombre" placeholder="Nombre comercial" class="form-control" required>
-							</div>
-							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-								<label id="labelEstado">Estado: Activo</label>
-								<button style="width: 100%;" id="btn-estado" class="btn btn-danger">Inactivar</button>
+
+		<!-- Inicia la sección de edición -->
+		<span id="rowEdicionCliente">
+
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<form
+						action = "Alta_cliente_ctrl/editarCliente"
+						method = "post"
+						id = "form-edita"
+					>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
+									<label for="nombre">Nombre comercial</label>
+									<input type="text" name="nombre" id="nombre" placeholder="Nombre comercial" class="form-control" required>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+									<label id="labelEstado">Estado: Activo</label>
+									<button style="width: 100%;" id="btn-estado" class="btn btn-danger">Inactivar</button>
+								</div>
 							</div>
 						</div>
-					</div>
-					
-					<input type="hidden" name="id" value="-1">
-					<input type="hidden" name="estadoActivo" value="1">
+						
+						<input type="hidden" name="id" value="-1">
+						<input type="hidden" name="estadoActivo" value="1">
 
-					<div class="form-group">
-						<input type="submit" value="Actualizar" class="btn btn-info">
-					</div>
-				</form>
+						<div class="form-group">
+							<input type="submit" value="Actualizar" class="form-control btn btn-info">
+						</div>
+					</form>
+				</div>
 			</div>
-		</div>
+
+			<div class="row" style="background: rgb(238, 238, 238) none repeat scroll 0% 0%; border: 2px solid gray;">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<nav class="navbar navbar-default" style="background: none; box-shadow: none; border-color: transparent; margin: 0px;">
+					  <div class="container-fluid">
+					    <ul class="nav navbar-nav" id="main-menu-cliente">
+					      <li>
+					      	<a href="#" id="btn-direcciones-fiscales">
+					      		<span class="glyphicon glyphicon-home"></span> Direcciones fiscales
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-direcciones-operativas">
+					      		<span class="glyphicon glyphicon-home"></span> Direcciones operativas
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-bancos">
+					      		<span class="glyphicon glyphicon-usd"></span> Bancos
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-agenda">
+					      		<span class="glyphicon glyphicon-phone-alt"></span> Agenda
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-perfiles">
+					      		<span class="glyphicon glyphicon-user"></span> Perfiles
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-servicios">
+					      		<span class="glyphicon glyphicon-th-list"></span> Servicios
+					      	</a>
+					      </li>
+					    </ul>
+					  </div>
+					</nav>
+				</div>
+			</div>
+
+			<!-- Inicia sección de información financiera -->
+			<?=$form_seccion1; ?>
+			<?=$form_agenda; ?>
+
+		</span>
+		<!-- FIN ROW CLIENTE EDICIÓN -->
+
 	</div>
 </body>
 </html>

@@ -105,7 +105,7 @@ $(function(){
 		stateSelect.find("*").remove();
 
 		$.ajax({
-			url: 'Alta_cliente_ctrl/traerEstados_AJAX/'+currentCountry,
+			url: pageController+'/traerEstados_AJAX/'+currentCountry,
 			method: 'post',
 			dataType: 'json',
 			async: false,
@@ -130,7 +130,7 @@ $(function(){
 		citySelect.find("*").remove();
 
 		$.ajax({
-			url: 'Alta_cliente_ctrl/traerCiudades_AJAX/'+currentState,
+			url: pageController+'/traerCiudades_AJAX/'+currentState,
 			method: 'post',
 			dataType: 'json',
 			async: false,

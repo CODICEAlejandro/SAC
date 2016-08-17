@@ -54,7 +54,7 @@ function submitNewContact(element){
 	var idPadre = $("#cCliente").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/nuevoContacto_AJAX',
+		url: pageController+'/nuevoContacto_AJAX',
 		method: 'post',
 		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idPadre':idPadre, 'idTipoContacto':idTipoContacto},
 		dataType: 'json',
@@ -100,7 +100,7 @@ function submitEditContact(element){
 	var idPadre = section.attr("id-padre");
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/editarContacto_AJAX/'+idPadre,
+		url: pageController+'/editarContacto_AJAX/'+idPadre,
 		method: 'post',
 		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idTipoContacto':idTipoContacto},
 		dataType: 'json',
@@ -120,7 +120,7 @@ function deleteContact(element){
 
 	if(confirm("¿Está seguro que desea eliminar este contacto de su lista?")){
 		$.ajax({
-			url: 'Alta_cliente_ctrl/eliminarContacto_AJAX/'+id,
+			url: pageController+'/eliminarContacto_AJAX/'+id,
 			dataType: 'json',
 			success: function(response){
 				section.remove();
@@ -137,7 +137,7 @@ function putContacts(){
 	$("#existent-section-contacto").find("*").remove();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/traerContactos_AJAX/'+idPadre,
+		url: pageController+'/traerContactos_AJAX/'+idPadre,
 		method: 'post',
 		dataType: 'json',
 		success: function(response){

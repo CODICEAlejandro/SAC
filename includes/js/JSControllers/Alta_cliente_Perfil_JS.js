@@ -40,7 +40,7 @@ function newProfile(form, section){
 	var idPerfil = form.find("#idPerfil").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/nuevoPerfil_AJAX',
+		url: pageController+'/nuevoPerfil_AJAX',
 		method: 'post',
 		data: {'idPadre':idPadre, 'idPerfil':idPerfil},
 		dataType: 'json',
@@ -71,7 +71,7 @@ function editProfile(form, section){
 	var idPerfil = form.find("#idPerfil").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/editarPerfil_AJAX/'+id,
+		url: pageController+'/editarPerfil_AJAX/'+id,
 		method: 'post',
 		data: {'idPerfil':idPerfil},
 		dataType: 'json',
@@ -88,7 +88,7 @@ function removeProfile(form, section){
 	var id = section.attr('id-to-edit');
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/eliminarPerfil_AJAX/'+id,
+		url: pageController+'/eliminarPerfil_AJAX/'+id,
 		method: 'post',
 		dataType: 'json',
 		success: function(response){
@@ -107,7 +107,7 @@ function putProfiles(){
 	appendSection.find("*").remove();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/traerPerfiles_AJAX/'+current,
+		url: pageController+'/traerPerfiles_AJAX/'+current,
 		dataType: 'json',
 		method: 'post',
 		success: function(response){

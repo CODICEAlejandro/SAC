@@ -22,6 +22,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	</style>
 
+	<script type="text/javascript">
+		var pageController = "Alta_cliente_ctrl";
+	</script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/utilitiesJS.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_DireccionFiscal_JS.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_DireccionOperativa_JS.js"></script>
@@ -103,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 
-			<div class="row" style="background: rgb(238, 238, 238) none repeat scroll 0% 0%; border-bottom: 2px solid gray; border-top: 2px solid gray;">
+			<div class="row" style="background: rgb(238, 238, 238) none repeat scroll 0% 0%; border: 2px solid gray;">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<nav class="navbar navbar-default" style="background: none; box-shadow: none; border-color: transparent; margin: 0px;">
 					  <div class="container-fluid">
@@ -146,20 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			<!-- Inicia sección de información financiera -->
 			<?=$form_seccion1; ?>
-
-			<!-- Fin de la información financiera -->
-
-			<!-- Inicia agenda -->
 			<?=$form_agenda; ?>
-			<!-- Fin de la agenda -->
-
-			<!-- Inician los Perfiles -->
-
-			<!-- Fin de los perfiles -->
-
-			<!-- Inician los servicios -->
-
-			<!-- Fin de los servicios -->
 
 		</span>
 		<!-- FIN ROW CLIENTE EDICIÓN -->

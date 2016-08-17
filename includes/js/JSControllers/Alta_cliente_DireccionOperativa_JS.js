@@ -41,7 +41,7 @@ function putDireccionesOperativas(){
 	var current = $("#cCliente").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/traerDireccionesOperativas_AJAX/'+current,
+		url: pageController+'/traerDireccionesOperativas_AJAX/'+current,
 		method: 'post',
 		dataType: 'json',
 		success: function(response){
@@ -68,7 +68,7 @@ function submitEdit_DireccionOperativa(event, element){
 	var cp = form.find("#cp").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/editarDireccionOperativa_AJAX/'+id,
+		url: pageController+'/editarDireccionOperativa_AJAX/'+id,
 		data: { 'estadoActivo' : estadoActivo,
 				'calle' : calle,
 				'numero' : numero,
@@ -121,7 +121,7 @@ function submitNew_DireccionOperativa(event, element){
 	var cp = form.find("#cp").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/nuevaDireccionOperativa_AJAX',
+		url: pageController+'/nuevaDireccionOperativa_AJAX',
 		data: { 'estadoActivo' : estadoActivo,
 				'calle' : calle,
 				'numero' : numero,
@@ -171,7 +171,7 @@ function submitEdit_DireccionOperativa(event, element){
 	var cp = form.find("#cp").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/editarDireccionOperativa_AJAX/'+id,
+		url: pageController+'/editarDireccionOperativa_AJAX/'+id,
 		data: { 'estadoActivo' : estadoActivo,
 				'calle' : calle,
 				'numero' : numero,

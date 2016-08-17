@@ -54,7 +54,7 @@ function traerDireccionesFiscalesBanco(currentForm, currentSelection = null){
 	var select = form.find("#idDireccionFiscal");
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/traerDireccionesFiscales_AJAX/'+idPadre,
+		url: pageController+'/traerDireccionesFiscales_AJAX/'+idPadre,
 		method: 'post',
 		dataType: 'json',
 		success: function(response){
@@ -77,7 +77,7 @@ function putBancos(){
 	var current = $("#cCliente").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/traerBancos_AJAX/'+current,
+		url: pageController+'/traerBancos_AJAX/'+current,
 		method: 'post',
 		dataType: 'json',
 		success: function(response){
@@ -102,7 +102,7 @@ function submitNewBanco(event, element){
 	var idDireccionFiscal = form.find("#idDireccionFiscal").val();
 
 	$.ajax({
-		url: "Alta_cliente_ctrl/nuevoBanco_AJAX",
+		url: pageController+"/nuevoBanco_AJAX",
 		method: 'post',
 		dataType: 'json',
 		data: { 'nombre':nombre, 'idBanco':idBanco, 'estadoActivo':estadoActivo, 'sucursal':sucursal, 'clabe':clabe, 'cuenta':cuenta, 'idDireccionFiscal':idDireccionFiscal },
@@ -142,7 +142,7 @@ function submitEditBanco(event, element){
 	var idDireccionFiscal = form.find("#idDireccionFiscal").val();
 
 	$.ajax({
-		url: "Alta_cliente_ctrl/editarBanco_AJAX/"+id,
+		url: pageController+"/editarBanco_AJAX/"+id,
 		method: 'post',
 		dataType: 'json',
 		data: { 'nombre':nombre, 'idBanco':idBanco, 'estadoActivo':estadoActivo, 'sucursal':sucursal, 'clabe':clabe, 'cuenta':cuenta, 'idDireccionFiscal':idDireccionFiscal },

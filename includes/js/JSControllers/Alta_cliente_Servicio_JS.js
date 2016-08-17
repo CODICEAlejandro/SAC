@@ -40,7 +40,7 @@ function newServicio(form, section){
 	var idServicio = form.find("#idServicio").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/nuevoServicio_AJAX',
+		url: pageController+'/nuevoServicio_AJAX',
 		method: 'post',
 		data: {'idPadre':idPadre, 'idServicio':idServicio},
 		dataType: 'json',
@@ -71,7 +71,7 @@ function editServicio(form, section){
 	var idServicio = form.find("#idServicio").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/editarServicio_AJAX/'+id,
+		url: pageController+'/editarServicio_AJAX/'+id,
 		method: 'post',
 		data: {'idServicio':idServicio},
 		dataType: 'json',
@@ -88,7 +88,7 @@ function removeServicio(form, section){
 	var id = section.attr('id-to-edit');
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/eliminarServicio_AJAX/'+id,
+		url: pageController+'/eliminarServicio_AJAX/'+id,
 		method: 'post',
 		dataType: 'json',
 		success: function(response){
@@ -107,7 +107,7 @@ function putServicios(){
 	appendSection.find("*").remove();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/traerServicios_AJAX/'+current,
+		url: pageController+'/traerServicios_AJAX/'+current,
 		dataType: 'json',
 		method: 'post',
 		success: function(response){

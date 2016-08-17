@@ -56,7 +56,7 @@ function submitEdit_DireccionFiscal(event, element){
 	var rfc = form.find("#rfc").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/editarDireccionFiscal_AJAX/'+id,
+		url: pageController+'/editarDireccionFiscal_AJAX/'+id,
 		data: { 'razonSocial' : razonSocial,
 				'estadoActivo' : estadoActivo,
 				'calle' : calle,
@@ -100,7 +100,7 @@ function submitNew_DireccionFiscal(event, element){
 		var rfc = form.find("#rfc").val();
 
 		$.ajax({
-			url: 'Alta_cliente_ctrl/nuevaDireccionFiscal_AJAX',
+			url: pageController+'/nuevaDireccionFiscal_AJAX',
 			data: { 'razonSocial' : razonSocial,
 					'estadoActivo' : estadoActivo,
 					'calle' : calle,

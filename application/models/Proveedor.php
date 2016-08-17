@@ -11,7 +11,7 @@ class Proveedor extends CI_Model {
 		return $result;
 	}
 
-	public function traerTodo_AI(){
+	public function traer_AI(){
 		$this->db->order_by('nombre');
 		$this->db->where('tipo = 1');
 		$result = $this->db->get('catcliente')->result();

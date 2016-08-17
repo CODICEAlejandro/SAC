@@ -7,7 +7,7 @@ function putMainInformation(){
 	}else{
 
 		$.ajax({
-			url: 'Alta_cliente_ctrl/traerInformacionPrincipal_AJAX/'+cCliente,
+			url: pageController+'/traerInformacionPrincipal_AJAX/'+cCliente,
 			method: 'post',
 			dataType: 'json',
 			success: function(response){
@@ -37,7 +37,7 @@ function checkCCliente(){
 	var cCliente = $("#cCliente").val();
 
 	$.ajax({
-		url: 'Alta_cliente_ctrl/consultarCliente_AJAX/'+cCliente,
+		url: pageController+'/consultarCliente_AJAX/'+cCliente,
 		method: 'post',
 		dataType: 'json',
 		success: function(response){
@@ -85,7 +85,7 @@ $(function(){
 		var nombreComercial = $("#form_alta input[name='nombre']:visible").val();
 
 		$.ajax({
-			url: 'Alta_cliente_ctrl/nuevoCliente_AJAX',
+			url: pageController+'/nuevoCliente_AJAX',
 			method: 'post',
 			dataType: 'json',
 			data: {'nombre' : nombreComercial},
@@ -116,7 +116,7 @@ $(function(){
 		var id = $("#form-edita input[name='id']").val();
 
 		$.ajax({
-			url: 'Alta_cliente_ctrl/editarCliente_AJAX',
+			url: pageController+'/editarCliente_AJAX',
 			method: 'post',
 			dataType: 'json',
 			data: {'nombre' : nombreComercial, 'estadoActivo' : estadoActivo, 'id' : id},
