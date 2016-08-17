@@ -25,6 +25,8 @@ class Alta_cliente_ctrl extends CI_Controller {
 		$data['clientes'] = $this->Cliente->traer_AI();
 		$data['bancos'] = $this->Banco->traerTodo();
 		$data['tiposContacto'] = $this->db->get('cattipocontacto')->result();
+		$data['perfiles'] = $this->db->get('catperfil')->result();
+		$data['servicios'] = $this->db->get('catservicio')->result();
 
 		$data['form_seccion1'] = $this->load->view("Form_Seccion1_Control_Cliente_vw", $data, true);
 		$data['form_agenda'] = $this->load->view("Form_agenda_vw", $data, true);
@@ -40,10 +42,22 @@ class Alta_cliente_ctrl extends CI_Controller {
 
 	public function consultarCliente_AJAX($id){
 		$result['direccionesFiscales'] = $this->DireccionFiscal->traerAsociadas($id);
-		$result['direccionesOperativas'] = $this->DireccionOperativa->traerAsociadas($id);
-		$result['bancosAsociados'] = $this->BancoAsociado->traerAsociados($id);
 
 		echo json_encode($result);
+	}
+
+	public function traerBancos_AJAX($id){
+		$response['status'] = "OK";
+		$response['data'] = $this->BancoAsociado->traerAsociados($id);
+
+		echo json_encode($response);
+	}
+
+	public function traerDireccionesOperativas_AJAX($id){
+		$response['status'] = "OK";
+		$response['data'] = $this->DireccionOperativa->traerAsociadas($id);
+
+		echo json_encode($response);
 	}
 
 	public function nuevoCliente_AJAX(){
@@ -234,7 +248,7 @@ class Alta_cliente_ctrl extends CI_Controller {
 	}
 
 	public function traerContactos_AJAX($id){
-		$response['status'] = "ERROR";
+		$response['status'] = "OK";
 		$response['data'] = $this->Contacto->traerAsociados($id);
 
 		echo json_encode($response);
@@ -257,12 +271,29 @@ class Alta_cliente_ctrl extends CI_Controller {
 	public function editarPerfil_AJAX($id){
 		$response['status'] = "ERROR";
 		$response['data'] = array();
-		$data = $this->PerfilAsociado->post();
+		$data = $this->input->post();
 
-		if($this->Contacto->actualizar($id, $data))
+		if($this->PerfilAsociado->actualizar($id, $data))
 			$response['status'] = "OK";
 
 		echo json_encode($response);
+	}
+
+	public function eliminarPerfil_AJAX($id){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+
+		if($this->PerfilAsociado->eliminar($id))
+			$response['status'] = "OK";
+
+		echo json_encode($response);		
+	}
+
+	public function traerPerfiles_AJAX($id){
+		$response['status'] = "OK";
+		$response['data'] = $this->PerfilAsociado->traerAsociados($id);
+
+		echo json_encode($response);		
 	}
 
 	public function nuevoServicio_AJAX(){
@@ -288,6 +319,23 @@ class Alta_cliente_ctrl extends CI_Controller {
 			$response['status'] = "OK";
 
 		echo json_encode($response);
+	}
+
+	public function traerServicios_AJAX($id){
+		$response['status'] = "OK";
+		$response['data'] = $this->ServicioAsociado->traerAsociados($id);
+
+		echo json_encode($response);		
+	}
+
+	public function eliminarServicio_AJAX($id){
+		$response['status'] = "ERROR";
+		$response['data'] = array();
+
+		if($this->ServicioAsociado->eliminar($id))
+			$response['status'] = "OK";
+
+		echo json_encode($response);		
 	}
 
 	public function nuevoSitioWeb_AJAX(){

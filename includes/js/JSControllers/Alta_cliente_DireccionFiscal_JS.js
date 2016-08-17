@@ -1,3 +1,44 @@
+//************************* Appends
+
+function appendDireccionesFiscales(data, removeActual = true){
+	var formulario = null;
+	var appendSection = $("#existent-section-direccion-fiscal");
+	var currentElement = 0;
+
+	if(removeActual){
+		appendSection.find("*").remove();
+	}
+
+	for(var k=0; k<data.length; k++){
+		currentElement = k + 1;
+		formulario = $("#sc-informacion-fiscal").clone(true);
+
+		//Editar atributos de particularidad del formulario
+		formulario.attr("id", "sc-informacion-fiscal-"+currentElement );
+		
+		formulario.find(".form_direccion_fiscal").attr("id-direccion-fiscal", data[k].id);
+		formulario.find(".form_direccion_fiscal").find("#sc-description-direccion-fiscal").hide();
+		formulario.find(".form_direccion_fiscal").submit(function(event){
+			submitEdit_DireccionFiscal(event, $(this));
+		});
+
+		formulario.css("display", "inherit");
+		
+		formulario.find("#razonSocial").val(jEntityDecode(data[k].razonSocial));
+		formulario.find("#estadoActivo").val(jEntityDecode(data[k].estadoActivo));
+		formulario.find("#calle").val(jEntityDecode(data[k].calle));
+		formulario.find("#numero").val(jEntityDecode(data[k].numero));
+		formulario.find("#colonia").val(jEntityDecode(data[k].colonia));
+		formulario.find("#idPais").val(data[k].pais).change();
+		formulario.find("#idEstado").val(data[k].estado).change();
+		formulario.find("#idCiudad").val(jEntityDecode(data[k].ciudad));
+		formulario.find("#cp").val(jEntityDecode(data[k].cp));
+		formulario.find("#rfc").val(jEntityDecode(data[k].rfc));
+
+		formulario.appendTo(appendSection);
+	}
+}
+
 function submitEdit_DireccionFiscal(event, element){
 	event.preventDefault();
 

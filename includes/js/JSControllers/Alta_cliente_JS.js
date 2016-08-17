@@ -43,8 +43,6 @@ function checkCCliente(){
 		success: function(response){
 			//Direcciones fiscales
 			appendDireccionesFiscales(response.direccionesFiscales);
-			appendDireccionesOperativas(response.direccionesOperativas);
-			appendBancosAsociados(response.bancosAsociados);
 		},
 		error: function(){
 			alert("Ha ocurrido un error al intentar consultar el cliente seleccionado. Intente de nuevo, por favor.")

@@ -1,3 +1,5 @@
+<section id="main-direccion-fiscal" style="display: none;">
+
 <!-- Form dirección fiscal -->
 <div class="row dotted-bottom">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -112,6 +114,9 @@
 	</section>
 </div>
 
+</section>
+<section id="main-direccion-operativa" style="display: none;">
+
 <!-- Form dirección operativa -->
 <div class="row dotted-bottom">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -212,6 +217,9 @@
 	</section>
 </div>
 
+</section>
+<section id="main-banco" style="display: none;">
+
 <!-- Form banco -->
 <div class="row dotted-bottom">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -300,6 +308,9 @@
 
 		</div>
 
-	</section>
-
 </div>
+
+</section>
+
+
+</form>

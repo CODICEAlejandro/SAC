@@ -38,6 +38,11 @@ class ServicioAsociado extends CI_Model {
 		return $result;
 	}
 
+	public function eliminar($id){
+		$this->db->where('id =', $id);
+		return $this->db->delete($this->table);
+	}
+
 	public function actualizar($id, $data){
 		$id = htmlentities($id, ENT_QUOTES, 'UTF-8');
 		foreach($data as $key => $value)

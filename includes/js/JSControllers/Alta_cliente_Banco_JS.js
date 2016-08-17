@@ -1,3 +1,10 @@
+function appendBancosAsociados(data){
+	$("#existent-section-banco").find("*").remove();
+
+	for(var k=0, n=data.length; k<n; k++)
+		appendFormBanco($("#existent-section-banco"), data[k]);
+}
+
 function appendFormBanco(appendSection, data = null){
 	var form = $("#sc-banco").clone(true);
 
@@ -18,7 +25,7 @@ function appendFormBanco(appendSection, data = null){
 		form.find("#clabe").val(data.clabe);
 		form.find("#cuenta").val(data.cuenta);
 		form.find("#sc-banco-detail").hide();
-		traerDireccionesFiscales(form, data.idDireccionFiscal);
+		traerDireccionesFiscalesBanco(form, data.idDireccionFiscal);
 
 	}else{
 		// Se trata de un formulario para creación
@@ -26,7 +33,7 @@ function appendFormBanco(appendSection, data = null){
 			submitNewBanco(event, $(this));
 		});
 
-		traerDireccionesFiscales(form);
+		traerDireccionesFiscalesBanco(form);
 		form.find("#btn-ver-detalle-banco").hide();
 		form.find("#sc-banco-detail").show();		
 	
@@ -41,7 +48,7 @@ function appendFormBanco(appendSection, data = null){
 	form.appendTo(appendSection);
 }
 
-function traerDireccionesFiscales(currentForm, currentSelection = null){
+function traerDireccionesFiscalesBanco(currentForm, currentSelection = null){
 	var idPadre = $("#cCliente").val();
 	var form = currentForm;
 	var select = form.find("#idDireccionFiscal");
@@ -62,6 +69,22 @@ function traerDireccionesFiscales(currentForm, currentSelection = null){
 		},
 		error: function(){
 			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
+		}
+	});
+}
+
+function putBancos(){
+	var current = $("#cCliente").val();
+
+	$.ajax({
+		url: 'Alta_cliente_ctrl/traerBancos_AJAX/'+current,
+		method: 'post',
+		dataType: 'json',
+		success: function(response){
+			appendBancosAsociados(response.data);
+		},
+		error: function(){
+			alert("Error.");
 		}
 	});
 }
@@ -147,6 +170,6 @@ $(function(){
 
 	$(".idDireccionFiscal").click(function(){
 		var form = $(this).closest("form");
-		traerDireccionesFiscales(form, $(this).val());
+		traerDireccionesFiscalesBanco(form, $(this).val());
 	});
 });

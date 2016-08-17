@@ -28,6 +28,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Banco_JS.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_JS.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_agenda_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Perfil_JS.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Servicio_JS.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_cliente_Commons_JS.js"></script>
 
 </head>
@@ -71,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<!-- Inicia la sección de edición -->
 		<span id="rowEdicionCliente">
 
-			<div class="row dotted-bottom">
+			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<form
 						action = "Alta_cliente_ctrl/editarCliente"
@@ -101,33 +103,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 
-			<div class="row" style="border-bottom: 2px dotted gray;">
+			<div class="row" style="background: rgb(238, 238, 238) none repeat scroll 0% 0%; border-bottom: 2px solid gray; border-top: 2px solid gray;">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<nav class="navbar navbar-default" style="background: none; box-shadow: none; border-color: transparent; margin: 0px;">
 					  <div class="container-fluid">
 					    <ul class="nav navbar-nav" id="main-menu-cliente">
-					      <li><a href="#" id="btn-bancos-direcciones">Bancos y direcciones</a></li>
-					      <li><a href="#" id="btn-agenda">Agenda</a></li>
-					      <li><a href="#" id="btn-perfiles">Perfiles</a></li>
-					      <li><a href="#" id="btn-servicios">Servicios</a></li>
+					      <li>
+					      	<a href="#" id="btn-direcciones-fiscales">
+					      		<span class="glyphicon glyphicon-home"></span> Direcciones fiscales
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-direcciones-operativas">
+					      		<span class="glyphicon glyphicon-home"></span> Direcciones operativas
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-bancos">
+					      		<span class="glyphicon glyphicon-usd"></span> Bancos
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-agenda">
+					      		<span class="glyphicon glyphicon-phone-alt"></span> Agenda
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-perfiles">
+					      		<span class="glyphicon glyphicon-user"></span> Perfiles
+					      	</a>
+					      </li>
+					      <li>
+					      	<a href="#" id="btn-servicios">
+					      		<span class="glyphicon glyphicon-th-list"></span> Servicios
+					      	</a>
+					      </li>
 					    </ul>
 					  </div>
 					</nav>
 				</div>
 			</div>
 
-			<section id="main-info-financiera" style="display: none;">
 			<!-- Inicia sección de información financiera -->
 			<?=$form_seccion1; ?>
-
-			</section>
 
 			<!-- Fin de la información financiera -->
 
 			<!-- Inicia agenda -->
-			<section id="main-agenda" style="display: none;">
 			<?=$form_agenda; ?>
-			</section>
 			<!-- Fin de la agenda -->
 
 			<!-- Inician los Perfiles -->

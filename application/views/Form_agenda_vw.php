@@ -1,3 +1,6 @@
+<!-- Form agenda -->
+<section id="main-agenda" style="display: none;">
+
 <div class="row dotted-bottom">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<h3 class="sectionTitle">Agenda</h3>
@@ -79,3 +82,124 @@
 	</section>
 
 </div>
+
+</section>
+<!-- Form perfiles -->
+
+<section id="main-perfiles" style="display: none;">
+
+<div class="row dotted-bottom">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<h3 class="sectionTitle">Perfiles</h3>
+	</div>
+
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<button class="form-control btn btn-primary" id="btn-agrega-perfil">
+			<span class="glyphicon glyphicon-plus-sign"></span>
+		</button>
+	</div>
+
+	<div id="append-section-perfil">
+	</div>				
+
+	<div id="existent-section-perfil">
+	</div>
+
+	<section id="sc-perfil" class="form-perfil-section" style="padding-top: 20px; clear: both; display: none;">
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<form
+				class="form_perfil"
+			>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							<label>Tipo</label>
+							<select name="idPerfil" id="idPerfil" class="form-control">
+							<?php foreach($perfiles as $perfil){ ?>
+								<option value="<?php echo $perfil->id; ?>"><?php echo $perfil->descripcion; ?></option>
+							<?php } ?>
+							</select>
+						</div>
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<div class="form-group">
+								<button id="btn-eliminar-perfil" class="form-control btn btn-danger" style="margin-top: 25px;">Eliminar</button>
+							</div>
+						</div>	
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<div class="form-group">
+								<input type="submit" class="form-control btn btn-warning" value="Guardar" style="margin-top: 25px;">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+	</section>
+
+</div>
+
+</section>
+
+<!-- Form Servicios -->
+
+<section id="main-servicios" style="display: none;">
+
+<div class="row dotted-bottom">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<h3 class="sectionTitle">Servicios</h3>
+	</div>
+
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<button class="form-control btn btn-primary" id="btn-agrega-servicio">
+			<span class="glyphicon glyphicon-plus-sign"></span>
+		</button>
+	</div>
+
+	<div id="append-section-servicio">
+	</div>				
+
+	<div id="existent-section-servicio">
+	</div>
+
+	<section id="sc-servicio" class="form-servicio-section" style="padding-top: 20px; clear: both; display: none;">
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+			<form
+				class="form_servicio"
+			>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							<label>Tipo</label>
+							<select name="idServicio" id="idServicio" class="form-control">
+							<?php foreach($servicios as $servicio){ ?>
+								<option value="<?php echo $servicio->id; ?>"><?php echo $servicio->descripcion; ?></option>
+							<?php } ?>
+							</select>
+						</div>
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<div class="form-group">
+								<button id="btn-eliminar-servicio" class="form-control btn btn-danger" style="margin-top: 25px;">Eliminar</button>
+							</div>
+						</div>	
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<div class="form-group">
+								<input type="submit" class="form-control btn btn-warning" value="Guardar" style="margin-top: 25px;">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+	</section>
+
+</div>
+
+</section>
