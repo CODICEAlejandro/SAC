@@ -10,6 +10,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php includeBootstrap(); ?>
 	<script type="text/javascript">
 		$(function(){
+			$("#btn-retrieve-global-detail").click(function(event){
+				event.preventDefault();
+				var idCliente = $("#filtroCliente").val();
+				var idArea = $("#filtroArea").val();
+				var idProyecto = $("#filtroProyecto").val();
+				var idConsultor = $("#filtroConsultor").val();
+				var fechaInf = $("#dateDesdeAlt").val();
+				var fechaSup = $("#dateHastaAlt").val();
+
+				$.ajax({
+					url: '<?php echo base_url(); ?>index.php/Reporte_rentabilidad_ctrl/onRetrieveGlobalDetail',
+					dataType: 'json',
+					method: 'post',
+					data: {'idProyecto': idProyecto, 'idConsultor': idConsultor, 'fechaSup': fechaSup, 'fechaInf': fechaInf, 'idCliente': idCliente, 'idArea': idArea},
+					success: function(response){
+						var table = $("#expected-table");
+						var rowLunesJueves = table.find("#row-lunes-jueves");
+						var rowViernes = table.find("#row-viernes");
+						var rowTotales = table.find("#row-totales");
+
+						rowLunesJueves.find('#dias-expected-table').html(response.numberDaysNoWeekend);
+						rowLunesJueves.find('#consultores-expected-table').html(response.numberConsultors);
+						rowLunesJueves.find("#total-expected-table").html(response.hopeTimeNoWeekend);
+
+						rowViernes.find('#dias-expected-table').html(response.numberDaysWeekend);
+						rowViernes.find('#consultores-expected-table').html(response.numberConsultors);
+						rowViernes.find("#total-expected-table").html(response.hopeTimeWeekend);
+
+						rowTotales.find('#dias-expected-table').html(response.totalDaysInterval);
+						rowTotales.find('#consultores-expected-table').html(response.numberConsultors * 2);
+						rowTotales.find("#total-expected-table").html(response.totalHopeTime);
+
+						table.show();
+					},
+					error: function(){
+						alert("ERROR");
+					}
+				});
+			});
+
 			$("#dateDesde").datepicker({
 				dateFormat: 'dd/mm/yy',
 				altFormat: 'yy/mm/dd',
@@ -130,6 +170,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 		});
 	</script>
+
+	<style type="text/css">
+		#expected-table tbody tr td:last-child {
+			background-color: rgb(234, 182, 0);
+			color: black;
+		}
+
+		#expected-table tbody tr:last-child td {
+			background-color: rgb(212, 119, 0);
+			color: black;
+		}
+
+		#expected-table tbody tr td:first-child {
+			background-color: rgb(43, 132, 161);
+			color: white;
+		}
+
+		#expected-table thead th {
+			background-color: rgb(0, 86, 114);
+			color: white;
+		}
+
+		#expected-table td, #expected-table th {
+			border: 1px solid black;
+		}
+	</style>
 </head>
 <body>
 	<?=$menu ?>
@@ -235,8 +301,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 
 		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button id="exportar-XLS" class="btn btn-success form-control">Exportar en formato XLS</button>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button id="btn-retrieve-global-detail" class="btn btn-warning form-control">Consultar detalle global</button>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 15px;">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<button id="exportar-XLS" class="btn btn-success">Exportar en formato XLS</button>
+				<table class="table" id="expected-table" style="display: none;">
+					<thead>
+						<th>Sector semanal</th>
+						<th>Días</th>
+						<th>Consultores</th>
+						<th>Total de horas</th>
+					</thead>
+					<tbody>
+						<tr id="row-lunes-jueves">
+							<td>Lunes a Jueves</td>
+							<td id="dias-expected-table"></td>
+							<td id="consultores-expected-table"></td>
+							<td id="total-expected-table"></td>
+						</tr>
+						<tr id="row-viernes">
+							<td>Viernes</td>
+							<td id="dias-expected-table"></td>
+							<td id="consultores-expected-table"></td>
+							<td id="total-expected-table"></td>
+						</tr>
+						<tr id="row-totales">
+							<td>Total</td>
+							<td id="dias-expected-table"></td>
+							<td id="consultores-expected-table"></td>
+							<td id="total-expected-table"></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
