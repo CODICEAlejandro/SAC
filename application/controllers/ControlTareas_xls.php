@@ -35,7 +35,8 @@ class ControlTareas_xls extends CI_Controller {
 										ct.`tiempoEstimado` tiempoEstimado,
 										ct.`tiempoRealGerente` tiempoReal,
 										ct.`titulo` titulo,
-										ct.`descripcion` descripcion
+										ct.`descripcion` descripcion,
+										DATE_FORMAT(ct.`creacion`, '%d/%m/%Y') creacion
 									FROM
 										`cattarea` ct
 										INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
@@ -56,7 +57,8 @@ class ControlTareas_xls extends CI_Controller {
 										ce.`tiempoEstimado` tiempoEstimado,
 										ce.`tiempoRealGerente` tiempoReal,
 										ct.`titulo` titulo,
-										ce.`descripcion` descripcion
+										ce.`descripcion` descripcion,
+										DATE_FORMAT(ce.`creacion`, '%d/%m/%Y') creacion
 									FROM
 										`caterror` ce
 										INNER JOIN `cattarea` ct ON ct.`id` = ce.`idTareaOrigen`
@@ -137,6 +139,8 @@ class ControlTareas_xls extends CI_Controller {
 		    $shDv->nextCol();
 		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Título"));
 		    $shDv->nextCol();
+		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Fecha"));
+		    $shDv->nextCol();
 		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Descripción"));
 
 		    //Agregar contenido
@@ -160,6 +164,8 @@ class ControlTareas_xls extends CI_Controller {
 	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->tiempoReal)));
 	    		$shDv->nextCol();
 	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->titulo)));
+	    		$shDv->nextCol();
+	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->creacion)));
 	    		$shDv->nextCol();
 	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->descripcion)));
 		    }
