@@ -90,6 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							$("#main-table tbody:last-child tr:last-child").append("<td>"+response[k].tiempoEstimado+"</td>");
 							$("#main-table tbody:last-child tr:last-child").append("<td>"+response[k].tiempoReal+"</td>");
 							$("#main-table tbody:last-child tr:last-child").append("<td>"+response[k].titulo+"</td>");
+							$("#main-table tbody:last-child tr:last-child").append("<td>"+response[k].creacion+"</td>");
 						}
 					},
 					error: function(){
@@ -203,6 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>Tiempo estimado</th>
 						<th>Tiempo real</th>
 						<th>Tarea</th>
+						<th>Fecha</th>
 					</thead>
 					<tbody>
 					</tbody>

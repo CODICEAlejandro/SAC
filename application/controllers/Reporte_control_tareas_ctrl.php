@@ -59,7 +59,8 @@ class Reporte_control_tareas_ctrl extends CI_Controller {
 										cf.`nombre` fase,
 										ct.`tiempoEstimado` tiempoEstimado,
 										ct.`tiempoRealGerente` tiempoReal,
-										ct.`titulo` titulo
+										ct.`titulo` titulo,
+										DATE_FORMAT(ct.`creacion`, '%d/%m/%Y') creacion
 									FROM
 										`cattarea` ct
 										INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
@@ -79,7 +80,8 @@ class Reporte_control_tareas_ctrl extends CI_Controller {
 										cf.`nombre` fase,
 										ce.`tiempoEstimado` tiempoEstimado,
 										ce.`tiempoRealGerente` tiempoReal,
-										ct.`titulo` titulo
+										ct.`titulo` titulo,
+										DATE_FORMAT(ce.`creacion`, '%d/%m/%Y') creacion
 									FROM
 										`caterror` ce
 										INNER JOIN `cattarea` ct ON ct.`id` = ce.`idTareaOrigen`
