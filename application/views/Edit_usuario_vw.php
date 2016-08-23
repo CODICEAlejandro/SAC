@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php includeJQuery(); ?>
 	<?php includeBootstrap(); ?>
 
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/mainFunctions.js"></script>
 	<script type="text/javascript">
 		$(function(){
 
@@ -46,15 +47,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					data: { 'id': idConsulta },
 					dataType: 'json',
 					success: function(response){
-						$("input[name='id']").val(response.id);
-						$("input[name='nombre']").val(response.nombre);
-						$("input[name='password']").val(response.password);
-						$("input[name='correo']").val(response.correo);
-						$("input[name='horasLunes']").val(response.horasLunes);
-						$("input[name='horasMartes']").val(response.horasMartes);
-						$("input[name='horasMiercoles']").val(response.horasMiercoles);
-						$("input[name='horasJueves']").val(response.horasJueves);
-						$("input[name='horasViernes']").val(response.horasViernes);
+						$("input[name='id']").val(jEntityDecode(response.id));
+						$("input[name='nombre']").val(jEntityDecode(response.nombre));
+						$("input[name='password']").val(jEntityDecode(response.password));
+						$("input[name='correo']").val(jEntityDecode(response.correo));
+						$("input[name='horasLunes']").val(jEntityDecode(response.horasLunes));
+						$("input[name='horasMartes']").val(jEntityDecode(response.horasMartes));
+						$("input[name='horasMiercoles']").val(jEntityDecode(response.horasMiercoles));
+						$("input[name='horasJueves']").val(jEntityDecode(response.horasJueves));
+						$("input[name='horasViernes']").val(jEntityDecode(response.horasViernes));
 						$("select[name='idArea']").find($("option[value='"+response.idArea+"']")).attr('selected','selected');
 						$("select[name='idPuesto']").find($("option[value='"+response.idPuesto+"']")).attr('selected','selected');
 						$("select[name='tipo']").find($("option[value='"+response.tipo+"']")).attr('selected','selected');
