@@ -78,8 +78,8 @@ class Reporte_HorasHombre_ctrl extends CI_Controller {
 				$cleanField = preg_replace('/ñ+/', 'ni', $cleanField);
 				$cleanField = preg_replace('/\/+/', '', $cleanField);
 
-				$fieldConsultor = "gerente_".strtolower($cleanField);
-				$fieldGerente = "consultor_".strtolower($cleanField);
+				$fieldConsultor = "consultor_".strtolower($cleanField);
+				$fieldGerente = "gerente_".strtolower($cleanField);
 				$fieldArea = "interesados_".strtolower($cleanField);
 
 				$resultInteresados = $this->db->query($queryCountInteresadosTareas)->row();
