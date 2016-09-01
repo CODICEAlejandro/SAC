@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="overflow: scroll; border: 1px solid black; margin-bottom: 20px;">
 
-	<table id="main-tbl" class="table table-bordered" style="margin-top: 15px;">
+	<table id="main-tbl" class="table table-bordered table-hover" style="margin-top: 15px; margin-bottom: 15px;">
 		<thead>
 			<th>Cliente</th>
 			<th>Proyecto</th>
