@@ -36,6 +36,13 @@ class Usuario extends CI_Model {
 		return $this->parseUsuario($result);
 	}
 
+	public function traerTodo_AI(){
+		$this->db->order_by('nombre ASC');
+		$result = $this->db->get("catusuario")->result();
+
+		return $this->parseUsuario($result);
+	}
+
 	public function actualizar($id, $data){
 		$id = htmlentities($id,ENT_QUOTES,'UTF-8');
 		foreach($data as $key => $value){

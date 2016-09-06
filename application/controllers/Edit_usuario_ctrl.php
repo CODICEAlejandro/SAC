@@ -16,7 +16,7 @@ class Edit_usuario_ctrl extends CI_Controller {
 		$proyectos = $this->Proyecto->traer_cp();
 		$areas = $this->db->get('catarea')->result();
 		$puestos = $this->db->get('catpuesto')->result();
-		$usuarios = $this->Usuario->traerTodo();
+		$usuarios = $this->Usuario->traerTodo_AI();
 
 		$data['proyectos'] = $proyectos;
 		$data['areas'] = $areas;
