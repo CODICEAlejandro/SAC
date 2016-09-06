@@ -65,6 +65,15 @@ class Usuario extends CI_Model {
 					);
 	}
 
+	public function darAlta($id){
+		$id = htmlentities($id, ENT_QUOTES, 'UTF-8');
+		$this->db->query("UPDATE `catusuario` AS cu
+						SET cu.`activo` = 'S'
+						WHERE
+							cu.`id` = ".$id
+					);
+	}
+
 	public function traerAsociados_area($idArea){
 		$idArea = htmlentities($idArea, ENT_QUOTES, 'UTF-8');
 

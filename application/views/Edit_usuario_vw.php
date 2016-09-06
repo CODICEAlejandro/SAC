@@ -59,6 +59,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$("select[name='idArea']").find($("option[value='"+response.idArea+"']")).attr('selected','selected');
 						$("select[name='idPuesto']").find($("option[value='"+response.idPuesto+"']")).attr('selected','selected');
 						$("select[name='tipo']").find($("option[value='"+response.tipo+"']")).attr('selected','selected');
+
+						if(response.activo == "N"){
+							$("#baja").removeClass().addClass("btn btn-success up").html("Dar de alta");
+						}else if(response.activo == "S"){
+							$("#baja").removeClass().addClass("btn btn-danger down").html("Dar de baja");							
+						}
 					},
 					error: function(){
 						alert('Error al intentar consultar el usuario indicado.');
@@ -68,9 +74,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			$("#baja").click(function(){
 				var idConsulta = $("select[name='usuario-actual']").val();
+				var url = "darDeBaja";
+
+				if($(this).hasClass("up")) url = "darDeAlta";
 
 				$.ajax({
-					url: '<?php echo base_url(); ?>index.php/Edit_usuario_ctrl/darDeBaja',
+					url: '<?php echo base_url(); ?>index.php/Edit_usuario_ctrl/'+url,
 					method: 'post',
 					data: { 'id': idConsulta },
 					success: function(){

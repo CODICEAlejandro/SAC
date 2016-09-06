@@ -49,5 +49,11 @@ class Edit_usuario_ctrl extends CI_Controller {
 		$this->load->model('Usuario');
 		$this->Usuario->darBaja($userId);
 	}
+
+	public function darDeAlta(){
+		$userId = $this->input->post('id');
+		$this->load->model('Usuario');
+		$this->Usuario->darAlta($userId);
+	}
 }
 ?>
