@@ -21,9 +21,11 @@ class Reporte_HorasHombre_ctrl extends CI_Controller {
 
 		foreach($firstSection as $row){
 			$proyecto = $row->idProyecto;
-			$mes = $row->mes;
-			$superior = $dateIntervals[$mes]['superior'];
-			$inferior = $dateIntervals[$mes]['inferior'];
+			// $mes = $row->mes;
+			// $superior = $dateIntervals[$mes]['superior'];
+			// $inferior = $dateIntervals[$mes]['inferior'];
+
+			$esError = $row->esError;
 
 			foreach($areas as $area){
 				$queryCountInteresadosTareas = "
@@ -35,37 +37,85 @@ class Reporte_HorasHombre_ctrl extends CI_Controller {
 							INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
 						WHERE
 							ct.`idProyecto` = ".$proyecto."
-							AND ct.`creacion` BETWEEN '".$inferior."' AND '".$superior."'
 							AND cu.`idArea` = ".$area->id."
+							AND ct.`idEstado` = 3
+							AND ct.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
 					";
-
+				//Línea eliminada de filtrado de mes: AND ct.`creacion` BETWEEN '".$inferior."' AND '".$superior."'
 				$queryCountTimeConsultor = "
-						SELECT 
-							TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(ct.`tiempoRealGerente`))), '%H:%i:%s') tiempoArea
+						SELECT
+							TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(rt.`tiempoArea`))), '%H:%i') tiempoArea
 						FROM
-							`cattarea` ct
-							INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
-							INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
-						WHERE
-							ct.`idProyecto` = ".$proyecto."
-							AND ct.`creacion` BETWEEN '".$inferior."' AND '".$superior."'
-							AND cu.`idArea` = ".$area->id."
-							AND cu.`tipo` = 0
+						(
+							SELECT 
+								TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(ct.`tiempoRealGerente`))), '%H:%i') tiempoArea
+							FROM
+								`cattarea` ct
+								INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
+								INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
+							WHERE
+								ct.`idProyecto` = ".$proyecto."
+								AND cu.`idArea` = ".$area->id."
+								AND cu.`tipo` = 0
+								AND ct.`idEstado` = 3
+								AND ct.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+
+							UNION ALL
+
+							SELECT 
+								TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(ce.`tiempoRealGerente`))), '%H:%i') tiempoArea
+							FROM
+								`caterror` ce
+								INNER JOIN `cattarea` ct ON ct.`id` = ce.`idTareaOrigen`
+								INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
+								INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
+							WHERE
+								ct.`idProyecto` = ".$proyecto."
+								AND cu.`idArea` = ".$area->id."
+								AND cu.`tipo` = 0
+								AND ce.`idEstado` = 3
+								AND ct.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+						) rt
 					";
+				//Línea eliminada de filtrado de mes: AND ct.`creacion` BETWEEN '".$inferior."' AND '".$superior."'
 
 				$queryCountTimeGerente = "
-						SELECT 
-							TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(ct.`tiempoRealGerente`))), '%H:%i:%s') tiempoArea
+						SELECT
+							TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(rt.`tiempoArea`))), '%H:%i') tiempoArea
 						FROM
-							`cattarea` ct
-							INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
-							INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
-						WHERE
-							ct.`idProyecto` = ".$proyecto."
-							AND ct.`creacion` BETWEEN '".$inferior."' AND '".$superior."'
-							AND cu.`idArea` = ".$area->id."
-							AND cu.`tipo` = 1
+						(
+							SELECT 
+								TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(ct.`tiempoRealGerente`))), '%H:%i') tiempoArea
+							FROM
+								`cattarea` ct
+								INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
+								INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
+							WHERE
+								ct.`idProyecto` = ".$proyecto."
+								AND cu.`idArea` = ".$area->id."
+								AND cu.`tipo` = 1
+								AND ct.`idEstado` = 3
+								AND ct.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+						
+							UNION ALL
+
+							SELECT 
+								TIME_FORMAT(SEC_TO_TIME(sum(TIME_TO_SEC(ce.`tiempoRealGerente`))), '%H:%i') tiempoArea
+							FROM
+								`caterror` ce
+								INNER JOIN `cattarea` ct ON ct.`id` = ce.`idTareaOrigen`
+								INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
+								INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
+							WHERE
+								ct.`idProyecto` = ".$proyecto."
+								AND cu.`idArea` = ".$area->id."
+								AND cu.`tipo` = 1
+								AND ce.`idEstado` = 3
+								AND ct.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+						) rt
 					";
+				//Línea eliminada de filtrado de mes: AND ct.`creacion` BETWEEN '".$inferior."' AND '".$superior."'
+				//Línea eliminada de filtrado de mes: AND ct.`creacion` BETWEEN '".$inferior."' AND '".$superior."'
 
 				//Los mismos interesados de errores deben estar en interesados de tareas
 
@@ -87,8 +137,31 @@ class Reporte_HorasHombre_ctrl extends CI_Controller {
 				$resultTimeGerente = $this->db->query($queryCountTimeGerente)->row();
 
 				$row->$fieldArea = $resultInteresados->interesados;
-				$row->$fieldConsultor = (is_null($resultTimeConsultor->tiempoArea))? '00:00:00': $resultTimeConsultor->tiempoArea;
-				$row->$fieldGerente = (is_null($resultTimeGerente->tiempoArea))? '00:00:00': $resultTimeGerente->tiempoArea;
+
+				if(is_null($resultTimeConsultor->tiempoArea)) 
+					$row->$fieldConsultor = '0';
+				else{
+				 	$parts = explode(":",$resultTimeConsultor->tiempoArea);
+				 	$hours = (int) $parts[0];
+				 	$minutes = (int) $parts[1];
+				 	$minutes = $minutes / 60;
+				 	$total = $hours + $minutes;
+
+				 	$row->$fieldConsultor = $total;
+				}
+
+				if(is_null($resultTimeGerente->tiempoArea)) 
+					$row->$fieldGerente = '0';
+				else{
+				 	$parts = explode(":",$resultTimeGerente->tiempoArea);
+				 	$hours = (int) $parts[0];
+				 	$minutes = (int) $parts[1];
+				 	$minutes = $minutes / 60;
+				 	$total = $hours + $minutes;
+
+				 	$row->$fieldGerente = $total;
+				}
+
 			}
 		}
 
@@ -104,20 +177,15 @@ class Reporte_HorasHombre_ctrl extends CI_Controller {
 					ct.`cliente` cliente,
 					ct.`proyecto` proyecto,
 					ct.`idProyecto` idProyecto,
-					ct.`mes` mes,
-					ct.`total_de_tareas` total_de_tareas
+					SUM(ct.`total_de_tareas`) total_de_tareas,
+					ct.`esError` esError
 				FROM
 					(
 					SELECT
 						ccli.`nombre` cliente,
 						ct.`idProyecto` idProyecto,
 						cpro.`nombre` proyecto,
-						CASE 
-							WHEN ct.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
-							WHEN ct.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
-							WHEN ct.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
-							ELSE ct.`creacion`
-						END mes,
+						0 AS esError,
 						COUNT(*) total_de_tareas
 					FROM
 						`cattarea` ct
@@ -125,10 +193,9 @@ class Reporte_HorasHombre_ctrl extends CI_Controller {
 						INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
 					WHERE
 						ct.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+						AND ct.`idEstado` = 3
 					GROUP BY
-						cliente,
-						proyecto,
-						mes
+						idProyecto
 
 					UNION ALL
 
@@ -136,12 +203,7 @@ class Reporte_HorasHombre_ctrl extends CI_Controller {
 						ccli.`nombre` cliente,
 						ct.`idProyecto`,
 						cpro.`nombre` proyecto,
-						CASE 
-							WHEN ce.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
-							WHEN ce.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
-							WHEN ce.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
-							ELSE ce.`creacion`
-						END mes,
+						1 AS esError,
 						COUNT(*) total_de_tareas
 					FROM
 						`caterror` ce
@@ -150,21 +212,17 @@ class Reporte_HorasHombre_ctrl extends CI_Controller {
 						INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
 					WHERE
 						ce.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+						AND ce.`idEstado` = 3
 					GROUP BY
-						cliente,
-						proyecto,
-						mes
+						idProyecto
 
 					) ct
 
 				GROUP BY
-					cliente,
-					proyecto,
-					mes
+					idProyecto
 
 				ORDER BY
-					proyecto,
-					mes
+					proyecto
 				";
 
 		return $this->db->query($query)->result();

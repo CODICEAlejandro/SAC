@@ -33,7 +33,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<thead>
 			<th>Cliente</th>
 			<th>Proyecto</th>
-			<th>Mes</th>
 			<th># de tareas</th>
 
 			<th>Diseño (Co)</th>
@@ -93,7 +92,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<tr>
 				<td><?php echo $row->cliente ?></td>
 				<td><?php echo $row->proyecto ?></td>
-				<td><?php echo $row->mes ?></td>
 				<td><?php echo $row->total_de_tareas ?></td>
 
 				<td><?php echo $row->consultor_disenio; ?></td>
