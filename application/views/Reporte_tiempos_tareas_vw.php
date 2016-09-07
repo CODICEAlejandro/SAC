@@ -52,18 +52,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</script>
 	<style type="text/css">
 		.APanelTitle {
-			background: black;
-			color: white;
+			background: white;
+			color: black;
 			padding-left: 20px;
 			padding-top: 1px;
 			padding-bottom: 1px;
-
-			transition: background 0.5s;
+			transition: background 0.5s;		
 		}
 
 		.APanel {
 			cursor: pointer;
-			border: 1px solid gray;			
+			border: 1px solid gray;
+			margin-bottom: 29px;		
 		}
 
 		.APanel:hover .APanelTitle {
@@ -74,8 +74,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		.APanelBody {
 			padding-top: 10px;
 			padding: bottom: 10px;
-			background: gray;
+			background: #eee;		
 		}
+
 		.APanelBody:after{
 			display: block;
 			clear: both;
@@ -85,16 +86,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		.APanelBody div.APanelRight, .APanelBody div.APanelLeft {
 			padding-bottom: 10px;
 			padding-top: 10px;
+			padding: 0px;
 		}
 
 		.APanelBody div.APanelLeft {
 			background: #DDD;
-			border-right: 3px solid orange;
+			border-right: 3px solid #999;		
 		}
 
 		.APanelBody div.APanelRight {
 			background: white;
 			height: 100%;
+		}
+
+		.ADataSection {
+			border-bottom: gray 1px solid;
+			padding: 10px;
+			padding-left: 20px;
+		}
+
+		.AGlyphiconTime {
+			font-size: 25px;
+			float: right;
+			margin-right: 20px;
 		}
 	</style>	
 </head>

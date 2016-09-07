@@ -213,17 +213,46 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 
 		?>
 		<div class="row">
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<h4>Pendientes: <?php echo $totalPendientes; ?></h4>
-				<h4>Terminados: <?php echo $totalTerminadas; ?></h4>
-				<h4>Calificados: <?php echo $totalCalificadas; ?></h4>
-				<h4>Total de tareas: <?php echo $totalTareas; ?></h4>
-			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<h4>Errores: <?php echo $totalErrores; ?></h4>
-				<br>
-				<h4>Tiempo total real: <?php echo $tiempoTotalReal; ?></h4>
-				<h4>Tiempo total estimado: <?php echo $tiempoTotalEstimado; ?></h4>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<table class="table table-striped" style="width: 100%;">
+			<thead>
+				<th style="width: 50%;"></th>
+				<th></th>
+			</thead>
+			<tbody  style="border: 1px solid gray;">
+				<tr>
+					<td>
+						<h4>Pendientes: <?php echo $totalPendientes; ?></h4>
+					</td>
+					<td>
+						<h4>Tiempo total real: <?php echo $tiempoTotalReal; ?></h4>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h4>Terminados: <?php echo $totalTerminadas; ?></h4>
+					</td>
+					<td>
+						<h4>Tiempo total estimado: <?php echo $tiempoTotalEstimado; ?></h4>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h4>Calificados: <?php echo $totalCalificadas; ?></h4>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h4>Total de tareas: <?php echo $totalTareas; ?></h4>
+					</td>
+					<td>
+						<h4>Errores: <?php echo $totalErrores; ?></h4>
+					</td>
+				</tr>
+			</tbody>
+			</table>
 			</div>
 		</div>
 		<div class="row">
@@ -231,32 +260,52 @@ class Reporte_tiempos_tareas_ctrl extends CI_Controller {
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 			<div class="APanel" id-area="<?php echo $area->id; ?>">
 				<div class="APanelTitle">
-					<h2><?php echo $area->nombre; ?></h2>
+					<h2><?php echo $area->nombre; ?> <span class="glyphicon glyphicon-time AGlyphiconTime"></span></h2>
 				</div>
 				<div class="APanelBody">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 APanelLeft">
-						<label>Número de tareas: </label>
-						<span id="numeroTareas"><?php echo $area->totalTareas; ?></span><br>
-						<label>Número de tareas terminadas: </label>
-						<span id="numeroTerminadas"><?php echo $area->totalTerminadas; ?></span><br>
-						<label>Número de tareas calificadas: </label>
-						<span id="numeroCalificadas"><?php echo $area->totalCalificadas; ?></span><br>
-						<label>Número de tareas pendientes: </label>
-						<span id="numeroPendientes"><?php echo $area->totalPendientes; ?></span><br>
-						<label>Número de errores: </label>
-						<span id="numeroErrores"><?php echo $area->totalErrores; ?></span><br>
-						<label>Número de errores pendientes: </label>
-						<span id="numeroErroresPendientes"><?php echo $area->totalErroresPendientes; ?></span>
+						<div class="ADataSection">
+							<label>Número de tareas: </label>
+							<span id="numeroTareas"><?php echo $area->totalTareas; ?></span><br>
+						</div>
+						<div class="ADataSection">
+							<label>Número de tareas terminadas: </label>
+							<span id="numeroTerminadas"><?php echo $area->totalTerminadas; ?></span><br>
+						</div>
+						<div class="ADataSection">
+							<label>Número de tareas calificadas: </label>
+							<span id="numeroCalificadas"><?php echo $area->totalCalificadas; ?></span><br>
+						</div>
+						<div class="ADataSection">
+							<label>Número de tareas pendientes: </label>
+							<span id="numeroPendientes"><?php echo $area->totalPendientes; ?></span><br>
+						</div>
+						<div class="ADataSection">
+							<label>Número de errores: </label>
+							<span id="numeroErrores"><?php echo $area->totalErrores; ?></span><br>
+						</div>
+						<div class="ADataSection">
+							<label>Número de errores pendientes: </label>
+							<span id="numeroErroresPendientes"><?php echo $area->totalErroresPendientes; ?></span>
+						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 APanelRight">
-						<label>Tiempo total estimado: </label>
-						<span id="tiempoTotalEstimado"><?php echo $area->tiempoTotalEstimado; ?></span><br>
-						<label>Tiempo total real: </label>
-						<span id="tiempoTotalReal"><?php echo $area->tiempoTotalReal; ?></span><br>
-						<label>Tiempo total de tareas pendientes: </label>
-						<span id="tiempoTotalPendientes"><?php echo $area->tiempoTotalPendientes; ?></span><br>
-						<label>Tiempo total disponible: </label>
-						<span id="tiempoTotalDisponible"><?php echo $area->tiempoTotalDisponible; ?></span>
+						<div class="ADataSection">
+							<label>Tiempo total estimado: </label>
+							<span id="tiempoTotalEstimado"><?php echo $area->tiempoTotalEstimado; ?></span><br>
+						</div>
+						<div class="ADataSection">
+							<label>Tiempo total real: </label>
+							<span id="tiempoTotalReal"><?php echo $area->tiempoTotalReal; ?></span><br>
+						</div>
+						<div class="ADataSection">
+							<label>Tiempo total de tareas pendientes: </label>
+							<span id="tiempoTotalPendientes"><?php echo $area->tiempoTotalPendientes; ?></span><br>
+						</div>
+						<div class="ADataSection">
+							<label>Tiempo total disponible: </label>
+							<span id="tiempoTotalDisponible"><?php echo $area->tiempoTotalDisponible; ?></span>
+						</div>
 					</div>
 				</div>
 			</div>
