@@ -25,10 +25,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					method: 'post',
 					data: {'idProyecto': idProyecto, 'idConsultor': idConsultor, 'fechaSup': fechaSup, 'fechaInf': fechaInf, 'idCliente': idCliente, 'idArea': idArea},
 					success: function(response){
-						var table = $("#expected-table");
-						var rowLunesJueves = table.find("#row-lunes-jueves");
-						var rowViernes = table.find("#row-viernes");
-						var rowTotales = table.find("#row-totales");
+						var section = $("#row-global-data");
+						var expectedTimes = $("#expected-table");
+						var rowLunesJueves = expectedTimes.find("#row-lunes-jueves");
+						var rowViernes = expectedTimes.find("#row-viernes");
+						var rowTotales = expectedTimes.find("#row-totales");
+
+						var consultorTimesTable = $("#consultor-times-table");
+						consultorTimesTable.find("tbody *").remove();
 
 						rowLunesJueves.find('#dias-expected-table').html(response.numberDaysNoWeekend);
 						rowLunesJueves.find('#consultores-expected-table').html(response.numberConsultors);
@@ -42,7 +46,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						rowTotales.find('#consultores-expected-table').html(response.numberConsultors * 2);
 						rowTotales.find("#total-expected-table").html(response.totalHopeTime);
 
-						table.show();
+						for(var k=0, n=response.consultors.length; k<n; k++){
+							consultorTimesTable.find("tbody").append("<tr></tr>");
+							consultorTimesTable.find("tbody tr:last-child").append("<td>"+response.consultors[k].nombre+"</td>");
+							consultorTimesTable.find("tbody tr:last-child").append("<td>"+response.consultors[k].tiempoReal+"</td>");
+							consultorTimesTable.find("tbody tr:last-child").append("<td>"+response.consultors[k].expectedTime+"</td>");
+							consultorTimesTable.find("tbody tr:last-child").append("<td>"+response.consultors[k].dieTime+"</td>");
+						}
+
+						section.show();
 					},
 					error: function(){
 						alert("ERROR");
@@ -309,38 +321,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
-		<div class="row" style="margin-top: 15px;">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<table class="table" id="expected-table" style="display: none;">
-					<thead>
-						<th>Sector semanal</th>
-						<th>Días</th>
-						<th>Consultores</th>
-						<th>Total de horas</th>
-					</thead>
-					<tbody>
-						<tr id="row-lunes-jueves">
-							<td>Lunes a Jueves</td>
-							<td id="dias-expected-table"></td>
-							<td id="consultores-expected-table"></td>
-							<td id="total-expected-table"></td>
-						</tr>
-						<tr id="row-viernes">
-							<td>Viernes</td>
-							<td id="dias-expected-table"></td>
-							<td id="consultores-expected-table"></td>
-							<td id="total-expected-table"></td>
-						</tr>
-						<tr id="row-totales">
-							<td>Total</td>
-							<td id="dias-expected-table"></td>
-							<td id="consultores-expected-table"></td>
-							<td id="total-expected-table"></td>
-						</tr>
-					</tbody>
-				</table>
+		<section style="display: none;" id="row-global-data">
+			<div class="row" style="margin-top: 15px;">
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+					<table class="table" id="expected-table">
+						<thead>
+							<th>Sector semanal</th>
+							<th>Días</th>
+							<th>Consultores</th>
+							<th>Total de horas</th>
+						</thead>
+						<tbody>
+							<tr id="row-lunes-jueves">
+								<td>Lunes a Jueves</td>
+								<td id="dias-expected-table"></td>
+								<td id="consultores-expected-table"></td>
+								<td id="total-expected-table"></td>
+							</tr>
+							<tr id="row-viernes">
+								<td>Viernes</td>
+								<td id="dias-expected-table"></td>
+								<td id="consultores-expected-table"></td>
+								<td id="total-expected-table"></td>
+							</tr>
+							<tr id="row-totales">
+								<td>Total</td>
+								<td id="dias-expected-table"></td>
+								<td id="consultores-expected-table"></td>
+								<td id="total-expected-table"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+					<table class="table" id="consultor-times-table">
+						<thead>
+							<th>Consultor</th>
+							<th>Total (horas)</th>
+							<th>Total a cubrir (horas)</th>
+							<th>Diferencia (horas)</th>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>					
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+					
+				</div>
 			</div>
-		</div>
+		</section>
 	</div>
 </body>
 </html>

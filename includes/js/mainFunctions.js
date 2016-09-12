@@ -4,6 +4,12 @@ function parseDate(){
 	var month = date.getMonth();
 	var year = date.getFullYear();
 
+	month = parseMonth(month);
+
+	return day+" de "+month+" del "+year;
+}
+
+function parseMonth(month){
 	switch(month){
 		case 0:
 			month = "Enero";
@@ -43,9 +49,51 @@ function parseDate(){
 			break;
 	}
 
-	return day+" de "+month+" del "+year;
+	return month;
 }
 
+function parseMonthFromString(month){
+	switch(month){
+		case "01":
+			month = "Enero";
+			break;
+		case "02":
+			month = "Febrero";
+			break;
+		case "03":
+			month = "Marzo";
+			break;
+		case "04":
+			month = "Abril";
+			break;
+		case "05":
+			month = "Mayo";
+			break;
+		case "06":
+			month = "Junio";
+			break;
+		case "07":
+			month = "Julio";
+			break;
+		case "08":
+			month = "Agosto";
+			break;
+		case "09":
+			month = "Septiembre";
+			break;
+		case "10":
+			month = "Octubre";
+			break;
+		case "11":
+			month = "Noviembre";
+			break;
+		case "12":
+			month = "Diciembre";
+			break;
+	}
+
+	return month;	
+}
 
 function parseTime(){
 	var date = new Date();
@@ -62,6 +110,25 @@ function parseTime(){
 
 function jEntityDecode(str) {
     return $("<div/>").html(str).text();
+}
+
+//StringTime: hh:mm:ss
+function transformTimeToDecimal(stringTime){
+	var parts = stringTime.split(":");
+	var seconds, minutes, hours;
+	var result = stringTime;
+
+	if(parts.length == 3){
+		seconds = parseInt(parts[2]);
+		minutes = parseInt(parts[1]);
+		hours = parseInt(parts[0]);
+
+		seconds = seconds / 3600;
+		minutes = minutes / 60;
+		result = hours + seconds + minutes;
+	}
+
+	return result;
 }
 
 /*

@@ -8,6 +8,12 @@ function parseDatetime(datetime){
 	var horas,minutos,segundos = time.split(":");
 	var format = "";
 
+	mes =parseMonth(mes);
+
+	format = dia+" "+mes+" "+anio+" | "+horas+":"+minutos;
+}
+
+function parseMonth(mes){
 	switch(mes){
 		case "01":
 			mes = "Enero";
@@ -47,7 +53,7 @@ function parseDatetime(datetime){
 			break;
 	}
 
-	format = dia+" "+mes+" "+anio+" | "+horas+":"+minutos;
+	return mes;
 }
 
 function jEntityDecode(str) {

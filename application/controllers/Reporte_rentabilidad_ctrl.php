@@ -61,115 +61,124 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 		$idArea = htmlentities($idArea, ENT_QUOTES, 'UTF-8');
 		$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
 
-		//Comprobar si $idProyecto = -1 o $idConsultor = -1 => Mostrar todos
-		$queryTareas = "SELECT cu.*,
-						ca.`nombre` nombreArea,
-						ccli.`nombre` nombreCliente,
-						cp.`nombre` nombreProyecto,
-						cf.`nombre` nombreFase,
-						concat(ct.`tiempoEstimado`, ':00') tiempoEstimado,
-						concat(ct.`tiempoRealGerente`, ':00') tiempoReal,
-						'N' AS esError
-					FROM 
-						catusuario cu
-						INNER JOIN cattarea AS ct ON ct.`idResponsable` = cu.`id`
-						INNER JOIN catarea ca ON cu.`idArea` = ca.`id`
-						INNER JOIN catfase cf ON ct.`idFase` = cf.`id`
-						INNER JOIN catproyecto cp ON ct.`idProyecto` = cp.`id`
-						INNER JOIN catcliente ccli ON cp.`idCliente` = ccli.`id`
-					WHERE
-						ct.`idEstado` = 3
-						AND ct.`activo` = 1
-						AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
-					";
-
-		$queryErrores = "SELECT cu.*,
-						ca.`nombre` nombreArea,
-						ccli.`nombre` nombreCliente,
-						cp.`nombre` nombreProyecto,
-						cf.`nombre` nombreFase,
-						concat(ce.`tiempoEstimado`, ':00') tiempoEstimado,
-						concat(ce.`tiempoRealGerente`, ':00') tiempoReal,
-						'S' AS esError
-					FROM
-						catusuario cu
-						INNER JOIN cattarea AS ct ON ct.`idResponsable` = cu.`id`
-						INNER JOIN catarea ca ON cu.`idArea` = ca.`id`
-						INNER JOIN catfase cf ON ct.`idFase` = cf.`id`
-						INNER JOIN catproyecto cp ON ct.`idProyecto` = cp.`id`
-						INNER JOIN catcliente ccli ON cp.`idCliente` = ccli.`id`
-						INNER JOIN caterror ce ON ce.`idTareaOrigen` = ct.`id`
-					WHERE
-						ce.`idEstado` = 3
-						AND ce.`activo` = 1
-						AND ce.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
-					";
-
-
-		$querySecondaryTareas = "SELECT 
-								    count(*) AS total,
-								    cf.`nombre` AS fase,
-								    cu.`nombre` AS nombre,
-								    concat(time_format(sec_to_time(sum(time_to_sec(ct.`tiempoRealGerente`))), '%H:%i'), ':00') AS tiempoReal
-								FROM
-								    `cattarea` AS ct
-								    INNER JOIN `catfase` cf ON cf.`id` = ct.`idFase`
-								    INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
-								    INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
-								WHERE
-									ct.`idEstado` = 3
-									AND ct.`activo` = 1
-									AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
-							";
-
-
-		$querySecondaryErrores = "SELECT 
-								    count(*) AS total,
-								    cf.`nombre` AS fase,
-								    cu.`nombre` AS nombre,
-								    concat(time_format(sec_to_time(sum(time_to_sec(ce.`tiempoRealGerente`))), '%H:%i'), ':00') AS tiempoReal
-								FROM
-									`caterror` AS ce
-								    INNER JOIN `cattarea` AS ct ON ct.`id`=ce.`idTareaOrigen` 
-								    INNER JOIN `catfase` cf ON cf.`id` = ct.`idFase`
-								    INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
-								    INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
-								WHERE
-									ct.`idEstado` = 3
-									AND ce.`activo` = 1
-									AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
-							";
-
-		$this->processQueryWithFilters($queryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
-		$this->processQueryWithFilters($queryErrores, $idCliente, $idArea, $idConsultor, $idProyecto);
-		$this->processQueryWithFilters($querySecondaryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
-		$this->processQueryWithFilters($querySecondaryErrores, $idCliente, $idArea, $idConsultor, $idProyecto);
-
-
-		$querySecondaryTareas = $querySecondaryTareas
-								.' GROUP BY
-									fase, nombre
-								ORDER BY
-									nombre';
-
-		$querySecondaryErrores = $querySecondaryErrores
-								.' GROUP BY
-									fase, nombre
-								ORDER BY
-									nombre';
-
-		$resultTareas = $this->db->query($queryTareas)->result();
-		$resultErrores = $this->db->query($queryErrores)->result();
-		$resultSecondaryTareas = $this->db->query($querySecondaryTareas)->result();
-		$resultSecondaryErrores = $this->db->query($querySecondaryErrores)->result();
-
-		$result['primary_table'] = array_merge($resultTareas, $resultErrores);
-		$result['secondary_table'] = array_merge($resultSecondaryTareas, $resultSecondaryErrores);
-
-		usort($result['primary_table'], "sortByUsername");
-		usort($result['secondary_table'], "sortByPhasename");
+		$result['primary_table'] = $this->retrievePrimaryTable($fechaSup, $fechaInf, $idCliente, $idArea, $idConsultor, $idProyecto);
+		$result['secondary_table'] = $this->retrieveSecondaryTable($fechaSup, $fechaInf, $idCliente, $idArea, $idConsultor, $idProyecto);
 
 		echo json_encode($result);
+	}
+
+	function retrieveSecondaryTable($fechaSup, $fechaInf, $idCliente, $idArea, $idConsultor, $idProyecto){
+		$querySecondaryTareas = "SELECT 
+								    count(*) AS total,
+								    R.`fase` AS fase,
+								    R.`nombre` AS nombre,
+								    concat(time_format(sec_to_time(sum(time_to_sec(R.`tiempoRealGerente`))), '%H:%i'), ':00') AS tiempoReal
+								FROM (
+									SELECT 
+									    cf.`nombre` AS fase,
+									    cu.`nombre` AS nombre,
+									    ct.`tiempoRealGerente` AS tiempoRealGerente
+									FROM
+									    `cattarea` AS ct
+									    INNER JOIN `catfase` cf ON cf.`id` = ct.`idFase`
+									    INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
+									    INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
+									WHERE
+										ct.`idEstado` = 3
+										AND ct.`activo` = 1
+										AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
+									
+									UNION ALL
+
+									SELECT 
+									    cf.`nombre` AS fase,
+									    cu.`nombre` AS nombre,
+									    ce.`tiempoRealGerente` AS tiempoRealGerente
+									FROM
+										`caterror` AS ce
+									    INNER JOIN `cattarea` AS ct ON ct.`id`=ce.`idTareaOrigen` 
+									    INNER JOIN `catfase` cf ON cf.`id` = ct.`idFase`
+									    INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
+									    INNER JOIN `catproyecto` cp ON cp.`id` = ct.`idProyecto`
+									WHERE
+										ct.`idEstado` = 3
+										AND ce.`activo` = 1
+										AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
+									) R
+								GROUP BY
+									fase, nombre
+
+								ORDER BY
+									nombre
+								";
+
+		$this->processQueryWithFilters($querySecondaryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
+		return $this->db->query($querySecondaryTareas)->result();	
+	}
+
+	function retrievePrimaryTable($fechaSup, $fechaInf, $idCliente, $idArea, $idConsultor, $idProyecto){
+		$queryTareas = "SELECT 
+						R.*,
+						R.`nombreArea` nombreArea,
+						R.`nombreCliente` nombreCliente,
+						R.`nombreProyecto` nombreProyecto,
+						R.`nombreFase` nombreFase,
+						concat(R.`tiempoEstimado`, ':00') tiempoEstimado,
+						concat(R.`tiempoRealGerente`, ':00') tiempoReal,
+						R.`esError` AS esError
+					FROM (
+						SELECT 
+							cu.*,
+							ca.`nombre` nombreArea,
+							ccli.`nombre` nombreCliente,
+							cp.`nombre` nombreProyecto,
+							cf.`nombre` nombreFase,
+							ct.`tiempoEstimado` tiempoEstimado,
+							ct.`tiempoRealGerente` tiempoRealGerente,
+							'N' AS esError
+						FROM
+							catusuario cu
+							INNER JOIN cattarea AS ct ON ct.`idResponsable` = cu.`id`
+							INNER JOIN catarea ca ON cu.`idArea` = ca.`id`
+							INNER JOIN catfase cf ON ct.`idFase` = cf.`id`
+							INNER JOIN catproyecto cp ON ct.`idProyecto` = cp.`id`
+							INNER JOIN catcliente ccli ON cp.`idCliente` = ccli.`id`
+						WHERE
+							ct.`idEstado` = 3
+							AND ct.`activo` = 1
+							AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
+
+						UNION ALL
+
+						SELECT 
+							cu.*,
+							ca.`nombre` nombreArea,
+							ccli.`nombre` nombreCliente,
+							cp.`nombre` nombreProyecto,
+							cf.`nombre` nombreFase,
+							ce.`tiempoEstimado` tiempoEstimado,
+							ce.`tiempoRealGerente` tiempoRealGerente,
+							'S' AS esError
+						FROM
+							catusuario cu
+							INNER JOIN cattarea AS ct ON ct.`idResponsable` = cu.`id`
+							INNER JOIN catarea ca ON cu.`idArea` = ca.`id`
+							INNER JOIN catfase cf ON ct.`idFase` = cf.`id`
+							INNER JOIN catproyecto cp ON ct.`idProyecto` = cp.`id`
+							INNER JOIN catcliente ccli ON cp.`idCliente` = ccli.`id`
+							INNER JOIN caterror ce ON ce.`idTareaOrigen` = ct.`id`
+						WHERE
+							ce.`idEstado` = 3
+							AND ce.`activo` = 1
+							AND ce.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
+					) R
+
+					ORDER BY
+						nombre
+					";
+
+		$this->processQueryWithFilters($queryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
+		return $this->db->query($queryTareas)->result();
 	}
 
 	function onRetrieveGlobalDetail(){
@@ -189,11 +198,51 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 
 		//Cálculos para tabla de espectativas
 			//Obteniendo a los consultores correspondientes al área y consultor seleccionado, si los hay
-		$queryConsultores = 'SELECT * 
+		$queryConsultores = "SELECT 
+								cu.*, 
+								0 as expectedTime,
+								IF(ISNULL(TiempoRealTbl.`tiempoReal`),'0:00',TiempoRealTbl.`tiempoReal`) tiempoReal
 							FROM 
 								`catusuario` cu
+								LEFT JOIN (
+									SELECT
+										TareasTbl.`id` idConsultor,
+										TareasTbl.`nombre` nombre,
+										concat(time_format(sec_to_time(sum(time_to_sec(TareasTbl.`tiempoRealGerente`))), '%H:%i'),':00') tiempoReal
+									FROM 
+										(
+											SELECT
+												cu.`id` AS id,
+											    cu.`nombre` AS nombre,
+											    ct.`tiempoRealGerente` AS tiempoRealGerente
+											FROM
+											    `cattarea` AS ct
+											    INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
+											WHERE
+												ct.`idEstado` = 3
+												AND ct.`activo` = 1
+												AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
+											
+											UNION ALL
+
+											SELECT
+												cu.`id` AS id,
+											    cu.`nombre` AS nombre,
+											    ce.`tiempoRealGerente` AS tiempoRealGerente
+											FROM
+												`caterror` AS ce
+											    INNER JOIN `cattarea` AS ct ON ct.`id`=ce.`idTareaOrigen` 
+											    INNER JOIN `catusuario` cu ON cu.`id` = ct.`idResponsable`
+											WHERE
+												ct.`idEstado` = 3
+												AND ce.`activo` = 1
+												AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
+										) TareasTbl
+									GROUP BY
+										idConsultor, nombre
+								) TiempoRealTbl ON TiempoRealTbl.`idConsultor` = cu.`id` 
 							WHERE
-								1 = 1';
+								1 = 1";
 
 		if($idArea != -1)
 			$queryConsultores = $queryConsultores.' AND cu.`idArea` = '.$idArea;
@@ -220,22 +269,37 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 			else if( isDay($representation, 5) ) array_push($fridayDates, $representation);
 
 			foreach($resultConsultores as $consultor){
-				if( isDay($representation, 1) )
+				if( isDay($representation, 1) ){
 					$result['hopeTimeNoWeekend'] += $consultor->horasLunes;
-				else if( isDay($representation, 2) )
+					$consultor->expectedTime += $consultor->horasLunes;
+				}else if( isDay($representation, 2) ){
 					$result['hopeTimeNoWeekend'] += $consultor->horasMartes;
-				else if( isDay($representation, 3) )
+					$consultor->expectedTime += $consultor->horasMartes;
+				}else if( isDay($representation, 3) ){
 					$result['hopeTimeNoWeekend'] += $consultor->horasMiercoles;
-				else if( isDay($representation, 4) )
+					$consultor->expectedTime += $consultor->horasMiercoles;
+				}else if( isDay($representation, 4) ){
 					$result['hopeTimeNoWeekend'] += $consultor->horasJueves;
-				else if( isDay($representation, 5) )
+					$consultor->expectedTime += $consultor->horasJueves;
+				}else if( isDay($representation, 5) ){
 					$result['hopeTimeWeekend'] += $consultor->horasViernes;
+					$consultor->expectedTime += $consultor->horasViernes;
+				}
 			}
 
 			$fechaInfObj->add($interval);
 		}while( !$fechaInfObj->diff($fechaSupObj)->invert );
 
+			//Ciclo de generación de tiempo diferencia entre tiempo real y tiempo esperado
+		foreach($resultConsultores as $consultor){
+			$expectedTime = new DateTime(($consultor->expectedTime).':00:00');
+			$tiempoReal = new DateTime($consultor->tiempoReal);
+			$dieTime = $expectedTime->diff($tiempoReal);
+			$consultor->dieTime = $dieTime->format('%H:%i:%s');
+		}
+
 			//Totalizaciones
+		$result['consultors'] = $resultConsultores;
 		$result['numberConsultors'] = count($resultConsultores);
 		$result['numberDaysNoWeekend'] = count($noFridayDates);
 		$result['numberDaysWeekend'] = count($fridayDates);
