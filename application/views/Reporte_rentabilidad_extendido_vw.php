@@ -82,14 +82,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						for(k=0, n=responsePrimary.length; k<n; k++){
 							$("#main-table tbody:last-child").append("<tr></tr>");
 
-							$("#main-table tbody:last-child tr:last-child").append("<td>"+responsePrimary[k].nombre+"</td>");
-							$("#main-table tbody:last-child tr:last-child").append("<td>"+responsePrimary[k].nombreArea+"</td>");
-							$("#main-table tbody:last-child tr:last-child").append("<td>"+responsePrimary[k].nombreCliente+"</td>");
-							$("#main-table tbody:last-child tr:last-child").append("<td>"+responsePrimary[k].nombreProyecto+"</td>");
-							$("#main-table tbody:last-child tr:last-child").append("<td>"+responsePrimary[k].nombreFase+"</td>");
+							$("#main-table tbody:last-child tr:last-child").append("<td>"+jEntityDecode(responsePrimary[k].nombre)+"</td>");
+							$("#main-table tbody:last-child tr:last-child").append("<td>"+jEntityDecode(responsePrimary[k].nombreArea)+"</td>");
+							$("#main-table tbody:last-child tr:last-child").append("<td>"+jEntityDecode(responsePrimary[k].nombreCliente)+"</td>");
+							$("#main-table tbody:last-child tr:last-child").append("<td>"+jEntityDecode(responsePrimary[k].nombreProyecto)+"</td>");
+							$("#main-table tbody:last-child tr:last-child").append("<td>"+jEntityDecode(responsePrimary[k].nombreFase)+"</td>");
 							$("#main-table tbody:last-child tr:last-child").append("<td>"+parseMonthFromString(responsePrimary[k].mesTarea)+"</td>");
-							$("#main-table tbody:last-child tr:last-child").append("<td>"+responsePrimary[k].tituloTarea+"</td>");
-							$("#main-table tbody:last-child tr:last-child").append("<td>"+responsePrimary[k].descripcionTarea+"</td>");
+							$("#main-table tbody:last-child tr:last-child").append("<td>"+removeBlanks(responsePrimary[k].tituloTarea)+"</td>");
+							$("#main-table tbody:last-child tr:last-child").append("<td>"+removeBlanks(responsePrimary[k].descripcionTarea)+"</td>");
 							$("#main-table tbody:last-child tr:last-child").append("<td>"+transformTimeToDecimal(responsePrimary[k].tiempoEstimado)+"</td>");
 							$("#main-table tbody:last-child tr:last-child").append("<td>"+transformTimeToDecimal(responsePrimary[k].tiempoReal)+"</td>");
 						}

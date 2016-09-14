@@ -143,6 +143,12 @@ function initDatepicker(visualContainer, altContainer, dateFormat, altFormat){
 	$(visualContainer).attr("readonly", true);
 }
 
+
+//Quita saltos de línea de cadena
+function removeBlanks(cad){
+	return cad.replace(/<br>|\n|\r/, ". ");
+}
+
 /*
 function parseDate(datetime){
 	var date = datetime;
