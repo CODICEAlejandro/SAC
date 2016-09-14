@@ -131,6 +131,18 @@ function transformTimeToDecimal(stringTime){
 	return result;
 }
 
+//Inicializar datepicker
+function initDatepicker(visualContainer, altContainer, dateFormat, altFormat){
+	$(visualContainer).datepicker({
+		dateFormat: dateFormat,
+		altFormat: altFormat,
+		altField: altContainer
+	}).datepicker('setDate', new Date());
+
+	$(altContainer).hide();
+	$(visualContainer).attr("readonly", true);
+}
+
 /*
 function parseDate(datetime){
 	var date = datetime;

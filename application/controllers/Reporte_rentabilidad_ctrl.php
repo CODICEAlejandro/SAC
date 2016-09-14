@@ -87,9 +87,11 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 										ct.`idEstado` = 3
 										AND ct.`activo` = 1
 										AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
-									
-									UNION ALL
+									";
 
+		$this->processQueryWithFilters($querySecondaryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
+
+		$querySecondaryTareas .=" UNION ALL
 									SELECT 
 									    cf.`nombre` AS fase,
 									    cu.`nombre` AS nombre,
@@ -104,7 +106,11 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 										ct.`idEstado` = 3
 										AND ce.`activo` = 1
 										AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
-									) R
+								";
+
+		$this->processQueryWithFilters($querySecondaryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
+
+		$querySecondaryTareas .=") R
 								GROUP BY
 									fase, nombre
 
@@ -112,7 +118,6 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 									nombre
 								";
 
-		$this->processQueryWithFilters($querySecondaryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
 		return $this->db->query($querySecondaryTareas)->result();	
 	}
 
@@ -146,9 +151,10 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 						WHERE
 							ct.`idEstado` = 3
 							AND ct.`activo` = 1
-							AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
+							AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'";
 
-						UNION ALL
+		$this->processQueryWithFilters($queryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
+		$queryTareas .= " UNION ALL
 
 						SELECT 
 							cu.*,
@@ -170,14 +176,15 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 						WHERE
 							ce.`idEstado` = 3
 							AND ce.`activo` = 1
-							AND ce.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
-					) R
+							AND ce.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'";
+
+		$this->processQueryWithFilters($queryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
+		$queryTareas .= ") R
 
 					ORDER BY
 						nombre
 					";
 
-		$this->processQueryWithFilters($queryTareas, $idCliente, $idArea, $idConsultor, $idProyecto);
 		return $this->db->query($queryTareas)->result();
 	}
 
