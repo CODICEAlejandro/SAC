@@ -1,5 +1,6 @@
 <?php
 
+include 'PHPExcel.php';
 include 'PHPExcel/IOFactory.php';
 
 class XLSSheetDriver {
@@ -171,6 +172,7 @@ class XLSSheetDriver {
 	}
 
 	public function openFile($pathToFile){
+		PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
 		try{
 			$this->fileName = $pathToFile;
 			$this->inputFileType = PHPExcel_IOFactory::identify($this->fileName);
