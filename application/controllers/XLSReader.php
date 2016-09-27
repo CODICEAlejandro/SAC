@@ -21,6 +21,10 @@ class XLSReader extends CI_Controller {
 		$queryEstado = "";
 		$queryCiudad = "";
 
+		//INICIA inserción de los nuevos clientes
+		//FIN de inserción de nuevos cliente
+
+		//INICIA insersión de catálogos relacionados con zona
 		foreach($a as $keyPais => $estados){
 			$queryPais = "INSERT INTO `catpais` (`nombre`) VALUES ('".$keyPais."'); ";
 			$idPais = $this->qr($queryPais);
@@ -35,25 +39,6 @@ class XLSReader extends CI_Controller {
 				}
 			}
 		}
-
-		//INICIA inserción de los nuevos clientes
-		//FIN de inserción de nuevos cliente
-
-		//INICIA insersión de catálogos relacionados con zona
-		/*foreach($a as $keyPais => $estados){
-			$queryPais = "INSERT INTO `catpais` (`nombre`) VALUES ('".$keyPais."'); ";
-			$idPais = $this->qr($queryPais);
-
-			foreach($estados AS $keyEstado => $ciudades){
-				$queryEstado = "INSERT INTO `catestadogeografico` (`nombre`, `idPais`) VALUES ('".$keyEstado."', ".$idPais."); ";
-				$idEstado = $this->qr($queryEstado);
-
-				foreach($ciudades AS $key => $ciudad){
-					$queryCiudad = "INSERT INTO `catciudad` (`nombre`,`idEstado`) VALUES ('".$ciudad."', ".$idEstado."); ";
-					$idCiudad = $this->qr($queryCiudad);
-				}
-			}
-		}*/
 		//FIN de catAlogos por zona
 
 		//INICIA inserción de direcciones fiscales
