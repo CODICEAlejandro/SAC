@@ -174,7 +174,7 @@ class XLSSheetDriver {
 		try{
 			$this->fileName = $pathToFile;
 			$this->inputFileType = PHPExcel_IOFactory::identify($this->fileName);
-			$this->readerCtrl = PHPExcel_IOFactory::createReader($this->inputFileType, 'Excel5');
+			$this->readerCtrl = PHPExcel_IOFactory::createReader('Excel5');
 			$this->reader = $this->readerCtrl->load($this->fileName);
 		}catch(Exception $e){
 			die("Ha ocurrido un error: ".$e->getMessage());
