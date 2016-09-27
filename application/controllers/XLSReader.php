@@ -15,6 +15,7 @@ class XLSReader extends CI_Controller {
 		$result = $xls->readDocument();
 
 		$a = $this->getCats($result);
+		print_r($a);
 
 		$queryPais = "";
 		$queryEstado = "";
@@ -24,7 +25,7 @@ class XLSReader extends CI_Controller {
 		//FIN de inserción de nuevos cliente
 
 		//INICIA insersión de catálogos relacionados con zona
-		foreach($a as $keyPais => $estados){
+		/*foreach($a as $keyPais => $estados){
 			$queryPais = "INSERT INTO `catpais` (`nombre`) VALUES ('".$keyPais."'); ";
 			$idPais = $this->qr($queryPais);
 
@@ -37,7 +38,7 @@ class XLSReader extends CI_Controller {
 					$idCiudad = $this->qr($queryCiudad);
 				}
 			}
-		}
+		}*/
 		//FIN de catAlogos por zona
 
 		//INICIA inserción de direcciones fiscales
