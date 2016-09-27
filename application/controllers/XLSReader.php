@@ -48,14 +48,14 @@ class XLSReader extends CI_Controller {
 
 	public function parseRows($data){
 		for($r = 1, $n = count($data); $r<$n; $r++){
-			$idPadre = trim($data[$r][0][0]);
-			$nombreCliente = trim($data[$r][0][1]);
-			$calle = trim($data[$r][0][6]);
-			$numero = trim($data[$r][0][7]);
-			$colonia = trim($data[$r][0][4]);
-			$cp = trim($data[$r][0][5]);
-			$razonSocial = trim($data[$r][0][2]);
-			$rfc = trim($data[$r][0][3]);
+			$idPadre = htmlentities(trim($data[$r][0][0]), ENT_QUOTES, 'UTF-8');
+			$nombreCliente = htmlentities(trim($data[$r][0][1]), ENT_QUOTES, 'UTF-8');
+			$calle = htmlentities(trim($data[$r][0][6]), ENT_QUOTES, 'UTF-8');
+			$numero = htmlentities(trim($data[$r][0][7]), ENT_QUOTES, 'UTF-8');
+			$colonia = htmlentities(trim($data[$r][0][4]), ENT_QUOTES, 'UTF-8');
+			$cp = htmlentities(trim($data[$r][0][5]), ENT_QUOTES, 'UTF-8');
+			$razonSocial = htmlentities(trim($data[$r][0][2]), ENT_QUOTES, 'UTF-8');
+			$rfc = htmlentities(trim($data[$r][0][3]), ENT_QUOTES, 'UTF-8');
 
 			$currentPais = trim($data[$r][0][8]);
 			$currentEstado = trim($data[$r][0][10]);
