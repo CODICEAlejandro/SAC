@@ -23,18 +23,15 @@ class XLSReader extends CI_Controller {
 
 		foreach($a as $keyPais => $estados){
 			$queryPais = "INSERT INTO `catpais` (`nombre`) VALUES ('".$keyPais."'); ";
-			$idPais = 1;
-			echo $queryPais."<br>";
+			$idPais = $this->qr($queryPais);
 
 			foreach($estados AS $keyEstado => $ciudades){
 				$queryEstado = "INSERT INTO `catestadogeografico` (`nombre`, `idPais`) VALUES ('".$keyEstado."', ".$idPais."); ";
-				$idEstado = 1;
-				echo $queryEstado."<br>";
+				$idEstado = $this->qr($queryEstado);
 
 				foreach($ciudades AS $key => $ciudad){
 					$queryCiudad = "INSERT INTO `catciudad` (`nombre`,`idEstado`) VALUES ('".$ciudad."', ".$idEstado."); ";
-					$idCiudad = 1;
-					echo $queryCiudad."<br><br>";
+					$idCiudad = $this->qr($queryCiudad);
 				}
 			}
 		}
