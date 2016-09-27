@@ -39,6 +39,41 @@ class Cliente extends CI_Model {
 		$this->db->where('id = ', $id);
 		return $this->db->update('catcliente', $data);
 	}
-}
+
+	public function traerCotizaciones($idCliente){		
+		$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
+
+		$query = "SELECT
+					tc.`id` id,
+					df.`razonSocial` razonSocial,
+					date_format(tc.`creacion`, '%d/%m/%Y') creacion,
+					tc.`nota` nota
+				FROM
+					`cotizacion` tc
+					INNER JOIN `direccionfiscal` df ON df.`id` = tc.`idRazonSocial`
+					INNER JOIN `catcliente` ccli ON ccli.`id` = df.`idPadre`
+				WHERE
+					ccli.`id` = ".$idCliente."
+					AND tc.`estadoActivo` = 1
+				";
+
+		return $this->db->query($query)->result();
+	}
+
+	public function traerCotizaciones_AI($idCliente){		
+		$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
+
+		$query = "SELECT
+					tc.*
+				FROM
+					`cotizacion` tc
+					INNER JOIN `direccionfiscal` df ON df.`id` = tc.`idDireccionFiscal`
+					INNER JOIN `catcliente` ccli ON ccli.`id` = df.`idPadre`
+				WHERE
+					ccli.`id` = ".$idCliente."
+				";
+
+		return $this->db->query($query)->result();	}
+	}
 
 ?>

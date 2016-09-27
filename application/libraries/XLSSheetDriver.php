@@ -1,9 +1,19 @@
 <?php
 
+include 'PHPExcel/IOFactory.php';
+
 class XLSSheetDriver {
 	private $cCol;
 	private $cRow;
 	private $mark;
+
+	private $fileName;
+	private $inputFileType;
+	private $readerCtrl;
+	private $reader;
+	private $maxCol;
+	private $maxRow;
+	private $readSheet;
 
 	public function __construct($cCol='A', $cRow=1){
 		$this->cCol = $cCol;
@@ -158,6 +168,37 @@ class XLSSheetDriver {
 
 	public function boldCellContent($cell,$sheet){
 		$sheet->getStyle($cell)->getFont()->setBold(true);
+	}
+
+	public function openFile($pathToFile){
+		try{
+			$this->fileName = $pathToFile;
+			$this->inputFileType = PHPExcel_IOFactory::identify($this->fileName);
+			$this->readerCtrl = PHPExcel_IOFactory::createReader($this->inputFileType);
+			$this->reader = $this->readerCtrl->load($this->fileName);
+		}catch(Exception $e){
+			die("Ha ocurrido un error: ".$e->getMessage());
+		}
+
+		$this->readSheet = $this->reader->getSheet(0);
+
+		$this->maxCol = $this->readSheet->getHighestColumn();
+		$this->maxRow = $this->readSheet->getHighestRow();
+
+		return $pathToFile;
+	}
+
+	public function readRow($n){
+		return $this->readSheet->rangeToArray("A".$n.":".($this->maxCol).$n, NULL, true, false);
+	}
+
+	public function readDocument(){
+		$rows = array();
+
+		for($n = 1; $n <= $this->maxRow; $n++)
+			array_push($rows, $this->readRow($n));
+
+		return $rows;
 	}
 }
 ?>

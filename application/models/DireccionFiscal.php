@@ -40,6 +40,45 @@ class DireccionFiscal extends CI_Model {
 		return $result = $this->db->update($this->table, $data);
 	}
 
+	public function traerCotizaciones($idDireccionFiscal){		
+		$idDireccionFiscal = htmlentities($idDireccionFiscal, ENT_QUOTES, 'UTF-8');
+		$query = "SELECT
+					tc.`id` id,
+					df.`razonSocial` razonSocial,
+					date_format(tc.`creacion`, '%d/%m/%Y') creacion,
+					tc.`nota` nota,
+					tc.`folio` folio
+				FROM
+					`cotizacion` tc
+					INNER JOIN `direccionfiscal` df ON df.`id` = tc.`idRazonSocial`
+					INNER JOIN `catcliente` ccli ON ccli.`id` = df.`idPadre`
+				WHERE
+					tc.`idRazonSocial` = ".$idDireccionFiscal."
+					AND tc.`estadoActivo` = 1
+				";
+
+		return $this->db->query($query)->result();
+	}
+
+	public function traerCotizaciones_AI($idDireccionFiscal){		
+		$idDireccionFiscal = htmlentities($idDireccionFiscal, ENT_QUOTES, 'UTF-8');
+		$query = "SELECT
+					tc.`id` id,
+					df.`razonSocial` razonSocial,
+					date_format(tc.`creacion`, '%d/%m/%Y') creacion,
+					tc.`nota` nota,
+					tc.`folio` folio
+				FROM
+					`cotizacion` tc
+					INNER JOIN `direccionfiscal` df ON df.`id` = tc.`idRazonSocial`
+					INNER JOIN `catcliente` ccli ON ccli.`id` = df.`idPadre`
+				WHERE
+					tc.`idRazonSocial` = ".$idDireccionFiscal."
+				";
+
+		return $this->db->query($query)->result();	
+	}
+
 	public function traerAsociadas($idPadre){
 		$id = htmlentities($idPadre, ENT_QUOTES, 'UTF-8');
 
