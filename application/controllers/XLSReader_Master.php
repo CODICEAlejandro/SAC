@@ -16,6 +16,7 @@ class XLSReader_Master extends CI_Controller {
 
 		$xls->openFile("./files/MASTER_FILE.xlsx");
 		$result = $xls->readDocument();
+		print_r($result[0]);
 
 		$this->getCotizaciones($result);
 	}
@@ -29,6 +30,7 @@ class XLSReader_Master extends CI_Controller {
 			$idCotizacion = $data[$r][0][6];
 
 			//Data de concepto
+			$folioFacturaConcepto = htmlentities(trim($data[$r][0][1]), ENT_QUOTES, 'UTF-8');
 			$montoConcepto = htmlentities(trim($data[$r][0][8]), ENT_QUOTES, 'UTF-8');
 			$precioUnitario = htmlentities(trim($data[$r][0][8]), ENT_QUOTES, 'UTF-8');
 			$descripcionConcepto = htmlentities(trim($data[$r][0][17]), ENT_QUOTES, 'UTF-8');
@@ -98,7 +100,7 @@ class XLSReader_Master extends CI_Controller {
 								`idCotizacion`, `recurrencia`, `contadorPagos`, 
 								`nota`, `cantidad`, `unidadDeMedida`, 
 								`valorUnitario`, `importe`, `textosDePosicion`, 
-								`idPeriodoRecurrencia`
+								`idPeriodoRecurrencia`, `folioFactura`
 							) 
 							VALUES 
 								(
@@ -116,7 +118,8 @@ class XLSReader_Master extends CI_Controller {
 									".$precioUnitario.",
 									".$importeConcepto.",
 									'".$textosDePosicionConcepto."', 
-									3
+									3,
+									'".$folioFacturaConcepto."'
 								)";
 
 			array_push($catCot[$idCotizacion]["conceptos"],
