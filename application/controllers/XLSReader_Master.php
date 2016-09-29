@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-ini_set('memory_limit','16M');
+ini_set('memory_limit','30M');
 
 class XLSReader_Master extends CI_Controller {
 
