@@ -58,7 +58,7 @@ class XLSReader_Master extends CI_Controller {
 			//CatAlogo de estados de la factura
 			$flagEstadoFactura = true;
 			foreach($catEstadoFactura as $key => $estadoFactura){
-				if($estadoFactura[0] == $estadoFacturaConcepto){
+				if($estadoFactura[1] == $estadoFacturaConcepto){
 					$flagEstadoFactura = false;
 					break;
 				}
@@ -70,7 +70,7 @@ class XLSReader_Master extends CI_Controller {
 									VALUES ('".$estadoFacturaConcepto."')";
 				$idEstadoFactura = $this->qr($queryEstadoFactura);
 
-				array_push($catEstadoFactura, array($idEstadoFactura, $queryEstadoFactura));
+				array_push($catEstadoFactura, array($idEstadoFactura, $estadoFacturaConcepto));
 			}else{
 				foreach($catEstadoFactura as $keyEstado => $estado){
 					if($estado[1] == $estadoFacturaConcepto){
