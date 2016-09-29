@@ -24,12 +24,14 @@ class XLSReader_Master extends CI_Controller {
 	public function getCotizaciones($data){
 		$catTipoConcepto = array();
 		$catCot = array();
+		$catEstadoFactura = array();
 
 		//for($r = 1, $n = count($data); $r < $n; $r++){
 		for($r = 1, $n = 15; $r < $n; $r++){
 			$idCotizacion = $data[$r][0][6];
 
 			//Data de concepto
+			$estadoFacturaConcepto =  htmlentities(trim($data[$r][0][0]), ENT_QUOTES, 'UTF-8');
 			$folioFacturaConcepto = htmlentities(trim($data[$r][0][1]), ENT_QUOTES, 'UTF-8');
 			$montoConcepto = htmlentities(trim($data[$r][0][8]), ENT_QUOTES, 'UTF-8');
 			$precioUnitario = htmlentities(trim($data[$r][0][8]), ENT_QUOTES, 'UTF-8');
@@ -53,6 +55,33 @@ class XLSReader_Master extends CI_Controller {
 			if(!is_numeric($precioUnitario)) $precioUnitario = 0.0; 
 			if(!is_numeric($importeConcepto)) $importeConcepto = 0.0; 
 
+			//CatAlogo de estados de la factura
+			$flagEstadoFactura = true;
+			foreach($catEstadoFactura as $key => $estadoFactura){
+				if($estadoFactura[0] == $estadoFacturaConcepto){
+					$flagEstadoFactura = false;
+					break;
+				}
+			}
+
+			if($flagEstadoFactura){
+				$queryEstadoFactura = "INSERT INTO 
+										`catestadofactura`(`descripcion`) 
+									VALUES (".$estadoFacturaConcepto.")";
+				$idEstadoFactura = $this->qr($queryEstadoFactura);
+
+				array_push($catEstadoFactura, array($idEstadoFactura, $queryEstadoFactura));
+			}else{
+				foreach($catEstadoFactura as $keyEstado => $estado){
+					if($estado[1] == $estadoFacturaConcepto){
+						$idEstadoFactura = $estado[0];
+						break;
+					}
+				}				
+			}
+
+
+			//CatAlogo de tipos de concepto
 			$flagTipoConcepto = true;
 			foreach($catTipoConcepto as $keyConcepto => $concepto){
 				if($concepto[1] == $tipoConcepto){
@@ -100,7 +129,8 @@ class XLSReader_Master extends CI_Controller {
 								`idCotizacion`, `recurrencia`, `contadorPagos`, 
 								`nota`, `cantidad`, `unidadDeMedida`, 
 								`valorUnitario`, `importe`, `textosDePosicion`, 
-								`idPeriodoRecurrencia`, `folioFactura`
+								`idPeriodoRecurrencia`, `folioFactura`, 
+								`idEstadoFactura`
 							) 
 							VALUES 
 								(
@@ -119,7 +149,8 @@ class XLSReader_Master extends CI_Controller {
 									".$importeConcepto.",
 									'".$textosDePosicionConcepto."', 
 									3,
-									'".$folioFacturaConcepto."'
+									'".$folioFacturaConcepto."',
+									".$idEstadoFactura."
 								)";
 
 			array_push($catCot[$idCotizacion]["conceptos"],
