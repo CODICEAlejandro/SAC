@@ -67,7 +67,7 @@ class XLSReader_Master extends CI_Controller {
 			if($flagEstadoFactura){
 				$queryEstadoFactura = "INSERT INTO 
 										`catestadofactura`(`descripcion`) 
-									VALUES (".$estadoFacturaConcepto.")";
+									VALUES ('".$estadoFacturaConcepto."')";
 				$idEstadoFactura = $this->qr($queryEstadoFactura);
 
 				array_push($catEstadoFactura, array($idEstadoFactura, $queryEstadoFactura));
