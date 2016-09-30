@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Impuesto extends CI_Model {
-	var $table = "Impuesto";
+	var $table = "impuesto";
 	var $contexto = "";
 	var $operacion = "";
 	var $codigo = "";
