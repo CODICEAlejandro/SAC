@@ -99,10 +99,10 @@ class Factura extends CI_Model {
 			"importeEfectivo" => $this->importeEfectivo
 		);
 
-		$idFactura = $this->insertar($data);
-
 		//Depurar atributos nulos
 		if(is_null($this->idEstadoFactura)) unset($data["idEstadoFactura"]);
+
+		$idFactura = $this->insertar($data);
 
 		if(!is_null($this->idCotizacion)){
 			$dataCotizacion_factura = array(

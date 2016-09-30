@@ -147,7 +147,7 @@ class XMLReader_ctrl extends CI_Controller {
 
 			$objFactura->idEstadoFactura = NULL;
 			$objFactura->idCotizacion = NULL;
-			$objFactura->save();
+			$objFactura->save(true);
 		}
 	}
 }
