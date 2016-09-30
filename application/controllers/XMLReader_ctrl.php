@@ -148,6 +148,7 @@ class XMLReader_ctrl extends CI_Controller {
 
 			$objFactura->idEstadoFactura = NULL;
 			$objFactura->idCotizacion = NULL;
+			$objFactura->folio = ($xml->attributes()->serie->__toString()).($xml->attributes()->folio->__toString());
 			$objFactura->save(true);
 		}
 	}
