@@ -145,8 +145,8 @@ class XMLReader_ctrl extends CI_Controller {
 			$objFactura->totalTrasladosLocales = $resImpuestos->xpath("fx:TotalTrasladosLocales")[0]->__toString();
 			$objFactura->totalRetencionesLocales = $resImpuestos->xpath("fx:TotalRetencionesLocales")[0]->__toString();
 
-			$objFactura->idEstadoFactura = 'NULL';
-			$objFactura->idCotizacion = 'NULL';
+			$objFactura->idEstadoFactura = NULL;
+			$objFactura->idCotizacion = NULL;
 			$objFactura->save();
 		}
 	}

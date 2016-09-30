@@ -101,7 +101,7 @@ class Factura extends CI_Model {
 
 		$idFactura = $this->insertar($data);
 
-		if($this->idCotizacion != "NULL"){
+		if(!is_null($this->idCotizacion)){
 			$dataCotizacion_factura = array(
 				"idFactura" => $idFactura,
 				"idCotizacion" => $this->idCotizacion
