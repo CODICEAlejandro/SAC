@@ -82,7 +82,7 @@ class Concepto extends CI_Model {
 					"referencia" => $this->referencia,
 					"idConcepto_cotizacion" => $this->idMatched,
 					"recurrencia" => $this->recurrencia,
-					"contadorPagos" => 1,
+					"contadorPagos" => 0,
 					"nota" => $this->nota,
 					"cantidad" => $this->cantidad,
 					"unidadDeMedida" => $this->unidadDeMedida,
@@ -93,6 +93,7 @@ class Concepto extends CI_Model {
 		}
 
 		if(is_null($this->idTipoConcepto)) unset($data["idTipoConcepto"]);
+		if(is_null($this->idMatched)) unset($data["idConcepto_cotizacion"]);
 
 		$idConcepto = $this->insertar($data);
 
