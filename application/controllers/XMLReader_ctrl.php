@@ -22,6 +22,7 @@ class XMLReader_ctrl extends CI_Controller {
 
 		$allowedTypes = array("xml", "XML"); 
 		$filesTmp = scandir($path);
+		print_r($filesTmp);
 		$files = array();
 
 		foreach($filesTmp as $key => $fileName){
