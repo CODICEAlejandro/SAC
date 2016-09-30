@@ -101,11 +101,13 @@ class Factura extends CI_Model {
 
 		$idFactura = $this->insertar($data);
 
-		$dataCotizacion_factura = array(
-			"idFactura" => $idFactura,
-			"idCotizacion" => $this->idCotizacion
-		);
-		$this->db->insert("cotizacion_factura_rel", $dataCotizacion_factura);
+		if($this->idCotizacion != "NULL"){
+			$dataCotizacion_factura = array(
+				"idFactura" => $idFactura,
+				"idCotizacion" => $this->idCotizacion
+			);
+			$this->db->insert("cotizacion_factura_rel", $dataCotizacion_factura);
+		}
 
 		if($recursive){
 			foreach($this->conceptos as $concepto){
