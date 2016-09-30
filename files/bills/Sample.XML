@@ -102,7 +102,7 @@
 					<fx:TextosDePosicion>
 						<fx:Texto>Julio 2016</fx:Texto>
 					</fx:TextosDePosicion>
-				</fx:Conce0ptoEx>
+				</fx:ConceptoEx>
 			</fx:Concepto>
 			<fx:Concepto>
 				<fx:Cantidad id="cantidad">1</fx:Cantidad>
