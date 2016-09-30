@@ -42,7 +42,7 @@ class XLSReader extends CI_Controller {
 		//FIN de catAlogos por zona
 
 		//INICIA inserción de direcciones fiscales
-		$this->parseRows($result);
+		//$this->parseRows($result);
 		//FIN de inserción de direcciones fiscales
 	}
 

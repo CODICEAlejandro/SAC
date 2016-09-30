@@ -30,6 +30,7 @@ class Factura extends CI_Model {
 	var $fechaFactura = "";
 	var $fechaCancelacion = "";
 	var $importeEfectivo = 0.0;
+	var $xml = "";
 
 	public function __construct(){
 		parent::__construct();
@@ -96,7 +97,8 @@ class Factura extends CI_Model {
 			"importe" => $this->importe,
 			"fechaFactura" => $this->fechaFactura,
 			"fechaCancelacion" => $this->fechaCancelacion,
-			"importeEfectivo" => $this->importeEfectivo
+			"importeEfectivo" => $this->importeEfectivo,
+			"xml" => $this->xml
 		);
 
 		//Depurar atributos nulos

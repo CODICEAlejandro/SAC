@@ -26,8 +26,8 @@ class XLSReader_Master extends CI_Controller {
 		$catCot = array();
 		$catEstadoFactura = array();
 
-		//for($r = 1, $n = count($data); $r < $n; $r++){
-		for($r = 1, $n = 15; $r < $n; $r++){
+		for($r = 1, $n = count($data); $r < $n; $r++){
+		//for($r = 1, $n = 40; $r < $n; $r++){
 			$idCotizacion = $data[$r][0][6];
 
 			//Data de concepto

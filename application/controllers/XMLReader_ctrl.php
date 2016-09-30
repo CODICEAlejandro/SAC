@@ -69,6 +69,8 @@ class XMLReader_ctrl extends CI_Controller {
 
 			$xml = simplexml_load_file($file);
 
+			$objFactura->xml = $file;
+
 			//Registrar los namespaces en el objeto
 			$namespaces = $xml->getNameSpaces(true);
 			$xml->registerXPathNamespace("tfd", $namespaces["tfd"]);
