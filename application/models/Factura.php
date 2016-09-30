@@ -114,7 +114,7 @@ class Factura extends CI_Model {
 
 		if($recursive){
 			foreach($this->conceptos as $concepto){
-				$idConcepto = $concepto->save();
+				$idConcepto = $concepto->save($recursive);
 
 				$dataConcepto_factura = array(
 					"idConcepto" => $idConcepto,
