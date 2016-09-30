@@ -85,7 +85,7 @@ class XMLReader_ctrl extends CI_Controller {
 				$objConcepto->descripcion = $element->xpath("fx:Descripcion")[0]->__toString();
 				$objConcepto->valorUnitario = $element->xpath("fx:ValorUnitario")[0]->__toString();
 				$objConcepto->importe = $element->xpath("fx:Importe")[0]->__toString();
-				$objConcepto->idTipoConcepto = 'NULL';
+				$objConcepto->idTipoConcepto = NULL;
 
 				//Obtener los extras
 				//Asumimos que solo existe un fragmento etiquetado como ConceptoEx

@@ -92,6 +92,8 @@ class Concepto extends CI_Model {
 				);
 		}
 
+		if(is_null($this->idTipoConcepto)) unset($data["idTipoConcepto"]);
+
 		$idConcepto = $this->insertar($data);
 
 		if($recursive){
