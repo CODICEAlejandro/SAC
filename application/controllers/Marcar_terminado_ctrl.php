@@ -72,6 +72,7 @@ class Marcar_terminado_ctrl extends CI_Controller {
 
 		//Variables de configuración
 		$data['upload_path'] = base_url().'img';
+		$data['allowed_types'] = 'jpg|JPG|jpeg|JPEG|gif|GIF|pdf|PDF|png|PNG|zip|ZIP|numbers|NUMBERS';
 		
 		//Asignación inteligente de variables de estado
 		//$config['file_name'] = microtime();

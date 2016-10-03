@@ -11,7 +11,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script>
 			$(function(){
 				$(".AInputField").addClass("AValidField");
+
+				$("#archivo").change(function(){
+					validarArchivo();
+				});
 			});
+
+			function validarArchivo(){
+				var fileName = $("#archivo").val();
+				var allowedTypes = "jpg|JPG|jpeg|JPEG|gif|GIF|pdf|PDF|png|PNG|zip|ZIP|numbers|NUMBERS|XML|xml".split("|");
+				var fileExtension = fileName.split(".").reverse();
+				
+				if(fileExtension.length > 0)
+					fileExtension = fileExtension[0];
+				else
+					fileExtension = 'NO_ALLOWED';
+
+				if( $.inArray(fileExtension, allowedTypes) == -1 )
+					alert("Recuerde, las extensiones permitidas para archivos subidos al servidor son: jpg, gif, pdf, png, zip, numbers y xml");
+			}
 
 			function validarTiempo(obj){
 				var regExpTiempo = new RegExp("^\\d{2}:\\d{2}$");
