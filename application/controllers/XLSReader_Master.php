@@ -188,6 +188,9 @@ class XLSReader_Master extends CI_Controller {
 			$accountManager = 'NULL';
 			$titulo = htmlentities(trim($data[$r][0][18]), ENT_QUOTES, 'UTF-8');
 
+			if(trim($idRazonSocial) == '') $idRazonSocial = 'NULL';
+			if(trim($folio) == '') $folio = 'NULL';
+
 			$queryCotizacion = "
 					INSERT INTO `cotizacion`(
 						`id`, 
