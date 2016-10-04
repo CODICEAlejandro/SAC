@@ -32,71 +32,102 @@ class Reporte_master_ctrl extends CI_Controller {
 							){
 		$query = "
 				SELECT
-					edoF.`descripcion` estadoFactura,
-					fact.`folio` folio,
-					(con.`importe` * (1 + fact.`iva`)) total,
-					DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y') fechaPago,
+					conCot.`id` idConceptoCotizacion,
 					cli.`nombre` cliente,
-					con.`id` id,
-					con.`importe` subtotal,
-					fact.`moneda` moneda,
-					fact.`ordenCompra` ordenCompra,
-					tiCon.`descripcion` tipoConcepto,
 					conCot.`referencia` referencia,
-					con.`descripcion` descripcion,
 					DATE_FORMAT(cot.`inicioProyecto`, '%d/%m/%Y') fechaInicio,
-					DATE_FORMAT(cot.`finProyecto`, '%d/%m/%Y') fechaFin,
 					dirF.`razonSocial` razonSocial,
 					DATE_FORMAT(cot.`fechaVenta`, '%d/%m/%Y') fechaVenta,
 					DATE_FORMAT(cot.`fechaJuntaArranque`, '%d/%m/%Y') fechaJuntaArranque,
 					catCerrador.`nombre` cerrador,
 					catResponsable.`nombre` responsable,
-					fact.`iva` iva,
-					(con.`importe` * fact.`iva`) montoIVA,
-					con.`nota` nota,
 					cot.`titulo` tituloCotizacion,
 					catAccountManager.`nombre` accountManager,
-					DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y') fechaCancelacion,
-					DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y') fechaFactura,
-					IF(cot.`contrato`=1, 'Sí', 'No') contrato,
-					fact.`importeEfectivo` importeEfectivo
+					IF(cot.`contrato`=1, 'Sí', 'No') contrato
 				FROM
-					`cotizacion` cot
-					INNER JOIN `catusuario` catCerrador ON catCerrador.`id` = cot.`idCerrador`
-					INNER JOIN `catusuario` catResponsable ON catResponsable.`id` = cot.`idResponsable`
-					INNER JOIN `catusuario` catAccountManager ON catAccountManager.`id` = cot.`accountManager`
-					INNER JOIN `concepto_cotizacion` conCot ON conCot.`idCotizacion` = cot.`id`
-					INNER JOIN `concepto` con ON con.`idConcepto_cotizacion` = conCot.`id`
-					INNER JOIN `cattipoconcepto` tiCon ON tiCon.`id` = con.`idTipoConcepto`
-					INNER JOIN `direccionFiscal` dirF ON dirF.`id` = cot.`idRazonSocial`
-					INNER JOIN `cotizacion_factura_rel` cotfactrel ON cotfactrel.`idCotizacion` = cot.`id`
-					INNER JOIN `concepto_factura_rel` confactrel ON confactrel.`idConcepto` = con.`id`
-					INNER JOIN `factura` fact ON (fact.`id` = confactrel.`idFactura` AND fact.`id` = cotfactrel.`idFactura`)
-					INNER JOIN `catestadofactura` edoF ON edoF.`id` = fact.`idEstadoFactura`
-					INNER JOIN `catcliente` cli ON dirF.`idPadre` = cli.`id`
+					`concepto_cotizacion` conCot
+					LEFT JOIN `cotizacion` cot ON conCot.`idCotizacion` = cot.`id`
+					LEFT JOIN `catusuario` catCerrador ON catCerrador.`id` = cot.`idCerrador`
+					LEFT JOIN `catusuario` catResponsable ON catResponsable.`id` = cot.`idResponsable`
+					LEFT JOIN `catusuario` catAccountManager ON catAccountManager.`id` = cot.`accountManager`
+					LEFT JOIN `direccionfiscal` dirF ON dirF.`id` = cot.`idRazonSocial`
+					LEFT JOIN `catcliente` cli ON dirF.`idPadre` = cli.`id`
 				";
 
 		$query = $query.($this->getWHERE(
 											$idCliente, 
 											$idRazonSocial, 
-											$idCotizacion,
-											$fechaFacturaDesde,
-											$fechaFacturaHasta,
-											$fechaPagoDesde,
-											$fechaPagoHasta,
-											$fechaCancelacionDesde,
-											$fechaCancelacionHasta,
-											$idEstadoFactura
+											$idCotizacion
 										)
 						);
 
-		return $this->db->query($query)->result();
+		$conceptos_cotizacion = $this->db->query($query)->result();
+
+		foreach($conceptos_cotizacion as $c){
+			$queryRelacionFactura = "
+					SELECT
+						(con.`importe` * (1 + fact.`iva`)) total,
+						con.`id` id,
+						con.`importe` subtotal,
+						(con.`importe` * fact.`iva`) montoIVA,
+						con.`nota` nota,
+						con.`descripcion` descripcion,
+						tiCon.`descripcion` tipoConcepto,
+						fact.`folio` folio,
+						DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y') fechaPago,
+						fact.`moneda` moneda,
+						fact.`ordenCompra` ordenCompra,
+						fact.`iva` iva,
+						DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y') fechaCancelacion,
+						DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y') fechaFactura,
+						fact.`importeEfectivo` importeEfectivo,
+						edoF.`descripcion` estadoFactura
+
+					FROM
+						`concepto_cotizacion` conCot
+						LEFT JOIN `concepto` con ON con.`idConcepto_cotizacion` = conCot.`id`
+						LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = con.`idTipoConcepto`
+						LEFT JOIN `factura` fact ON (fact.`folio` = conCot.`folioFactura` AND fact.`id` = conCot.`folioFactura`)
+						LEFT JOIN `catestadofactura` edoF ON edoF.`id` = fact.`idEstadoFactura`
+				";
+
+			$queryRelacionFactura = $queryRelacionFactura.($this->getWHEREFactura(
+												$c->idConceptoCotizacion,
+												$fechaFacturaDesde,
+												$fechaFacturaHasta,
+												$fechaPagoDesde,
+												$fechaPagoHasta,
+												$fechaCancelacionDesde,
+												$fechaCancelacionHasta,
+												$idEstadoFactura
+											)
+						);
+
+			$resultRelacionFactura = $this->db->query($queryRelacionFactura)->row();
+
+			$c->total = $resultRelacionFactura->total ;
+			$c->id = $resultRelacionFactura->id ;
+			$c->subtotal = $resultRelacionFactura->subtotal ;
+			$c->montoIVA = $resultRelacionFactura->montoIVA ;
+			$c->nota = $resultRelacionFactura->nota ;
+			$c->descripcion = $resultRelacionFactura->descripcion ;
+			$c->tipoConcepto = $resultRelacionFactura->tipoConcepto ;
+			$c->folio = $resultRelacionFactura->folio ;
+			$c->fechaPago = $resultRelacionFactura->fechaPago ;
+			$c->moneda = $resultRelacionFactura->moneda ;
+			$c->ordenCompra = $resultRelacionFactura->ordenCompra ;
+			$c->iva = $resultRelacionFactura->iva ;
+			$c->fechaCancelacion = $resultRelacionFactura->fechaCancelacion ;
+			$c->fechaFactura = $resultRelacionFactura->fechaFactura ;
+			$c->importeEfectivo = $resultRelacionFactura->importeEfectivo ;
+			$c->estadoFactura = $resultRelacionFactura->estadoFactura ;
+		}
+
+		return $conceptos_cotizacion;
 	}
 
-	public function getWHERE(
-								$idCliente = -1, 
-								$idRazonSocial = -1, 
-								$idCotizacion = -1,
+	public function getWHEREFactura(
+								$idConceptoCotizacion = -1,
 								$fechaFacturaDesde = "none",
 								$fechaFacturaHasta = "none",
 								$fechaPagoDesde = "none",
@@ -105,11 +136,9 @@ class Reporte_master_ctrl extends CI_Controller {
 								$fechaCancelacionHasta = "none",
 								$idEstadoFactura = -1
 							){
-
 		$appendQuery = " WHERE 1=1 ";
-		$idCliente = (int) htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
-		$idRazonSocial = (int) htmlentities($idRazonSocial, ENT_QUOTES, 'UTF-8');
-		$idCotizacion = (int) htmlentities($idCotizacion, ENT_QUOTES, 'UTF-8');
+
+		$idConceptoCotizacion = (int) htmlentities($idConceptoCotizacion, ENT_QUOTES, 'UTF-8');
 
 		$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
 		$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
@@ -119,11 +148,8 @@ class Reporte_master_ctrl extends CI_Controller {
 		$fechaCancelacionHasta = htmlentities($fechaCancelacionHasta, ENT_QUOTES, 'UTF-8');
 
 		$idEstadoFactura = htmlentities($idEstadoFactura, ENT_QUOTES, 'UTF-8');
-
-		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
-		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
-		if($idCotizacion != -1) $appendQuery .= " AND cot.`id` = ".$idCotizacion;
 		if($idEstadoFactura != -1) $appendQuery .= " AND fact.`idEstadoFactura` = ".$idEstadoFactura;
+		if($idConceptoCotizacion != -1) $appendQuery .= " AND conCot.`id` = ".($idConceptoCotizacion);
 
 		if($fechaFacturaDesde != "none") 
 			$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
@@ -131,6 +157,25 @@ class Reporte_master_ctrl extends CI_Controller {
 			$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
 		if($fechaCancelacionDesde != "none") 
 			$appendQuery .= " AND fact.`fechaCancelacion` BETWEEN '".$fechaCancelacionDesde."' AND '".$fechaCancelacionHasta."'";
+
+		return $appendQuery;		
+	}
+
+	public function getWHERE(
+								$idCliente = -1, 
+								$idRazonSocial = -1, 
+								$idCotizacion = -1
+							){
+
+		$appendQuery = " WHERE 1=1 ";
+		$idCliente = (int) htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
+		$idRazonSocial = (int) htmlentities($idRazonSocial, ENT_QUOTES, 'UTF-8');
+		$idCotizacion = (int) htmlentities($idCotizacion, ENT_QUOTES, 'UTF-8');
+
+
+		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
+		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
+		if($idCotizacion != -1) $appendQuery .= " AND cot.`id` = ".$idCotizacion;
 
 		return $appendQuery;
 	}
