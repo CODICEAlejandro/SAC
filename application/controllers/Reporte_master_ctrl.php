@@ -105,7 +105,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			if(! in_array($c->idCotizacion, $cotizacionesResultantes) )
 				array_push($cotizacionesResultantes, $c->idCotizacion);
 
-			if($c->estadoConcepto == "NO_BILL")
+			if($c->folio == "NO DISPONIBLE")
 				$numeroConceptosSinFacturar++;
 			else $numeroConceptosFacturados++;
 		}
