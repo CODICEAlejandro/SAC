@@ -169,7 +169,13 @@ function retrieveData(){
 					var parent = $(this).closest("#fatherNote");
 					var note = parent.find("#nota").val();
 
-					alert(note);
+					var estado = saveNote(currentID, note);
+
+					if(!estado){
+						$(this).removeClass().addClass("btn btn-danger");
+					}else{
+						$(this).removeClass().addClass("btn btn-success");						
+					}
 				});
 			}
 		},
@@ -180,6 +186,19 @@ function retrieveData(){
 }
 
 function saveNote(idConceptoCotizacion, nota){
+	var estadoPeticion = 1;
+
+	$.ajax({
+		url: baseURL+'index.php/Reporte_master_ctrl/saveNote',
+		method: 'post',
+		data: {'idConceptoCotizacion': idConceptoCotizacion, 'nota': nota},
+		error: function(){
+			estadoPeticion = 0;
+			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
+		}
+	});
+
+	return estadoPeticion;
 }
 
 function retrieveRazonesSociales(){

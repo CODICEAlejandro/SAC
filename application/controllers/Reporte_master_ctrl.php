@@ -1,6 +1,9 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
+ini_set('memory_limit','-1');
+ini_set('max_execution_time', 30000);
+set_time_limit(30000);
 
 class Reporte_master_ctrl extends CI_Controller {
 
@@ -239,6 +242,21 @@ class Reporte_master_ctrl extends CI_Controller {
 										);
 
 		echo json_encode($data);		
+	}
+
+	public function saveNote(){
+		$idConceptoCotizacion = $this->input->post("idConceptoCotizacion");
+		$nota = $this->input->post("nota");
+
+		$idConceptoCotizacion = htmlentities($idConceptoCotizacion, ENT_QUOTES, 'UTF-8');
+		$nota = htmlentities($nota, ENT_QUOTES, 'UTF-8');
+
+		$data = array(
+					"nota" => $nota
+				);
+
+		$this->db->where("id = ", $idConceptoCotizacion);
+		return $this->db->update("concepto_cotizacion", $data);
 	}
 
 }
