@@ -32,6 +32,7 @@ class Reporte_master_ctrl extends CI_Controller {
 							){
 		$query = "
 				SELECT
+					conCot.`idCotizacion` idCotizacion,
 					IFNULL(conCot.`id`, 'NO DISPONIBLE') idConceptoCotizacion,
 					IFNULL(cli.`nombre`, 'NO DISPONIBLE') cliente,
 					IFNULL(conCot.`referencia`, 'NO DISPONIBLE') referencia,
@@ -45,6 +46,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(catAccountManager.`nombre`, 'NO DISPONIBLE') accountManager,
 					IF(cot.`contrato`=1, 'Sí', 'No') contrato,
 
+					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
 					IFNULL(con.`importe` * (1 + fact.`iva`), 'NO DISPONIBLE') total,
 					IFNULL(con.`id`, 'NO DISPONIBLE') id,
 					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
@@ -81,11 +83,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		$query = $query.($this->getWHERE(
 											$idCliente, 
 											$idRazonSocial, 
-											$idCotizacion
-										)
-						);
-
-		$query = $query.($this->getWHEREFactura(
+											$idCotizacion,
 											$fechaFacturaDesde,
 											$fechaFacturaHasta,
 											$fechaPagoDesde,
@@ -94,15 +92,38 @@ class Reporte_master_ctrl extends CI_Controller {
 											$fechaCancelacionHasta,
 											$idEstadoFactura
 										)
-					);
+						);
 
 
 		$conceptos_cotizacion = $this->db->query($query)->result();
 
-		return $conceptos_cotizacion;
+		$cotizacionesResultantes = array();
+		$numeroConceptosFacturados = 0;
+		$numeroConceptosSinFacturar = 0;
+
+		foreach($conceptos_cotizacion as $c){
+			if(! in_array($c->idCotizacion, $cotizacionesResultantes) )
+				array_push($cotizacionesResultantes, $c->idCotizacion);
+
+			if($c->estadoConcepto == "NO_BILL")
+				$numeroConceptosSinFacturar++;
+			else $numeroConceptosFacturados++;
+		}
+
+		$data['mainData'] = $conceptos_cotizacion;
+		
+		$data['analytics'] = array();
+		$data['analytics']['numeroCotizaciones'] = count($cotizacionesResultantes);
+		$data['analytics']['numeroConceptosFacturados'] = $numeroConceptosFacturados;
+		$data['analytics']['numeroConceptosSinFacturar'] = $numeroConceptosSinFacturar;
+
+		return $data;
 	}
 
-	public function getWHEREFactura(
+	public function getWHERE(
+								$idCliente = -1, 
+								$idRazonSocial = -1, 
+								$idCotizacion = -1,
 								$fechaFacturaDesde = "none",
 								$fechaFacturaHasta = "none",
 								$fechaPagoDesde = "none",
@@ -111,7 +132,11 @@ class Reporte_master_ctrl extends CI_Controller {
 								$fechaCancelacionHasta = "none",
 								$idEstadoFactura = -1
 							){
-		$appendQuery = " ";
+
+		$appendQuery = " WHERE 1=1 ";
+		$idCliente = (int) htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
+		$idRazonSocial = (int) htmlentities($idRazonSocial, ENT_QUOTES, 'UTF-8');
+		$idCotizacion = (int) htmlentities($idCotizacion, ENT_QUOTES, 'UTF-8');
 
 		$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
 		$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
@@ -129,21 +154,6 @@ class Reporte_master_ctrl extends CI_Controller {
 			$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
 		if($fechaCancelacionDesde != "none") 
 			$appendQuery .= " AND fact.`fechaCancelacion` BETWEEN '".$fechaCancelacionDesde."' AND '".$fechaCancelacionHasta."'";
-
-		return $appendQuery;		
-	}
-
-	public function getWHERE(
-								$idCliente = -1, 
-								$idRazonSocial = -1, 
-								$idCotizacion = -1
-							){
-
-		$appendQuery = " WHERE 1=1 ";
-		$idCliente = (int) htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
-		$idRazonSocial = (int) htmlentities($idRazonSocial, ENT_QUOTES, 'UTF-8');
-		$idCotizacion = (int) htmlentities($idCotizacion, ENT_QUOTES, 'UTF-8');
-
 
 		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
 		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
@@ -168,7 +178,7 @@ class Reporte_master_ctrl extends CI_Controller {
 
 		$idEstadoFactura = $this->input->post("idEstadoFactura");
 
-		echo json_encode($this->getContent(
+		$data = $this->getContent(
 											$idCliente, 
 											$idRazonSocial, 
 											$idCotizacion,
@@ -179,8 +189,9 @@ class Reporte_master_ctrl extends CI_Controller {
 											$fechaCancelacionDesde,
 											$fechaCancelacionHasta,
 											$idEstadoFactura
-										)
-		);
+										);
+
+		echo json_encode($data);
 	}
 
 	public function getRazonesSociales(){

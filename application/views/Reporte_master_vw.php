@@ -20,12 +20,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<style type="text/css">
 		#header-table {
-			background-color: orange;
+			background-color: #FB8;
 			color: black;
 		}
 
 		#main-data-tbl, #main-data-tbl th, #main-data-tbl td {
-			border: 1px solid black;
+			border: 1px solid #777;
 		}
 	</style>
 </head>
@@ -133,6 +133,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="form-group">
 					<button class="form-control btn btn-primary" id="btn-consultar">Consultar</button>
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div 
+				class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+			>
+				<table
+					class="table table-hover table-bordered"
+				>
+					<tbody>
+						<tr>
+							<td>Número de cotizaciones</td>
+							<td id="numeroCotizaciones"></td>
+						</tr>
+						<tr>
+							<td>Conceptos facturados</td>
+							<td id="numeroConceptosFacturados"></td>
+						</tr>
+						<tr>
+							<td>Conceptos sin factura</td>
+							<td id="numeroConceptosSinFactura"></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

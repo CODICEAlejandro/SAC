@@ -40,38 +40,45 @@ function retrieveData(){
 		success: function(response){
 			var k, n, lastRow;
 
-			for(k=0, n=response.length; k<n; k++){
+			var mainData = response['mainData'];
+			var analytics = response['analytics'];
+
+			$("#numeroCotizaciones").html(analytics['numeroCotizaciones']);
+			$("#numeroConceptosFacturados").html(analytics['numeroConceptosFacturados']);
+			$("#numeroConceptosSinFactura").html(analytics['numerosConceptosPorFacturar']);
+
+			for(k=0, n=mainData.length; k<n; k++){
 				table.append("<tr></tr>");
 				lastRow = table.find("tr:last-child");
 
-				lastRow.append("<td>"+response[k].estadoFactura+"</td>");
-				lastRow.append("<td>"+response[k].folio+"</td>");
-				lastRow.append("<td>"+response[k].total+"</td>");
-				lastRow.append("<td>"+response[k].fechaPago+"</td>");
-				lastRow.append("<td>"+response[k].cliente+"</td>");
-				lastRow.append("<td>"+response[k].id+"</td>");
-				lastRow.append("<td>"+response[k].subtotal+"</td>");
-				lastRow.append("<td>"+response[k].moneda+"</td>");
-				lastRow.append("<td>"+response[k].fechaFactura+"</td>");
-				lastRow.append("<td>"+response[k].ordenCompra+"</td>");
-				lastRow.append("<td>"+response[k].tipoConcepto+"</td>");
-				lastRow.append("<td>"+response[k].referencia+"</td>");
-				lastRow.append("<td>"+response[k].descripcion+"</td>");
-				lastRow.append("<td>"+response[k].tituloCotizacion+"</td>");
-				lastRow.append("<td>"+response[k].fechaInicio+"</td>");
-				lastRow.append("<td>"+response[k].fechaFin+"</td>");
-				lastRow.append("<td>"+response[k].razonSocial+"</td>");
-				lastRow.append("<td>"+response[k].fechaVenta+"</td>");
-				lastRow.append("<td>"+response[k].fechaJuntaArranque+"</td>");
-				lastRow.append("<td>"+response[k].cerrador+"</td>");
-				lastRow.append("<td>"+response[k].responsable+"</td>");
-				lastRow.append("<td>"+response[k].accountManager+"</td>");
-				lastRow.append("<td>"+response[k].iva+"</td>");
-				lastRow.append("<td>"+response[k].montoIVA+"</td>");
-				lastRow.append("<td>"+response[k].importeEfectivo+"</td>");
-				lastRow.append("<td>"+response[k].fechaCancelacion+"</td>");
-				lastRow.append("<td>"+response[k].contrato+"</td>");
-				lastRow.append("<td>"+response[k].nota+"</td>");
+				lastRow.append("<td>"+mainData[k].estadoFactura+"</td>");
+				lastRow.append("<td>"+mainData[k].folio+"</td>");
+				lastRow.append("<td>"+mainData[k].total+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaPago+"</td>");
+				lastRow.append("<td>"+mainData[k].cliente+"</td>");
+				lastRow.append("<td>"+mainData[k].id+"</td>");
+				lastRow.append("<td>"+mainData[k].subtotal+"</td>");
+				lastRow.append("<td>"+mainData[k].moneda+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaFactura+"</td>");
+				lastRow.append("<td>"+mainData[k].ordenCompra+"</td>");
+				lastRow.append("<td>"+mainData[k].tipoConcepto+"</td>");
+				lastRow.append("<td>"+mainData[k].referencia+"</td>");
+				lastRow.append("<td>"+mainData[k].descripcion+"</td>");
+				lastRow.append("<td>"+mainData[k].tituloCotizacion+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaInicio+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaFin+"</td>");
+				lastRow.append("<td>"+mainData[k].razonSocial+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaVenta+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaJuntaArranque+"</td>");
+				lastRow.append("<td>"+mainData[k].cerrador+"</td>");
+				lastRow.append("<td>"+mainData[k].responsable+"</td>");
+				lastRow.append("<td>"+mainData[k].accountManager+"</td>");
+				lastRow.append("<td>"+mainData[k].iva+"</td>");
+				lastRow.append("<td>"+mainData[k].montoIVA+"</td>");
+				lastRow.append("<td>"+mainData[k].importeEfectivo+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaCancelacion+"</td>");
+				lastRow.append("<td>"+mainData[k].contrato+"</td>");
+				lastRow.append("<td>"+mainData[k].nota+"</td>");
 			}
 		},
 		error: function(){
