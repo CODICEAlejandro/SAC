@@ -117,6 +117,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 
+	<div class="container" id="cont-charge-bar">
+		<div class="row">
+			<div 
+				class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+			>
+			<div id="statusChargeCalificados" class="progress-bar progress-bar-success progress-bar-striped active" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; padding-bottom: 15px; padding-top: 15px; margin-bottom: 30px; margin-top: 30px;">Cargando</div>
+			</div>
+		</div>
+	</div>
+
+	<section id="cont-data-area">
+
 	<div class="container">
 		<div class="row">
 			<div 
@@ -228,4 +240,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 	</div>
+
+	</section>
 </body>

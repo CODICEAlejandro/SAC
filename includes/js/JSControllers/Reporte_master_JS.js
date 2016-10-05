@@ -29,6 +29,14 @@ function retrieveData(){
 		data: {"idCliente": idCliente, "idRazonSocial": idRazonSocial, "idCotizacion": idCotizacion, "facturaDesde": fechaFacturaDesde, "facturaHasta": fechaFacturaHasta, "pagoDesde": fechaPagoDesde, "pagoHasta": fechaPagoHasta, "idEstadoFactura": idEstadoFactura},
 		dataType: 'json',
 		method: 'post',
+		beforeSend: function(){
+			$("#cont-charge-bar").show();
+			$("#cont-data-area").hide();
+		},
+		complete: function(){
+			$("#cont-charge-bar").hide();
+			$("#cont-data-area").show();
+		},
 		success: function(response){
 			var k, n, lastRow;
 
@@ -151,6 +159,9 @@ $(function(){
 	$("#idRazonSocial").change(function(){
 		retrieveCotizaciones();
 	});
+
+	$("#cont-charge-bar").hide();
+	$("#cont-data-area").hide();
 
 	initDatepicker("#fechaPagoDesde", "#fechaPagoDesdeAlt", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fechaCancelacionDesde", "#fechaCancelacionDesdeAlt", "dd/mm/yy", "yy-mm-dd");
