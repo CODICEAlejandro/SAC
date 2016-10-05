@@ -1,5 +1,6 @@
 function retrieveABill(){
 	var folio = $("#buscadorFolio").val();
+	var table = $("#main-data-tbl tbody");
 
 	$.ajax({
 		url: baseURL+"index.php/Reporte_master_ctrl/getABillAJAX",
