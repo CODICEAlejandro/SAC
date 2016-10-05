@@ -162,12 +162,14 @@ function retrieveData(){
 				lastRow.append("<td>"+mainData[k].importeEfectivo+"</td>");
 				lastRow.append("<td>"+mainData[k].fechaCancelacion+"</td>");
 				lastRow.append("<td>"+mainData[k].contrato+"</td>");
-				lastRow.append('<td><div class="input-group" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].idConceptoCotizacion+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
+				lastRow.append('<td><div class="input-group" id="fatherNote" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].idConceptoCotizacion+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
 	
 				lastRow.find("#btn-save-note").click(function(){
 					var currentID = $(this).attr("data-id");
+					var parent = $(this).parent("#fatherNote");
+					var note = parent.find("#nota").val();
 
-					alert(currentID);
+					alert(note);
 				});
 			}
 		},
@@ -175,6 +177,9 @@ function retrieveData(){
 			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
 		}
 	});
+}
+
+function saveNote(idConceptoCotizacion, nota){
 }
 
 function retrieveRazonesSociales(){
