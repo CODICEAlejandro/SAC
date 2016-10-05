@@ -26,7 +26,8 @@ class Reporte_master_ctrl extends CI_Controller {
 								$fechaFacturaHasta = "none",
 								$fechaPagoDesde = "none",
 								$fechaPagoHasta = "none",
-								$idEstadoFactura = -1
+								$idEstadoFactura = -1,
+								$folioFactura = "none"
 							){
 		$query = "
 				SELECT
@@ -87,7 +88,8 @@ class Reporte_master_ctrl extends CI_Controller {
 											$fechaFacturaHasta,
 											$fechaPagoDesde,
 											$fechaPagoHasta,
-											$idEstadoFactura
+											$idEstadoFactura,
+											$folioFactura
 										)
 						);
 
@@ -151,9 +153,8 @@ class Reporte_master_ctrl extends CI_Controller {
 								$fechaFacturaHasta = "none",
 								$fechaPagoDesde = "none",
 								$fechaPagoHasta = "none",
-								$fechaCancelacionDesde = "none",
-								$fechaCancelacionHasta = "none",
-								$idEstadoFactura = -1
+								$idEstadoFactura = -1,
+								$folioFactura = "none"
 							){
 
 		$appendQuery = " WHERE 1=1 ";
@@ -165,8 +166,6 @@ class Reporte_master_ctrl extends CI_Controller {
 		$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
 		$fechaPagoDesde = htmlentities($fechaPagoDesde, ENT_QUOTES, 'UTF-8');
 		$fechaPagoHasta = htmlentities($fechaPagoHasta, ENT_QUOTES, 'UTF-8');
-		$fechaCancelacionDesde = htmlentities($fechaCancelacionDesde, ENT_QUOTES, 'UTF-8');
-		$fechaCancelacionHasta = htmlentities($fechaCancelacionHasta, ENT_QUOTES, 'UTF-8');
 
 		$idEstadoFactura = htmlentities($idEstadoFactura, ENT_QUOTES, 'UTF-8');
 		if($idEstadoFactura != -1) $appendQuery .= " AND conCot.`idEstadoFactura` = ".$idEstadoFactura;
@@ -179,6 +178,8 @@ class Reporte_master_ctrl extends CI_Controller {
 		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
 		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
 		if($idCotizacion != -1) $appendQuery .= " AND cot.`id` = ".$idCotizacion;
+
+		if($folioFactura != "none") $appendQuery .= " AND conCot.`folioFactura` = '".$folioFactura."'";
 
 		return $appendQuery;
 	}
@@ -220,6 +221,24 @@ class Reporte_master_ctrl extends CI_Controller {
 		$idRazonSocial = $this->input->post("idRazonSocial");
 
 		echo json_encode($this->DireccionFiscal->traerCotizaciones($idRazonSocial));
+	}
+
+	public function getABillAJAX(){
+		$folioFactura = $this->input->post("folio");
+
+		$data = $this->getContent(
+											-1, 
+											-1, 
+											-1,
+											"none",
+											"none",
+											"none",
+											"none",
+											-1,
+											$folioFactura
+										);
+
+		echo json_encode($data);		
 	}
 
 }

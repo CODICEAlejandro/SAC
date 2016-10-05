@@ -113,6 +113,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="form-group">
 					<button class="form-control btn btn-primary" id="btn-consultar">Consultar</button>
 				</div>
+
+				<div style="width: 100%; min-height: 1px; border-bottom: 1px solid gray; margin-bottom: 15px; margin-top: 15px;"></div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+							<label for="buscadorFolio">Folio</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+							<input type="text" class="form-control" name="buscadorFolio" id="buscadorFolio" placeholder = "A0000">
+						</div>
+						<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+							<button class="form-control btn btn-warning" id="btn-consultar-folio-factura">Buscar factura</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

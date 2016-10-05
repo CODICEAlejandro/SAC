@@ -1,3 +1,77 @@
+function retrieveABill(){
+	var folio = $("#buscadorFolio").val();
+
+	$.ajax({
+		url: baseURL+"index.php/Reporte_master_ctrl/getABillAJAX",
+		data: {'folio': folio},
+		dataType: 'json',
+		method: 'post',
+		beforeSend: function(){
+			$("#cont-charge-bar").show();
+			$("#cont-data-area").hide();
+		},
+		complete: function(){
+			$("#cont-charge-bar").hide();
+			$("#cont-data-area").show();
+		},
+		success: function(response){
+			var k, n, lastRow;
+
+			var mainData = response['mainData'];
+			var analytics = response['analytics'];
+
+			$("#numeroCotizaciones").html(analytics['numeroCotizaciones']);
+			$("#numeroConceptosFacturados").html(analytics['numeroConceptosFacturados']);
+			$("#numeroConceptosSinFactura").html(analytics['numeroConceptosSinFacturar']);
+
+			$("#importeNoFacturadoPesos").html(analytics['importeNoFacturadoPesos']);
+			$("#importeNoFacturadoDolares").html(analytics['importeNoFacturadoDolares']);
+			$("#importeFacturadoPesos").html(analytics['importeFacturadoPesos']);
+			$("#importeFacturadoDolares").html(analytics['importeFacturadoDolares']);
+
+			$("#totalPesos").html( (analytics['importeNoFacturadoPesos'] + analytics['importeFacturadoPesos']) + " MXN" );
+			$("#totalDolares").html( (analytics['importeNoFacturadoDolares'] + analytics['importeFacturadoDolares']) + " USD");
+
+			for(k=0, n=mainData.length; k<n; k++){
+				table.append("<tr></tr>");
+				lastRow = table.find("tr:last-child");
+
+				lastRow.append("<td>"+mainData[k].estadoFactura+"</td>");
+				lastRow.append("<td>"+mainData[k].folio+"</td>");
+				lastRow.append("<td>"+mainData[k].total+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaPago+"</td>");
+				lastRow.append("<td>"+mainData[k].cliente+"</td>");
+				lastRow.append("<td>"+mainData[k].id+"</td>");
+				lastRow.append("<td>"+mainData[k].subtotal+"</td>");
+				lastRow.append("<td>"+mainData[k].moneda+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaFactura+"</td>");
+				lastRow.append("<td>"+mainData[k].ordenCompra+"</td>");
+				lastRow.append("<td>"+mainData[k].tipoConcepto+"</td>");
+				lastRow.append("<td>"+mainData[k].referencia+"</td>");
+				lastRow.append("<td>"+mainData[k].descripcion+"</td>");
+				lastRow.append("<td>"+mainData[k].tituloCotizacion+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaInicio+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaFin+"</td>");
+				lastRow.append("<td>"+mainData[k].razonSocial+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaVenta+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaJuntaArranque+"</td>");
+				lastRow.append("<td>"+mainData[k].cerrador+"</td>");
+				lastRow.append("<td>"+mainData[k].responsable+"</td>");
+				lastRow.append("<td>"+mainData[k].accountManager+"</td>");
+				lastRow.append("<td>"+mainData[k].iva+"</td>");
+				lastRow.append("<td>"+mainData[k].montoIVA+"</td>");
+				lastRow.append("<td>"+mainData[k].importeEfectivo+"</td>");
+				lastRow.append("<td>"+mainData[k].fechaCancelacion+"</td>");
+				lastRow.append("<td>"+mainData[k].contrato+"</td>");
+				lastRow.append("<td>"+mainData[k].nota+"</td>");
+			}
+		},
+		error: function(){
+			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
+		}		
+	});
+}
+
 function retrieveData(){
 	var idCliente = $("#idCliente").val();
 	var idRazonSocial = $("#idRazonSocial").val();
@@ -158,6 +232,10 @@ $(function(){
 
 	$("#idRazonSocial").change(function(){
 		retrieveCotizaciones();
+	});
+
+	$("#btn-consultar-folio-factura").click(function(){
+		retrieveABill();
 	});
 
 	$("#cont-charge-bar").hide();
