@@ -31,6 +31,8 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$fechaPago = date("Y-m-d",$timestamp);
 
 			$queryUpdateFactura = "UPDATE `factura` SET `fechaPago`= '".$fechaPago."' WHERE `folio` = '".$folioFactura."' ";
+
+			$this->db->query($queryUpdateFactura);
 		}
 	}
 }
