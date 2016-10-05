@@ -166,10 +166,10 @@ function retrieveData(){
 	
 				lastRow.find("#btn-save-note").click(function(){
 					var currentID = $(this).attr("data-id");
-					var parent = $(this).parent("#fatherNote");
+					var parent = $(this).nearest("#fatherNote");
 					var note = parent.html();
 
-					alert(currentID);
+					alert(note);
 				});
 			}
 		},
