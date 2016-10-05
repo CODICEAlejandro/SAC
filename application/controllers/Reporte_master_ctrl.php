@@ -26,8 +26,6 @@ class Reporte_master_ctrl extends CI_Controller {
 								$fechaFacturaHasta = "none",
 								$fechaPagoDesde = "none",
 								$fechaPagoHasta = "none",
-								$fechaCancelacionDesde = "none",
-								$fechaCancelacionHasta = "none",
 								$idEstadoFactura = -1
 							){
 		$query = "
@@ -88,8 +86,6 @@ class Reporte_master_ctrl extends CI_Controller {
 											$fechaFacturaHasta,
 											$fechaPagoDesde,
 											$fechaPagoHasta,
-											$fechaCancelacionDesde,
-											$fechaCancelacionHasta,
 											$idEstadoFactura
 										)
 						);
@@ -152,8 +148,6 @@ class Reporte_master_ctrl extends CI_Controller {
 			$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
 		if($fechaPagoDesde != "none") 
 			$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
-		if($fechaCancelacionDesde != "none") 
-			$appendQuery .= " AND fact.`fechaCancelacion` BETWEEN '".$fechaCancelacionDesde."' AND '".$fechaCancelacionHasta."'";
 
 		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
 		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
@@ -173,9 +167,6 @@ class Reporte_master_ctrl extends CI_Controller {
 		$fechaPagoDesde = $this->input->post("pagoDesde");
 		$fechaPagoHasta = $this->input->post("pagoHasta");
 
-		$fechaCancelacionDesde = $this->input->post("cancelacionDesde");
-		$fechaCancelacionHasta = $this->input->post("cancelacionHasta");
-
 		$idEstadoFactura = $this->input->post("idEstadoFactura");
 
 		$data = $this->getContent(
@@ -186,8 +177,6 @@ class Reporte_master_ctrl extends CI_Controller {
 											$fechaFacturaHasta,
 											$fechaPagoDesde,
 											$fechaPagoHasta,
-											$fechaCancelacionDesde,
-											$fechaCancelacionHasta,
 											$idEstadoFactura
 										);
 

@@ -10,9 +10,6 @@ function retrieveData(){
 	var fechaPagoDesde = $("#fechaPagoDesdeAlt").val();
 	var fechaPagoHasta = $("#fechaPagoHastaAlt").val();
 
-	var fechaCancelacionDesde =$("#fechaCancelacionDesdeAlt").val();
-	var fechaCancelacionHasta = $("#fechaCancelacionHastaAlt").val();
-
 	var idEstadoFactura = $("#idEstadoFactura").val();
 
 	if(!($("#filterByFechaFactura").is(":checked"))){
@@ -25,16 +22,11 @@ function retrieveData(){
 		fechaPagoHasta = "none";
 	}
 
-	if(!($("#filterByFechaCancelacion").is(":checked"))){
-		fechaCancelacionDesde = "none";
-		fechaCancelacionHasta = "none";
-	}
-
 	table.find("*").remove();
 
 	$.ajax({
 		url: baseURL+"index.php/Reporte_master_ctrl/getContentAJAX",
-		data: {"idCliente": idCliente, "idRazonSocial": idRazonSocial, "idCotizacion": idCotizacion, "facturaDesde": fechaFacturaDesde, "facturaHasta": fechaFacturaHasta, "pagoDesde": fechaPagoDesde, "pagoHasta": fechaPagoHasta, "cancelacionDesde": fechaCancelacionDesde, "cancelacionHasta": fechaCancelacionHasta, "idEstadoFactura": idEstadoFactura},
+		data: {"idCliente": idCliente, "idRazonSocial": idRazonSocial, "idCotizacion": idCotizacion, "facturaDesde": fechaFacturaDesde, "facturaHasta": fechaFacturaHasta, "pagoDesde": fechaPagoDesde, "pagoHasta": fechaPagoHasta, "idEstadoFactura": idEstadoFactura},
 		dataType: 'json',
 		method: 'post',
 		success: function(response){

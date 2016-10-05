@@ -102,26 +102,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="fechaCancelacion">Fecha de cancelación</label>
-					<div class="row">
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-							<label>Desde</label>
-							<div class="input-group">
-								<span class="input-group-addon">
-								    <input type="checkbox" id="filterByFechaCancelacion">
-								</span>
-								<input type="text" readonly="true" class="form-control datepicker" id="fechaCancelacionDesde">
-								<input type="text" readonly="true" class="form-control datepicker" id="fechaCancelacionDesdeAlt">
-							</div>
-						</div>
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-							<label>Hasta</label>
-							<input type="text" readonly="true" class="form-control datepicker" id="fechaCancelacionHasta">
-							<input type="text" readonly="true" class="form-control datepicker" id="fechaCancelacionHastaAlt">
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
 					<label for="idEstadoFactura">Estatus</label>
 					<select id="idEstadoFactura" class="form-control">
 						<option value="-1">Mostrar todos</option>
