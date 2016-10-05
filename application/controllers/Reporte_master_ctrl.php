@@ -108,7 +108,6 @@ class Reporte_master_ctrl extends CI_Controller {
 								$fechaCancelacionHasta = "none",
 								$idEstadoFactura = -1
 							){
-		$appendQuery = " WHERE 1=1 ";
 
 		$idConceptoCotizacion = (int) htmlentities($idConceptoCotizacion, ENT_QUOTES, 'UTF-8');
 
