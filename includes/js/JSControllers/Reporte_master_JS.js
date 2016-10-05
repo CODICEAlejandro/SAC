@@ -169,7 +169,7 @@ function retrieveData(){
 					var parent = $(this).parent("#fatherNote");
 					var note = parent.html();
 
-					alert(note);
+					alert(currentID);
 				});
 			}
 		},
