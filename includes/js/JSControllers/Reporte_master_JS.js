@@ -167,7 +167,7 @@ function retrieveData(){
 				lastRow.find("#btn-save-note").click(function(){
 					var currentID = $(this).attr("data-id");
 					var parent = $(this).parent("#fatherNote");
-					var note = parent.find("#nota").html();
+					var note = parent.html();
 
 					alert(note);
 				});
