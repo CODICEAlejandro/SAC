@@ -86,7 +86,6 @@ class Reporte_master_ctrl extends CI_Controller {
 						);
 
 		$query = $query.($this->getWHEREFactura(
-											$c->idConceptoCotizacion,
 											$fechaFacturaDesde,
 											$fechaFacturaHasta,
 											$fechaPagoDesde,
@@ -104,7 +103,6 @@ class Reporte_master_ctrl extends CI_Controller {
 	}
 
 	public function getWHEREFactura(
-								$idConceptoCotizacion = -1,
 								$fechaFacturaDesde = "none",
 								$fechaFacturaHasta = "none",
 								$fechaPagoDesde = "none",
@@ -113,8 +111,6 @@ class Reporte_master_ctrl extends CI_Controller {
 								$fechaCancelacionHasta = "none",
 								$idEstadoFactura = -1
 							){
-
-		$idConceptoCotizacion = (int) htmlentities($idConceptoCotizacion, ENT_QUOTES, 'UTF-8');
 
 		$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
 		$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
@@ -125,7 +121,6 @@ class Reporte_master_ctrl extends CI_Controller {
 
 		$idEstadoFactura = htmlentities($idEstadoFactura, ENT_QUOTES, 'UTF-8');
 		if($idEstadoFactura != -1) $appendQuery .= " AND conCot.`idEstadoFactura` = ".$idEstadoFactura;
-		if($idConceptoCotizacion != -1) $appendQuery .= " AND conCot.`id` = ".($idConceptoCotizacion);
 
 		if($fechaFacturaDesde != "none") 
 			$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
