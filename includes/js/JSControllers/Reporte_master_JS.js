@@ -45,7 +45,7 @@ function retrieveData(){
 
 			$("#numeroCotizaciones").html(analytics['numeroCotizaciones']);
 			$("#numeroConceptosFacturados").html(analytics['numeroConceptosFacturados']);
-			$("#numeroConceptosSinFactura").html(analytics['numerosConceptosPorFacturar']);
+			$("#numeroConceptosSinFactura").html(analytics['numeroConceptosSinFacturar']);
 
 			for(k=0, n=mainData.length; k<n; k++){
 				table.append("<tr></tr>");
