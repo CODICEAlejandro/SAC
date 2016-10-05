@@ -32,17 +32,17 @@ class Reporte_master_ctrl extends CI_Controller {
 							){
 		$query = "
 				SELECT
-					conCot.`id` idConceptoCotizacion,
-					cli.`nombre` cliente,
-					conCot.`referencia` referencia,
-					DATE_FORMAT(cot.`inicioProyecto`, '%d/%m/%Y') fechaInicio,
-					dirF.`razonSocial` razonSocial,
-					DATE_FORMAT(cot.`fechaVenta`, '%d/%m/%Y') fechaVenta,
-					DATE_FORMAT(cot.`fechaJuntaArranque`, '%d/%m/%Y') fechaJuntaArranque,
-					catCerrador.`nombre` cerrador,
-					catResponsable.`nombre` responsable,
-					cot.`titulo` tituloCotizacion,
-					catAccountManager.`nombre` accountManager,
+					IFNULL(conCot.`id`, 'NO DISPONIBLE') idConceptoCotizacion,
+					IFNULL(cli.`nombre`, 'NO DISPONIBLE') cliente,
+					IFNULL(conCot.`referencia`, 'NO DISPONIBLE') referencia,
+					IFNULL(DATE_FORMAT(cot.`inicioProyecto`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaInicio,
+					IFNULL(dirF.`razonSocial`, 'NO DISPONIBLE') razonSocial,
+					IFNULL(DATE_FORMAT(cot.`fechaVenta`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaVenta,
+					IFNULL(DATE_FORMAT(cot.`fechaJuntaArranque`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaJuntaArranque,
+					IFNULL(catCerrador.`nombre`, 'NO DISPONIBLE') cerrador,
+					IFNULL(catResponsable.`nombre`, 'NO DISPONIBLE') responsable,
+					IFNULL(cot.`titulo`, 'NO DISPONIBLE') tituloCotizacion,
+					IFNULL(catAccountManager.`nombre`, 'NO DISPONIBLE') accountManager,
 					IF(cot.`contrato`=1, 'Sí', 'No') contrato
 				FROM
 					`concepto_cotizacion` conCot
@@ -66,29 +66,30 @@ class Reporte_master_ctrl extends CI_Controller {
 		foreach($conceptos_cotizacion as $c){
 			$queryRelacionFactura = "
 					SELECT
-						(con.`importe` * (1 + fact.`iva`)) total,
-						con.`id` id,
-						con.`importe` subtotal,
-						(con.`importe` * fact.`iva`) montoIVA,
-						con.`nota` nota,
-						con.`descripcion` descripcion,
-						tiCon.`descripcion` tipoConcepto,
-						fact.`folio` folio,
-						DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y') fechaPago,
-						fact.`moneda` moneda,
-						fact.`ordenCompra` ordenCompra,
-						fact.`iva` iva,
-						DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y') fechaCancelacion,
-						DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y') fechaFactura,
-						fact.`importeEfectivo` importeEfectivo,
-						edoF.`descripcion` estadoFactura
+						IFNULL(con.`importe` * (1 + fact.`iva`), 'NO DISPONIBLE') total,
+						IFNULL(con.`id`, 'NO DISPONIBLE') id,
+						IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
+						IFNULL((con.`importe` * fact.`iva`), 'NO DISPONIBLE') montoIVA,
+						IFNULL(con.`nota`, '') nota,
+						IFNULL(con.`descripcion`, 'NO DISPONIBLE') descripcion,
+						IFNULL(tiCon.`descripcion`, 'NO DISPONIBLE') tipoConcepto,
+						IFNULL(fact.`folio`, 'NO DISPONIBLE') folio,
+						IFNULL(DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaPago,
+						IFNULL(fact.`moneda`, 'NO DISPONIBLE') moneda,
+						IFNULL(fact.`ordenCompra`, 'NO DISPONIBLE') ordenCompra,
+						IFNULL(imp.`tasa`, 'NO DISPONIBLE') iva,
+						IFNULL(DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaCancelacion,
+						IFNULL(DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFactura,
+						IFNULL(fact.`importeEfectivo`, 'NO DISPONIBLE') importeEfectivo,
+						IFNULL(edoF.`descripcion`, 'NO DISPONIBLE') estadoFactura
 
 					FROM
 						`concepto_cotizacion` conCot
 						LEFT JOIN `concepto` con ON con.`idConcepto_cotizacion` = conCot.`id`
-						LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = con.`idTipoConcepto`
-						LEFT JOIN `factura` fact ON (fact.`folio` = conCot.`folioFactura` AND fact.`id` = conCot.`folioFactura`)
-						LEFT JOIN `catestadofactura` edoF ON edoF.`id` = fact.`idEstadoFactura`
+						LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = conCot.`idTipoConcepto`
+						LEFT JOIN `factura` fact ON fact.`folio` = conCot.`folioFactura`
+						LEFT JOIN `catestadofactura` edoF ON edoF.`id` = conCot.`idEstadoFactura`
+						LEFT JOIN `impuesto` imp ON imp.`idConcepto` = con.`id`
 				";
 
 			$queryRelacionFactura = $queryRelacionFactura.($this->getWHEREFactura(
