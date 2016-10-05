@@ -111,17 +111,19 @@ class Reporte_master_ctrl extends CI_Controller {
 				$numeroConceptosSinFacturar++;
 
 				if(trim($c->moneda) == "MXN"){
-					$importeNoFacturadoPesos += $c->subtotal;
+					$importeNoFacturadoPesos += (float) $c->subtotal;
 				}else if(trim($c->moneda) == "USD"){
-					$importeNoFacturadoDolares += $c->subtotal;					
+					$importeNoFacturadoDolares += (float) $c->subtotal;					
 				}
 			}else{ 
 				$numeroConceptosFacturados++;
 
-				if(trim($c->moneda) == "MXN"){
-					$importeFacturadoPesos += (float) $c->montoConceptoCotizacion;
-				}else if(trim($c->moneda) == "USD"){
-					$importeFacturadoDolares += (float) $c->montoConceptoCotizacion;					
+				if(trim($c->moneda) == "USD"){
+					$importeFacturadoDolares += (float) $c->montoConceptoCotizacion;
+				}else{
+					//Siempre cae en esta condición porque aún no se tiene información de la moneda
+					//La cotización siempre se emite en pesos
+					$importeFacturadoPesos += (float) $c->montoConceptoCotizacion;					
 				}
 			}
 		}
