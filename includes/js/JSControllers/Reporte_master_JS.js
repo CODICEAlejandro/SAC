@@ -162,7 +162,7 @@ function retrieveData(){
 				lastRow.append("<td>"+mainData[k].importeEfectivo+"</td>");
 				lastRow.append("<td>"+mainData[k].fechaCancelacion+"</td>");
 				lastRow.append("<td>"+mainData[k].contrato+"</td>");
-				lastRow.append('<td><div class="input-group" id="fatherNote" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].idConceptoCotizacion+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
+				lastRow.append('<td><div class="input-group" id="fatherNote" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control notaConcepto">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].idConceptoCotizacion+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
 	
 				lastRow.find("#btn-save-note").click(function(){
 					var currentID = $(this).attr("data-id");
@@ -268,6 +268,13 @@ $(function(){
 
 	$("#btn-consultar-folio-factura").click(function(){
 		retrieveABill();
+	});
+
+	$(".notaConcepto").change(function(){
+		var parent = $(this).parent();
+		var button = parent.find("#btn-save-note");
+
+		button.removeClass().addClass("btn btn-warning");
 	});
 
 	$("#cont-charge-bar").hide();
