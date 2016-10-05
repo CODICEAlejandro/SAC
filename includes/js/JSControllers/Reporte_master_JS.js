@@ -274,6 +274,7 @@ $(function(){
 		var parent = $(this).parent();
 		var button = parent.find("#btn-save-note");
 
+		alert("CHANGE");
 		button.removeClass().addClass("btn btn-warning");
 	});
 
