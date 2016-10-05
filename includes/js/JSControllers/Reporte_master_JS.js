@@ -39,6 +39,14 @@ function retrieveData(){
 			$("#numeroConceptosFacturados").html(analytics['numeroConceptosFacturados']);
 			$("#numeroConceptosSinFactura").html(analytics['numeroConceptosSinFacturar']);
 
+			$("#importeNoFacturadoPesos").html(analytics['importeNoFacturadoPesos']);
+			$("#importeNoFacturadoDolares").html(analytics['importeNoFacturadoDolares']);
+			$("#importeFacturadoPesos").html(analytics['importeFacturadoPesos']);
+			$("#importeFacturadoDolares").html(analytics['importeFacturadoDolares']);
+
+			$("#totalPesos").html( (analytics['importeNoFacturadoPesos'] + analytics['importeFacturadoPesos']) + " MXN" );
+			$("#totalDolares").html( (analytics['importeNoFacturadoDolares'] + analytics['importeFacturadoDolares']) + " USD");
+
 			for(k=0, n=mainData.length; k<n; k++){
 				table.append("<tr></tr>");
 				lastRow = table.find("tr:last-child");

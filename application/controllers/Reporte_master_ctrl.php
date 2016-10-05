@@ -43,6 +43,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(cot.`titulo`, 'NO DISPONIBLE') tituloCotizacion,
 					IFNULL(catAccountManager.`nombre`, 'NO DISPONIBLE') accountManager,
 					IF(cot.`contrato`=1, 'Sí', 'No') contrato,
+					IFNULL(conCot.`monto`, 0) montoConceptoCotizacion,
 
 					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
 					IFNULL(con.`importe` * (1 + fact.`iva`), 'NO DISPONIBLE') total,
@@ -97,13 +98,32 @@ class Reporte_master_ctrl extends CI_Controller {
 		$numeroConceptosFacturados = 0;
 		$numeroConceptosSinFacturar = 0;
 
+		$importeFacturadoPesos = 0;
+		$importeFacturadoDolares = 0;
+		$importeNoFacturadoPesos = 0;
+		$importeNoFacturadoDolares = 0;
+
 		foreach($conceptos_cotizacion as $c){
 			if(! in_array($c->idCotizacion, $cotizacionesResultantes) )
 				array_push($cotizacionesResultantes, $c->idCotizacion);
 
-			if($c->folio == "NO DISPONIBLE")
+			if(trim($c->folio) == "NO DISPONIBLE"){
 				$numeroConceptosSinFacturar++;
-			else $numeroConceptosFacturados++;
+
+				if(trim($c->moneda) == "MXN"){
+					$importeNoFacturadoPesos += $c->subtotal;
+				}else if(trim($c->moneda) == "USD"){
+					$importeNoFacturadoDolares += $c->subtotal;					
+				}
+			}else{ 
+				$numeroConceptosFacturados++;
+
+				if(trim($c->moneda) == "MXN"){
+					$importeFacturadoPesos += (float) $c->montoConceptoCotizacion;
+				}else if(trim($c->moneda) == "USD"){
+					$importeFacturadoDolares += (float) $c->montoConceptoCotizacion;					
+				}
+			}
 		}
 
 		$data['mainData'] = $conceptos_cotizacion;
@@ -112,6 +132,11 @@ class Reporte_master_ctrl extends CI_Controller {
 		$data['analytics']['numeroCotizaciones'] = count($cotizacionesResultantes);
 		$data['analytics']['numeroConceptosFacturados'] = $numeroConceptosFacturados;
 		$data['analytics']['numeroConceptosSinFacturar'] = $numeroConceptosSinFacturar;
+
+		$data['analytics']['importeNoFacturadoPesos'] = $importeNoFacturadoPesos;
+		$data['analytics']['importeNoFacturadoDolares'] = $importeNoFacturadoDolares;
+		$data['analytics']['importeFacturadoPesos'] = $importeFacturadoPesos;
+		$data['analytics']['importeFacturadoDolares'] = $importeFacturadoDolares;
 
 		return $data;
 	}

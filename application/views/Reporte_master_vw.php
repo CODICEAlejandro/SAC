@@ -148,6 +148,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div 
 				class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+			>
+				<table
+					class="table table-hover table-bordered"
+				>
+					<thead>
+						<tr>
+							<td></td>
+							<td>Facturado</td>
+							<td>No facturado</td>
+							<td>Total</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Pesos</td>
+							<td id="importeFacturadoPesos"></td>
+							<td id="importeNoFacturadoPesos"></td>
+							<td id="totalPesos"></td>
+						</tr>
+						<tr>
+							<td>Dólares</td>
+							<td id="importeFacturadoDolares"></td>
+							<td id="importeNoFacturadoDolares"></td>
+							<td id="totalDolares"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div 
+				class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
 				style="overflow: scroll;"
 			>
 				<table
