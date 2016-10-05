@@ -106,22 +106,24 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			$resultRelacionFactura = $this->db->query($queryRelacionFactura)->row();
 
-			$c->total = $resultRelacionFactura->total ;
-			$c->id = $resultRelacionFactura->id ;
-			$c->subtotal = $resultRelacionFactura->subtotal ;
-			$c->montoIVA = $resultRelacionFactura->montoIVA ;
-			$c->nota = $resultRelacionFactura->nota ;
-			$c->descripcion = $resultRelacionFactura->descripcion ;
-			$c->tipoConcepto = $resultRelacionFactura->tipoConcepto ;
-			$c->folio = $resultRelacionFactura->folio ;
-			$c->fechaPago = $resultRelacionFactura->fechaPago ;
-			$c->moneda = $resultRelacionFactura->moneda ;
-			$c->ordenCompra = $resultRelacionFactura->ordenCompra ;
-			$c->iva = $resultRelacionFactura->iva ;
-			$c->fechaCancelacion = $resultRelacionFactura->fechaCancelacion ;
-			$c->fechaFactura = $resultRelacionFactura->fechaFactura ;
-			$c->importeEfectivo = $resultRelacionFactura->importeEfectivo ;
-			$c->estadoFactura = $resultRelacionFactura->estadoFactura ;
+			if(count($resultRelacionFactura) > 0){
+				$c->total = $resultRelacionFactura->total ;
+				$c->id = $resultRelacionFactura->id ;
+				$c->subtotal = $resultRelacionFactura->subtotal ;
+				$c->montoIVA = $resultRelacionFactura->montoIVA ;
+				$c->nota = $resultRelacionFactura->nota ;
+				$c->descripcion = $resultRelacionFactura->descripcion ;
+				$c->tipoConcepto = $resultRelacionFactura->tipoConcepto ;
+				$c->folio = $resultRelacionFactura->folio ;
+				$c->fechaPago = $resultRelacionFactura->fechaPago ;
+				$c->moneda = $resultRelacionFactura->moneda ;
+				$c->ordenCompra = $resultRelacionFactura->ordenCompra ;
+				$c->iva = $resultRelacionFactura->iva ;
+				$c->fechaCancelacion = $resultRelacionFactura->fechaCancelacion ;
+				$c->fechaFactura = $resultRelacionFactura->fechaFactura ;
+				$c->importeEfectivo = $resultRelacionFactura->importeEfectivo ;
+				$c->estadoFactura = $resultRelacionFactura->estadoFactura ;
+			}
 		}
 
 		return $conceptos_cotizacion;
@@ -149,7 +151,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		$fechaCancelacionHasta = htmlentities($fechaCancelacionHasta, ENT_QUOTES, 'UTF-8');
 
 		$idEstadoFactura = htmlentities($idEstadoFactura, ENT_QUOTES, 'UTF-8');
-		if($idEstadoFactura != -1) $appendQuery .= " AND fact.`idEstadoFactura` = ".$idEstadoFactura;
+		if($idEstadoFactura != -1) $appendQuery .= " AND conCot.`idEstadoFactura` = ".$idEstadoFactura;
 		if($idConceptoCotizacion != -1) $appendQuery .= " AND conCot.`id` = ".($idConceptoCotizacion);
 
 		if($fechaFacturaDesde != "none") 
