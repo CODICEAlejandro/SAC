@@ -86,11 +86,16 @@ class Reporte_master_ctrl extends CI_Controller {
 						);
 
 		$query = $query.($this->getWHEREFactura(
-											$idCliente, 
-											$idRazonSocial, 
-											$idCotizacion
+											$c->idConceptoCotizacion,
+											$fechaFacturaDesde,
+											$fechaFacturaHasta,
+											$fechaPagoDesde,
+											$fechaPagoHasta,
+											$fechaCancelacionDesde,
+											$fechaCancelacionHasta,
+											$idEstadoFactura
 										)
-						);
+					);
 
 
 		$conceptos_cotizacion = $this->db->query($query)->result();
