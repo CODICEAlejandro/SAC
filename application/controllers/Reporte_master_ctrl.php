@@ -111,6 +111,7 @@ class Reporte_master_ctrl extends CI_Controller {
 								$fechaCancelacionHasta = "none",
 								$idEstadoFactura = -1
 							){
+		$appendQuery = " ";
 
 		$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
 		$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
