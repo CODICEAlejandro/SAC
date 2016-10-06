@@ -23,7 +23,7 @@ function retrieveABill(){
 
 			var mainData = response['mainData'];
 			var analytics = response['analytics'];
-			var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control'>";
+			var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control'  style='width: 150px;'>";
 
 			for(k=0, n=estadosFactura.length; k<n; k++){
 				appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadosFactura[k].descripcion+"</option>";
@@ -77,6 +77,35 @@ function retrieveABill(){
 				lastRow.append("<td>"+mainData[k].nota+"</td>");
 
 				lastRow.find("#estadoFacturaSelect").val(mainData[k].estadoFactura);
+				lastRow.find("#estadoFacturaSelect").attr('data-id', mainData[k].idConceptoCotizacion);
+	
+				lastRow.find("#btn-save-note").click(function(){
+					var currentID = $(this).attr("data-id");
+					var parent = $(this).closest("#fatherNote");
+					var note = parent.find("#nota").val();
+
+					var estado = saveNote(currentID, note);
+
+					if(!estado){
+						$(this).removeClass().addClass("btn btn-danger");
+					}else{
+						$(this).removeClass().addClass("btn btn-success");						
+					}
+				});
+
+
+				lastRow.find("#nota").change(function(){
+					var parent = $(this).parent();
+					var button = parent.find("#btn-save-note");
+					button.removeClass().addClass("btn btn-warning");
+				});
+
+				lastRow.find("#estadoFacturaSelect").change(function(){
+					var currentID = $(this).attr("data-id");
+					var currentEstadoFactura = $(this).val();
+
+					saveEstadoFactura(currentID, currentEstadoFactura);
+				});
 			}
 		},
 		error: function(){
@@ -130,7 +159,7 @@ function retrieveData(){
 			var mainData = response['mainData'];
 			var analytics = response['analytics'];
 
-			var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control'>";
+			var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control' style='width: 150px;'>";
 
 			for(k=0, n=estadosFactura.length; k<n; k++){
 				appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadosFactura[k].descripcion+"</option>";
@@ -211,7 +240,7 @@ function retrieveData(){
 					var currentID = $(this).attr("data-id");
 					var currentEstadoFactura = $(this).val();
 
-					alert(currentID+"  -  "+currentEstadoFactura);
+					saveEstadoFactura(currentID, currentEstadoFactura);
 				});
 			}
 		},
