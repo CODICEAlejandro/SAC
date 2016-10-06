@@ -124,7 +124,7 @@ function retrieveData(){
 			var appendedEstadoFactura = "<select id='estadoFacturaSelect'>";
 
 			for(k=0, n=estadosFactura.length; k<n; k++){
-				appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadoFactura[k].descripcion+"</option>";
+				appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadosFactura[k].descripcion+"</option>";
 			}
 
 			appendedEstadoFactura += "</select>";
