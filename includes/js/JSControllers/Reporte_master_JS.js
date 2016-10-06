@@ -23,6 +23,13 @@ function retrieveABill(){
 
 			var mainData = response['mainData'];
 			var analytics = response['analytics'];
+			var appendedEstadoFactura = "<select id='estadoFacturaSelect'>";
+
+			for(k=0, n=estadosFactura.length; k<n; k++){
+				appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadosFactura[k].descripcion+"</option>";
+			}
+
+			appendedEstadoFactura += "</select>";
 
 			$("#numeroCotizaciones").html(analytics['numeroCotizaciones']);
 			$("#numeroConceptosFacturados").html(analytics['numeroConceptosFacturados']);
@@ -40,7 +47,7 @@ function retrieveABill(){
 				table.append("<tr></tr>");
 				lastRow = table.find("tr:last-child");
 
-				lastRow.append("<td>"+mainData[k].estadoFactura+"</td>");
+				lastRow.append("<td>"+appendedEstadoFactura+"</td>");
 				lastRow.append("<td>"+mainData[k].folio+"</td>");
 				lastRow.append("<td>"+mainData[k].total+"</td>");
 				lastRow.append("<td>"+mainData[k].fechaPago+"</td>");
@@ -68,6 +75,8 @@ function retrieveABill(){
 				lastRow.append("<td>"+mainData[k].fechaCancelacion+"</td>");
 				lastRow.append("<td>"+mainData[k].contrato+"</td>");
 				lastRow.append("<td>"+mainData[k].nota+"</td>");
+
+				lastRow.find("#estadoFacturaSelect").val(mainData[k].estadoFactura);
 			}
 		},
 		error: function(){
