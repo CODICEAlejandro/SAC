@@ -76,7 +76,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					LEFT JOIN `direccionfiscal` dirF ON dirF.`id` = cot.`idRazonSocial`
 					LEFT JOIN `catcliente` cli ON dirF.`idPadre` = cli.`id`
 
-					LEFT JOIN `concepto` con ON con.`idConcepto_cotizacion` = conCot.`id`
+					LEFT JOIN `concepto_factura_cotizacion` relFC ON relFC.`idConceptoCotizacion` = conCot.`id`
+					LEFT JOIN `concepto` con ON relFC.`idConceptoFactura` = con.`id`
 					LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = conCot.`idTipoConcepto`
 					LEFT JOIN `factura` fact ON fact.`folio` = conCot.`folioFactura`
 					LEFT JOIN `catestadofactura` edoF ON edoF.`id` = conCot.`idEstadoFactura`
