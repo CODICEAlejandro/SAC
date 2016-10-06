@@ -21,6 +21,8 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		$this->updateFacturas($result);
 	}
 
+	/*
+	//Actualiza la fecha de pago en la tabla de factura
 	public function updateFacturas($data){
 		for($r = 1, $n = count($data); $r < $n; $r++){
 			$folioFactura = htmlentities(trim($data[$r][0][1]), ENT_QUOTES, 'UTF-8');
@@ -31,6 +33,17 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$fechaPago = date("Y-m-d",$timestamp);
 
 			$queryUpdateFactura = "UPDATE `factura` SET `fechaPago`= '".$fechaPago."' WHERE `folio` = '".$folioFactura."' ";
+
+			$this->db->query($queryUpdateFactura);
+		}
+	}*/
+
+	public function updateFacturas($data){
+		for($r = 1, $n = count($data); $r < $n; $r++){
+			$idConceptoCotizacion = htmlentities(trim($data[$r][0][6]), ENT_QUOTES, 'UTF-8');
+			$nota = htmlentities(trim($data[$r][0][34]), ENT_QUOTES, 'UTF-8');
+
+			$queryUpdateFactura = "UPDATE `concepto_cotizacion` SET `nota`= '".$nota."' WHERE `id` = '".$idConceptoCotizacion."' ";
 
 			$this->db->query($queryUpdateFactura);
 		}
