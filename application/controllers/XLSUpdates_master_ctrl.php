@@ -107,7 +107,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 											INNER JOIN `concepto` con ON con.`id` = fc_rel.`idConcepto`
 											INNER JOIN `factura` fact ON fact.`id` = fc_rel.`idFactura`
 										WHERE
-											fact.`folio` = ".$c->folioFactura."
+											fact.`folio` = '".$c->folioFactura."'
 										";
 
 				$conceptos_factura = $this->db->query($queryNumeroConceptos)->result();
