@@ -52,7 +52,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	}
 	*/
 
-
+	/*
 	//Actualiza la orden de compra de los conceptos_cotizacion
 	public function updateFacturas($data){
 		for($r = 1, $n = count($data); $r < $n; $r++){
@@ -65,5 +65,76 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$this->db->query($queryUpdateFactura);
 		}
 	}
+	*/
 
+	public function updateFacturas($data){
+		$conceptosSinRelacion = 0;
+		$conceptoConRelacion = 0;
+
+		//Obtener los conceptos de la cotización con folio de factura
+		$queryConceptosCotizacion = "SELECT *
+									FROM
+										`concepto_cotizacion` conCot
+									WHERE
+										NOT ISNULL(conCot.`folioFactura`)
+										AND conCot.`folioFactura` != ''
+									";
+
+		$conceptos_cotizacion = $this->db->query($queryConceptosCotizacion);
+
+		foreach($conceptos_cotizacion as $c){
+			//Obtener el número de conceptos de factura relacionados con el concepto de cotización actual
+			$queryNumeroRelaciones = "SELECT
+										count(*) nRelaciones
+									FROM
+										`concepto` con
+									WHERE
+										con.`idConcepto_cotizacion` = ".$c->id."
+									";
+
+			$numeroRelaciones = $this->db->query($queryNumeroRelaciones)->row();
+			$numeroRelaciones = $numeroRelaciones->nRelaciones;
+
+			if($numeroRelaciones == 0){
+				//Caso de interés: No existen conceptos asociados para el concepto de cotización actual
+				//pese a que este tiene un folio de factura asociado
+
+				//Obtener número de conceptos de la factura asociada al concepto de la cotización actual
+				$queryNumeroConceptos = "SELECT
+											con.*
+										FROM
+											`factura_concepto_rel` fc_rel
+											INNER JOIN `concepto` con ON con.`id` = fc_rel.`idConcepto`
+											INNER JOIN `factura` fact ON fact.`id` = fc_rel.`idFactura`
+										WHERE
+											fact.`folio` = ".$c->folioFactura."
+										";
+
+				$conceptos_factura = $this->db->query($queryNumeroConceptos)->result();
+				if(count($conceptos_factura) == 1){
+					//Relación directa uno a uno (Varios de la cotización van a uno mismo)
+					//Esto sucede porque puede ser que un concepto de la factura lo desglosen en varios
+					//conceptos en la cotización
+
+					$queryRelacional = "UPDATE
+											`concepto`
+										SET
+											`idConcepto_cotizacion` = ".$c->id."
+										WHERE
+											`id` = ".$conceptos_factura[0]->id."
+									";
+
+					$this->db->query($queryRelacional);
+					$conceptosConRelacion++;
+					echo "Concepto relacionado (OK) : Concepto_Factura(".$conceptos_factura[0]->id.") -> Cotización(".$c->id.")<br>";
+				}else{
+					$conceptosSinRelacion++;
+					echo "Concepto relacionado (FAIL) : Factura(".$c->folioFactura.") -> Cotización(".$c->id.")<br>";
+				}
+			}else
+				$conceptosConRelacion++;
+		}
+
+		echo "Proceso finalizado: ".$conceptosConRelacion" conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
+	}
 }
