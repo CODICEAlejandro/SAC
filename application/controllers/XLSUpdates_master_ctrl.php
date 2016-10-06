@@ -67,6 +67,8 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	}
 	*/
 
+	/*
+	Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
 	public function updateFacturas($data){
 		$conceptosSinRelacion = 0;
 		$conceptosConRelacion = 0;
@@ -136,5 +138,31 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 
 		echo "Proceso finalizado: ".$conceptosConRelacion." conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
+	}
+	*/
+
+	public function updateFacturas($data){
+		//Selecciona todos los conceptos relacionados en factura
+		$queryConceptosRelacionados = "SELECT
+										con.`id` idConceptoFactura,
+										con.`idConcepto_cotizacion` idConceptoCotizacion
+									FROM
+										`concepto` con
+									WHERE
+										NOT ISNULL(con.`idConcepto_cotizacion`)
+									";
+
+		$conceptosRelacionados = $this->db->query($queryConceptosRelacionados)->result();
+
+		//Migrar contenido a tabla de relación
+		foreach($conceptosRelacionados as $c){
+			$queryInsercion = "INSERT INTO 
+									`concepto_factura_cotizacion`(`idConceptoFactura`, `idConceptoCotizacion`) 
+								VALUES 
+									(".$c->idConceptoFactura.",".$c->idConceptoCotizacion.")
+							";
+
+			$this->db->query($queryInsercion);
+		}
 	}
 }
