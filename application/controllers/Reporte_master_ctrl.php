@@ -54,7 +54,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(con.`id`, 'NO DISPONIBLE') id,
 					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
 					IFNULL((con.`importe` * fact.`iva`), 'NO DISPONIBLE') montoIVA,
-					IFNULL(con.`nota`, '') nota,
+					IFNULL(conCot.`nota`, '') nota,
 					IFNULL(con.`descripcion`, 'NO DISPONIBLE') descripcion,
 					IFNULL(tiCon.`descripcion`, 'NO DISPONIBLE') tipoConcepto,
 					IFNULL(fact.`folio`, 'NO DISPONIBLE') folio,
