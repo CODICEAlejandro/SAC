@@ -38,6 +38,8 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 	}*/
 
+	/*
+	//Actualiza la nota de los conceptos cotización
 	public function updateFacturas($data){
 		for($r = 1, $n = count($data); $r < $n; $r++){
 			$idConceptoCotizacion = htmlentities(trim($data[$r][0][6]), ENT_QUOTES, 'UTF-8');
@@ -48,4 +50,20 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$this->db->query($queryUpdateFactura);
 		}
 	}
+	*/
+
+
+	//Actualiza la orden de compra de los conceptos_cotizacion
+	public function updateFacturas($data){
+		for($r = 1, $n = count($data); $r < $n; $r++){
+			$idConceptoCotizacion = htmlentities(trim($data[$r][0][6]), ENT_QUOTES, 'UTF-8');
+			$ordenCompra = htmlentities(trim($data[$r][0][11]), ENT_QUOTES, 'UTF-8');
+			$folioFactura = htmlentities(trim($data[$r][0][1]), ENT_QUOTES, 'UTF-8');
+
+			$queryUpdateFactura = "UPDATE `factura` SET `ordenCompra`= '".$ordenCompra."' WHERE `folio` = '".$folioFactura."' ";
+
+			$this->db->query($queryUpdateFactura);
+		}
+	}
+
 }
