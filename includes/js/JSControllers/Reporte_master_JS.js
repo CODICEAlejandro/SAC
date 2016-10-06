@@ -1,3 +1,5 @@
+var estadosFactura = array();
+
 function retrieveABill(){
 	var folio = $("#buscadorFolio").val();
 	var table = $("#main-data-tbl tbody");
@@ -119,6 +121,14 @@ function retrieveData(){
 			var mainData = response['mainData'];
 			var analytics = response['analytics'];
 
+			var appendedEstadoFactura = "<select id='estadoFacturaSelect'>";
+
+			for(k=0, n=estadosFactura.length; k<n; k++){
+				appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadoFactura[k].descripcion+"</option>";
+			}
+
+			appendedEstadoFactura += "</select>";
+
 			$("#numeroCotizaciones").html(analytics['numeroCotizaciones']);
 			$("#numeroConceptosFacturados").html(analytics['numeroConceptosFacturados']);
 			$("#numeroConceptosSinFactura").html(analytics['numeroConceptosSinFacturar']);
@@ -135,7 +145,7 @@ function retrieveData(){
 				table.append("<tr></tr>");
 				lastRow = table.find("tr:last-child");
 
-				lastRow.append("<td>"+mainData[k].estadoFactura+"</td>");
+				lastRow.append("<td>"+appendedEstadoFactura+"</td>");
 				lastRow.append("<td>"+mainData[k].folio+"</td>");
 				lastRow.append("<td>"+mainData[k].total+"</td>");
 				lastRow.append("<td>"+mainData[k].fechaPago+"</td>");
@@ -163,6 +173,8 @@ function retrieveData(){
 				lastRow.append("<td>"+mainData[k].fechaCancelacion+"</td>");
 				lastRow.append("<td>"+mainData[k].contrato+"</td>");
 				lastRow.append('<td><div class="input-group" id="fatherNote" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control notaConcepto">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].idConceptoCotizacion+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
+
+				lastRow.find("#estadoFacturaSelect").val(mainData[k].estadoFactura);
 	
 				lastRow.find("#btn-save-note").click(function(){
 					var currentID = $(this).attr("data-id");
@@ -258,6 +270,20 @@ function retrieveCotizaciones(){
 	});
 }
 
+function retrieveEstadosFactura(){
+	$.ajax({
+		url: baseURL+'index.php/Reporte_master_ctrl/getEstadosFactura/',
+		dataType: 'json',
+		method: 'post',
+		success: function(response){
+			estadosFactura = response;
+		},
+		error: function(){
+			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
+		}
+	});
+}
+
 $(function(){
 	$("#btn-consultar").click(function(event){
 		event.preventDefault();
@@ -287,4 +313,6 @@ $(function(){
 	initDatepicker("#fechaPagoHasta", "#fechaPagoHastaAlt", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fechaCancelacionHasta", "#fechaCancelacionHastaAlt", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fechaFacturaHasta", "#fechaFacturaHastaAlt", "dd/mm/yy", "yy-mm-dd");
+
+	retrieveEstadosFactura();
 });
