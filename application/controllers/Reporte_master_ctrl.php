@@ -259,8 +259,8 @@ class Reporte_master_ctrl extends CI_Controller {
 		return $this->db->update("concepto_cotizacion", $data);
 	}
 
-	public function retrieveEstadosFactura(){
-		return json_encode($this->db->get("catestadofactura")->result());
+	public function getEstadosFactura(){
+		echo json_encode($this->db->get("catestadofactura")->result());
 	}
 
 }

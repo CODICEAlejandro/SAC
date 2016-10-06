@@ -1,4 +1,4 @@
-var estadosFactura = array();
+var estadosFactura = new Array();
 
 function retrieveABill(){
 	var folio = $("#buscadorFolio").val();
