@@ -121,7 +121,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 					$queryRelacional = "INSERT INTO 
 									`concepto_factura_cotizacion`(`idConceptoFactura`, `idConceptoCotizacion`) 
 								VALUES 
-									(".$c->idConceptoFactura.",".$c->idConceptoCotizacion.")
+									(".$conceptos_factura[0]->id.",".$c->id.")
 							";
 
 					$this->db->query($queryRelacional);
