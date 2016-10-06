@@ -80,7 +80,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 										AND conCot.`folioFactura` != ''
 									";
 
-		$conceptos_cotizacion = $this->db->query($queryConceptosCotizacion);
+		$conceptos_cotizacion = $this->db->query($queryConceptosCotizacion)->result();
 
 		foreach($conceptos_cotizacion as $c){
 			//Obtener el número de conceptos de factura relacionados con el concepto de cotización actual
