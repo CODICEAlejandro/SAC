@@ -135,6 +135,6 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 				$conceptosConRelacion++;
 		}
 
-		echo "Proceso finalizado: ".$conceptosConRelacion" conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
+		echo "Proceso finalizado: ".$conceptosConRelacion." conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
 	}
 }
