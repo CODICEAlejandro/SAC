@@ -67,8 +67,8 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	}
 	*/
 
-	/*
-	Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
+	
+	//Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
 	public function updateFacturas($data){
 		$conceptosSinRelacion = 0;
 		$conceptosConRelacion = 0;
@@ -89,9 +89,9 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$queryNumeroRelaciones = "SELECT
 										count(*) nRelaciones
 									FROM
-										`concepto` con
+										`concepto_factura_cotizacion` con_rel
 									WHERE
-										con.`idConcepto_cotizacion` = ".$c->id."
+										con_rel.`idConceptoCotizacion` = ".$c->id."
 									";
 
 			$numeroRelaciones = $this->db->query($queryNumeroRelaciones)->row();
@@ -118,13 +118,11 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 					//Esto sucede porque puede ser que un concepto de la factura lo desglosen en varios
 					//conceptos en la cotización
 
-					$queryRelacional = "UPDATE
-											`concepto`
-										SET
-											`idConcepto_cotizacion` = ".$c->id."
-										WHERE
-											`id` = ".$conceptos_factura[0]->id."
-									";
+					$queryRelacional = "INSERT INTO 
+									`concepto_factura_cotizacion`(`idConceptoFactura`, `idConceptoCotizacion`) 
+								VALUES 
+									(".$c->idConceptoFactura.",".$c->idConceptoCotizacion.")
+							";
 
 					$this->db->query($queryRelacional);
 					$conceptosConRelacion++;
@@ -139,8 +137,10 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 
 		echo "Proceso finalizado: ".$conceptosConRelacion." conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
 	}
-	*/
+	
 
+	/*
+	//Migra el contenido de la columna idConcepto_cotizacion de concepto a la tabla de relación corresondiente con cotización
 	public function updateFacturas($data){
 		//Selecciona todos los conceptos relacionados en factura
 		$queryConceptosRelacionados = "SELECT
@@ -165,4 +165,5 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$this->db->query($queryInsercion);
 		}
 	}
+	*/
 }
