@@ -126,7 +126,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 
 					$this->db->query($queryRelacional);
 					$conceptosConRelacion++;
-					echo "Concepto relacionado (OK) : Concepto_Factura(".$conceptos_factura[0]->id.") -> Cotización(".$c->id.")<br>";
+					echo "Concepto relacionado (OK) : Factura(".$c->folioFactura."), Concepto_Factura(".$conceptos_factura[0]->id.") -> Cotización(".$c->id.")<br>";
 				}else{
 					$conceptosSinRelacion++;
 					echo "Concepto relacionado (FAIL) : Factura(".$c->folioFactura.") -> Cotización(".$c->id.")<br>";
