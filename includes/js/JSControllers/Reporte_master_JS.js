@@ -177,6 +177,13 @@ function retrieveData(){
 						$(this).removeClass().addClass("btn btn-success");						
 					}
 				});
+
+
+				lastRow.find("#nota").change(function(){
+					var parent = $(this).parent();
+					var button = parent.find("#btn-save-note");
+					button.removeClass().addClass("btn btn-warning");
+				});
 			}
 		},
 		error: function(){
@@ -268,14 +275,6 @@ $(function(){
 
 	$("#btn-consultar-folio-factura").click(function(){
 		retrieveABill();
-	});
-
-	$(".notaConcepto").change(function(){
-		var parent = $(this).parent();
-		var button = parent.find("#btn-save-note");
-
-		alert("CHANGE");
-		button.removeClass().addClass("btn btn-warning");
 	});
 
 	$("#cont-charge-bar").hide();
