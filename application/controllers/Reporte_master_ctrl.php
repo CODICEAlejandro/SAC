@@ -259,6 +259,21 @@ class Reporte_master_ctrl extends CI_Controller {
 		return $this->db->update("concepto_cotizacion", $data);
 	}
 
+	public function saveEstadoFactura(){
+		$idConceptoCotizacion = $this->input->post("idConceptoCotizacion");
+		$idEstadoFactura = $this->input->post("idEstadoFactura");
+
+		$idConceptoCotizacion = htmlentities($idConceptoCotizacion, ENT_QUOTES, 'UTF-8');
+		$idEstadoFactura = htmlentities($idEstadoFactura, ENT_QUOTES, 'UTF-8');
+
+		$data = array(
+					"idEstadoFactura" => $idEstadoFactura
+				);
+
+		$this->db->where("id = ", $idConceptoCotizacion);
+		return $this->db->update("concepto_cotizacion", $data);
+	}
+
 	public function getEstadosFactura(){
 		echo json_encode($this->db->get("catestadofactura")->result());
 	}
