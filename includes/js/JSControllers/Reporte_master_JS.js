@@ -23,7 +23,7 @@ function retrieveABill(){
 
 			var mainData = response['mainData'];
 			var analytics = response['analytics'];
-			var appendedEstadoFactura = "<select id='estadoFacturaSelect'>";
+			var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control'>";
 
 			for(k=0, n=estadosFactura.length; k<n; k++){
 				appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadosFactura[k].descripcion+"</option>";
@@ -130,7 +130,7 @@ function retrieveData(){
 			var mainData = response['mainData'];
 			var analytics = response['analytics'];
 
-			var appendedEstadoFactura = "<select id='estadoFacturaSelect'>";
+			var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control'>";
 
 			for(k=0, n=estadosFactura.length; k<n; k++){
 				appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadosFactura[k].descripcion+"</option>";
@@ -205,6 +205,13 @@ function retrieveData(){
 					var button = parent.find("#btn-save-note");
 					button.removeClass().addClass("btn btn-warning");
 				});
+
+				lastRow.find("#estadoFacturaSelect").change(function(){
+					var currentID = $(this).attr("data-id");
+					var currentEstadoFactura = $(this).val();
+
+					alert(currentID+"  -  "+currentEstadoFactura);
+				});
 			}
 		},
 		error: function(){
@@ -228,6 +235,23 @@ function saveNote(idConceptoCotizacion, nota){
 
 	return estadoPeticion;
 }
+
+function saveEstadoFactura(idConceptoCotizacion, idEstadoFactura){
+	var estadoPeticion = 1;
+
+	$.ajax({
+		url: baseURL+'index.php/Reporte_master_ctrl/saveEstadoFactura',
+		method: 'post',
+		data: {'idConceptoCotizacion': idConceptoCotizacion, 'idEstadoFactura': idEstadoFactura},
+		error: function(){
+			estadoPeticion = 0;
+			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
+		}
+	});
+
+	return estadoPeticion;
+}
+
 
 function retrieveRazonesSociales(){
 	var id = $("#idCliente").val();
