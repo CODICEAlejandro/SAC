@@ -118,13 +118,13 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 					//Esto sucede porque puede ser que un concepto de la factura lo desglosen en varios
 					//conceptos en la cotización
 
-					$queryRelacional = "INSERT INTO 
+					/*$queryRelacional = "INSERT INTO 
 									`concepto_factura_cotizacion`(`idConceptoFactura`, `idConceptoCotizacion`) 
 								VALUES 
 									(".$conceptos_factura[0]->id.",".$c->id.")
 							";
 
-					$this->db->query($queryRelacional);
+					$this->db->query($queryRelacional);*/
 					$conceptosConRelacion++;
 					echo "Concepto relacionado (OK) : Factura(".$c->folioFactura."), Concepto_Factura(".$conceptos_factura[0]->id.") -> Cotización(".$c->id.")<br>";
 				}else{
