@@ -366,6 +366,13 @@ $(function(){
 		retrieveABill();
 	});
 
+	$("#btn-export-xls").click(function(event){
+		event.preventDefault();
+		$("#form-excel").find("#dataXLS").val($("#table-main-content").html());
+
+		$("#form-excel").submit();
+	});
+
 	$("#cont-charge-bar").hide();
 	$("#cont-data-area").hide();
 

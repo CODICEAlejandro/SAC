@@ -214,6 +214,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div 
 				class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
 				style="overflow: scroll;"
+				id="table-main-content"
 			>
 				<table
 					class="table table-bordered table-hover"
@@ -259,5 +260,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 
+	<div class="container">
+		<div class="row">
+			<div 
+				class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
+			>
+				<button id="btn-export-xls" class="btn btn-success form-control" style="margin-bottom: 15px; margin-top: 15px;">Exportar XLS</button>
+			</div>
+		</div>
+	</div>
+
 	</section>
+
+	<form
+		action="<?php echo base_url(); ?>index.php/Reporte_master_ctrl/setExcel"
+		method="post"
+		id="form-excel"
+		style="display: none;"
+	>
+		<input type="text" name="dataXLS" id="dataXLS" value="">
+	</form>
 </body>
