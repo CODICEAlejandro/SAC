@@ -69,7 +69,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 
 	public function updateFacturas($data){
 		$conceptosSinRelacion = 0;
-		$conceptoConRelacion = 0;
+		$conceptosConRelacion = 0;
 
 		//Obtener los conceptos de la cotización con folio de factura
 		$queryConceptosCotizacion = "SELECT *
@@ -103,7 +103,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 				$queryNumeroConceptos = "SELECT
 											con.*
 										FROM
-											`factura_concepto_rel` fc_rel
+											`concepto_factura_rel` fc_rel
 											INNER JOIN `concepto` con ON con.`id` = fc_rel.`idConcepto`
 											INNER JOIN `factura` fact ON fact.`id` = fc_rel.`idFactura`
 										WHERE
