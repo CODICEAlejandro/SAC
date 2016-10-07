@@ -131,11 +131,10 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 					$conceptosSinRelacion++;
 					foreach($conceptos_factura as $k)
 						echo "CR (FAIL) : Con_Fact(".$k->id.",".$c->folioFactura.",".$k->importe.",".$k->descripcion.") -> Con_Cot(".$c->id.",".$c->monto.",".$c->descripcion.")<br>";
+					echo "<br><br>";
 				}
 			}else
 				$conceptosConRelacion++;
-
-			echo "<br><br>";
 		}
 
 		echo "Proceso finalizado: ".$conceptosConRelacion." conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
