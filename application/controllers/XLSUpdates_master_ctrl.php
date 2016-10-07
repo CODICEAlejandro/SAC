@@ -129,7 +129,8 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 					echo "Concepto relacionado (OK) : Factura(".$c->folioFactura."), Concepto_Factura(".$conceptos_factura[0]->id.") -> Cotización(".$c->id.")<br>";
 				}else{
 					$conceptosSinRelacion++;
-					echo "Concepto relacionado (FAIL) : Factura(".$c->folioFactura.") -> Cotización(".$c->id.")<br>";
+					foreach($conceptos_factura as $k)
+						echo "CR (FAIL) : Con_Fact(".$k->id.",".$c->folioFactura.",".$k->importe.",".$k->descripcion.") -> Con_Cot(".$c->id.","$c->monto",".$c->descripcion.")<br>";
 				}
 			}else
 				$conceptosConRelacion++;
