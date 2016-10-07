@@ -217,7 +217,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 				}else{
 					$conceptosSinRelacion++;
 					foreach($conceptos_factura as $k)
-						echo "CR (FAIL) : Con_Fact(".$k->id.",".$k->folio.",".$k->importe.",".$k->descripcion.") -> Con_Cot(".$c->id.",".$c->monto.",".$c->descripcion.")<br>";
+						echo "CR (FAIL) : Con_Fact(".$k->id.",".$c->folioFactura.",".$k->importe.",".$k->descripcion.") -> Con_Cot(".$c->id.",".$c->monto.",".$c->descripcion.")<br>";
 					echo "<br><br>";
 				}
 			}else
