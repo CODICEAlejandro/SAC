@@ -278,6 +278,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 
 		$facturas_noExistentes = array();
 		$facturas_hipoteticas = array();
+		$facturas_existentesConProblemas = array();
 
 		$totalConceptos_sinRelacion_conFactura = 0;
 
@@ -309,14 +310,14 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 					if(!in_array($folioFactura, $facturas_hipoteticas))
 						array_push($facturas_hipoteticas, $folioFactura);
 
-					if(!in_array($folioFactura, $facturas_noExistentes)){
-						$queryGetFactura = "SELECT count(*) numero FROM `factura` fact WHERE fact.`folio` = '".$folioFactura."'";
-						$factura = $this->db->query($queryGetFactura)->row();
-						$factura = $factura->numero;
+					$queryGetFactura = "SELECT count(*) numero FROM `factura` fact WHERE fact.`folio` = '".$folioFactura."'";
+					$factura = $this->db->query($queryGetFactura)->row();
+					$factura = $factura->numero;
 
-						if($factura < 1)
-							array_push($facturas_noExistentes, $folioFactura);
-					}
+					if(($factura < 1) && !in_array($folioFactura, $facturas_noExistentes))
+						array_push($facturas_noExistentes, $folioFactura);
+					else if(($factura > 0) && !in_array($folioFactura, $facturas_existentesConProblemas))
+						array_push($facturas_existentesConProblemas, $folioFactura);
 
 					echo "<br>(WARNING) Concepto sin relación con factura : (".$conceptos_cotizacion[$k]->id.",".$folioFactura.",".$conceptos_cotizacion[$k]->descripcion.")";
 				}
@@ -332,6 +333,12 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		if(count($facturas_noExistentes)){
 			echo "<br><br>(ERROR) Facturas no existentes: ";
 			foreach($facturas_noExistentes as $key => $value)
+				echo "<br>Factura ".$value;
+		}
+
+		if(count($facturas_existentesConProblemas)){
+			echo "<br><br>(WARNING) Facturas existentes y que presentan problemas: ";
+			foreach($facturas_existentesConProblemas as $key => $value)
 				echo "<br>Factura ".$value;
 		}
 
