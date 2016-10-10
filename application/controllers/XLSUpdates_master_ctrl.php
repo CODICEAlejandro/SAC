@@ -312,8 +312,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 
 					$queryGetFactura = "SELECT count(*) numero, fact.`id` id 
 										FROM `factura` fact 
-										WHERE fact.`folio` = '".$folioFactura."'
-										GROUP BY id";
+										WHERE fact.`folio` = '".$folioFactura."'";
 
 					$factura = $this->db->query($queryGetFactura)->row();
 					print_r($factura);
