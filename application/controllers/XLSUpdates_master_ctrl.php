@@ -315,7 +315,6 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 										WHERE fact.`folio` = '".$folioFactura."'";
 
 					$factura = $this->db->query($queryGetFactura)->row();
-					print_r($factura);
 					$numeroFacturas = $factura->numero;
 
 					if(($numeroFacturas < 1) && !in_array($folioFactura, $facturas_noExistentes))
