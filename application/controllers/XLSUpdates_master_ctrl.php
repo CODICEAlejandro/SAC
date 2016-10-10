@@ -314,6 +314,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 										FROM `factura` fact 
 										WHERE fact.`folio` = '".$folioFactura."'
 										GROUP BY id";
+										
 					$factura = $this->db->query($queryGetFactura)->row();
 					$numeroFacturas = $factura->numero;
 
