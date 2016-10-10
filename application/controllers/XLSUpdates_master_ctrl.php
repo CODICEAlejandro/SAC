@@ -316,6 +316,6 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		echo "<br>Conceptos con factura: ".$totalConceptos_conFactura;
 		echo "<br><br>Conceptos relacionados: ".$totalConceptos_relacionados;
 		echo "<br>Conceptos sin relación: ".$totalConceptos_sinRelacion;
-		echo "<br><br>Conceptos sin relación con factura: ".$totalConceptos_sinRelacion_conFactura;
+		echo "<br><br>Conceptos sin relación y con factura asociada: ".$totalConceptos_sinRelacion_conFactura;
 	}
 }
