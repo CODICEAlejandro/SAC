@@ -314,7 +314,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 						$factura = $this->db->query($queryGetFactura)->row();
 						$factura = $factura->numero;
 
-						if($factura > 0)
+						if($factura < 1)
 							array_push($facturas_noExistentes, $folioFactura);
 					}
 
