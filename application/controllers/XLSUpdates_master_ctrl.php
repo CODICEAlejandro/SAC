@@ -324,13 +324,13 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 
 		if(count($facturas_hipoteticas)){
-			echo "<br><br>(ERROR) Facturas hipotéticas: "
+			echo "<br><br>(ERROR) Facturas hipotéticas: ";
 			foreach($facturas_hipoteticas as $key => $value)
 				echo "<br>Factura ".$value;
 		}
 
 		if(count($facturas_noExistentes)){
-			echo "<br><br>(ERROR) Facturas no existentes: "
+			echo "<br><br>(ERROR) Facturas no existentes: ";
 			foreach($facturas_noExistentes as $key => $value)
 				echo "<br>Factura ".$value;
 		}
