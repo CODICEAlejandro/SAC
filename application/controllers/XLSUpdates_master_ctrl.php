@@ -310,14 +310,17 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 					if(!in_array($folioFactura, $facturas_hipoteticas))
 						array_push($facturas_hipoteticas, $folioFactura);
 
-					$queryGetFactura = "SELECT count(*) numero FROM `factura` fact WHERE fact.`folio` = '".$folioFactura."'";
+					$queryGetFactura = "SELECT count(*) numero, fact.`id` id 
+										FROM `factura` fact 
+										WHERE fact.`folio` = '".$folioFactura."'
+										GROUP BY id";
 					$factura = $this->db->query($queryGetFactura)->row();
 					$factura = $factura->numero;
 
 					if(($factura < 1) && !in_array($folioFactura, $facturas_noExistentes))
 						array_push($facturas_noExistentes, $folioFactura);
 					else if(($factura > 0) && !in_array($folioFactura, $facturas_existentesConProblemas))
-						array_push($facturas_existentesConProblemas, $folioFactura);
+						array_push($facturas_existentesConProblemas, array($folioFactura, $factura->id));
 
 					echo "<br>(WARNING) Concepto sin relación con factura : (".$conceptos_cotizacion[$k]->id.",".$folioFactura.",".$conceptos_cotizacion[$k]->descripcion.")";
 				}
@@ -339,7 +342,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		if(count($facturas_existentesConProblemas)){
 			echo "<br><br>(WARNING) Facturas existentes y que presentan problemas: ";
 			foreach($facturas_existentesConProblemas as $key => $value)
-				echo "<br>Factura ".$value;
+				echo "<br>Factura ".$value[0]." : ".$value[1];
 		}
 
 		echo "<br><br>Proceso finalizado:";
