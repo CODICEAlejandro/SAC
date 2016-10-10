@@ -67,7 +67,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	}
 	*/
 
-	
+	/*
 	//Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
 	//Proceso: muchos en cotización y uno en factura
 	public function updateFacturas($data){
@@ -139,7 +139,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 
 		echo "Proceso finalizado: ".$conceptosConRelacion." conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
-	}
+	}*/
 	
 
 	//Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
@@ -254,4 +254,68 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 	}
 	*/
+
+	//Revisar conceptos relacionados y no relacionados
+	public function updateFacturas($data){
+		echo "<br><br>... Procesando ...";
+
+		$queryTotalConceptos_cotizacion = "SELECT * FROM concepto_cotizacion";
+		$queryTotalConceptos_factura = "SELECT * FROM concepto";
+
+		$conceptos_cotizacion = $this->db->query($queryTotalConceptos_cotizacion)->result();
+		$conceptos_factura = $this->db->query($queryTotalConceptos_factura)->result();
+
+		$totalConceptos_cotizacion = count($conceptos_cotizacion);
+		$totalConceptos_factura = count($conceptos_factura);
+
+		$diferenciaTotalConceptos = $totalConceptos_cotizacion - $totalConceptos_factura;
+
+		$totalConceptos_sinFactura = 0;
+		$totalConceptos_conFactura = 0;
+
+		$totalConceptos_relacionados = 0;
+		$totalConceptos_sinRelacion = 0;
+
+		$totalConceptos_sinRelacion_conFactura = 0;
+
+		for($k = 0; $k < $totalConceptos_cotizacion; $k++){
+			$folioFactura = $conceptos_cotizacion[$k]->folioFactura;
+
+			if(($folioFactura == "") || (is_null($folioFactura)) || ($folioFactura == "NULL")){
+				$totalConceptos_sinFactura++;
+				$totalConceptos_sinRelacion++;
+			}else{
+				$totalConceptos_conFactura++;
+
+				$queryRelaciones = "
+									SELECT count(*) numeroRelaciones
+									FROM `concepto_factura_cotizacion` cfc
+									WHERE
+										cfc.`idConceptoCotizacion` = ".$conceptos_cotizacion[$k]->id."
+									";
+
+				$numeroRelaciones = $this->db->query($queryRelaciones)->row();
+				$numeroRelaciones = $numeroRelaciones->numeroRelaciones;
+
+				if($numeroRelaciones > 0)
+					$totalConceptos_relacionados++;
+				else{
+					$totalConceptos_sinRelacion++;
+					$totalConceptos_sinRelacion_conFactura++;
+
+					echo "<br>(WARNING) Concepto sin relación con factura : (".$conceptos_cotizacion[$k]->id.", ".$conceptos_cotizacion[$k]->descripcion.")";
+				}
+			}
+		}
+
+		echo "<br><br>Proceso finalizado:";
+		echo "<br>Total conceptos cotización: ".$totalConceptos_cotizacion;
+		echo "<br>Total conceptos factura: ".$totalConceptos_factura;
+		echo "<br>Diferencia conceptos cotizados menos conceptos facturados: ".$diferenciaTotalConceptos;
+		echo "<br><br>Conceptos sin factura: ".$totalConceptos_sinFactura;
+		echo "<br>Conceptos con factura: ".$totalConceptos_conFactura;
+		echo "<br><br>Conceptos relacionados: ".$totalConceptos_relacionados;
+		echo "<br>Conceptos sin relación: ".$totalConceptos_sinRelacion;
+		echo "<br><br>Conceptos sin relación con factura: ".$totalConceptos_sinRelacion_conFactura;
+	}
 }
