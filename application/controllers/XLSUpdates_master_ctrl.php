@@ -314,7 +314,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 										FROM `factura` fact 
 										WHERE fact.`folio` = '".$folioFactura."'
 										GROUP BY id";
-										
+
 					$factura = $this->db->query($queryGetFactura)->row();
 					$numeroFacturas = $factura->numero;
 
@@ -335,6 +335,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 
 		if(count($facturas_noExistentes)){
+			asort($facturas_noExistentes);
 			echo "<br><br>(ERROR) Facturas no existentes: ";
 			foreach($facturas_noExistentes as $key => $value)
 				echo "<br>Factura ".$value;
