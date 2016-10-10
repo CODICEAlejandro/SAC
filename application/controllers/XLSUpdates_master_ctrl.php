@@ -316,6 +316,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 										GROUP BY id";
 
 					$factura = $this->db->query($queryGetFactura)->row();
+					print_r($factura);
 					$numeroFacturas = $factura->numero;
 
 					if(($numeroFacturas < 1) && !in_array($folioFactura, $facturas_noExistentes))
