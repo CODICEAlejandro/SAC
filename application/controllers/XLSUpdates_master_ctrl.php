@@ -303,7 +303,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 					$totalConceptos_sinRelacion++;
 					$totalConceptos_sinRelacion_conFactura++;
 
-					echo "<br>(WARNING) Concepto sin relación con factura : (".$conceptos_cotizacion[$k]->id.", ".$conceptos_cotizacion[$k]->descripcion.")";
+					echo "<br>(WARNING) Concepto sin relación con factura : (".$conceptos_cotizacion[$k]->id.",".$folioFactura.",".$conceptos_cotizacion[$k]->descripcion.")";
 				}
 			}
 		}
