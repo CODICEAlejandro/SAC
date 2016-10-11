@@ -155,7 +155,7 @@ class XMLReader_ctrl extends CI_Controller {
 				print_r($xml);
 				$objFactura->total = $xml->attributes()->total->__toString();
 				$objFactura->subtotal = $xml->attributes()->subTotal->__toString();
-				$objFactura->moneda = $xml->attributes()->moneda->__toString();
+				$objFactura->Moneda = $xml->attributes()->moneda->__toString();
 
 				$objFactura->tipoDeCambioVenta = $xml->attributes()->TipoCambio->__toString();
 				$objFactura->formaDePago = $xml->attributes()->metodoDePago->__toString();
