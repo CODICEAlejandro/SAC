@@ -18,7 +18,7 @@ class XMLReader_ctrl extends CI_Controller {
 	}
 
 	public function procesarXML(){
-		$path = "./files/bills/tmp/";
+		$path = "./files/bills/";
 
 		$allowedTypes = array("xml", "XML"); 
 		$filesTmp = scandir($path);
@@ -177,7 +177,39 @@ class XMLReader_ctrl extends CI_Controller {
 			$objFactura->idCotizacion = NULL;
 			$objFactura->folio = ($xml->attributes()->serie->__toString()).($xml->attributes()->folio->__toString());
 			//$objFactura->save(true);
-			print_r($objFactura);
+			//print_r($objFactura);
+
+			if($objFactura->folio == 'A5441'
+				|| $objFactura->folio == 'A5793'
+				|| $objFactura->folio == 'A5150'
+				|| $objFactura->folio == 'A5322'
+				|| $objFactura->folio == 'A5327'
+				|| $objFactura->folio == 'A5332'
+				|| $objFactura->folio == 'A5337'
+				|| $objFactura->folio == 'A5378'
+				|| $objFactura->folio == 'A5404'
+				|| $objFactura->folio == 'A5413'
+				|| $objFactura->folio == 'A5428'
+				|| $objFactura->folio == 'A5429'
+				|| $objFactura->folio == 'A5433'
+				|| $objFactura->folio == 'A5434'
+				|| $objFactura->folio == 'A5656'
+				|| $objFactura->folio == 'A5843'
+				|| $objFactura->folio == 'A5850'
+				|| $objFactura->folio == 'A5871'
+				|| $objFactura->folio == 'A5933'
+				|| $objFactura->folio == 'A5794'
+				|| $objFactura->folio == 'A5331'
+				|| $objFactura->folio == 'A5336'
+				|| $objFactura->folio == 'A5338'
+				|| $objFactura->folio == 'A5405'
+				|| $objFactura->folio == 'A5150'
+				|| $objFactura->folio == 'A5163'
+				|| $objFactura->folio == 'A5540'
+				|| $objFactura->folio == 'A5657'
+				|| $objFactura->folio == 'A5849'){
+				echo "Escaneando factura ".$objFactura->folio." - ".$objFactura->xml."<br>";
+			}
 		}
 	}
 }
