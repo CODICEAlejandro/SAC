@@ -18,7 +18,7 @@ class XMLReader_ctrl extends CI_Controller {
 	}
 
 	public function procesarXML(){
-		$path = "./files/bills/";
+		$path = "./files/bills/tmp/";
 
 		$allowedTypes = array("xml", "XML"); 
 		$filesTmp = scandir($path);
@@ -177,9 +177,10 @@ class XMLReader_ctrl extends CI_Controller {
 			$objFactura->idCotizacion = NULL;
 			$objFactura->folio = ($xml->attributes()->serie->__toString()).($xml->attributes()->folio->__toString());
 			//$objFactura->save(true);
-			//print_r($objFactura);
+			echo "<br><br>";
+			print_r($objFactura);
 
-			if($objFactura->folio == 'A5441'
+			/*if($objFactura->folio == 'A5441'
 				|| $objFactura->folio == 'A5793'
 				|| $objFactura->folio == 'A5150'
 				|| $objFactura->folio == 'A5322'
@@ -209,7 +210,7 @@ class XMLReader_ctrl extends CI_Controller {
 				|| $objFactura->folio == 'A5657'
 				|| $objFactura->folio == 'A5849'){
 				echo "Escaneando factura ".$objFactura->folio." - ".$objFactura->xml."<br>";
-			}
+			}*/
 		}
 	}
 }
