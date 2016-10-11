@@ -68,7 +68,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	}
 	*/
 
-	
+	/*
 	//Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
 	//Proceso: muchos en cotización y uno en factura
 	public function updateFacturas($data){
@@ -141,12 +141,12 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 
 		echo "Proceso finalizado: ".$conceptosConRelacion." conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
-	}
+	}*/
 	
 
 	//Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
 	//Proceso inverso: Muchos en factura y uno en cotización
-	/*public function updateFacturas($data){
+	public function updateFacturas($data){
 		$conceptosSinRelacion = 0;
 		$conceptosConRelacion = 0;
 
@@ -227,7 +227,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 
 		echo "Proceso finalizado: ".$conceptosConRelacion." conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
-	}*/
+	}
 
 	/*
 	//Migra el contenido de la columna idConcepto_cotizacion de concepto a la tabla de relación corresondiente con cotización
