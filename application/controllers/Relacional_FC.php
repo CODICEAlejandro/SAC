@@ -35,7 +35,7 @@ class Relacional_FC extends CI_Controller {
 							FROM `cotizacion_factura_rel` cfc
 							WHERE
 								cfc.`idFactura` = ".$rel->idFactura.
-								"AND cfc.`idCotizacion` = ".$rel->idCotizacion;
+								" AND cfc.`idCotizacion` = ".$rel->idCotizacion;
 
 			$numeroRelaciones = $this->db->query($queryRelExists)->row();
 			$numeroRelaciones = $numeroRelaciones->numeroRelaciones;
@@ -75,7 +75,7 @@ class Relacional_FC extends CI_Controller {
 									`concepto_factura_cotizacion` cfc
 								WHERE
 									cfc.`idConceptoFactura` = ".$rel->idConceptoFactura.
-									"AND cfc.`idConceptoCotizacion` = ".$rel->idConceptoCotizacion;
+									" AND cfc.`idConceptoCotizacion` = ".$rel->idConceptoCotizacion;
 			$numeroRelaciones = $this->db->query($queryRelExists)->row();
 			$numeroRelaciones = $numeroRelaciones->numeroRelaciones;
 
