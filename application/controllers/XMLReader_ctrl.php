@@ -176,10 +176,21 @@ class XMLReader_ctrl extends CI_Controller {
 			$objFactura->idEstadoFactura = NULL;
 			$objFactura->idCotizacion = NULL;
 			$objFactura->folio = ($xml->attributes()->serie->__toString()).($xml->attributes()->folio->__toString());
-			//$objFactura->save(true);
-			//echo "<br><br>";
 
-			//echo "(OK) Factura salvada: ".$objFactura->folio;
+			$queryBillExists = "SELECT count(*) numeroFacturas
+								FROM
+									`factura` fact
+								WHERE
+									fact.`folio` = '".$objFactura->folio."'";
+
+			$numeroFacturas = $this->db->query($queryBillExists)->row();
+			$numeroFacturas = $numeroFacturas->numeroFacturas;
+
+			if($numeroFacturas == 0){
+				$objFactura->save(true);
+				echo "<br><br>";
+				echo "(OK) Factura salvada: ".$objFactura->folio;
+			}
 			//print_r($objFactura);
 
 			/*if($objFactura->folio == 'A5441'
