@@ -18,7 +18,7 @@ class XMLReader_ctrl extends CI_Controller {
 	}
 
 	public function procesarXML(){
-		$path = "./files/bills/tmp/";
+		$path = "./files/bills/";
 
 		$allowedTypes = array("xml", "XML"); 
 		$filesTmp = scandir($path);
