@@ -348,7 +348,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			//Conceptos
 			$queryConceptos_factura = "
 										SELECT
-											con.`id`
+											con.`id`,
 											con.`descripcion`
 										FROM
 											`concepto` con
