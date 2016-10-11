@@ -18,7 +18,7 @@ class XMLReader_ctrl extends CI_Controller {
 	}
 
 	public function procesarXML(){
-		$path = "./files/bills/";
+		$path = "./files/bills/tmp/";
 
 		$allowedTypes = array("xml", "XML"); 
 		$filesTmp = scandir($path);
@@ -150,12 +150,32 @@ class XMLReader_ctrl extends CI_Controller {
 				$objFactura->totalIVARetenido = $resImpuestos->xpath("fx:TotalIVARetenido")[0]->__toString();
 				$objFactura->totalTrasladosLocales = $resImpuestos->xpath("fx:TotalTrasladosLocales")[0]->__toString();
 				$objFactura->totalRetencionesLocales = $resImpuestos->xpath("fx:TotalRetencionesLocales")[0]->__toString();
+			}else{
+				//Namespace FX no encontrado en la jerarquía. Procede a obtener datos de raíz
+				$objFactura->total = $xml->attributes()->total->__toString();
+				$objFactura->subtotal = $xml->attributes()->subTotal->__toString();
+				$objFactura->moneda = $xml->attributes()->moneda->__toString();
+
+				$objFactura->tipoDeCambioVenta = $xml->attributes()->TipoCambio->__toString();
+				$objFactura->formaDePago = $xml->attributes()->metodoDePago->__toString();
+
+				//Accede a conceptos
+				$conceptos = $xml->xpath("//cfdi:Conceptos");
+				foreach($conceptos as $c){
+					$objConcepto = new $this->Concepto();
+					$objConcepto->cantidad = $c->attributes()->cantidad->__toString();	
+					$objConcepto->unidadDeMedida = $c->attributes()->unidad->__toString();	
+					$objConcepto->descripcion = $c->attributes()->descripcion->__toString();	
+					$objConcepto->valorUnitario = $c->attributes()->valorUnitario->__toString();	
+					$objConcepto->importe = $c->attributes()->importe->__toString();
+				}
 			}
 
 			$objFactura->idEstadoFactura = NULL;
 			$objFactura->idCotizacion = NULL;
 			$objFactura->folio = ($xml->attributes()->serie->__toString()).($xml->attributes()->folio->__toString());
-			$objFactura->save(true);
+			//$objFactura->save(true);
+			print_r($objFactura);
 		}
 	}
 }
