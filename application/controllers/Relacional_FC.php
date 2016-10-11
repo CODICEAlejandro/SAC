@@ -93,6 +93,7 @@ class Relacional_FC extends CI_Controller {
 									";
 
 				$this->db->query($queryRel);
+				$this->db->query($queryRel_inTable);
 
 				echo "<br>(OK) Relacionando: Cot(".$rel->idConceptoCotizacion.") : Fact(".$rel->idConceptoFactura.")";
 			}
