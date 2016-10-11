@@ -16,7 +16,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 
 		$xls->openFile("./files/MASTER_FILE.xlsx");
 		$result = $xls->readDocument();
-		print_r($result[0]);
+		//print_r($result[0]);
 
 		$this->updateFacturas($result);
 	}
@@ -74,6 +74,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	public function updateFacturas($data){
 		$conceptosSinRelacion = 0;
 		$conceptosConRelacion = 0;
+		echo "(WARNING) Comenzando proceso ... <br>";
 
 		//Obtener los conceptos de la cotización con folio de factura
 		$queryConceptosCotizacion = "SELECT *
