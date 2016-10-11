@@ -11,6 +11,7 @@ class Relacional_FC extends CI_Controller {
 	}
 
 	public function index(){
+		echo "(WARNING) Iniciando proceso ... ";
 		$this->buildRelationCotizacion_Factura();
 		$this->buildRelationConcepto_ConceptoCotizacion();
 	}
