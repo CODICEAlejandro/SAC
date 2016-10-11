@@ -344,6 +344,23 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			echo "<br><br>(WARNING) Facturas existentes y que presentan problemas: ";
 			foreach($facturas_existentesConProblemas as $key => $value)
 				echo "<br>Factura ".$value[0]." : ".$value[1];
+
+			//Conceptos
+			$queryConceptos_factura = "
+										SELECT
+											con.`id`
+											con.`descripcion`
+										FROM
+											`concepto` con
+											INNER JOIN `concepto_factura_rel` cf ON cf.`idConcepto` = con.`id`
+											INNER JOIN `factura` fact ON fact.`id` = cf.`idFactura`
+										WHERE
+											fact.`folio` = '".$value[0]."'
+									";
+			$conceptos_asociados = $this->db->query($queryConceptos_factura)->result();
+
+			foreach($conceptos_asociados as $c)
+				echo "<br> -> Concepto ".$c->id." - ".$c->descripcion;
 		}
 
 		echo "<br><br>Proceso finalizado:";
