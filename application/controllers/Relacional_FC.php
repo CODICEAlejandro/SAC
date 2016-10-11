@@ -29,13 +29,27 @@ class Relacional_FC extends CI_Controller {
 		$result = $this->db->query($queryGet)->result();
 
 		foreach($result as $rel){
-			echo "Factura: ".$rel->idFactura." con CotizaciOn: ".$rel->idCotizacion;
-			$queryRel = "INSERT INTO 
-							`cotizacion_factura_rel`(`idFactura`, `idCotizacion`) 
-						VALUES (".$rel->idFactura.",".$rel->idCotizacion.")";
+			//Comprobar existencia de relación
+			$queryRelExists = "SELECT count(*) numeroRelaciones
+							FROM `cotizacion_factura_rel` cfc
+							WHERE
+								cfc.`idFactura` = ".$rel->idFactura.
+								"AND cfc.`idCotizacion` = ".$rel->idCotizacion;
 
-			$this->db->query($queryRel);
+			$numeroRelaciones = $this->db->query($queryRelExists)->row();
+			$numeroRelaciones = $numeroRelaciones->numeroRelaciones;
+
+			if($numeroRelaciones == 0){
+				$queryRel = "INSERT INTO 
+								`cotizacion_factura_rel`(`idFactura`, `idCotizacion`) 
+							VALUES (".$rel->idFactura.",".$rel->idCotizacion.")";
+
+				$this->db->query($queryRel);
+				echo "(OK) Factura: ".$rel->idFactura." con CotizaciOn: ".$rel->idCotizacion;
+			}
 		}
+
+		echo "<br><br>Proceso finalizado.<br><br>";
 	}
 
 	public function buildRelationConcepto_ConceptoCotizacion(){
@@ -54,14 +68,36 @@ class Relacional_FC extends CI_Controller {
 		$result = $this->db->query($queryGet)->result();
 
 		foreach($result as $rel){
-			$queryRel = "UPDATE 
-							`concepto` 
-						SET 
-							`idConcepto_cotizacion`=".$rel->idConceptoCotizacion." 
-						WHERE id = ".$rel->idConceptoFactura;
+			//Comprobar existencia de relación
+			$queryRelExists = "SELECT count(*) numeroRelaciones
+								FROM
+									`concepto_factura_cotizacion` cfc
+								WHERE
+									cfc.`idConceptoFactura` = ".$rel->idConceptoFactura.
+									"AND cfc.`idConceptoCotizacion` = ".$rel->idConceptoCotizacion;
+			$numeroRelaciones = $this->db->query($queryRelExists)->row();
+			$numeroRelaciones = $numeroRelaciones->numeroRelaciones;
 
-			$this->db->query($queryRel);
+			if($numeroRelaciones == 0){
+				$queryRel = "UPDATE 
+								`concepto` 
+							SET 
+								`idConcepto_cotizacion`=".$rel->idConceptoCotizacion." 
+							WHERE id = ".$rel->idConceptoFactura;
+
+				$queryRel_inTable = "INSERT INTO 
+										`concepto_factura_cotizacion`(`idConceptoFactura`, `idConceptoCotizacion`) 
+									VALUES 
+										(".$rel->idConceptoFactura.",".$rel->idConceptoCotizacion.")
+									";
+
+				$this->db->query($queryRel);
+
+				echo "<br>(OK) Relacionando: Cot(".$rel->idConceptoCotizacion.") : Fact(".$rel->idConceptoFactura.")";
+			}
 		}
+
+		echo "<br><br>(OK) Proceso finalizado.<br><br>";
 	}
 
 	public function qr($query){
