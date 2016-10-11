@@ -168,6 +168,8 @@ class XMLReader_ctrl extends CI_Controller {
 					$objConcepto->descripcion = $c->attributes()->descripcion->__toString();	
 					$objConcepto->valorUnitario = $c->attributes()->valorUnitario->__toString();	
 					$objConcepto->importe = $c->attributes()->importe->__toString();
+
+					$objFactura->pushConcepto($objConcepto);
 				}
 			}
 
