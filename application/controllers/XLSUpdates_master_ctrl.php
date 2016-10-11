@@ -212,7 +212,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 										(".$cf->id.", ".$conceptos_cotizacion[0]->id.")
 								";
 
-						//$this->db->query($queryRelacional);
+						$this->db->query($queryRelacional);
 						$conceptosConRelacion++;
 						echo "Concepto relacionado (OK) : Factura(".$c->folioFactura."), Concepto_Factura(".$cf->id.") -> Cotización(".$conceptos_cotizacion[0]->id.")<br>";
 					}
