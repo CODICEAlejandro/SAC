@@ -161,7 +161,7 @@ class XMLReader_ctrl extends CI_Controller {
 				$objFactura->formaDePago = $xml->attributes()->metodoDePago->__toString();
 
 				//Accede a conceptos
-				$conceptos = $xml->xpath("//cfdi:Conceptos");
+				$conceptos = $xml->xpath("//cfdi:Conceptos/cfdi:Concepto");
 				foreach($conceptos as $c){
 					$objConcepto = new $this->Concepto();
 					$objConcepto->cantidad = $c->attributes()->cantidad->__toString();	
