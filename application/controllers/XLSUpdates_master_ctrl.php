@@ -21,7 +21,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		$this->updateFacturas($result);
 	}
 
-	
+	/*
 	//Actualiza la fecha de pago en la tabla de factura
 	public function updateFacturas($data){
 		for($r = 1, $n = count($data); $r < $n; $r++){
@@ -37,6 +37,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$this->db->query($queryUpdateFactura);
 		}
 	}
+	*/
 
 	/*
 	//Actualiza la nota de los conceptos cotización
@@ -67,7 +68,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	}
 	*/
 
-	/*
+	
 	//Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
 	//Proceso: muchos en cotización y uno en factura
 	public function updateFacturas($data){
@@ -139,7 +140,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 
 		echo "Proceso finalizado: ".$conceptosConRelacion." conceptos con relación, ".$conceptosSinRelacion." conceptos sin relación<br>";
-	}*/
+	}
 	
 
 	//Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
