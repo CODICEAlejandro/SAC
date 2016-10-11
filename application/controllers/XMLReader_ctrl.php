@@ -152,7 +152,6 @@ class XMLReader_ctrl extends CI_Controller {
 				$objFactura->totalRetencionesLocales = $resImpuestos->xpath("fx:TotalRetencionesLocales")[0]->__toString();
 			}else{
 				//Namespace FX no encontrado en la jerarquía. Procede a obtener datos de raíz
-				print_r($xml);
 				$objFactura->total = $xml->attributes()->total->__toString();
 				$objFactura->subtotal = $xml->attributes()->subTotal->__toString();
 				$objFactura->Moneda = $xml->attributes()->Moneda->__toString();
