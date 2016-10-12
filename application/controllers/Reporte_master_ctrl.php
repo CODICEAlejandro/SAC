@@ -11,6 +11,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		parent::__construct();
 		$this->load->model("Cliente");
 		$this->load->model("DireccionFiscal");
+		$this->load->library("session");
 	}
 
 	public function index(){
@@ -133,6 +134,9 @@ class Reporte_master_ctrl extends CI_Controller {
 				}
 			}
 		}
+
+		$this->session->set_userdata("last_query_result", $conceptos_cotizacion);
+		$this->session->set_userdata("last_query", $query);
 
 		$data['mainData'] = $conceptos_cotizacion;
 		
@@ -286,7 +290,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		// header("Pragma: no-cache");
 		// header("Expires: 0");
 
-		$rows = json_decode($data);
+		print_r($this->session->userdata("last_query_result"));
 
 		echo $data;
 	}
