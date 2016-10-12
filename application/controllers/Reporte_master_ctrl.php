@@ -294,13 +294,42 @@ class Reporte_master_ctrl extends CI_Controller {
 		// header("Pragma: no-cache");
 		// header("Expires: 0");
 
+		/*
+		lastRow.append("<td id='col-estadoFactura'>"+appendedEstadoFactura+"</td>");
+		lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
+		lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
+		lastRow.append("<td id='col-fechaPago'>"+mainData[k].fechaPago+"</td>");
+		lastRow.append("<td id='col-cliente'>"+mainData[k].cliente+"</td>");
+		lastRow.append("<td id='col-id'>"+mainData[k].id+"</td>");
+		lastRow.append("<td id='col-subtotal'>"+mainData[k].subtotal+"</td>");
+		lastRow.append("<td id='col-moneda'>"+mainData[k].moneda+"</td>");
+		lastRow.append("<td id='col-fechaFactura'>"+mainData[k].fechaFactura+"</td>");
+		lastRow.append("<td id='col-ordenCompra'>"+mainData[k].ordenCompra+"</td>");
+		lastRow.append("<td id='col-tipoConcepto'>"+mainData[k].tipoConcepto+"</td>");
+		lastRow.append("<td id='col-referencia'>"+mainData[k].referencia+"</td>");
+		lastRow.append("<td id='col-descripcion'>"+mainData[k].descripcion+"</td>");
+		lastRow.append("<td id='col-tituloCotizacion'>"+mainData[k].tituloCotizacion+"</td>");
+		lastRow.append("<td id='col-fechaInicio'>"+mainData[k].fechaInicio+"</td>");
+		lastRow.append("<td id='col-fechaFin'>"+mainData[k].fechaFin+"</td>");
+		lastRow.append("<td id='col-razonSocial'>"+mainData[k].razonSocial+"</td>");
+		lastRow.append("<td id='col-fechaVenta'>"+mainData[k].fechaVenta+"</td>");
+		lastRow.append("<td id='col-fechaJuntaArranque'>"+mainData[k].fechaJuntaArranque+"</td>");
+		lastRow.append("<td id='col-cerrador'>"+mainData[k].cerrador+"</td>");
+		lastRow.append("<td id='col-responsable'>"+mainData[k].responsable+"</td>");
+		lastRow.append("<td id='col-accountManager'>"+mainData[k].accountManager+"</td>");
+		lastRow.append("<td id='col-iva'>"+mainData[k].iva+"</td>");
+		lastRow.append("<td id='col-montoIVA'>"+mainData[k].montoIVA+"</td>");
+		lastRow.append("<td id='col-importeEfectivo'>"+mainData[k].importeEfectivo+"</td>");
+		lastRow.append("<td id='col-fechaCancelacion'>"+mainData[k].fechaCancelacion+"</td>");
+		lastRow.append("<td id='col-contrato'>"+mainData[k].contrato+"</td>");
+		lastRow.append('<td id="col-nota"><div class="input-group" id="fatherNote" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control notaConcepto">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].idConceptoCotizacion+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
+		*/
+
 		for($k=0, $n=count($data); $k<$n; $k++){
 			$row = $data[$k];
 
-			foreach($row as $key => $value){
-				$xls->setCellValue($value);
-				$xls->nextCol();
-			}
+			$xls->setCellValue($row->folio);
+			$xls->nextCol();
 
 			$xls->nextLine();
 		}
