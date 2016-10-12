@@ -322,8 +322,19 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 
 					if(($numeroFacturas < 1) && !in_array($folioFactura, $facturas_noExistentes))
 						array_push($facturas_noExistentes, $folioFactura);
-					else if(($numeroFacturas > 0) && !in_array($folioFactura, $facturas_existentesConProblemas))
-						array_push($facturas_existentesConProblemas, array($folioFactura, $factura->id));
+					else if(($numeroFacturas > 0) && !in_array($folioFactura, $facturas_existentesConProblemas)){
+						$flagExists = true;
+
+						foreach($facturas_existentesConProblemas as $key => $value){
+							if($value[0] == $folioFactura){
+								$flagExists = false;
+								break;
+							}
+						}
+
+						if($flagExists)
+							array_push($facturas_existentesConProblemas, array($folioFactura, $factura->id));
+					}
 
 					echo "<br>(WARNING) Concepto sin relación con factura : (".$conceptos_cotizacion[$k]->id.",".$folioFactura.",".$conceptos_cotizacion[$k]->descripcion.")";
 				}
