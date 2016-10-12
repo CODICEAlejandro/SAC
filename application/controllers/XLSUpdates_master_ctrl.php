@@ -21,7 +21,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		$this->updateFacturas($result);
 	}
 
-	
+	/*
 	//Actualiza la fecha de pago en la tabla de factura
 	public function updateFacturas($data){
 		for($r = 1, $n = count($data); $r < $n; $r++){
@@ -37,9 +37,9 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$this->db->query($queryUpdateFactura);
 		}
 	}
-	
+	*/
 
-	/*
+	
 	//Actualiza la nota de los conceptos cotización
 	public function updateFacturas($data){
 		for($r = 1, $n = count($data); $r < $n; $r++){
@@ -51,7 +51,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$this->db->query($queryUpdateFactura);
 		}
 	}
-	*/
+	
 
 	/*
 	//Actualiza la orden de compra de los conceptos_cotizacion
