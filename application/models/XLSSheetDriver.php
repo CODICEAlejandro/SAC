@@ -46,7 +46,10 @@ class XLSSheetDriver extends CI_Model {
 	    $this->phpexcel->getProperties()->setTitle($this->title);
 	}
 
-	public function setCellBackground($cell,$color){
+	public function setCellBackground($color, $cell="NO_GOT"){
+		if($cell == "NO_GOT")
+			$cell = $this->getPosition();
+
 		$cellStyle = $this->sheet->getStyle($cell);
 		$cellStyle->applyFromArray(
 						array(
@@ -58,7 +61,10 @@ class XLSSheetDriver extends CI_Model {
 					);
 	}
 
-	public function setCellBorders($cell,$color){
+	public function setCellBorders($color, $cell = "NO_GOT"){
+		if($cell == "NO_GOT")
+			$cell = $this->getPosition();
+
 		$this->sheet->getStyle($cell)->applyFromArray(
 		    array(
 		        'borders' => array(
