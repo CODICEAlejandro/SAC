@@ -39,7 +39,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	}
 	*/
 
-	
+	/*
 	//Actualiza la nota de los conceptos cotización
 	public function updateFacturas($data){
 		for($r = 1, $n = count($data); $r < $n; $r++){
@@ -51,9 +51,9 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$this->db->query($queryUpdateFactura);
 		}
 	}
-	
+	*/
 
-	/*
+	
 	//Actualiza la orden de compra de los conceptos_cotizacion
 	public function updateFacturas($data){
 		for($r = 1, $n = count($data); $r < $n; $r++){
@@ -66,7 +66,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 			$this->db->query($queryUpdateFactura);
 		}
 	}
-	*/
+	
 
 	/*
 	//Relación entre conceptos que tienen folio de factura en cotización, pero no relación con un concepto de la factura correspondiente
