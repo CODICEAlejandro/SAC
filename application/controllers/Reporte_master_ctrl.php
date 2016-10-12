@@ -322,9 +322,9 @@ class Reporte_master_ctrl extends CI_Controller {
 		$xls->setCellValue("Importe"); $xls->nextCol();
 		$xls->setCellValue("Fecha de cancelación"); $xls->nextCol();
 		$xls->setCellValue("Contrato"); $xls->nextCol();
-		$xls->setCellValue("Nota"); $xls->nextCol();
+		$xls->setCellValue("Nota");
 
-		$xls->setCellBackground($xls->getCol());
+		$xls->setCellBackground("#FE9A2E", "A1:".$xls->getPosition());
 
 		for($k=0, $n=count($data); $k<$n; $k++){
 			$row = $data[$k];
