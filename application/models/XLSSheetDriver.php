@@ -58,7 +58,7 @@ class XLSSheetDriver extends CI_Model {
 					);
 	}
 
-	public function setCellBorders($cell,$color,){
+	public function setCellBorders($cell,$color){
 		$this->sheet->getStyle($cell)->applyFromArray(
 		    array(
 		        'borders' => array(
