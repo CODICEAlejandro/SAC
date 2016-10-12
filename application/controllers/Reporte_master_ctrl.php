@@ -66,7 +66,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaCancelacion,
 					IFNULL(DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFactura,
 					IFNULL(fact.`importeEfectivo`, 'NO DISPONIBLE') importeEfectivo,
-					IFNULL(edoF.`id`, 'NO DISPONIBLE') estadoFactura
+					IFNULL(edoF.`id`, 'NO DISPONIBLE') estadoFactura,
+					IFNULL(edoF.`descripcion`, 'NO DISPONIBLE') estadoFacturaDescripcion
 
 				FROM
 					`concepto_cotizacion` conCot
