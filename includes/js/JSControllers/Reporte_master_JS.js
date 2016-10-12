@@ -47,34 +47,34 @@ function retrieveABill(){
 				table.append("<tr></tr>");
 				lastRow = table.find("tr:last-child");
 
-				lastRow.append("<td>"+appendedEstadoFactura+"</td>");
-				lastRow.append("<td>"+mainData[k].folio+"</td>");
-				lastRow.append("<td>"+mainData[k].total+"</td>");
-				lastRow.append("<td>"+mainData[k].fechaPago+"</td>");
-				lastRow.append("<td>"+mainData[k].cliente+"</td>");
-				lastRow.append("<td>"+mainData[k].id+"</td>");
-				lastRow.append("<td>"+mainData[k].subtotal+"</td>");
-				lastRow.append("<td>"+mainData[k].moneda+"</td>");
-				lastRow.append("<td>"+mainData[k].fechaFactura+"</td>");
-				lastRow.append("<td>"+mainData[k].ordenCompra+"</td>");
-				lastRow.append("<td>"+mainData[k].tipoConcepto+"</td>");
-				lastRow.append("<td>"+mainData[k].referencia+"</td>");
-				lastRow.append("<td>"+mainData[k].descripcion+"</td>");
-				lastRow.append("<td>"+mainData[k].tituloCotizacion+"</td>");
-				lastRow.append("<td>"+mainData[k].fechaInicio+"</td>");
-				lastRow.append("<td>"+mainData[k].fechaFin+"</td>");
-				lastRow.append("<td>"+mainData[k].razonSocial+"</td>");
-				lastRow.append("<td>"+mainData[k].fechaVenta+"</td>");
-				lastRow.append("<td>"+mainData[k].fechaJuntaArranque+"</td>");
-				lastRow.append("<td>"+mainData[k].cerrador+"</td>");
-				lastRow.append("<td>"+mainData[k].responsable+"</td>");
-				lastRow.append("<td>"+mainData[k].accountManager+"</td>");
-				lastRow.append("<td>"+mainData[k].iva+"</td>");
-				lastRow.append("<td>"+mainData[k].montoIVA+"</td>");
-				lastRow.append("<td>"+mainData[k].importeEfectivo+"</td>");
-				lastRow.append("<td>"+mainData[k].fechaCancelacion+"</td>");
-				lastRow.append("<td>"+mainData[k].contrato+"</td>");
-				lastRow.append("<td>"+mainData[k].nota+"</td>");
+				lastRow.append("<td id='col-estadoFactura'>"+appendedEstadoFactura+"</td>");
+				lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
+				lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
+				lastRow.append("<td id='col-fechaPago'>"+mainData[k].fechaPago+"</td>");
+				lastRow.append("<td id='col-cliente'>"+mainData[k].cliente+"</td>");
+				lastRow.append("<td id='col-id'>"+mainData[k].id+"</td>");
+				lastRow.append("<td id='col-subtotal'>"+mainData[k].subtotal+"</td>");
+				lastRow.append("<td id='col-moneda'>"+mainData[k].moneda+"</td>");
+				lastRow.append("<td id='col-fechaFactura'>"+mainData[k].fechaFactura+"</td>");
+				lastRow.append("<td id='col-ordenCompra'>"+mainData[k].ordenCompra+"</td>");
+				lastRow.append("<td id='col-tipoConcepto'>"+mainData[k].tipoConcepto+"</td>");
+				lastRow.append("<td id='col-referencia'>"+mainData[k].referencia+"</td>");
+				lastRow.append("<td id='col-descripcion'>"+mainData[k].descripcion+"</td>");
+				lastRow.append("<td id='col-tituloCotizacion'>"+mainData[k].tituloCotizacion+"</td>");
+				lastRow.append("<td id='col-fechaInicio'>"+mainData[k].fechaInicio+"</td>");
+				lastRow.append("<td id='col-fechaFin'>"+mainData[k].fechaFin+"</td>");
+				lastRow.append("<td id='col-razonSocial'>"+mainData[k].razonSocial+"</td>");
+				lastRow.append("<td id='col-fechaVenta'>"+mainData[k].fechaVenta+"</td>");
+				lastRow.append("<td id='col-fechaJuntaArranque'>"+mainData[k].fechaJuntaArranque+"</td>");
+				lastRow.append("<td id='col-cerrador'>"+mainData[k].cerrador+"</td>");
+				lastRow.append("<td id='col-responsable'>"+mainData[k].responsable+"</td>");
+				lastRow.append("<td id='col-accountManager'>"+mainData[k].accountManager+"</td>");
+				lastRow.append("<td id='col-iva'>"+mainData[k].iva+"</td>");
+				lastRow.append("<td id='col-montoIVA'>"+mainData[k].montoIVA+"</td>");
+				lastRow.append("<td id='col-importeEfectivo'>"+mainData[k].importeEfectivo+"</td>");
+				lastRow.append("<td id='col-fechaCancelacion'>"+mainData[k].fechaCancelacion+"</td>");
+				lastRow.append("<td id='col-contrato'>"+mainData[k].contrato+"</td>");
+				lastRow.append("<td id='col-nota'>"+mainData[k].nota+"</td>");
 
 				lastRow.find("#estadoFacturaSelect").val(mainData[k].estadoFactura);
 				lastRow.find("#estadoFacturaSelect").attr('data-id', mainData[k].idConceptoCotizacion);
@@ -347,6 +347,67 @@ function retrieveEstadosFactura(){
 	});
 }
 
+function getExcelData(){
+	var k, n, cR;
+	var fCols;
+	var fRows;
+
+	var result = new Array();
+
+	var table = $("#main-data-tbl tbody");
+	var rows = table.find("tr");
+
+	var cR;
+
+	fRows = "[";
+
+	for(k=0, n=rows.length; k<n; k++){
+		cR = rows[k];
+		alert(rows.html());
+
+		fCols += "{";
+
+		fCols += "'estadoFactura':'"+cR.find("#col-estadoFactura").html()+"',";
+		fCols += "'folio':'"+cR.find("#col-folio").html()+"',";
+		fCols += "'total':'"+cR.find("#col-total").html()+"',";
+		fCols += "'fechaPago':'"+cR.find("#col-fechaPago").html()+"',";
+		fCols += "'cliente':'"+cR.find("#col-cliente").html()+"',";
+		fCols += "'id':'"+cR.find("#col-id").html()+"',";
+		fCols += "'subtotal':'"+cR.find("#col-subtotal").html()+"',";
+		fCols += "'moneda':'"+cR.find("#col-moneda").html()+"',";
+		fCols += "'fechaFactura':'"+cR.find("#col-fechaFactura").html()+"',";
+		fCols += "'ordenCompra':'"+cR.find("#col-ordenCompra").html()+"',";
+		fCols += "'tipoConcepto':'"+cR.find("#col-tipoConcepto").html()+"',";
+		fCols += "'referencia':'"+cR.find("#col-referencia").html()+"',";
+		fCols += "'descripcion':'"+cR.find("#col-descripcion").html()+"',";
+		fCols += "'tituloCotizacion':'"+cR.find("#col-tituloCotizacion").html()+"',";
+		fCols += "'fechaInicio':'"+cR.find("#col-fechaInicio").html()+"',";
+		fCols += "'fechaFin':'"+cR.find("#col-fechaFin").html()+"',";
+		fCols += "'razonSocial':'"+cR.find("#col-razonSocial").html()+"',";
+		fCols += "'fechaVenta':'"+cR.find("#col-fechaVenta").html()+"',";
+		fCols += "'fechaJuntaArranque':'"+cR.find("#col-fechaJuntaArranque").html()+"',";
+		fCols += "'cerrador':'"+cR.find("#col-cerrador").html()+"',";
+		fCols += "'responsable':'"+cR.find("#col-responsable").html()+"',";
+		fCols += "'accountManager':'"+cR.find("#col-accountManager").html()+"',";
+		fCols += "'iva':'"+cR.find("#col-iva").html()+"',";
+		fCols += "'montoIVA':'"+cR.find("#col-montoIVA").html()+"',";
+		fCols += "'importeEfectivo':'"+cR.find("#col-importeEfectivo").html()+"',";
+		fCols += "'fechaCancelacion':'"+cR.find("#col-fechaCancelacion").html()+"',";
+		fCols += "'contrato':'"+cR.find("#col-contrato").html()+"',";
+		fCols += "'nota':'"+cR.find("#col-nota").html()+"'";
+
+		fCols += "}";
+
+		if(k < (n-1)) fCols += ",";
+
+		fRows += fCols;
+	}
+
+	fRows += "]";
+
+	return fRows;
+}
+
 $(function(){
 	$("#btn-consultar").click(function(event){
 		event.preventDefault();
@@ -368,9 +429,11 @@ $(function(){
 
 	$("#btn-export-xls").click(function(event){
 		event.preventDefault();
-		$("#form-excel").find("#dataXLS").val($("#table-main-content").html());
+		//$("#form-excel").find("#dataXLS").val($("#table-main-content").html());
+		var excelData = getExcelData();
+		alert(excelData);
 
-		$("#form-excel").submit();
+		//$("#form-excel").submit();
 	});
 
 	$("#cont-charge-bar").hide();
