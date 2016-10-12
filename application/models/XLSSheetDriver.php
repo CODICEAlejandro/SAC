@@ -1,6 +1,7 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class XLSSheetDriver {
+class XLSSheetDriver extends CI_Model {
 	private $cCol;
 	private $cRow;
 	private $mark;
