@@ -288,5 +288,6 @@ class Reporte_master_ctrl extends CI_Controller {
 
 		$rows = json_decode($data);
 		print_r($rows);
+		echo "POLLO";
 	}
 }
