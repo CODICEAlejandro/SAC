@@ -10,7 +10,7 @@ class XLSSheetDriver extends CI_Model {
 	private $title = "DEFAULT";
 	private $subject = "CODICE";
 	private $description = "DEFAULT";
-
+	private $sheet = 0;
 
 	public function __construct($cCol='A', $cRow=1){
 		$this->cCol = $cCol;
@@ -26,17 +26,19 @@ class XLSSheetDriver extends CI_Model {
 	                                 ->setTitle($this->title)
 	                                 ->setSubject($this->subject)
 	                                 ->setDescription($this->description);
+
+        $this->sheet = $this->phpexcel->setActiveSheetIndex($this->sheet);
 	}
 
 	public function setSheet($number){
-		$this->phpexcel->setActiveSheetIndex($number);
+		$this->sheet = $this->phpexcel->setActiveSheetIndex($number);
 	}
 
 	public function setCellValue($value, $position="NO_GOT"){
 		if($position == "NO_GOT")
-			$sheet->setCellValue($this->getPosition(),utf8_decode(html_entity_decode($value)));		
+			$this->sheet->setCellValue($this->getPosition(),utf8_decode(html_entity_decode($value)));		
 		else
-			$sheet->setCellValue($position,utf8_decode(html_entity_decode($value)));		
+			$this->sheet->setCellValue($position,utf8_decode(html_entity_decode($value)));		
 	}
 
 	public function setTitle($title){
@@ -44,8 +46,8 @@ class XLSSheetDriver extends CI_Model {
 	    $this->phpexcel->getProperties()->setTitle($this->title);
 	}
 
-	public function setCellBackground($cell,$color,$sheet){
-		$cellStyle = $sheet->getStyle($cell);
+	public function setCellBackground($cell,$color){
+		$cellStyle = $this->sheet->getStyle($cell);
 		$cellStyle->applyFromArray(
 						array(
 							'fill' => array(
@@ -56,8 +58,8 @@ class XLSSheetDriver extends CI_Model {
 					);
 	}
 
-	public function setCellBorders($cell,$color,$sheet){
-		$sheet->getStyle($cell)->applyFromArray(
+	public function setCellBorders($cell,$color,){
+		$this->sheet->getStyle($cell)->applyFromArray(
 		    array(
 		        'borders' => array(
 		            'allborders' => array(
@@ -167,8 +169,8 @@ class XLSSheetDriver extends CI_Model {
 		return $this->cRow;
 	}
 
-	public function addRightSeparatorOnCell($cell,$color,$sheet){
-		$sheet->getStyle($cell)->applyFromArray(
+	public function addRightSeparatorOnCell($cell,$color){
+		$this->sheet->getStyle($cell)->applyFromArray(
 			array(
 				'borders' => array(
 					'right' => array(
@@ -180,18 +182,18 @@ class XLSSheetDriver extends CI_Model {
 		);
 	}
 
-	public function centerCellContent($cell,$sheet){
+	public function centerCellContent($cell){
 		$style = array(
 		    'alignment' => array(
 		        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
 		    )
 		);
 
-		$sheet->getStyle($cell)->applyFromArray($style);
+		$this->sheet->getStyle($cell)->applyFromArray($style);
 	}
 
-	public function boldCellContent($cell,$sheet){
-		$sheet->getStyle($cell)->getFont()->setBold(true);
+	public function boldCellContent($cell){
+		$this->sheet->getStyle($cell)->getFont()->setBold(true);
 	}
 
 	public function out($fileName){
