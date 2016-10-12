@@ -39,6 +39,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(cli.`nombre`, 'NO DISPONIBLE') cliente,
 					IFNULL(conCot.`referencia`, 'NO DISPONIBLE') referencia,
 					IFNULL(DATE_FORMAT(cot.`inicioProyecto`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaInicio,
+					IFNULL(DATE_FORMAT(cot.`finProyecto`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFin,
 					IFNULL(dirF.`razonSocial`, 'NO DISPONIBLE') razonSocial,
 					IFNULL(DATE_FORMAT(cot.`fechaVenta`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaVenta,
 					IFNULL(DATE_FORMAT(cot.`fechaJuntaArranque`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaJuntaArranque,
