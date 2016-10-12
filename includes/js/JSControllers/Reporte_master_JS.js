@@ -378,7 +378,7 @@ function getExcelData(){
 		fCols += '"ordenCompra":"'+cR.find("#col-ordenCompra").html()+'",';
 		fCols += '"tipoConcepto":"'+cR.find("#col-tipoConcepto").html()+'",';
 		fCols += '"referencia":"'+cR.find("#col-referencia").html()+'",';
-		fCols += '"descripcion":"'+cR.find("#col-descripcion").html()+"',";
+		fCols += '"descripcion":"'+cR.find("#col-descripcion").html()+'",';
 		fCols += '"tituloCotizacion":"'+cR.find("#col-tituloCotizacion").html()+'",';
 		fCols += '"fechaInicio":"'+cR.find("#col-fechaInicio").html()+'",';
 		fCols += '"fechaFin":"'+cR.find("#col-fechaFin").html()+'",';
