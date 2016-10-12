@@ -281,10 +281,10 @@ class Reporte_master_ctrl extends CI_Controller {
 
 	public function setExcel(){
 		$data = $this->input->post("dataXLS");
-		header("Content-type: application/vnd.ms-excel; name='excel'");
-		header("Content-Disposition: filename=ficheroExcel.xls");
-		header("Pragma: no-cache");
-		header("Expires: 0");
+		// header("Content-type: application/vnd.ms-excel; name='excel'");
+		// header("Content-Disposition: filename=ficheroExcel.xls");
+		// header("Pragma: no-cache");
+		// header("Expires: 0");
 
 		echo $data;
 	}
