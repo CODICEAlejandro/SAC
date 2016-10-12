@@ -364,7 +364,7 @@ function getExcelData(){
 	for(k=0, n=rows.length; k<n; k++){
 		cR = $(rows[k]);
 
-		fCols += "{";
+		fCols = "{";
 
 		fCols += "'estadoFactura':'"+cR.find("#col-estadoFactura #estadoFacturaSelect option:selected").text()+"',";
 		fCols += "'folio':'"+cR.find("#col-folio").html()+"',";
