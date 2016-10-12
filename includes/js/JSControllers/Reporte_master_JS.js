@@ -362,8 +362,7 @@ function getExcelData(){
 	fRows = "[";
 
 	for(k=0, n=rows.length; k<n; k++){
-		cR = rows[k];
-		alert(rows.html());
+		cR = $(rows[k]);
 
 		fCols += "{";
 
