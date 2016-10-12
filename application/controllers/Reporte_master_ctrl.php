@@ -286,6 +286,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		// header("Pragma: no-cache");
 		// header("Expires: 0");
 
-		echo $data;
+		$rows = json_decode($data);
+		print_r($rows);
 	}
 }
