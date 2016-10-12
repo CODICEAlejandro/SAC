@@ -6,7 +6,6 @@ ini_set('max_execution_time', 30000);
 set_time_limit(30000);
 
 class Reporte_master_ctrl extends CI_Controller {
-
 	public function __construct(){
 		parent::__construct();
 		$this->load->model("Cliente");
@@ -285,7 +284,11 @@ class Reporte_master_ctrl extends CI_Controller {
 	}
 
 	public function setExcel(){
-		$data = $this->input->post("dataXLS");
+		$this->load->model("XLSSheetDriver");
+		$xls = new $this->XLSSheetDriver();
+		$xls->setTitle("Master - CODICE");
+
+		$data = $this->session->userdata("last_query_result");
 		// header("Content-type: application/vnd.ms-excel; name='excel'");
 		// header("Content-Disposition: filename=ficheroExcel.xls");
 		// header("Pragma: no-cache");
@@ -293,6 +296,6 @@ class Reporte_master_ctrl extends CI_Controller {
 
 		print_r($this->session->userdata("last_query_result"));
 
-		echo $data;
+		$xls->out("Master_CODICE.xls");
 	}
 }
