@@ -294,44 +294,69 @@ class Reporte_master_ctrl extends CI_Controller {
 		// header("Pragma: no-cache");
 		// header("Expires: 0");
 
-		/*
-		lastRow.append("<td id='col-estadoFactura'>"+appendedEstadoFactura+"</td>");
-		lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
-		lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
-		lastRow.append("<td id='col-fechaPago'>"+mainData[k].fechaPago+"</td>");
-		lastRow.append("<td id='col-cliente'>"+mainData[k].cliente+"</td>");
-		lastRow.append("<td id='col-id'>"+mainData[k].id+"</td>");
-		lastRow.append("<td id='col-subtotal'>"+mainData[k].subtotal+"</td>");
-		lastRow.append("<td id='col-moneda'>"+mainData[k].moneda+"</td>");
-		lastRow.append("<td id='col-fechaFactura'>"+mainData[k].fechaFactura+"</td>");
-		lastRow.append("<td id='col-ordenCompra'>"+mainData[k].ordenCompra+"</td>");
-		lastRow.append("<td id='col-tipoConcepto'>"+mainData[k].tipoConcepto+"</td>");
-		lastRow.append("<td id='col-referencia'>"+mainData[k].referencia+"</td>");
-		lastRow.append("<td id='col-descripcion'>"+mainData[k].descripcion+"</td>");
-		lastRow.append("<td id='col-tituloCotizacion'>"+mainData[k].tituloCotizacion+"</td>");
-		lastRow.append("<td id='col-fechaInicio'>"+mainData[k].fechaInicio+"</td>");
-		lastRow.append("<td id='col-fechaFin'>"+mainData[k].fechaFin+"</td>");
-		lastRow.append("<td id='col-razonSocial'>"+mainData[k].razonSocial+"</td>");
-		lastRow.append("<td id='col-fechaVenta'>"+mainData[k].fechaVenta+"</td>");
-		lastRow.append("<td id='col-fechaJuntaArranque'>"+mainData[k].fechaJuntaArranque+"</td>");
-		lastRow.append("<td id='col-cerrador'>"+mainData[k].cerrador+"</td>");
-		lastRow.append("<td id='col-responsable'>"+mainData[k].responsable+"</td>");
-		lastRow.append("<td id='col-accountManager'>"+mainData[k].accountManager+"</td>");
-		lastRow.append("<td id='col-iva'>"+mainData[k].iva+"</td>");
-		lastRow.append("<td id='col-montoIVA'>"+mainData[k].montoIVA+"</td>");
-		lastRow.append("<td id='col-importeEfectivo'>"+mainData[k].importeEfectivo+"</td>");
-		lastRow.append("<td id='col-fechaCancelacion'>"+mainData[k].fechaCancelacion+"</td>");
-		lastRow.append("<td id='col-contrato'>"+mainData[k].contrato+"</td>");
-		lastRow.append('<td id="col-nota"><div class="input-group" id="fatherNote" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control notaConcepto">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].idConceptoCotizacion+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
-		*/
+		$xls->setCellValue("Estatus"); $xls->nextCol();
+		$xls->setCellValue("Folio"); $xls->nextCol();
+		$xls->setCellValue("Total"); $xls->nextCol();
+		$xls->setCellValue("Fecha de pago"); $xls->nextCol();
+		$xls->setCellValue("Cliente"); $xls->nextCol();
+		$xls->setCellValue("ID"); $xls->nextCol();
+		$xls->setCellValue("Subtotal"); $xls->nextCol();
+		$xls->setCellValue("Moneda"); $xls->nextCol();
+		$xls->setCellValue("Fecha de factura"); $xls->nextCol();
+		$xls->setCellValue("Orden de compra"); $xls->nextCol();
+		$xls->setCellValue("Tipo de concepto"); $xls->nextCol();
+		$xls->setCellValue("Referencia"); $xls->nextCol();
+		$xls->setCellValue("Descripción"); $xls->nextCol();
+		$xls->setCellValue("Proyecto"); $xls->nextCol();
+		$xls->setCellValue("Inicio de proyecto"); $xls->nextCol();
+		$xls->setCellValue("Fin de proyecto"); $xls->nextCol();
+		$xls->setCellValue("Razón social"); $xls->nextCol();
+		$xls->setCellValue("Fecha de venta"); $xls->nextCol();
+		$xls->setCellValue("Junta de arranque"); $xls->nextCol();
+		$xls->setCellValue("Cerrador"); $xls->nextCol();
+		$xls->setCellValue("Responsable"); $xls->nextCol();
+		$xls->setCellValue("Account Manager"); $xls->nextCol();
+		$xls->setCellValue("IVA"); $xls->nextCol();
+		$xls->setCellValue("Monto de IVA"); $xls->nextCol();
+		$xls->setCellValue("Importe"); $xls->nextCol();
+		$xls->setCellValue("Fecha de cancelación"); $xls->nextCol();
+		$xls->setCellValue("Contrato"); $xls->nextCol();
+		$xls->setCellValue("Nota"); $xls->nextCol();
+
+		$xls->setCellBackground($this->getCol());
 
 		for($k=0, $n=count($data); $k<$n; $k++){
 			$row = $data[$k];
-
-			$xls->setCellValue($row->folio);
-			$xls->nextCol();
-
 			$xls->nextLine();
+
+			$xls->setCellValue($row->estadoFacturaDescripcion); $xls->nextCol();
+			$xls->setCellValue($row->folio); $xls->nextCol();
+			$xls->setCellValue($row->total); $xls->nextCol();
+			$xls->setCellValue($row->fechaPago); $xls->nextCol();
+			$xls->setCellValue($row->cliente); $xls->nextCol();
+			$xls->setCellValue($row->id); $xls->nextCol();
+			$xls->setCellValue($row->subtotal); $xls->nextCol();
+			$xls->setCellValue($row->moneda); $xls->nextCol();
+			$xls->setCellValue($row->fechaFactura); $xls->nextCol();
+			$xls->setCellValue($row->ordenCompra); $xls->nextCol();
+			$xls->setCellValue($row->tipoConcepto); $xls->nextCol();
+			$xls->setCellValue($row->referencia); $xls->nextCol();
+			$xls->setCellValue($row->descripcion); $xls->nextCol();
+			$xls->setCellValue($row->tituloCotizacion); $xls->nextCol();
+			$xls->setCellValue($row->fechaInicio); $xls->nextCol();
+			$xls->setCellValue($row->fechaFin); $xls->nextCol();
+			$xls->setCellValue($row->razonSocial); $xls->nextCol();
+			$xls->setCellValue($row->fechaVenta); $xls->nextCol();
+			$xls->setCellValue($row->fechaJuntaArranque); $xls->nextCol();
+			$xls->setCellValue($row->cerrador); $xls->nextCol();
+			$xls->setCellValue($row->responsable); $xls->nextCol();
+			$xls->setCellValue($row->accountManager); $xls->nextCol();
+			$xls->setCellValue($row->iva); $xls->nextCol();
+			$xls->setCellValue($row->montoIVA); $xls->nextCol();
+			$xls->setCellValue($row->importeEfectivo); $xls->nextCol();
+			$xls->setCellValue($row->fechaCancelacion); $xls->nextCol();
+			$xls->setCellValue($row->contrato); $xls->nextCol();
+			$xls->setCellValue($row->nota); $xls->nextCol();
 		}
 
 		$xls->out("Master_CODICE.xls");
