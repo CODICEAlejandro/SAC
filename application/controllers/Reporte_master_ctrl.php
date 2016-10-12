@@ -294,8 +294,6 @@ class Reporte_master_ctrl extends CI_Controller {
 		// header("Pragma: no-cache");
 		// header("Expires: 0");
 
-		print_r($this->session->userdata("last_query_result"));
-
 		$xls->out("Master_CODICE.xls");
 	}
 }
