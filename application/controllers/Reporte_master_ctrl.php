@@ -323,7 +323,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		$xls->setCellValue("Contrato"); $xls->nextCol();
 		$xls->setCellValue("Nota"); $xls->nextCol();
 
-		$xls->setCellBackground($this->getCol());
+		$xls->setCellBackground($xls->getCol());
 
 		for($k=0, $n=count($data); $k<$n; $k++){
 			$row = $data[$k];
