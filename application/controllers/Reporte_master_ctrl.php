@@ -360,6 +360,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			$xls->setCellValue($row->nota); $xls->nextCol();
 		}
 
+		$xls->autosizeColumns();
 		$xls->out("Master_CODICE.xls");
 	}
 }

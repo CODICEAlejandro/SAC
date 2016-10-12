@@ -202,6 +202,13 @@ class XLSSheetDriver extends CI_Model {
 		$this->sheet->getStyle($cell)->getFont()->setBold(true);
 	}
 
+	public function autosizeColumns(){
+		for($col = 'A'; $col !== $this->cCol; $col++) {
+		    $sheet->getColumnDimension($col)
+		          ->setAutoSize(true);
+		}
+	}
+
 	public function out($fileName){
 	    // Renombramos la hoja de trabajo
 	    $this->phpexcel->getActiveSheet()->setTitle($this->title);
