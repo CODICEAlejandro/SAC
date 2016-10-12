@@ -204,7 +204,7 @@ class XLSSheetDriver extends CI_Model {
 
 	public function autosizeColumns(){
 		for($col = 'A'; $col !== $this->cCol; $col++) {
-		    $sheet->getColumnDimension($col)
+		    $this->sheet->getColumnDimension($col)
 		          ->setAutoSize(true);
 		}
 	}
