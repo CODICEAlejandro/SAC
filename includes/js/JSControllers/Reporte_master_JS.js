@@ -370,8 +370,6 @@ $(function(){
 	$("#btn-export-xls").click(function(event){
 		event.preventDefault();
 
-		var excelData = getExcelData();
-
 		$("#form-excel").submit();
 	});
 
