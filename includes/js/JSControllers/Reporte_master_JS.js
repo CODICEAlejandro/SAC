@@ -347,66 +347,6 @@ function retrieveEstadosFactura(){
 	});
 }
 
-function getExcelData(){
-	var k, n, cR;
-	var fCols;
-	var fRows;
-
-	var result = new Array();
-
-	var table = $("#main-data-tbl tbody");
-	var rows = table.find("tr");
-
-	var cR;
-
-	fRows = "[";
-
-	for(k=0, n=rows.length; k<n; k++){
-		cR = $(rows[k]);
-
-		fCols = "{";
-
-		/*fCols += '"estadoFactura":"'+cR.find("#col-estadoFactura #estadoFacturaSelect option:selected").text()+'",';
-		fCols += '"folio":"'+cR.find("#col-folio").html()+'",';
-		fCols += '"total":"'+cR.find("#col-total").html()+'",';
-		fCols += '"fechaPago":"'+cR.find("#col-fechaPago").html()+'",';
-		fCols += '"cliente":"'+cR.find("#col-cliente").html()+'",';
-		fCols += '"id":"'+cR.find("#col-id").html()+'",';
-		fCols += '"subtotal":"'+cR.find("#col-subtotal").html()+'",';
-		fCols += '"moneda":"'+cR.find("#col-moneda").html()+'",';
-		fCols += '"fechaFactura":"'+cR.find("#col-fechaFactura").html()+'",';
-		fCols += '"ordenCompra":"'+cR.find("#col-ordenCompra").html()+'",';
-		fCols += '"tipoConcepto":"'+cR.find("#col-tipoConcepto").html()+'",';
-		fCols += '"referencia":"'+cR.find("#col-referencia").html()+'",';
-		fCols += '"descripcion":"'+cR.find("#col-descripcion").html()+'",';
-		fCols += '"tituloCotizacion":"'+cR.find("#col-tituloCotizacion").html()+'",';
-		fCols += '"fechaInicio":"'+cR.find("#col-fechaInicio").html()+'",';
-		fCols += '"fechaFin":"'+cR.find("#col-fechaFin").html()+'",';
-		fCols += '"razonSocial":"'+cR.find("#col-razonSocial").html()+'",';
-		fCols += '"fechaVenta":"'+cR.find("#col-fechaVenta").html()+'",';
-		fCols += '"fechaJuntaArranque":"'+cR.find("#col-fechaJuntaArranque").html()+'",';
-		fCols += '"cerrador":"'+cR.find("#col-cerrador").html()+'",';
-		fCols += '"responsable":"'+cR.find("#col-responsable").html()+'",';
-		fCols += '"accountManager":"'+cR.find("#col-accountManager").html()+'",';
-		fCols += '"iva":"'+cR.find("#col-iva").html()+'",';
-		fCols += '"montoIVA":"'+cR.find("#col-montoIVA").html()+'",';
-		fCols += '"importeEfectivo":"'+cR.find("#col-importeEfectivo").html()+'",';
-		fCols += '"fechaCancelacion":"'+cR.find("#col-fechaCancelacion").html()+'",';
-		fCols += '"contrato":"'+cR.find("#col-contrato").html()+'",';
-		fCols += '"nota":"'+cR.find("#col-nota #nota").val()+'"';*/
-		fCols += JSON.stringify(cR);
-
-		fCols += "}";
-
-		if(k < (n-1)) fCols += ",";
-
-		fRows += fCols;
-	}
-
-	fRows += "]";
-
-	return fRows;
-}
 
 $(function(){
 	$("#btn-consultar").click(function(event){
@@ -431,8 +371,6 @@ $(function(){
 		event.preventDefault();
 
 		var excelData = getExcelData();
-		//$("#form-excel").find("#dataXLS").val($("#table-main-content").html());
-		$("#form-excel").find("#dataXLS").val(excelData);
 
 		$("#form-excel").submit();
 	});
