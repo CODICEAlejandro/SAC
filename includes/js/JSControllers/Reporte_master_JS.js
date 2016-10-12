@@ -366,7 +366,7 @@ function getExcelData(){
 
 		fCols += "{";
 
-		fCols += "'estadoFactura':'"+cR.find("#col-estadoFactura").html()+"',";
+		fCols += "'estadoFactura':'"+cR.find("#col-estadoFactura #estadoFacturaSelect option:selected").text()+"',";
 		fCols += "'folio':'"+cR.find("#col-folio").html()+"',";
 		fCols += "'total':'"+cR.find("#col-total").html()+"',";
 		fCols += "'fechaPago':'"+cR.find("#col-fechaPago").html()+"',";
@@ -393,7 +393,7 @@ function getExcelData(){
 		fCols += "'importeEfectivo':'"+cR.find("#col-importeEfectivo").html()+"',";
 		fCols += "'fechaCancelacion':'"+cR.find("#col-fechaCancelacion").html()+"',";
 		fCols += "'contrato':'"+cR.find("#col-contrato").html()+"',";
-		fCols += "'nota':'"+cR.find("#col-nota").html()+"'";
+		fCols += "'nota':'"+cR.find("#col-nota #nota").val()+"'";
 
 		fCols += "}";
 
