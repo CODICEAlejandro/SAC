@@ -287,7 +287,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		// header("Expires: 0");
 
 		$rows = json_decode($data);
-		print_r($rows);
+		print_r($rows[0]);
 		echo "POLLO";
 	}
 }
