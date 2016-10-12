@@ -32,8 +32,11 @@ class XLSSheetDriver extends CI_Model {
 		$this->phpexcel->setActiveSheetIndex($number);
 	}
 
-	public function setCellValue($position, $value){
-		$sheet->setCellValue($this->getPosition(),utf8_decode(html_entity_decode($value)));		
+	public function setCellValue($value, $position="NO_GOT"){
+		if($position == "NO_GOT")
+			$sheet->setCellValue($this->getPosition(),utf8_decode(html_entity_decode($value)));		
+		else
+			$sheet->setCellValue($position,utf8_decode(html_entity_decode($value)));		
 	}
 
 	public function setTitle($title){
@@ -117,6 +120,10 @@ class XLSSheetDriver extends CI_Model {
 		return false;		
 	}
 
+	public function carriageReturn(){
+		$this->cCol = "A";
+	}
+
 	private function moveRight($colPosition){
 		if(count($colPosition) == 0)
 			return array('A');
@@ -146,6 +153,11 @@ class XLSSheetDriver extends CI_Model {
 		$this->mark['DOCUMENT_END'] = ($this->cCol).($this->cRow);
 
 		return $this->cCol;
+	}
+
+	public function nextLine(){
+		$this->nextRow();
+		$this->carriageReturn();
 	}
 
 	public function nextRow(){

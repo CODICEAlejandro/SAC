@@ -294,6 +294,17 @@ class Reporte_master_ctrl extends CI_Controller {
 		// header("Pragma: no-cache");
 		// header("Expires: 0");
 
+		foreach($k=0, $n=count($data); $k<$n; $k++){
+			$row = $data[$k];
+
+			foreach($row as $key => $value){
+				$xls->setCellValue($value);
+				$xls->nextCol();
+			}
+
+			$xls->nextLine();
+		}
+
 		$xls->out("Master_CODICE.xls");
 	}
 }
