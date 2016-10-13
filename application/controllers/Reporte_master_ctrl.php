@@ -54,8 +54,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
 					IFNULL(imp.`monto`, 'NO DISPONIBLE') montoIVA,
 					IFNULL(imp.`tasa`, 'NO DISPONIBLE') iva,
-
-					IFNULL(fact.`importeEfectivo`, 'NO DISPONIBLE') importeEfectivo,
+					IFNULL(conCot.`importe`, 'NO DISPONIBLE') importeEfectivo,
 
 					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
 					IFNULL(con.`id`, 'NO DISPONIBLE') id,
