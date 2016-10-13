@@ -50,11 +50,15 @@ class Reporte_master_ctrl extends CI_Controller {
 					IF(cot.`contrato`=1, 'Sí', 'No') contrato,
 					IFNULL(conCot.`monto`, 0) montoConceptoCotizacion,
 
-					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
-					IFNULL(con.`importe` * (1 + fact.`iva`), 'NO DISPONIBLE') total,
-					IFNULL(con.`id`, 'NO DISPONIBLE') id,
+					IFNULL((con.`importe` + ( con.`importe` * (imp.`tasa`/100) ) )), 'NO DISPONIBLE') total,
 					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
-					IFNULL((con.`importe` * fact.`iva`), 'NO DISPONIBLE') montoIVA,
+					IFNULL(imp.`monto`), 'NO DISPONIBLE') montoIVA,
+					IFNULL(imp.`tasa`, 'NO DISPONIBLE') iva,
+
+					IFNULL(fact.`importeEfectivo`, 'NO DISPONIBLE') importeEfectivo,
+
+					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
+					IFNULL(con.`id`, 'NO DISPONIBLE') id,
 					IFNULL(conCot.`nota`, '') nota,
 					IFNULL(con.`descripcion`, 'NO DISPONIBLE') descripcion,
 					IFNULL(tiCon.`descripcion`, 'NO DISPONIBLE') tipoConcepto,
@@ -62,10 +66,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaPago,
 					IFNULL(fact.`moneda`, 'NO DISPONIBLE') moneda,
 					IFNULL(fact.`ordenCompra`, 'NO DISPONIBLE') ordenCompra,
-					IFNULL(imp.`tasa`, 'NO DISPONIBLE') iva,
 					IFNULL(DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaCancelacion,
 					IFNULL(DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFactura,
-					IFNULL(fact.`importeEfectivo`, 'NO DISPONIBLE') importeEfectivo,
 					IFNULL(edoF.`id`, 'NO DISPONIBLE') estadoFactura,
 					IFNULL(edoF.`descripcion`, 'NO DISPONIBLE') estadoFacturaDescripcion
 
@@ -83,7 +85,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = conCot.`idTipoConcepto`
 					LEFT JOIN `factura` fact ON fact.`folio` = conCot.`folioFactura`
 					LEFT JOIN `catestadofactura` edoF ON edoF.`id` = conCot.`idEstadoFactura`
-					LEFT JOIN `impuesto` imp ON imp.`idConcepto` = con.`id`					
+					LEFT JOIN `impuesto` imp ON imp.`idConcepto` = con.`id` AND imp.`codigo` LIKE '%IVA%'		
 				";
 
 		$query = $query.($this->getWHERE(
@@ -290,10 +292,6 @@ class Reporte_master_ctrl extends CI_Controller {
 		$xls->setTitle("Master - CODICE");
 
 		$data = $this->session->userdata("last_query_result");
-		// header("Content-type: application/vnd.ms-excel; name='excel'");
-		// header("Content-Disposition: filename=ficheroExcel.xls");
-		// header("Pragma: no-cache");
-		// header("Expires: 0");
 
 		$xls->setCellValue("Estatus"); $xls->nextCol();
 		$xls->setCellValue("Folio"); $xls->nextCol();

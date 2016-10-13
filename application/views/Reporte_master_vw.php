@@ -213,7 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div 
 				class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
-				style="overflow: scroll;"
+				style="overflow: scroll; max-height: 600px;"
 				id="table-main-content"
 			>
 				<table
