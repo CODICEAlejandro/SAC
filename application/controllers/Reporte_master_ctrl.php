@@ -181,7 +181,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
 
 				//Recalcula
-				$c->total = $concepto_factura->importeEfectivo;
+				$c->total = $c->importeEfectivo;
 				$c->montoIVA = ($c->total)*($c->iva);
 				$c->subtotal = ($c->total) - ($c->montoIVA);
 			} 
