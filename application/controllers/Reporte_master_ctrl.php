@@ -96,6 +96,22 @@ class Reporte_master_ctrl extends CI_Controller {
 			$folioFactura = $c->folioFactura;
 			$idEstadoFactura = $c->idEstadoFactura;
 
+			$c->total = 0;
+			$c->subtotal = 0;
+			$c->estadoConcepto = "NO DISPONIBLE";
+			$c->id = "NO DISPONIBLE";
+			$c->descripcion = "NO DISPONIBLE";
+			$c->montoIVA = 0;
+			$c->iva = 0;
+			$c->folio = "NO DISPONIBLE";
+			$c->fechaPago = "NO DISPONIBLE";
+			$c->moneda = "NO DISPONIBLE";
+			$c->ordenCompra = "NO DISPONIBLE";
+			$c->fechaCancelacion = "NO DISPONIBLE";
+			$c->fechaFactura = "NO DISPONIBLE";
+			$c->estadoFactura = "NO DISPONIBLE";
+			$c->estadoFacturaDescripcion = "NO DISPONIBLE";
+
 			$queryLadoFacturacion = "
 				SELECT
 					IFNULL((con.`importe` + ( con.`importe` * (imp.`tasa`/100) ) ), 'NO DISPONIBLE') total,
