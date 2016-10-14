@@ -32,43 +32,36 @@ class Reporte_master_ctrl extends CI_Controller {
 								$idEstadoFactura = -1,
 								$folioFactura = "none"
 							){
-		$query = "
+		$appendQuery = "";
+
+		$queryLadoCotizacion = "
 				SELECT
 					conCot.`idCotizacion` idCotizacion,
 					IFNULL(conCot.`id`, 'NO DISPONIBLE') idConceptoCotizacion,
-					IFNULL(cli.`nombre`, 'NO DISPONIBLE') cliente,
 					IFNULL(conCot.`referencia`, 'NO DISPONIBLE') referencia,
+					IFNULL(conCot.`importe`, 'NO DISPONIBLE') importeEfectivo,
+					IFNULL(conCot.`monto`, 0) montoConceptoCotizacion,
+					IFNULL(conCot.`nota`, '') nota,
+					IFNULL(conCot.`idTipoConcepto`, '') idTipoConcepto,
+					IFNULL(conCot.`folioFactura`, '') folioFactura,
+					IFNULL(conCot.`idEstadoFactura`, '') idEstadoFactura,
+
 					IFNULL(DATE_FORMAT(cot.`inicioProyecto`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaInicio,
 					IFNULL(DATE_FORMAT(cot.`finProyecto`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFin,
-					IFNULL(dirF.`razonSocial`, 'NO DISPONIBLE') razonSocial,
 					IFNULL(DATE_FORMAT(cot.`fechaVenta`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaVenta,
 					IFNULL(DATE_FORMAT(cot.`fechaJuntaArranque`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaJuntaArranque,
+					IFNULL(cot.`titulo`, 'NO DISPONIBLE') tituloCotizacion,
+					IF(cot.`contrato`=1, 'Sí', 'No') contrato,
+
 					IFNULL(catCerrador.`nombre`, 'NO DISPONIBLE') cerrador,
 					IFNULL(catResponsable.`nombre`, 'NO DISPONIBLE') responsable,
-					IFNULL(cot.`titulo`, 'NO DISPONIBLE') tituloCotizacion,
 					IFNULL(catAccountManager.`nombre`, 'NO DISPONIBLE') accountManager,
-					IF(cot.`contrato`=1, 'Sí', 'No') contrato,
-					IFNULL(conCot.`monto`, 0) montoConceptoCotizacion,
 
-					IFNULL((con.`importe` + ( con.`importe` * (imp.`tasa`/100) ) ), 'NO DISPONIBLE') total,
-					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
-					IFNULL(imp.`monto`, 'NO DISPONIBLE') montoIVA,
-					IFNULL(imp.`tasa`, 'NO DISPONIBLE') iva,
-					IFNULL(conCot.`importe`, 'NO DISPONIBLE') importeEfectivo,
+					IFNULL(cli.`nombre`, 'NO DISPONIBLE') cliente,
 
-					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
-					IFNULL(con.`id`, 'NO DISPONIBLE') id,
-					IFNULL(conCot.`nota`, '') nota,
-					IFNULL(con.`descripcion`, 'NO DISPONIBLE') descripcion,
-					IFNULL(tiCon.`descripcion`, 'NO DISPONIBLE') tipoConcepto,
-					IFNULL(fact.`folio`, 'NO DISPONIBLE') folio,
-					IFNULL(DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaPago,
-					IFNULL(fact.`moneda`, 'NO DISPONIBLE') moneda,
-					IFNULL(fact.`ordenCompra`, 'NO DISPONIBLE') ordenCompra,
-					IFNULL(DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaCancelacion,
-					IFNULL(DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFactura,
-					IFNULL(edoF.`id`, 'NO DISPONIBLE') estadoFactura,
-					IFNULL(edoF.`descripcion`, 'NO DISPONIBLE') estadoFacturaDescripcion
+					IFNULL(dirF.`razonSocial`, 'NO DISPONIBLE') razonSocial,
+
+					IFNULL(tiCon.`descripcion`, 'NO DISPONIBLE') tipoConcepto
 
 				FROM
 					`concepto_cotizacion` conCot
@@ -78,30 +71,96 @@ class Reporte_master_ctrl extends CI_Controller {
 					LEFT JOIN `catusuario` catAccountManager ON catAccountManager.`id` = cot.`accountManager`
 					LEFT JOIN `direccionfiscal` dirF ON dirF.`id` = cot.`idRazonSocial`
 					LEFT JOIN `catcliente` cli ON dirF.`idPadre` = cli.`id`
-
-					LEFT JOIN `concepto_factura_cotizacion` relFC ON relFC.`idConceptoCotizacion` = conCot.`id`
-					LEFT JOIN `concepto` con ON relFC.`idConceptoFactura` = con.`id`
 					LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = conCot.`idTipoConcepto`
-					LEFT JOIN `factura` fact ON fact.`folio` = conCot.`folioFactura`
-					LEFT JOIN `catestadofactura` edoF ON edoF.`id` = conCot.`idEstadoFactura`
-					LEFT JOIN `impuesto` imp ON imp.`idConcepto` = con.`id` AND imp.`codigo` LIKE '%IVA%'		
 				";
 
-		$query = $query.($this->getWHERE(
-											$idCliente, 
-											$idRazonSocial, 
-											$idCotizacion,
-											$fechaFacturaDesde,
-											$fechaFacturaHasta,
-											$fechaPagoDesde,
-											$fechaPagoHasta,
-											$idEstadoFactura,
-											$folioFactura
-										)
-						);
+		$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
+		$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
+		$fechaPagoDesde = htmlentities($fechaPagoDesde, ENT_QUOTES, 'UTF-8');
+		$fechaPagoHasta = htmlentities($fechaPagoHasta, ENT_QUOTES, 'UTF-8');
+
+		if($idEstadoFactura != -1) $appendQuery .= " AND conCot.`idEstadoFactura` = ".$idEstadoFactura;
+		if($folioFactura != "none") $appendQuery .= " AND conCot.`folioFactura` = '".$folioFactura."'";
+		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
+		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
+		if($idCotizacion != -1) $appendQuery .= " AND cot.`id` = ".$idCotizacion;
+
+		$queryLadoCotizacion .= $appendQuery;
+
+		$conceptos_cotizacion = $this->db->query($queryLadoCotizacion)->result();
 
 
-		$conceptos_cotizacion = $this->db->query($query)->result();
+		foreach($conceptos_cotizacion as $c){
+			$currentID = $c->idConceptoCotizacion;
+			$idTipoConcepto = $c->idTipoConcepto;
+			$folioFactura = $c->folioFactura;
+			$idEstadoFactura = $c->idEstadoFactura;
+
+			$queryLadoFacturacion = "
+				SELECT
+					IFNULL((con.`importe` + ( con.`importe` * (imp.`tasa`/100) ) ), 'NO DISPONIBLE') total,
+					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
+					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
+					IFNULL(con.`id`, 'NO DISPONIBLE') id,
+					IFNULL(con.`descripcion`, 'NO DISPONIBLE') descripcion,
+
+					IFNULL(imp.`monto`, 'NO DISPONIBLE') montoIVA,
+					IFNULL(imp.`tasa`, 'NO DISPONIBLE') iva,
+
+					IFNULL(fact.`folio`, 'NO DISPONIBLE') folio,
+					IFNULL(DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaPago,
+					IFNULL(fact.`moneda`, 'NO DISPONIBLE') moneda,
+					IFNULL(fact.`ordenCompra`, 'NO DISPONIBLE') ordenCompra,
+					IFNULL(DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaCancelacion,
+					IFNULL(DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFactura,
+					
+					IFNULL(edoF.`id`, 'NO DISPONIBLE') estadoFactura,
+					IFNULL(edoF.`descripcion`, 'NO DISPONIBLE') estadoFacturaDescripcion
+				FROM
+					(`concepto_factura_cotizacion` relFC,
+					`concepto` con)
+					LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = ".$idTipoConcepto."
+					LEFT JOIN `factura` fact ON fact.`folio` = '".$folioFactura."'
+					LEFT JOIN `catestadofactura` edoF ON edoF.`id` = ".$idEstadoFactura."
+					LEFT JOIN `impuesto` imp ON imp.`idConcepto` = con.`id` AND imp.`codigo` LIKE '%IVA%'
+				WHERE
+					relFC.`idConceptoCotizacion` = ".$currentID."
+					AND relFC.`idConceptoFactura` = con.`id`
+			";
+
+			$appendQuery = "";
+
+			$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
+			$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
+			$fechaPagoDesde = htmlentities($fechaPagoDesde, ENT_QUOTES, 'UTF-8');
+			$fechaPagoHasta = htmlentities($fechaPagoHasta, ENT_QUOTES, 'UTF-8');
+
+			if($fechaFacturaDesde != "none") 
+				$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
+			if($fechaPagoDesde != "none") 
+				$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
+
+
+			$queryLadoFacturacion .= $appendQuery;
+
+			$concepto_factura = $this->db->query($queryLadoFacturacion)->row();
+
+			$c->total = $concepto_factura->total;
+			$c->subtotal = $concepto_factura->subtotal;
+			$c->estadoConcepto = $concepto_factura->estadoConcepto;
+			$c->id = $concepto_factura->id;
+			$c->descripcion = $concepto_factura->descripcion;
+			$c->montoIVA = $concepto_factura->montoIVA;
+			$c->iva = $concepto_factura->iva;
+			$c->folio = $concepto_factura->folio;
+			$c->fechaPago = $concepto_factura->fechaPago;
+			$c->moneda = $concepto_factura->moneda;
+			$c->ordenCompra = $concepto_factura->ordenCompra;
+			$c->fechaCancelacion = $concepto_factura->fechaCancelacion;
+			$c->fechaFactura = $concepto_factura->fechaFactura;
+			$c->estadoFactura = $concepto_factura->estadoFactura;
+			$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
+		}
 
 		$cotizacionesResultantes = array();
 		$numeroConceptosFacturados = 0;
@@ -138,7 +197,6 @@ class Reporte_master_ctrl extends CI_Controller {
 		}
 
 		$this->session->set_userdata("last_query_result", $conceptos_cotizacion);
-		$this->session->set_userdata("last_query", $query);
 
 		$data['mainData'] = $conceptos_cotizacion;
 		
@@ -178,18 +236,17 @@ class Reporte_master_ctrl extends CI_Controller {
 		$fechaPagoHasta = htmlentities($fechaPagoHasta, ENT_QUOTES, 'UTF-8');
 
 		$idEstadoFactura = htmlentities($idEstadoFactura, ENT_QUOTES, 'UTF-8');
+
 		if($idEstadoFactura != -1) $appendQuery .= " AND conCot.`idEstadoFactura` = ".$idEstadoFactura;
+		if($folioFactura != "none") $appendQuery .= " AND conCot.`folioFactura` = '".$folioFactura."'";
+		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
+		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
+		if($idCotizacion != -1) $appendQuery .= " AND cot.`id` = ".$idCotizacion;
 
 		if($fechaFacturaDesde != "none") 
 			$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
 		if($fechaPagoDesde != "none") 
 			$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
-
-		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
-		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
-		if($idCotizacion != -1) $appendQuery .= " AND cot.`id` = ".$idCotizacion;
-
-		if($folioFactura != "none") $appendQuery .= " AND conCot.`folioFactura` = '".$folioFactura."'";
 
 		return $appendQuery;
 	}
