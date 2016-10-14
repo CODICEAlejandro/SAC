@@ -161,7 +161,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				$c->fechaFactura = $concepto_factura->fechaFactura;
 				$c->estadoFactura = $concepto_factura->estadoFactura;
 				$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
-			}
+			} 
 		}
 
 		$cotizacionesResultantes = array();
