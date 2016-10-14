@@ -143,9 +143,11 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			$queryLadoFacturacion .= $appendQuery;
 
-			$concepto_factura = $this->db->query($queryLadoFacturacion)->row();
+			$concepto_factura = $this->db->query($queryLadoFacturacion)->result();
 
-			if(!is_null($concepto_factura)){
+			if(count($concepto_factura) > 0){
+				$concepto_factura = $concepto_factura[0];
+
 				$c->total = $concepto_factura->total;
 				$c->subtotal = $concepto_factura->subtotal;
 				$c->estadoConcepto = $concepto_factura->estadoConcepto;
