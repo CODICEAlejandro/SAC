@@ -185,7 +185,7 @@ class Reporte_master_ctrl extends CI_Controller {
 
 				//Recalcula
 				//$c->total = $c->importeEfectivo;
-				$c->montoIVA = ($c->total)*($c->iva);
+				$c->montoIVA = ($c->total)*(($c->iva)/100);
 				$c->subtotal = ($c->total) - ($c->montoIVA);
 			}else{
 				unset($c);
