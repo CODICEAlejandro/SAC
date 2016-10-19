@@ -96,7 +96,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			$folioFactura = $c->folioFactura;
 			$idEstadoFactura = $c->idEstadoFactura;
 
-			//$c->total = 0;
+			$c->total = 0;
 			$c->subtotal = 0;
 			$c->estadoConcepto = "NO DISPONIBLE";
 			$c->id = "NO DISPONIBLE";
@@ -184,7 +184,9 @@ class Reporte_master_ctrl extends CI_Controller {
 				//$c->total = $c->importeEfectivo;
 				$c->montoIVA = ($c->total)*($c->iva);
 				$c->subtotal = ($c->total) - ($c->montoIVA);
-			} 
+			}else{
+				unset($c);
+			}
 		}
 
 		$cotizacionesResultantes = array();
