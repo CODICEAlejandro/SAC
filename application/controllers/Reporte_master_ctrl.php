@@ -37,7 +37,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		$queryLadoCotizacion = "
 				SELECT
 					conCot.`idCotizacion` idCotizacion,
-					IFNULL((conCot.`importeEfectivo`), 'NO DISPONIBLE') total,
+					IFNULL(conCot.`importe`, 'NO DISPONIBLE') total,
 					IFNULL(conCot.`id`, 'NO DISPONIBLE') idConceptoCotizacion,
 					IFNULL(conCot.`referencia`, 'NO DISPONIBLE') referencia,
 					IFNULL(conCot.`importe`, 'NO DISPONIBLE') importeEfectivo,
