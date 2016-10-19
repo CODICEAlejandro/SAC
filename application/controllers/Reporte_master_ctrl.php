@@ -164,7 +164,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			if(count($concepto_factura) > 0){
 				$concepto_factura = $concepto_factura[0];
 
-				//$c->total = $concepto_factura->total;
+				$c->total = $concepto_factura->total;
 				$c->subtotal = $concepto_factura->subtotal;
 				$c->estadoConcepto = $concepto_factura->estadoConcepto;
 				$c->id = $concepto_factura->id;
@@ -181,7 +181,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
 
 				//Recalcula
-				$c->total = $c->importeEfectivo;
+				//$c->total = $c->importeEfectivo;
 				$c->montoIVA = ($c->total)*($c->iva);
 				$c->subtotal = ($c->total) - ($c->montoIVA);
 			} 
