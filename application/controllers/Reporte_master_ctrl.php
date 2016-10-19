@@ -166,6 +166,8 @@ class Reporte_master_ctrl extends CI_Controller {
 			$concepto_factura = $this->db->query($queryLadoFacturacion)->result();
 
 			if(count($concepto_factura) > 0){
+				$concepto_factura = $concepto_factura[0];
+
 				//Obtener el número de conceptos de cotización asociados al mismo concepto en la factura
 				$queryNumeroConceptos = "SELECT count(*) numeroConceptosCotizacion
 										FROM `concepto_factura_cotizacion` relFC
@@ -175,7 +177,6 @@ class Reporte_master_ctrl extends CI_Controller {
 
 				$numeroConceptosCotizacion = $this->db->query($queryNumeroConceptos)->row();
 				$numeroConceptosCotizacion = $numeroConceptosCotizacion->numeroConceptosCotizacion;
-				$concepto_factura = $concepto_factura[0];
 
 				$c->total = $concepto_factura->total;
 				$c->subtotal = $concepto_factura->subtotal;
