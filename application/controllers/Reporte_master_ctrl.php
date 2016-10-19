@@ -37,6 +37,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		$queryLadoCotizacion = "
 				SELECT
 					conCot.`idCotizacion` idCotizacion,
+					IFNULL((conCot.`importeEfectivo`), 'NO DISPONIBLE') total,
 					IFNULL(conCot.`id`, 'NO DISPONIBLE') idConceptoCotizacion,
 					IFNULL(conCot.`referencia`, 'NO DISPONIBLE') referencia,
 					IFNULL(conCot.`importe`, 'NO DISPONIBLE') importeEfectivo,
@@ -96,7 +97,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			$folioFactura = $c->folioFactura;
 			$idEstadoFactura = $c->idEstadoFactura;
 
-			$c->total = 0;
+			//$c->total = 0;
 			$c->subtotal = 0;
 			$c->estadoConcepto = "NO DISPONIBLE";
 			$c->id = "NO DISPONIBLE";
@@ -114,7 +115,6 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			$queryLadoFacturacion = "
 				SELECT
-					IFNULL((con.`importe` + ( con.`importe` * (imp.`tasa`/100) ) ), 'NO DISPONIBLE') total,
 					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
 					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
 					IFNULL(con.`id`, 'NO DISPONIBLE') id,
