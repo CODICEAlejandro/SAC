@@ -33,6 +33,11 @@ class Reporte_master_ctrl extends CI_Controller {
 								$folioFactura = "none"
 							){
 		$appendQuery = "";
+		$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
+		$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
+		$fechaPagoDesde = htmlentities($fechaPagoDesde, ENT_QUOTES, 'UTF-8');
+		$fechaPagoHasta = htmlentities($fechaPagoHasta, ENT_QUOTES, 'UTF-8');
+
 
 		$queryLadoCotizacion = "
 				SELECT
@@ -72,18 +77,20 @@ class Reporte_master_ctrl extends CI_Controller {
 					LEFT JOIN `direccionfiscal` dirF ON dirF.`id` = cot.`idRazonSocial`
 					LEFT JOIN `catcliente` cli ON dirF.`idPadre` = cli.`id`
 					LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = conCot.`idTipoConcepto`
+					LEFT JOIN `factura` fact ON fact.`folio` = conCot.`folioFactura`
+				WHERE
+					1 = 1
 				";
-
-		$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
-		$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
-		$fechaPagoDesde = htmlentities($fechaPagoDesde, ENT_QUOTES, 'UTF-8');
-		$fechaPagoHasta = htmlentities($fechaPagoHasta, ENT_QUOTES, 'UTF-8');
 
 		if($idEstadoFactura != -1) $appendQuery .= " AND conCot.`idEstadoFactura` = ".$idEstadoFactura;
 		if($folioFactura != "none") $appendQuery .= " AND conCot.`folioFactura` = '".$folioFactura."'";
 		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
 		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
 		if($idCotizacion != -1) $appendQuery .= " AND cot.`id` = ".$idCotizacion;
+		if($fechaFacturaDesde != "none") 
+			$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
+		if($fechaPagoDesde != "none") 
+			$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
 
 		$queryLadoCotizacion .= $appendQuery;
 
@@ -146,10 +153,6 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			$appendQuery = "";
 
-			$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
-			$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
-			$fechaPagoDesde = htmlentities($fechaPagoDesde, ENT_QUOTES, 'UTF-8');
-			$fechaPagoHasta = htmlentities($fechaPagoHasta, ENT_QUOTES, 'UTF-8');
 
 			if($fechaFacturaDesde != "none") 
 				$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
