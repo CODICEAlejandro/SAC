@@ -121,6 +121,7 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			$queryLadoFacturacion = "
 				SELECT
+					relFC.`idConceptoFactura` idConceptoFactura,
 					IFNULL(con.`importe` + (con.`importe` * (imp.`tasa` / 100)), 'NO DISPONIBLE') total,
 					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
 					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
@@ -128,7 +129,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(con.`descripcion`, 'NO DISPONIBLE') descripcion,
 
 					IFNULL(imp.`monto`, 'NO DISPONIBLE') montoIVA,
-					IFNULL(imp.`tasa`, 'NO DISPONIBLE') iva,
+					IFNULL(imp.`tasa` / 100, 'NO DISPONIBLE') iva,
 
 					IFNULL(fact.`folio`, 'NO DISPONIBLE') folio,
 					IFNULL(DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaPago,
@@ -165,6 +166,15 @@ class Reporte_master_ctrl extends CI_Controller {
 			$concepto_factura = $this->db->query($queryLadoFacturacion)->result();
 
 			if(count($concepto_factura) > 0){
+				//Obtener el número de conceptos de cotización asociados al mismo concepto en la factura
+				$queryNumeroConceptos = "SELECT count(*) numeroConceptosCotizacion
+										FROM `concepto_factura_cotizacion` relFC
+										WHERE
+											relFC.`idConceptoFactura` = ".($concepto_factura->idConceptoFactura)."
+									";
+
+				$numeroConceptosCotizacion = $this->db->query($queryNumeroConceptos)->row();
+				$numeroConceptosCotizacion = $numeroConceptosCotizacion->numeroConceptosCotizacion;
 				$concepto_factura = $concepto_factura[0];
 
 				$c->total = $concepto_factura->total;
@@ -183,10 +193,15 @@ class Reporte_master_ctrl extends CI_Controller {
 				$c->estadoFactura = $concepto_factura->estadoFactura;
 				$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
 
+				if($numeroConceptosCotizacion > 1){
+					$c->total = ($c->total)/$numeroConceptosCotizacion;
+					$c->subtotal = ($c->subtotal)/$numeroConceptosCotizacion;
+				}
+
 				//Recalcula
 				//$c->total = $c->importeEfectivo;
-				$c->montoIVA = ($c->total)*(($c->iva)/100);
-				$c->subtotal = ($c->total) - ($c->montoIVA);
+				$c->montoIVA = ($c->subtotal)*($c->iva);
+				//$c->subtotal = ($c->total) - ($c->montoIVA);
 			}else{
 				unset($c);
 			}
