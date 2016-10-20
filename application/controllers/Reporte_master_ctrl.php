@@ -181,8 +181,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					$numeroConceptosCotizacion = $this->db->query($queryNumeroConceptos)->row();
 					$numeroConceptosCotizacion = $numeroConceptosCotizacion->numeroConceptosCotizacion;
 
-					$c->total += $concepto_factura->total;
-					$c->subtotal += $concepto_factura->subtotal;
+					$c->total += ($concepto_factura->total)/$numeroConceptosCotizacion;
+					$c->subtotal += ($concepto_factura->subtotal)/$numeroConceptosCotizacion;
 					$c->estadoConcepto = $concepto_factura->estadoConcepto;
 					$c->id = $concepto_factura->id;
 					$c->descripcion = $concepto_factura->descripcion;
@@ -197,10 +197,10 @@ class Reporte_master_ctrl extends CI_Controller {
 					$c->estadoFactura = $concepto_factura->estadoFactura;
 					$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
 
-					if($numeroConceptosCotizacion > 1){
-						$c->total += ($c->total)/$numeroConceptosCotizacion;
-						$c->subtotal += ($c->subtotal)/$numeroConceptosCotizacion;
-					}
+					// if($numeroConceptosCotizacion > 1){
+					// 	$c->total += ($c->total)/$numeroConceptosCotizacion;
+					// 	$c->subtotal += ($c->subtotal)/$numeroConceptosCotizacion;
+					// }
 
 					//Recalcula
 					//$c->total = $c->importeEfectivo;
