@@ -167,6 +167,20 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			if(count($concepto_factura) > 0){
 				$cf = $concepto_factura;
+				$concepto_factura = $cf[0];
+				
+				$c->estadoConcepto = $concepto_factura->estadoConcepto;
+				$c->id = $concepto_factura->id;
+				$c->descripcion = $concepto_factura->descripcion;
+				$c->iva = $concepto_factura->iva;
+				$c->folio = $concepto_factura->folio;
+				$c->fechaPago = $concepto_factura->fechaPago;
+				$c->moneda = $concepto_factura->moneda;
+				$c->ordenCompra = $concepto_factura->ordenCompra;
+				$c->fechaCancelacion = $concepto_factura->fechaCancelacion;
+				$c->fechaFactura = $concepto_factura->fechaFactura;
+				$c->estadoFactura = $concepto_factura->estadoFactura;
+				$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
 
 				for($k = 0, $ncf = count($cf); $k<$ncf; $k++){
 					$concepto_factura = $cf[$k];
@@ -183,19 +197,7 @@ class Reporte_master_ctrl extends CI_Controller {
 
 					$c->total += ($concepto_factura->total)/$numeroConceptosCotizacion;
 					$c->subtotal += ($concepto_factura->subtotal)/$numeroConceptosCotizacion;
-					$c->estadoConcepto = $concepto_factura->estadoConcepto;
-					$c->id = $concepto_factura->id;
-					$c->descripcion = $concepto_factura->descripcion;
 					$c->montoIVA += $concepto_factura->montoIVA;
-					$c->iva = $concepto_factura->iva;
-					$c->folio = $concepto_factura->folio;
-					$c->fechaPago = $concepto_factura->fechaPago;
-					$c->moneda = $concepto_factura->moneda;
-					$c->ordenCompra = $concepto_factura->ordenCompra;
-					$c->fechaCancelacion = $concepto_factura->fechaCancelacion;
-					$c->fechaFactura = $concepto_factura->fechaFactura;
-					$c->estadoFactura = $concepto_factura->estadoFactura;
-					$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
 
 					// if($numeroConceptosCotizacion > 1){
 					// 	$c->total += ($c->total)/$numeroConceptosCotizacion;
