@@ -31,10 +31,12 @@ class Cotizacion extends CI_Model {
 					tf.`ordenPago` ordenPago,
 					tf.`nota` nota
 				FROM
-					`factura` tf,
-					`catestadofactura` cef
+					`cotizacion_factura_rel` cfrel
+					INNER JOIN `factura` tf ON tf.`id` = cfrel.`idFactura`
+					INNER JOIN `cotizacion` cot ON cot.`id` = cfrel.`idCotizacion`
+					INNER JOIN `catestadofactura` cef ON cef.`id` = tf.`idEstadoFactura`
 				WHERE
-					tf.`idCotizacion` = ".$idCotizacion."
+					cfrel.`idCotizacion` = ".$idCotizacion."
 					AND tf.`estadoActivo` = 1
 				";
 
@@ -53,10 +55,12 @@ class Cotizacion extends CI_Model {
 					tf.`ordenPago` ordenPago,
 					tf.`nota` nota
 				FROM
-					`factura` tf,
-					`catestadofactura` cef
+					`cotizacion_factura_rel` cfrel
+					INNER JOIN `factura` tf ON tf.`id` = cfrel.`idFactura`
+					INNER JOIN `cotizacion` cot ON cot.`id` = cfrel.`idCotizacion`
+					INNER JOIN `catestadofactura` cef ON cef.`id` = tf.`idEstadoFactura`
 				WHERE
-					tf.`idCotizacion` = ".$idCotizacion."
+					cfrel.`idCotizacion` = ".$idCotizacion."
 				";
 
 		return $this->db->query($query)->result();
@@ -80,10 +84,12 @@ class Cotizacion extends CI_Model {
 					tf.`ordenCompra` ordenCompra,
 					tf.`nota` nota
 				FROM
-					`factura` tf
+					`cotizacion_factura_rel` cfrel
+					INNER JOIN `factura` tf ON tf.`id` = cfrel.`idFactura`
+					INNER JOIN `cotizacion` cot ON cot.`id` = cfrel.`idCotizacion`
 					INNER JOIN `catestadofactura` cef ON cef.`id` = tf.`idEstadoFactura`
 				WHERE
-					tf.`idCotizacion` = ".$idCotizacion."
+					cfrel.`idCotizacion` = ".$idCotizacion."
 					AND tf.`estadoActivo` = 1
 					AND tf.`creacion` BETWEEN '".$dateFrom."' AND DATE_ADD('".$dateTo."', INTERVAL 1 DAY)
 				LIMIT
