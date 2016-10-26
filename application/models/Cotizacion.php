@@ -34,7 +34,7 @@ class Cotizacion extends CI_Model {
 					`cotizacion_factura_rel` cfrel
 					INNER JOIN `factura` tf ON tf.`id` = cfrel.`idFactura`
 					INNER JOIN `cotizacion` cot ON cot.`id` = cfrel.`idCotizacion`
-					INNER JOIN `catestadofactura` cef ON cef.`id` = tf.`idEstadoFactura`
+					LEFT JOIN `catestadofactura` cef ON cef.`id` = tf.`idEstadoFactura`
 				WHERE
 					cfrel.`idCotizacion` = ".$idCotizacion."
 					AND tf.`estadoActivo` = 1
@@ -58,7 +58,7 @@ class Cotizacion extends CI_Model {
 					`cotizacion_factura_rel` cfrel
 					INNER JOIN `factura` tf ON tf.`id` = cfrel.`idFactura`
 					INNER JOIN `cotizacion` cot ON cot.`id` = cfrel.`idCotizacion`
-					INNER JOIN `catestadofactura` cef ON cef.`id` = tf.`idEstadoFactura`
+					LEFT JOIN `catestadofactura` cef ON cef.`id` = tf.`idEstadoFactura`
 				WHERE
 					cfrel.`idCotizacion` = ".$idCotizacion."
 				";
