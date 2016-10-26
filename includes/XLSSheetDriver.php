@@ -4,14 +4,40 @@ class XLSSheetDriver {
 	private $cCol;
 	private $cRow;
 	private $mark;
+	private $creator = "DEFAULT";
+	private $lastModifiedBy = "DEFAULT";
+	private $title = "DEFAULT";
+	private $subject = "CODICE";
+	private $description = "DEFAULT";
+
 
 	public function __construct($cCol='A', $cRow=1){
 		$this->cCol = $cCol;
 		$this->cRow = $cRow;
 		$this->mark = array();
 
+		$this->load->library('PHPExcel.php');
 		$this->mark['DOCUMENT_BEGIN'] = array("col" => ($this->cCol), "row" => ($this->cRow));
 		$this->mark['DOCUMENT_END'] = array("col" => ($this->cCol), "row" => ($this->cRow));
+
+	    $this->phpexcel->getProperties()->setCreator($this->creator)
+	                                 ->setLastModifiedBy($this->lastModifiedBy)
+	                                 ->setTitle($this->title)
+	                                 ->setSubject($this->subject)
+	                                 ->setDescription($this->description);
+	}
+
+	public function setSheet($number){
+		$this->phpexcel->setActiveSheetIndex($number);
+	}
+
+	public function setCellValue($position, $value){
+		$sheet->setCellValue($this->getPosition(),utf8_decode(html_entity_decode($value)));		
+	}
+
+	public function setTitle($title){
+		$this->title = $title;
+	    $this->phpexcel->getProperties()->setTitle($this->title);
 	}
 
 	public function colToNumber(){
@@ -153,6 +179,24 @@ class XLSSheetDriver {
 
 	public function boldCellContent($cell,$sheet){
 		$sheet->getStyle($cell)->getFont()->setBold(true);
+	}
+
+	public function out($fileName){
+	    // Renombramos la hoja de trabajo
+	    $this->phpexcel->getActiveSheet()->setTitle($this->title);
+	    
+	    // configuramos el documento para que la hoja
+	    // de trabajo número 0 sera la primera en mostrarse
+	    // al abrir el documento
+	    $this->phpexcel->setActiveSheetIndex(0);
+	    
+	    // redireccionamos la salida al navegador del cliente (Excel2007)
+		header('Content-Type: application/vnd.ms-excel; encoding: UTF-8');
+		header('Content-Disposition: attachment;filename="'.$fileName.'"');
+		header('Cache-Control: max-age=0');
+
+	    $objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel5');
+	    $objWriter->save('php://output');
 	}
 }
 ?>

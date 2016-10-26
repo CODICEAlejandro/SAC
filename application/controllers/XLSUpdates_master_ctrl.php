@@ -257,7 +257,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	}
 	*/
 
-	
+	/*
 	//Revisar conceptos relacionados y no relacionados
 	public function updateFacturas($data){
 		echo "<br><br>... Procesando ...";
@@ -387,5 +387,26 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		echo "<br>Conceptos sin relación: ".$totalConceptos_sinRelacion;
 		echo "<br><br>Conceptos sin relación y con factura asociada: ".$totalConceptos_sinRelacion_conFactura;
 	}
-	
+	*/
+
+	//Actualizar importe de conceptos de cotización que estén asociados con uno mismo en la factura
+	public function updateFacturas($data){
+		$queryConceptosCotizacion = "SELECT id FROM concepto_cotizacion";
+		$queryConceptosFactura = "SELECT id, importe FROM concepto";
+
+		$conceptos_cotizacion = $this->db->query($queryConceptosCotizacion)->result();
+		$conceptos_factura = $this->db->query($queryConceptosFactura)->result();
+
+		foreach($conceptos_factura as $cFact){
+			$query_conceptos_cotizacion_asociados = "SELECT idConceptoCotizacion 
+															FROM concepto_factura_cotizacion 
+															WHERE
+																idConceptoFactura = ".$cFact->id;
+			$conceptos_cotizacion = $this->db->query($query_conceptos_cotizacion_asociados)->result();
+
+			if(count($conceptos_cotizacion) > 1){
+				return;
+			}
+		}
+	}
 }

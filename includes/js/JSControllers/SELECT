@@ -1,0 +1,300 @@
+SELECT 
+	ct.`cliente` cliente,
+	ct.`proyecto` proyecto,
+	ct.`mes` mes,
+	ct.`total_de_tareas` total_de_tareas
+FROM
+	(
+	SELECT
+		ccli.`nombre` cliente,
+		cpro.`nombre` proyecto,
+		CASE 
+			WHEN ct.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+			WHEN ct.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+			WHEN ct.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+			ELSE ct.`creacion`
+		END mes,
+		COUNT(*) total_de_tareas
+	FROM
+		`cattarea` ct
+		INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+		INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+	WHERE
+		ct.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+	GROUP BY
+		cliente,
+		proyecto,
+		mes
+
+	UNION ALL
+
+	SELECT 
+		ccli.`nombre` cliente,
+		cpro.`nombre` proyecto,
+		CASE 
+			WHEN ce.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+			WHEN ce.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+			WHEN ce.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+			ELSE ce.`creacion`
+		END mes,
+		COUNT(*) total_de_tareas
+	FROM
+		`caterror` ce
+		INNER JOIN `cattarea` ct ON ct.`id` = ce.`idTareaOrigen`
+		INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+		INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+	WHERE
+		ce.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+	GROUP BY
+		cliente,
+		proyecto,
+		mes
+
+	) ct
+
+GROUP BY
+	cliente,
+	proyecto,
+	mes
+
+ORDER BY
+	proyecto,
+	mes
+
+
+
+//Consultas fragmentadas por área
+
+SELECT
+	ct.`cliente` cliente,
+	ct.`proyecto` proyecto,
+	ct.`mes` mes,
+	IF((ct.`idArea` = 1) AND (ct.`tipo` = 0), TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(ct.`tiempoRealGerente`))), '%H:%i'), "00:00:00") Tiempo_consultores_Disenio
+FROM
+	(
+	SELECT
+		ccli.`nombre` cliente,
+		cpro.`nombre` proyecto,
+		cus.`idArea` idArea,
+		cus.`tipo` tipo,
+        ct.`tiempoRealGerente` tiempoRealGerente,		
+        CASE 
+			WHEN ct.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+			WHEN ct.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+			WHEN ct.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+			ELSE ct.`creacion`
+		END mes
+	FROM
+		`cattarea` ct
+		INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+		INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+		INNER JOIN `catusuario` cus ON cus.`id` = ct.`idResponsable`
+	WHERE
+		ct.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+
+	UNION ALL
+
+	SELECT 
+		ccli.`nombre` cliente,
+		cpro.`nombre` proyecto,
+		cus.`idArea` idArea,
+		cus.`tipo` tipo,
+        ce.`tiempoRealGerente`,
+		CASE 
+			WHEN ce.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+			WHEN ce.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+			WHEN ce.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+			ELSE ce.`creacion`
+		END mes
+	FROM
+		`caterror` ce
+		INNER JOIN `cattarea` ct ON ct.`id` = ce.`idTareaOrigen`
+		INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+		INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+		INNER JOIN `catusuario` cus ON cus.`id` = ct.`idResponsable`
+	WHERE
+		ce.`creacion` BETWEEN '2016-06-01' AND '2016-09-01'
+	) ct
+
+GROUP BY
+	cliente,
+	proyecto,
+	mes
+
+ORDER BY
+	proyecto,
+	mes
+
+
+
+//FIN
+
+
+SELECT
+	ccli.`nombre` cliente,
+	cpro.`nombre` proyecto,
+	TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(ct.`tiempoRealGerente`))), '%H:%i') "Tiempo_Disenio_sin_Gerente",
+	CASE 
+		WHEN ct.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+		WHEN ct.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+		WHEN ct.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+		ELSE ct.`creacion`
+	END mes
+FROM
+	`cattarea` ct
+	LEFT JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+	INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+	INNER JOIN `catusuario` cus ON cus.`id` = ct.`idResponsable`
+WHERE
+	(ct.`creacion` BETWEEN '2016-06-01' AND '2016-08-31')
+	AND cus.`tipo` = 0
+	AND cus.`idArea` = 1
+GROUP BY
+	cliente,
+	proyecto,
+	mes
+ORDER BY
+	proyecto
+
+
+//Consulta de columna general
+
+SELECT 
+	ccli.`nombre` cliente,
+	cpro.`nombre` proyecto,
+	CASE 
+		WHEN ct.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+		WHEN ct.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+		WHEN ct.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+		ELSE ct.`creacion`
+	END mes,
+	COUNT(*) total_de_tareas
+FROM
+	`cattarea` ct
+	INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+	INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+WHERE
+	ct.`creacion` BETWEEN '2016-06-01' AND '2016-08-31'
+GROUP BY
+	cliente,
+	proyecto,
+	mes
+ORDER BY
+	proyecto
+
+
+SELECT 
+	ccli.`nombre` cliente,
+	cpro.`nombre` proyecto,
+	CASE 
+		WHEN ct.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+		WHEN ct.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+		WHEN ct.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+		ELSE ct.`creacion`
+	END mes,
+	COUNT(*) total_de_tareas
+FROM
+	(
+	SELECT
+		ccli.`nombre` cliente,
+		cpro.`nombre` proyecto,
+		CASE 
+			WHEN ct.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+			WHEN ct.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+			WHEN ct.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+			ELSE ct.`creacion`
+		END mes,
+		COUNT(*) total_de_tareas
+	FROM
+		`cattarea` ct
+		INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+		INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+
+	UNION ALL
+
+	SELECT 
+		ccli.`nombre` cliente,
+		cpro.`nombre` proyecto,
+		CASE 
+			WHEN ce.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+			WHEN ce.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+			WHEN ce.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+			ELSE ce.`creacion`
+		END mes,
+		COUNT(*) total_de_tareas
+	FROM
+		`caterror` ce
+		INNER JOIN `cattarea` ct ON ct.`id` = ce.`idTareaOrigen`
+		INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+		INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+	) ct
+	INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+	INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+
+WHERE
+	ct.`creacion` BETWEEN '2016-06-01' AND '2016-08-31'
+GROUP BY
+	cliente,
+	proyecto,
+	mes
+ORDER BY
+	proyecto
+
+//FIN
+
+SELECT 
+	ccli.`nombre` cliente,
+	cpro.`nombre` proyecto,
+
+	CASE 
+		WHEN ct.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+		WHEN ct.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+		WHEN ct.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+		ELSE ct.`creacion`
+	END mes,
+	COUNT(*) total_de_tareas,
+	tblAux.`tiempoConsultor` Tiempo_disenio_consultor
+FROM
+	`cattarea` ct
+	INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+	INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+	INNER JOIN (
+        SELECT
+            ccli.`nombre` cliente,
+            cpro.`nombre` proyecto,
+            car.`id` idArea,
+            TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(ct.`tiempoRealGerente`))), '%H:%i') tiempoConsultor,
+            CASE 
+                WHEN ct.`creacion` BETWEEN '2016-06-01' AND '2016-07-01' THEN 'Junio'
+                WHEN ct.`creacion` BETWEEN '2016-07-01' AND '2016-08-01' THEN 'Julio'
+                WHEN ct.`creacion` BETWEEN '2016-08-01' AND '2016-09-01' THEN 'Agosto'
+                ELSE ct.`creacion`
+            END mes
+        FROM
+            `cattarea` ct
+            INNER JOIN `catproyecto` cpro ON cpro.`id` = ct.`idProyecto`
+            INNER JOIN `catcliente` ccli ON ccli.`id` = cpro.`idCliente`
+            INNER JOIN `catusuario` cus ON cus.`id` = ct.`idResponsable`
+            INNER JOIN `catarea` car ON car.`id` = cus.`idArea`
+        WHERE
+            (ct.`creacion` BETWEEN '2016-06-01' AND '2016-08-31')
+            AND cus.`tipo` = 0
+            AND cus.`idArea` = 1
+        GROUP BY
+            cliente,
+            proyecto,
+            mes,
+            idArea
+        ORDER BY
+            proyecto        
+    ) AS tblAux ON tblAux.`proyecto` = cpro.`nombre` 
+    				AND tblAux.`cliente` = ccli.`nombre` 
+    				AND mes = tblAux.`mes` 
+WHERE
+	ct.`creacion` BETWEEN '2016-06-01' AND '2016-08-31'
+GROUP BY
+	cliente,
+	proyecto,
+	mes
+ORDER BY
+	proyecto
