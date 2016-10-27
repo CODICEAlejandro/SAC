@@ -190,7 +190,7 @@ class Factura extends CI_Model {
 					`concepto_factura_rel` cfrel
 					INNER JOIN `factura` tf ON tf.`id` = cfrel.`idFactura`
 					INNER JOIN `concepto` tc ON tc.`id` = cfrel.`idConcepto`
-					INNER JOIN `cattipoconcepto` ctc ON ctc.`id` = tc.`idTipoConcepto`
+					LEFT JOIN `cattipoconcepto` ctc ON ctc.`id` = tc.`idTipoConcepto`
 				WHERE
 					tf.`id` = ".$idFactura."
 				";
