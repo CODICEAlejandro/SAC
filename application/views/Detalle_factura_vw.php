@@ -58,12 +58,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php foreach($conceptos as $concepto){ ?>
 					<tr>
 						<td><?php echo $concepto->id; ?></td>
-						<td><?php echo $concepto->tipoConcepto; ?></td>
-						<td><?php echo $concepto->monto; ?></td>
 						<td><?php echo $concepto->montoFacturacion; ?></td>
 						<td><?php echo $concepto->recurrencia; ?></td>
 						<td><?php echo $concepto->referencia; ?></td>
 						<td><?php echo $concepto->descripcion; ?></td>
+
+						<td>
+							<?php foreach($concepto->conceptosCotizacion as $cCot){ ?>
+							<table class="table">
+								<thead>
+									<th style="min-width: 50px;">Tipo</th>
+									<th style="min-width: 50px;">Monto</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<?php echo $cCot->tipoConcepto; ?>
+										</td>
+										<td>
+											<?php echo $cCot->montoCotizacion; ?>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<?php } ?>
+						</td>
+
 						<td>
 							<div class="input-group">
 								<textarea id="nota" rows="2" style="width: 95%" class="form-control"><?php echo $concepto->nota; ?></textarea>

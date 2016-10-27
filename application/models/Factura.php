@@ -177,12 +177,10 @@ class Factura extends CI_Model {
 
 	public function traerConceptos($idFactura){
 		$id = htmlentities($idFactura, ENT_QUOTES, 'UTF-8');
-		$query = "SELECT
+		$queryConceptosFactura = "SELECT
 					tc.`id` id,
 					tc.`descripcion` descripcion,
-					ctc.`descripcion` tipoConcepto,
-					tc.`monto` monto,
-					cfrel.`monto` montoFacturacion,
+					tc.`importe` montoFacturacion,
 					if(tc.`recurrencia`=1, 'Sí', 'No') recurrencia,
 					tc.`referencia` referencia,
 					tc.`nota` nota
@@ -195,7 +193,27 @@ class Factura extends CI_Model {
 					tf.`id` = ".$idFactura."
 				";
 
-		return $this->db->query($query)->result();
+		$resultConceptosFactura = $this->db->query($query)->result();
+
+		for($k = 0, $n = count($resultConceptosFactura); $k < $n; $k++){
+			$idConceptoFactura = $resultConceptosFactura[$k]->id;
+
+			$queryConceptosCotizacion = "SELECT
+										con_cot.`monto` montoCotizacion,
+										cat_ti_con.`idTipoConcepto` tipoConcepto
+									FROM
+										`concepto_factura_cotizacion` f_cot_rel
+										INNER JOIN `concepto_cotizacion` con_cot ON con_cot.`id` = f_cot_rel.`idConceptoCotizacion`
+										INNER JOIN `cattipoconcepto` cat_ti_con ON cat_ti_con.`id` = con_cot.`idTipoConcepto`
+									WHERE
+										f_cot_rel.`idConceptoFactura` = ".$idConceptoFactura."
+									";
+
+			$conceptosCotizacion = $this->db->query($queryConceptosCotizacion)->result();
+			$resultConceptosFactura[$k]->conceptosCotizacion = $conceptosCotizacion;
+		}
+
+		return $resultConceptosFactura;
 	}
 
 	public function calculaSubtotal($idFactura){
