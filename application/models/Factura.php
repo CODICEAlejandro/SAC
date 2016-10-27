@@ -195,8 +195,6 @@ class Factura extends CI_Model {
 
 		$resultConceptosFactura = $this->db->query($queryConceptosFactura)->result();
 
-		die("POLLO");
-
 		for($k = 0, $n = count($resultConceptosFactura); $k < $n; $k++){
 			$idConceptoFactura = $resultConceptosFactura[$k]->id;
 
@@ -210,6 +208,8 @@ class Factura extends CI_Model {
 									WHERE
 										f_cot_rel.`idConceptoFactura` = ".$idConceptoFactura."
 									";
+		print_r($resultConceptosFactura[$k]);
+		die("POLLO");
 
 			$conceptosCotizacion = $this->db->query($queryConceptosCotizacion)->result();
 			$resultConceptosFactura[$k]->conceptosCotizacion = $conceptosCotizacion;
