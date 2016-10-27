@@ -200,7 +200,7 @@ class Factura extends CI_Model {
 
 			$queryConceptosCotizacion = "SELECT
 										con_cot.`monto` montoCotizacion,
-										cat_ti_con.`idTipoConcepto` tipoConcepto
+										cat_ti_con.`descripcion` tipoConcepto
 									FROM
 										`concepto_factura_cotizacion` f_cot_rel
 										INNER JOIN `concepto_cotizacion` con_cot ON con_cot.`id` = f_cot_rel.`idConceptoCotizacion`
