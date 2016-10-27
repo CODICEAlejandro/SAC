@@ -195,6 +195,8 @@ class Factura extends CI_Model {
 
 		$resultConceptosFactura = $this->db->query($queryConceptosFactura)->result();
 
+		die("POLLO");
+
 		for($k = 0, $n = count($resultConceptosFactura); $k < $n; $k++){
 			$idConceptoFactura = $resultConceptosFactura[$k]->id;
 
