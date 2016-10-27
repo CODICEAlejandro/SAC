@@ -15,6 +15,7 @@ class LecturaXML_ctrl extends CI_Controller {
 
 	public function index(){
 		$this->load->view("LecturaXML_vw");
+		phpinfo();
 	}
 
 	public function processXML(){
