@@ -18,8 +18,13 @@ class Detalle_factura_ctrl extends CI_Controller {
 	}
 
 
-	public function updateNote($idFactura, $idConcepto){
-		$this->RelacionConceptoFactura->actualizar($idFactura);
+	public function updateNote(){
+		$idConcepto = htmlentities($this->input->post("idConcepto"), ENT_QUOTES, "UTF-8");
+		$nuevaNota = htmlentities($this->input->post("nuevaNota"), ENT_QUOTES, "UTF-8");
+
+		$data = array("nota" => $nuevaNota);
+
+		$this->Concepto->actualizar($idFactura, $data);
 	}
 }
 

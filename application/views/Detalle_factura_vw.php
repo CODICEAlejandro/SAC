@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</script>
 
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/mainFunctions.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/JSControllers/Detalle_factura_JS.js"></script>
 	<title>JOBS</title>
 
 	<style type="text/css">
@@ -88,10 +89,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</td>
 
 						<td>
-							<div class="input-group">
+							<div class="input-group" id="bloqueNota">
 								<textarea id="nota" rows="2" style="width: 95%" class="form-control"><?php echo $concepto->nota; ?></textarea>
 								<span class="input-group-btn">
-									<button class="btn btn-default" id="btn-save-note" data-id-factura="<?php echo $currentFactura; ?>" data-id="<?php echo $concepto->id; ?>" type="button">
+									<button class="btn btn-default btn-note" id="btn-save-note" data-id-factura="<?php echo $currentFactura; ?>" data-id="<?php echo $concepto->id; ?>" type="button">
 										<span class="glyphicon glyphicon-floppy-disk"></span>
 									</button>
 								</span>
