@@ -210,9 +210,6 @@ class Factura extends CI_Model {
 									";
 
 			$conceptosCotizacion = $this->db->query($queryConceptosCotizacion)->result();
-		print_r($resultConceptosFactura[$k]);
-		die("POLLO");
-
 			$resultConceptosFactura[$k]->conceptosCotizacion = $conceptosCotizacion;
 		}
 
