@@ -1,9 +1,6 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-ini_set('memory_limit','-1');
-ini_set('max_execution_time', 30000);
-set_time_limit(30000);
 
 class Lectura_factura_ctrl extends CI_Controller {
 
