@@ -193,7 +193,7 @@ class Factura extends CI_Model {
 					tf.`id` = ".$idFactura."
 				";
 
-		$resultConceptosFactura = $this->db->query($query)->result();
+		$resultConceptosFactura = $this->db->query($queryConceptosFactura)->result();
 
 		for($k = 0, $n = count($resultConceptosFactura); $k < $n; $k++){
 			$idConceptoFactura = $resultConceptosFactura[$k]->id;
