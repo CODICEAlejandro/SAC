@@ -199,6 +199,7 @@ class Factura extends CI_Model {
 			$idConceptoFactura = $resultConceptosFactura[$k]->id;
 
 			$queryConceptosCotizacion = "SELECT
+										con_cot.`id` id,
 										con_cot.`monto` montoCotizacion,
 										cat_ti_con.`descripcion` tipoConcepto
 									FROM

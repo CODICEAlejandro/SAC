@@ -45,13 +45,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<table class="table" id="tbl-factura">
 					<thead>
-						<th style="min-width: 20px;">ID de concepto</th>
-						<th style="min-width: 150px;">Tipo</th>
-						<th style="min-width: 150px;">Monto</th>
+						<th style="min-width: 20px;">ID de concepto en factura</th>
 						<th style="min-width: 150px;">Monto de facturación</th>
 						<th style="min-width: 150px;">Recurrencia</th>
 						<th style="min-width: 400px;">Referencia</th>
 						<th style="min-width: 450px;">Descripción</th>
+						<th style="min-width: 450px;">Conceptos asociados de la cotización</th>
 						<th style="min-width: 500px;">Nota</th>
 					</thead>
 					<tbody>
@@ -67,11 +66,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php foreach($concepto->conceptosCotizacion as $cCot){ ?>
 							<table class="table">
 								<thead>
-									<th style="min-width: 50px;">Tipo</th>
-									<th style="min-width: 50px;">Monto</th>
+									<th style="min-width: 50px;">ID en cotización</th>
+									<th style="min-width: 50px;">Tipo de concepto</th>
+									<th style="min-width: 50px;">Monto en cotización</th>
 								</thead>
 								<tbody>
 									<tr>
+										<td>
+											<?php echo $cCot->id; ?>
+										</td>
 										<td>
 											<?php echo $cCot->tipoConcepto; ?>
 										</td>
