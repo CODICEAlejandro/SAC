@@ -16,6 +16,8 @@ class Lectura_factura_ctrl extends CI_Controller {
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 
 		$this->load->view("Lectura_factura_vw", $data);
+		phpinfo();
+
 	}
 
 	public function guardarFactura(){
