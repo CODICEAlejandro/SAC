@@ -15,7 +15,6 @@ class LecturaXML_ctrl extends CI_Controller {
 
 	public function index(){
 		$this->load->view("LecturaXML_vw");
-		phpinfo();
 	}
 
 	public function processXML(){
@@ -97,8 +96,6 @@ class LecturaXML_ctrl extends CI_Controller {
 		$totalIVARetenido = $resImpuestos->xpath("fx:TotalIVARetenido")[0]->__toString();
 		$totalTrasladosLocales = $resImpuestos->xpath("fx:TotalTrasladosLocales")[0]->__toString();
 		$totalRetencionesLocales = $resImpuestos->xpath("fx:TotalRetencionesLocales")[0]->__toString();
-
-		$data = array();
 
 		$this->load->view("LecturaXML_vw", $data);
 	}
