@@ -16,6 +16,7 @@ class Lectura_factura_ctrl extends CI_Controller {
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 
 		$this->load->view("Lectura_factura_vw", $data);
+		
 	}
 
 	public function guardarFactura(){
@@ -188,7 +189,7 @@ class Lectura_factura_ctrl extends CI_Controller {
 		$objFactura->totalTrasladosLocales = $resImpuestos->xpath("fx:TotalTrasladosLocales")[0]->__toString();
 		$objFactura->totalRetencionesLocales = $resImpuestos->xpath("fx:TotalRetencionesLocales")[0]->__toString();
 
-		$data['tiposConcepto'] = $this->db->get("catTipoConcepto")->result();
+		$data['tiposConcepto'] = $this->db->get("cattipoconcepto")->result();
 		$data['clientes'] = $this->Cliente->traerTodo();
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 		$data['factura'] = $objFactura;
