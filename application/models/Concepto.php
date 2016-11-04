@@ -19,7 +19,7 @@ class Concepto extends CI_Model {
 	var $recurrencia = 0;
 	var $idPeriodoRecurrencia = null;
 	var $impuestos = array();			//Array of Impuesto
-	var $idMatched = null;
+	var $idMatched = array();
 	var $referencia = "";
 	var $montoEfectivo = 0.0;	//Es el monto escrito en la tabla de relación entre factura y concepto
 
@@ -47,6 +47,10 @@ class Concepto extends CI_Model {
 		$result->idPeriodoRecurrencia = $data["idPeriodoRecurrencia"];
 		$result->idMatched = $data["idMatched"];
 		$result->montoEfectivo = $data["montoEfectivo"];
+
+		for($k = 0, $n = count($data["idMatched"]); $k < $n; $k++){
+			array_push($result->idMatched, $data["idMatched"][$k]);
+		}
 
 		for($k=0, $n=count($data['impuestos']); $k<$n; $k++)
 			$result->pushImpuesto( Impuesto::parseImpuesto($data['impuestos'][$k]) );
@@ -80,7 +84,6 @@ class Concepto extends CI_Model {
 					"descripcion" => $this->descripcion,
 					"idTipoConcepto" => $this->idTipoConcepto,
 					"referencia" => $this->referencia,
-					"idConcepto_cotizacion" => $this->idMatched,
 					"recurrencia" => $this->recurrencia,
 					"contadorPagos" => 0,
 					"nota" => $this->nota,
@@ -93,9 +96,16 @@ class Concepto extends CI_Model {
 		}
 
 		if(is_null($this->idTipoConcepto)) unset($data["idTipoConcepto"]);
-		if(is_null($this->idMatched)) unset($data["idConcepto_cotizacion"]);
+		//if(is_null($this->idMatched)) unset($data["idConcepto_cotizacion"]);
 
 		$idConcepto = $this->insertar($data);
+
+		//Insertar relaciones del concepto actual con los conceptos en cotizaciOn
+		for($k = 0, $n = count($this->idMatched); $k < $n; $k++){
+			$queryRelacion = "INSERT INTO `concepto_factura_cotizacion` (`idConceptoFactura`, `idConceptoCotizacion`) 
+							VALUES (".$idConcepto.", ".($this->idMatched[$k]).")";
+			$this->db->query($queryRelacion);
+		}
 
 		if($recursive){
 			foreach($this->impuestos as $impuesto){

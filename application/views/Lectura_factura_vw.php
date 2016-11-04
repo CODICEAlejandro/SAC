@@ -152,9 +152,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<td id="id"><?php echo $k; ?></td>
 						<td id="matchCol">
-							<select class="form-control idMatched" name="idMatched" class="idMatched" id="idMatched" style="width: 300px;">
-							<option value="-1">Seleccione una opción</option>
-							</select>
+							<span id="append-matchCol">
+								<select class="form-control idMatched" name="idMatched[]" class="idMatched" id="idMatched" style="width: 300px;">
+								<option value="-1">Seleccione una opción</option>
+								</select>
+							</span>
+							<button class="btn btn-primary" id="btn-add-matched-select" style="width: 100%; margin-top: 10px;">
+								Agregar
+							</button>
 						</td>
 						<td id="tipoCol">
 							<select class="form-control tipoConcepto" id="tipoConcepto" name="tipoConcepto" style="width: 200px;">

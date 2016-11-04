@@ -6,6 +6,7 @@ class Detalle_factura_ctrl extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model("Factura");
+		$this->load->model("Concepto");
 		$this->load->model("RelacionConceptoFactura");
 	}
 

@@ -95,6 +95,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		$queryLadoCotizacion .= $appendQuery;
 
 		$conceptos_cotizacion = $this->db->query($queryLadoCotizacion)->result();
+		$result_array = array();
 
 
 		foreach($conceptos_cotizacion as $c){
@@ -163,48 +164,53 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			$queryLadoFacturacion .= $appendQuery;
 
-			$concepto_factura = $this->db->query($queryLadoFacturacion)->result();
+			$conceptos_fact = $this->db->query($queryLadoFacturacion)->result();
 
-			if(count($concepto_factura) > 0){
-				$concepto_factura = $concepto_factura[0];
+			if(count($conceptos_fact) > 0){
 
-				//Obtener el número de conceptos de cotización asociados al mismo concepto en la factura
-				$queryNumeroConceptos = "SELECT count(*) numeroConceptosCotizacion
-										FROM `concepto_factura_cotizacion` relFC
-										WHERE
-											relFC.`idConceptoFactura` = ".($concepto_factura->idConceptoFactura)."
-									";
+				//Recorrer todos los conceptos en la factura asociados al mismo en la cotizaciOn
+				foreach($conceptos_fact as $concepto_factura){
+					//Obtener el número de conceptos de cotización asociados al mismo concepto en la factura
+					$queryNumeroConceptos = "SELECT count(*) numeroConceptosCotizacion
+											FROM `concepto_factura_cotizacion` relFC
+											WHERE
+												relFC.`idConceptoFactura` = ".($concepto_factura->idConceptoFactura)."
+										";
 
-				$numeroConceptosCotizacion = $this->db->query($queryNumeroConceptos)->row();
-				$numeroConceptosCotizacion = $numeroConceptosCotizacion->numeroConceptosCotizacion;
+					$numeroConceptosCotizacion = $this->db->query($queryNumeroConceptos)->row();
+					$numeroConceptosCotizacion = $numeroConceptosCotizacion->numeroConceptosCotizacion;
 
-				$c->total = $concepto_factura->total;
-				$c->subtotal = $concepto_factura->subtotal;
-				$c->estadoConcepto = $concepto_factura->estadoConcepto;
-				$c->id = $concepto_factura->id;
-				$c->descripcion = $concepto_factura->descripcion;
-				$c->montoIVA = $concepto_factura->montoIVA;
-				$c->iva = $concepto_factura->iva;
-				$c->folio = $concepto_factura->folio;
-				$c->fechaPago = $concepto_factura->fechaPago;
-				$c->moneda = $concepto_factura->moneda;
-				$c->ordenCompra = $concepto_factura->ordenCompra;
-				$c->fechaCancelacion = $concepto_factura->fechaCancelacion;
-				$c->fechaFactura = $concepto_factura->fechaFactura;
-				$c->estadoFactura = $concepto_factura->estadoFactura;
-				$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
+					$c->total += $concepto_factura->total;
+					$c->subtotal += $concepto_factura->subtotal;
+					$c->estadoConcepto = $concepto_factura->estadoConcepto;
+					$c->id = $concepto_factura->id;
+					$c->descripcion = $concepto_factura->descripcion;
+					$c->montoIVA += $concepto_factura->montoIVA;
+					$c->iva = $concepto_factura->iva;
+					$c->folio = $concepto_factura->folio;
+					$c->fechaPago = $concepto_factura->fechaPago;
+					$c->moneda = $concepto_factura->moneda;
+					$c->ordenCompra = $concepto_factura->ordenCompra;
+					$c->fechaCancelacion = $concepto_factura->fechaCancelacion;
+					$c->fechaFactura = $concepto_factura->fechaFactura;
+					$c->estadoFactura = $concepto_factura->estadoFactura;
+					$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
 
-				if($numeroConceptosCotizacion > 1){
-					$c->total = ($c->total)/$numeroConceptosCotizacion;
-					$c->subtotal = ($c->subtotal)/$numeroConceptosCotizacion;
+					if($numeroConceptosCotizacion > 1){
+						$c->total = ($c->total)/$numeroConceptosCotizacion;
+						$c->subtotal = ($c->subtotal)/$numeroConceptosCotizacion;
+					}
+
+					//Recalcula
+					//$c->total = $c->importeEfectivo;
+					$c->montoIVA = ($c->subtotal)*($c->iva);
+					//$c->subtotal = ($c->total) - ($c->montoIVA);
+
 				}
 
-				//Recalcula
-				//$c->total = $c->importeEfectivo;
-				$c->montoIVA = ($c->subtotal)*($c->iva);
-				//$c->subtotal = ($c->total) - ($c->montoIVA);
+				array_push($result_array, $c);
 			}else{
-				unset($c);
+				array_push($result_array, $c);
 			}
 		}
 
@@ -217,7 +223,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		$importeNoFacturadoPesos = 0;
 		$importeNoFacturadoDolares = 0;
 
-		foreach($conceptos_cotizacion as $c){
+		foreach($result_array as $c){
 			if(! in_array($c->idCotizacion, $cotizacionesResultantes) )
 				array_push($cotizacionesResultantes, $c->idCotizacion);
 
@@ -242,9 +248,9 @@ class Reporte_master_ctrl extends CI_Controller {
 			}
 		}
 
-		$this->session->set_userdata("last_query_result", $conceptos_cotizacion);
+		$this->session->set_userdata("last_query_result", $result_array);
 
-		$data['mainData'] = $conceptos_cotizacion;
+		$data['mainData'] = $result_array;
 		
 		$data['analytics'] = array();
 		$data['analytics']['numeroCotizaciones'] = count($cotizacionesResultantes);

@@ -97,9 +97,24 @@ function isFill(){
 	$("#btn-guardar-factura").prop("disabled", !flag);
 }
 
+function addMatchedSelect(){
+	var cloneSection = $("#idMatched").clone(true);
+	var appendSection = $("#append-matchCol");
+
+	cloneSection.attr("id", "idMatched"+( $(".idMatched").size() ) );
+	cloneSection.val("-1");
+
+	appendSection.append(cloneSection);
+}
+
 $(function(){
 	initDatepicker("#fechaPago", "#fechaPagoAlt", 'dd/mm/yy', 'yy-mm-dd');
 	initDatepicker("#fechaCancelacion", "#fechaCancelacionAlt", 'dd/mm/yy', 'yy-mm-dd');
+
+	$("#btn-add-matched-select").click(function(event){
+		event.preventDefault();
+		addMatchedSelect();
+	});
 
 	$("#folioFactura").change(function(){
 		factura.folio = $(this).val();
