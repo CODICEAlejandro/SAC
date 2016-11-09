@@ -180,7 +180,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					$numeroConceptosCotizacion = $this->db->query($queryNumeroConceptos)->row();
 					$numeroConceptosCotizacion = $numeroConceptosCotizacion->numeroConceptosCotizacion;
 
-					$c->total += ($concepto_factura->subtotal)*($concepto_factura->iva);
+					$c->total += ($concepto_factura->subtotal)*(1 + ($concepto_factura->iva));
 					$c->subtotal += $concepto_factura->subtotal;
 					$c->estadoConcepto = $concepto_factura->estadoConcepto;
 					$c->id = $concepto_factura->id;
