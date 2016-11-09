@@ -123,14 +123,14 @@ class Reporte_master_ctrl extends CI_Controller {
 			$queryLadoFacturacion = "
 				SELECT
 					relFC.`idConceptoFactura` idConceptoFactura,
-					IFNULL(con.`importe` + (con.`importe` * (imp.`tasa` / 100)), 'NO DISPONIBLE') total,
+					IFNULL(subtotal + (subtotal * iva), 'NO DISPONIBLE') total,
 					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
 					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
 					IFNULL(con.`id`, 'NO DISPONIBLE') id,
 					IFNULL(con.`descripcion`, 'NO DISPONIBLE') descripcion,
 
-					IFNULL(imp.`monto`, 'NO DISPONIBLE') montoIVA,
-					IFNULL(imp.`tasa` / 100, 'NO DISPONIBLE') iva,
+					IFNULL(imp.`monto`, 0) montoIVA,
+					IFNULL(imp.`tasa` / 100, 0) iva,
 
 					IFNULL(fact.`folio`, 'NO DISPONIBLE') folio,
 					IFNULL(DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaPago,
