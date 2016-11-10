@@ -199,6 +199,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					if($numeroConceptosCotizacion > 1){
 						$c->total = ($c->total)/$numeroConceptosCotizacion;
 						$c->subtotal = ($c->subtotal)/$numeroConceptosCotizacion;
+
+						//los updates en el total y subtotal se hacen aquí
 					}
 
 					//Recalcula
