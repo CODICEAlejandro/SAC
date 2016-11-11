@@ -128,7 +128,6 @@ class Reporte_master_ctrl extends CI_Controller {
 				$c->total = $c->totalConceptoCotizacion;
 				$c->montoIVA = ($c->total) - ($c->subtotal);
 				$c->iva = (($c->total) / ($c->subtotal)) - 1;
-				continue;
 			}
 
 			$queryLadoFacturacion = "
