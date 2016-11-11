@@ -46,6 +46,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(conCot.`referencia`, 'NO DISPONIBLE') referencia,
 					IFNULL(conCot.`importe`, 'NO DISPONIBLE') importeEfectivo,
 					IFNULL(conCot.`monto`, 0) montoConceptoCotizacion,
+					IFNULL(conCot.`total`, 0) totalConceptoCotizacion,
+
 					IFNULL(conCot.`nota`, '') nota,
 					IFNULL(conCot.`idTipoConcepto`, '') idTipoConcepto,
 					IFNULL(conCot.`folioFactura`, '') folioFactura,
@@ -119,6 +121,15 @@ class Reporte_master_ctrl extends CI_Controller {
 			$c->fechaFactura = "NO DISPONIBLE";
 			$c->estadoFactura = "NO DISPONIBLE";
 			$c->estadoFacturaDescripcion = "NO DISPONIBLE";
+
+			if($idEstadoFactura == 23){
+				//Por facturar
+				$c->subtotal = $c->montoConceptoCotizacion;
+				$c->total = $c->totalConceptoCotizacion;
+				$c->montoIVA = ($c->total) - ($c->subtotal);
+				$c->iva = (($c->total) / ($c->subtotal)) - 1;
+				continue;
+			}
 
 			$queryLadoFacturacion = "
 				SELECT
