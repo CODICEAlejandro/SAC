@@ -211,6 +211,14 @@ class Reporte_master_ctrl extends CI_Controller {
 						$c->subtotal = ($c->subtotal)/$numeroConceptosCotizacion;
 
 						//los updates en el total y subtotal se hacen aquí
+						$query_update_montos = "UPDATE
+													`concepto`
+												SET
+													`monto` = ".($c->total).",
+													`importe` = ".($c->subtotal)."
+												WHERE
+													`id` = ".($c->id)." 
+												";
 					}
 
 					//Recalcula
