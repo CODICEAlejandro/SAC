@@ -190,6 +190,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					$numeroConceptosCotizacion = $this->db->query($queryNumeroConceptos)->row();
 					$numeroConceptosCotizacion = $numeroConceptosCotizacion->numeroConceptosCotizacion;
 
+					$masDeUno = false;
 					$c->total += ($concepto_factura->subtotal)*(1 + ($concepto_factura->iva));
 					$c->subtotal += $concepto_factura->subtotal;
 					$c->estadoConcepto = $concepto_factura->estadoConcepto;
@@ -207,10 +208,29 @@ class Reporte_master_ctrl extends CI_Controller {
 					$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
 
 					if($numeroConceptosCotizacion > 1){
+						$masDeUno = true;
 						$c->total = ($c->total)/$numeroConceptosCotizacion;
 						$c->subtotal = ($c->subtotal)/$numeroConceptosCotizacion;
 
 						//los updates en el total y subtotal se hacen aquí
+						/*$query_update_montos = "UPDATE
+													`concepto`
+												SET
+													`monto` = ".($c->total).",
+													`importe` = ".($c->subtotal)."
+												WHERE
+													`id` = ".($c->id)." 
+												";
+
+						$this->db->query($query_update_montos);*/
+					}
+
+					//Recalcula
+					//$c->total = $c->importeEfectivo;
+					$c->montoIVA = ($c->subtotal)*($c->iva);
+					//$c->subtotal = ($c->total) - ($c->montoIVA);
+
+					/*if(!$masDeUno){
 						$query_update_montos = "UPDATE
 													`concepto`
 												SET
@@ -220,13 +240,8 @@ class Reporte_master_ctrl extends CI_Controller {
 													`id` = ".($c->id)." 
 												";
 
-						$this->db->query($query_update_montos);
-					}
-
-					//Recalcula
-					//$c->total = $c->importeEfectivo;
-					$c->montoIVA = ($c->subtotal)*($c->iva);
-					//$c->subtotal = ($c->total) - ($c->montoIVA);
+						$this->db->query($query_update_montos);				
+					}*/
 
 				}
 
