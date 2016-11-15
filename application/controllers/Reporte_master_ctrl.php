@@ -178,75 +178,24 @@ class Reporte_master_ctrl extends CI_Controller {
 			if(count($conceptos_fact) > 0){
 				$concepto_factura = $conceptos_fact[0];
 
-				//Recorrer todos los conceptos en la factura asociados al mismo en la cotizaciOn
-				//foreach($conceptos_fact as $concepto_factura){
-					//Obtener el número de conceptos de cotización asociados al mismo concepto en la factura
-					/*$queryNumeroConceptos = "SELECT count(*) numeroConceptosCotizacion
-											FROM `concepto_factura_cotizacion` relFC
-											WHERE
-												relFC.`idConceptoFactura` = ".($concepto_factura->idConceptoFactura)."
-										";
+				$c->total = $concepto_factura->monto;
+				$c->subtotal = $concepto_factura->subtotal;
+				$c->estadoConcepto = $concepto_factura->estadoConcepto;
+				$c->id = $concepto_factura->id;
+				$c->descripcion = $concepto_factura->descripcion;
+				$c->iva = $concepto_factura->iva;
+				$c->folio = $concepto_factura->folio;
+				$c->fechaPago = $concepto_factura->fechaPago;
+				$c->moneda = $concepto_factura->moneda;
+				$c->ordenCompra = $concepto_factura->ordenCompra;
+				$c->fechaCancelacion = $concepto_factura->fechaCancelacion;
+				$c->fechaFactura = $concepto_factura->fechaFactura;
+				$c->estadoFactura = $concepto_factura->estadoFactura;
+				$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
 
-					$numeroConceptosCotizacion = $this->db->query($queryNumeroConceptos)->row();
-					$numeroConceptosCotizacion = $numeroConceptosCotizacion->numeroConceptosCotizacion;*/
-
-					$c->total = $concepto_factura->monto;
-					$c->subtotal = $concepto_factura->subtotal;
-					$c->estadoConcepto = $concepto_factura->estadoConcepto;
-					$c->id = $concepto_factura->id;
-					$c->descripcion = $concepto_factura->descripcion;
-					$c->iva = $concepto_factura->iva;
-					$c->folio = $concepto_factura->folio;
-					$c->fechaPago = $concepto_factura->fechaPago;
-					$c->moneda = $concepto_factura->moneda;
-					$c->ordenCompra = $concepto_factura->ordenCompra;
-					$c->fechaCancelacion = $concepto_factura->fechaCancelacion;
-					$c->fechaFactura = $concepto_factura->fechaFactura;
-					$c->estadoFactura = $concepto_factura->estadoFactura;
-					$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
-
-					/*
-					if($numeroConceptosCotizacion > 1){
-						$masDeUno = true;
-						$c->total = ($c->total)/$numeroConceptosCotizacion;
-						$c->subtotal = ($c->subtotal)/$numeroConceptosCotizacion;
-
-						//los updates en el total y subtotal se hacen aquí
-						/*$query_update_montos = "UPDATE
-													`concepto`
-												SET
-													`monto` = ".($c->total).",
-													`importe` = ".($c->subtotal)."
-												WHERE
-													`id` = ".($c->id)." 
-												";
-
-						$this->db->query($query_update_montos);*/
-					//}
-
-					//Recalcula
-					//$c->total = $c->importeEfectivo;
-					$c->montoIVA = ($c->subtotal)*($c->iva);
-					//$c->subtotal = ($c->total) - ($c->montoIVA);
-
-				//}
-				/*
-				$query_update_montos = "UPDATE
-											`concepto`
-										SET
-											`monto` = ".($c->total).",
-											`importe` = ".($c->subtotal)."
-										WHERE
-											`id` = ".($c->id)." 
-										";
-
-				$this->db->query($query_update_montos);	*/			
-
-
-				//array_push($result_array, $c);
-			//}else{
+				$c->montoIVA = ($c->subtotal)*($c->iva);
 				array_push($result_array, $c);
-			//}
+			}
 		}
 
 		$cotizacionesResultantes = array();
