@@ -219,6 +219,8 @@ class Reporte_master_ctrl extends CI_Controller {
 												WHERE
 													`id` = ".($c->id)." 
 												";
+
+						$this->db->query($query_update_montos);
 					}
 
 					//Recalcula
