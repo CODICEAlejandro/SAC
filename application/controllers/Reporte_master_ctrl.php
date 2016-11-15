@@ -230,20 +230,19 @@ class Reporte_master_ctrl extends CI_Controller {
 					$c->montoIVA = ($c->subtotal)*($c->iva);
 					//$c->subtotal = ($c->total) - ($c->montoIVA);
 
-					/*if(!$masDeUno){
-						$query_update_montos = "UPDATE
-													`concepto`
-												SET
-													`monto` = ".($c->total).",
-													`importe` = ".($c->subtotal)."
-												WHERE
-													`id` = ".($c->id)." 
-												";
-
-						$this->db->query($query_update_montos);				
-					}*/
-
 				}
+
+				$query_update_montos = "UPDATE
+											`concepto`
+										SET
+											`monto` = ".($c->total).",
+											`importe` = ".($c->subtotal)."
+										WHERE
+											`id` = ".($c->id)." 
+										";
+
+				$this->db->query($query_update_montos);				
+
 
 				array_push($result_array, $c);
 			}else{
