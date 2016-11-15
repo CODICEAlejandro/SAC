@@ -178,7 +178,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			if(count($conceptos_fact) > 0){
 				$concepto_factura = $conceptos_fact[0];
 
-				$c->total = $concepto_factura->monto;
+				$c->total = $concepto_factura->total;
 				$c->subtotal = $concepto_factura->subtotal;
 				$c->estadoConcepto = $concepto_factura->estadoConcepto;
 				$c->id = $concepto_factura->id;
