@@ -11,9 +11,6 @@ function sortByUsername($a, $b)
 class Rentabilidad_xls extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
-
-		$this->load->library('PHPExcel.php');
-		$this->load->library('XLSSheetDriver.php');
 	}
 
 	public function retrieveData($fechaSup, $fechaInf, $idProyecto, $idConsultor, $idArea, $idCliente){
@@ -100,68 +97,36 @@ class Rentabilidad_xls extends CI_Controller {
 	}
 
 	public function setExcel ($fechaSup, $fechaInf, $idProyecto, $idConsultor, $idArea, $idCliente) {
+		$this->load->model("XLSSheetDriver");
+		$shDv = new $this->XLSSheetDriver();
+		$shDv->setTitle("Master - CODICE");
 		$data = $this->retrieveData($fechaSup, $fechaInf, $idProyecto, $idConsultor, $idArea, $idCliente);
-		$shDv = $this->xlssheetdriver;
-
-	    // configuramos las propiedades del documento
-	    $this->phpexcel->getProperties()->setCreator("Alejandro Segura")
-	                                 ->setLastModifiedBy("Alejandro Segura")
-	                                 ->setTitle("Reporte de rentabilidad - CODICE")
-	                                 ->setSubject("CODICE")
-	                                 ->setDescription("Reporte de rentabilidad.");
-	     
-	    // agregamos información a las celdas
-	    $sheet = $this->phpexcel->setActiveSheetIndex(0);
 
 	    //Agregar encabezados
-	    $sheet->setCellValue($shDv->getPosition(),'Consultor');
+	    $shDv->setCellValue('Consultor');
 	    $shDv->nextCol();
-	    $sheet->setCellValue($shDv->getPosition(), "Fase");
+	    $shDv->setCellValue("Fase");
 	    $shDv->nextCol();
-	    $sheet->setCellValue($shDv->getPosition(), "Tareas totales");
+	    $shDv->setCellValue("Tareas totales");
 	    $shDv->nextCol();
-	    $sheet->setCellValue($shDv->getPosition(), "Tiempo real total");
+	    $shDv->setCellValue("Tiempo real total");
 	    $shDv->nextCol();
 
 	    //Agregar contenido
-	    $shDv->gotoMark('DOCUMENT_BEGIN');
 	    for($row = 2, $k=0, $n=count($data); $k<$n; $k++, $row++){
-		    $shDv->gotoMark('DOCUMENT_BEGIN');
-			$shDv->setRow($row);
+	    	$shDv->nextLine();
 
-			$sheet->setCellValue($shDv->getPosition(),utf8_decode(html_entity_decode($data[$k]->nombre)));
+			$shDv->setCellValue($data[$k]->nombre);
 			$shDv->nextCol();
-			$sheet->setCellValue($shDv->getPosition(),utf8_decode(html_entity_decode($data[$k]->fase)));
+			$shDv->setCellValue($data[$k]->fase);
 			$shDv->nextCol();
-			$sheet->setCellValue($shDv->getPosition(),utf8_decode(html_entity_decode($data[$k]->total)));
+			$shDv->setCellValue($data[$k]->total);
 			$shDv->nextCol();
-			$sheet->setCellValue($shDv->getPosition(),utf8_decode(html_entity_decode($data[$k]->tiempoReal)));
+			$shDv->setCellValue($data[$k]->tiempoReal);
 	    }
-
-		//####################### Auto size cells
-		// for($shDv->gotoMark('DOCUMENT_BEGIN'), $n=getIntegerFromCol($originCol_END_DOC); $cRow<$n; $cRow++, $cCol = getNextCol($cCol)){
-		// 	$cSheet->getColumnDimension($cCol)->setAutoSize(true);
-		// }
-
-	    // Renombramos la hoja de trabajo
-	    $this->phpexcel->getActiveSheet()->setTitle('Reporte de rentabilidad');
-	    
-	    // configuramos el documento para que la hoja
-	    // de trabajo número 0 sera la primera en mostrarse
-	    // al abrir el documento
-	    $this->phpexcel->setActiveSheetIndex(0);
-	    
-	    // redireccionamos la salida al navegador del cliente (Excel2007)
-	    // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-	    // header('Content-Disposition: attachment;filename="reporte_rentabilidad.xls"');
-	    // header('Cache-Control: max-age=0');
-		header('Content-Type: application/vnd.ms-excel; encoding: UTF-8');
-		header('Content-Disposition: attachment;filename="reporte_rentabilidad.xls"');
-		header('Cache-Control: max-age=0');
-
-	    $objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel5');
-	    $objWriter->save('php://output');
-	     
+		
+		$shDv->autosizeColumns();
+		$shDv->out("Reporte_rentabilidad_CODICE.xls");	     
 	}
 }
 

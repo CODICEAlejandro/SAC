@@ -32,299 +32,120 @@ class Reporte_master_ctrl extends CI_Controller {
 								$idEstadoFactura = -1,
 								$folioFactura = "none"
 							){
+
 		$appendQuery = "";
 		$fechaFacturaDesde = htmlentities($fechaFacturaDesde, ENT_QUOTES, 'UTF-8');
 		$fechaFacturaHasta = htmlentities($fechaFacturaHasta, ENT_QUOTES, 'UTF-8');
 		$fechaPagoDesde = htmlentities($fechaPagoDesde, ENT_QUOTES, 'UTF-8');
 		$fechaPagoHasta = htmlentities($fechaPagoHasta, ENT_QUOTES, 'UTF-8');
 
-
-		$queryLadoCotizacion = "
-				SELECT
-					conCot.`idCotizacion` idCotizacion,
-					IFNULL(conCot.`id`, 'NO DISPONIBLE') idConceptoCotizacion,
-					IFNULL(conCot.`referencia`, 'NO DISPONIBLE') referencia,
-					IFNULL(conCot.`importe`, 'NO DISPONIBLE') importeEfectivo,
-					IFNULL(conCot.`monto`, 0) montoConceptoCotizacion,
-					IFNULL(conCot.`total`, 0) totalConceptoCotizacion,
-
-					IFNULL(conCot.`nota`, '') nota,
-					IFNULL(conCot.`idTipoConcepto`, '') idTipoConcepto,
-					IFNULL(conCot.`folioFactura`, '') folioFactura,
-					IFNULL(conCot.`idEstadoFactura`, '') idEstadoFactura,
-
-					IFNULL(DATE_FORMAT(cot.`inicioProyecto`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaInicio,
-					IFNULL(DATE_FORMAT(cot.`finProyecto`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFin,
-					IFNULL(DATE_FORMAT(cot.`fechaVenta`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaVenta,
-					IFNULL(DATE_FORMAT(cot.`fechaJuntaArranque`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaJuntaArranque,
-					IFNULL(cot.`titulo`, 'NO DISPONIBLE') tituloCotizacion,
-					IF(cot.`contrato`=1, 'Sí', 'No') contrato,
-
-					IFNULL(catCerrador.`nombre`, 'NO DISPONIBLE') cerrador,
-					IFNULL(catResponsable.`nombre`, 'NO DISPONIBLE') responsable,
-					IFNULL(catAccountManager.`nombre`, 'NO DISPONIBLE') accountManager,
-
-					IFNULL(cli.`nombre`, 'NO DISPONIBLE') cliente,
-
-					IFNULL(dirF.`razonSocial`, 'NO DISPONIBLE') razonSocial,
-
-					IFNULL(tiCon.`descripcion`, 'NO DISPONIBLE') tipoConcepto
-
-				FROM
-					`concepto_cotizacion` conCot
-					LEFT JOIN `cotizacion` cot ON conCot.`idCotizacion` = cot.`id`
-					LEFT JOIN `catusuario` catCerrador ON catCerrador.`id` = cot.`idCerrador`
-					LEFT JOIN `catusuario` catResponsable ON catResponsable.`id` = cot.`idResponsable`
-					LEFT JOIN `catusuario` catAccountManager ON catAccountManager.`id` = cot.`accountManager`
-					LEFT JOIN `direccionfiscal` dirF ON dirF.`id` = cot.`idRazonSocial`
-					LEFT JOIN `catcliente` cli ON dirF.`idPadre` = cli.`id`
-					LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = conCot.`idTipoConcepto`
-					LEFT JOIN `factura` fact ON fact.`folio` = conCot.`folioFactura`
-				WHERE
-					1 = 1
+		// Obtener los todos los conceptos de las cotizaciones
+		$query1 = "select
+					ct.id id,
+					ct.referencia referencia,
+					ct.descripcion descripcion,
+					ct.importe importe,
+					ct.nota nota,
+					ct.idEstadoFactura idEstadoFactura,
+					ct.idTipoConcepto idTipoConcepto,
+					ct.folioFactura folio,
+					c.inicioProyecto,
+					c.finProyecto finProyecto,
+					c.fechaVenta fechaVenta,
+					c.fechaJuntaArranque fechaJuntaArranque,
+					c.contrato contrato,
+					p.nombre proyecto,
+					dc.cliente cliente,
+					dc.razonSocial razonSocial
+				from
+					concepto_cotizacion ct
+					left join cotizacion c on c.id = ct.idCotizacion
+					left join (select
+									d.id id,
+									d.razonSocial razonSocial,
+									cl.nombre cliente,
+									cl.id idCliente
+								from
+									direccionfiscal d
+									inner join catcliente cl on cl.id = d.idPadre
+					) dc on dc.id = c.idRazonSocial
+					left join catproyecto p on p.idCotizacion = c.id
+					left join catusuario ce on ce.id = c.idCerrador
+					left join catusuario ac on ac.id = c.accountManager
+					left join catusuario r on r.id = c.idResponsable
+				where
+					ct.estadoActivo = 1
 				";
 
-		if($idEstadoFactura != -1) $appendQuery .= " AND conCot.`idEstadoFactura` = ".$idEstadoFactura;
-		if($folioFactura != "none") $appendQuery .= " AND conCot.`folioFactura` = '".$folioFactura."'";
-		if($idCliente != -1) $appendQuery .= " AND cli.`id` = ".$idCliente;
-		if($idRazonSocial != -1) $appendQuery .= " AND dirF.`id` = ".$idRazonSocial;
-		if($idCotizacion != -1) $appendQuery .= " AND cot.`id` = ".$idCotizacion;
-		if($fechaFacturaDesde != "none") 
-			$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
-		if($fechaPagoDesde != "none") 
-			$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
+		if($idEstadoFactura != -1) $appendQuery .= " AND ct.`idEstadoFactura` = ".$idEstadoFactura;
+		if($folioFactura != "none") $appendQuery .= " AND ct.`folioFactura` = '".$folioFactura."'";
+		if($idCliente != -1) $appendQuery .= " AND dc.`idCliente` = ".$idCliente;
+		if($idRazonSocial != -1) $appendQuery .= " AND dc.`id` = ".$idRazonSocial;
+		if($idCotizacion != -1) $appendQuery .= " AND c.`id` = ".$idCotizacion;
 
-		$queryLadoCotizacion .= $appendQuery;
-
-		$conceptos_cotizacion = $this->db->query($queryLadoCotizacion)->result();
+		$query1 .= $appendQuery;
+		$conceptos_cotizacion = $this->db->query($query1)->result();
 		$result_array = array();
 
+		//Recorrer cada concepto en cotización y asociar con conceptos en facturación
+		foreach($conceptosCotizacion as $concepto){
+			$concepto->total = 0;
+			$concepto->subtotal = 0;
+			$concepto->estadoConcepto = "NO DISPONIBLE";
+			$concepto->id = "NO DISPONIBLE";
+			$concepto->descripcion = "NO DISPONIBLE";
+			$concepto->montoIVA = 0;
+			$concepto->iva = 0;
+			$concepto->folio = "NO DISPONIBLE";
+			$concepto->fechaPago = "NO DISPONIBLE";
+			$concepto->moneda = "NO DISPONIBLE";
+			$concepto->ordenCompra = "NO DISPONIBLE";
+			$concepto->fechaCancelacion = "NO DISPONIBLE";
+			$concepto->fechaFactura = "NO DISPONIBLE";
+			$concepto->estadoFactura = "NO DISPONIBLE";
+			$concepto->estadoFacturaDescripcion = "NO DISPONIBLE";
 
-		foreach($conceptos_cotizacion as $c){
-			$currentID = $c->idConceptoCotizacion;
-			$idTipoConcepto = $c->idTipoConcepto;
-			$folioFactura = $c->folioFactura;
-			$idEstadoFactura = $c->idEstadoFactura;
-
-			$c->total = 0;
-			$c->subtotal = 0;
-			$c->estadoConcepto = "NO DISPONIBLE";
-			$c->id = "NO DISPONIBLE";
-			$c->descripcion = "NO DISPONIBLE";
-			$c->montoIVA = 0;
-			$c->iva = 0;
-			$c->folio = "NO DISPONIBLE";
-			$c->fechaPago = "NO DISPONIBLE";
-			$c->moneda = "NO DISPONIBLE";
-			$c->ordenCompra = "NO DISPONIBLE";
-			$c->fechaCancelacion = "NO DISPONIBLE";
-			$c->fechaFactura = "NO DISPONIBLE";
-			$c->estadoFactura = "NO DISPONIBLE";
-			$c->estadoFacturaDescripcion = "NO DISPONIBLE";
-
-			if($idEstadoFactura == 23){
+			if($concepto->idEstadoFactura == 23){
 				//Por facturar
-				$c->subtotal = $c->montoConceptoCotizacion;
-				$c->total = $c->totalConceptoCotizacion;
-				$c->montoIVA = ($c->total) - ($c->subtotal);
-				$c->iva = (($c->total) / ($c->subtotal)) - 1;
+				$concepto->subtotal = $c->montoConceptoCotizacion;
+				$concepto->total = $c->totalConceptoCotizacion;
+				$concepto->montoIVA = ($c->total) - ($c->subtotal);
+				$concepto->iva = (($c->total) / ($c->subtotal)) - 1;
 			}
 
-			$queryLadoFacturacion = "
-				SELECT
-					relFC.`idConceptoFactura` idConceptoFactura,
-					IFNULL(con.`monto`, 'NO DISPONIBLE') total,
-					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
-					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
-					IFNULL(con.`id`, 'NO DISPONIBLE') id,
-					IFNULL(con.`descripcion`, 'NO DISPONIBLE') descripcion,
-
-					IFNULL(imp.`monto`, 0) montoIVA,
-					IFNULL(imp.`tasa` / 100, 0) iva,
-
-					IFNULL(fact.`folio`, 'NO DISPONIBLE') folio,
-					IFNULL(DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaPago,
-					IFNULL(fact.`moneda`, 'NO DISPONIBLE') moneda,
-					IFNULL(fact.`ordenCompra`, 'NO DISPONIBLE') ordenCompra,
-					IFNULL(DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaCancelacion,
-					IFNULL(DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFactura,
-					
-					IFNULL(edoF.`id`, 'NO DISPONIBLE') estadoFactura,
-					IFNULL(edoF.`descripcion`, 'NO DISPONIBLE') estadoFacturaDescripcion
-				FROM
-					(`concepto_factura_cotizacion` relFC,
-					`concepto` con)
-					LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = ".$idTipoConcepto."
-					LEFT JOIN `factura` fact ON fact.`folio` = '".$folioFactura."'
-					LEFT JOIN `catestadofactura` edoF ON edoF.`id` = ".$idEstadoFactura."
-					LEFT JOIN `impuesto` imp ON imp.`idConcepto` = con.`id` AND imp.`codigo` LIKE '%IVA%'
-				WHERE
-					relFC.`idConceptoCotizacion` = ".$currentID."
-					AND relFC.`idConceptoFactura` = con.`id`
-			";
+			$query2 = "select
+						cf.descripcion estadoFactura,
+						cc.descripcion tipoConcepto,
+						f.folio folio,
+						f.fechaPago fechaPago,
+						f.moneda moneda,
+						f.fechaFactura fechaFactura,
+						f.ordenCompra ordenCompra,
+						f.fechaCancelacion fechaCancelacion,
+						i.tasa iva,
+						i.monto cantidadIVA,
+						c.importe subtotal,
+						c.monto total
+					from
+						concepto_factura_cotizacion fc
+						inner join concepto_factura_rel cr on (cr.idConcepto = fc.idConceptoFactura and fc.idConceptoCotizacion = ".($concepto->id).")
+						inner join concepto c on c.id = cr.idConcepto
+						inner join factura f on f.id = cr.idFactura
+						inner join catestadofactura cf on cf.id = ".($concepto->idEstadoFactura)."
+						inner join cattipoconcepto cc on cc.id = ".($concepto->idTipoConcepto)."
+						inner join impuesto i on i.idConcepto = c.id
+				";
 
 			$appendQuery = "";
-
 
 			if($fechaFacturaDesde != "none") 
 				$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
 			if($fechaPagoDesde != "none") 
 				$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
 
-			$queryLadoFacturacion .= $appendQuery;
-
-			$conceptos_fact = $this->db->query($queryLadoFacturacion)->result();
-
-			if(count($conceptos_fact) > 0){
-		foreach($conceptos_cotizacion as $c){
-			$currentID = $c->idConceptoCotizacion;
-			$idTipoConcepto = $c->idTipoConcepto;
-			$folioFactura = $c->folioFactura;
-			$idEstadoFactura = $c->idEstadoFactura;
-
-			$c->total = 0;
-			$c->subtotal = 0;
-			$c->estadoConcepto = "NO DISPONIBLE";
-			$c->id = "NO DISPONIBLE";
-			$c->descripcion = "NO DISPONIBLE";
-			$c->montoIVA = 0;
-			$c->iva = 0;
-			$c->folio = "NO DISPONIBLE";
-			$c->fechaPago = "NO DISPONIBLE";
-			$c->moneda = "NO DISPONIBLE";
-			$c->ordenCompra = "NO DISPONIBLE";
-			$c->fechaCancelacion = "NO DISPONIBLE";
-			$c->fechaFactura = "NO DISPONIBLE";
-			$c->estadoFactura = "NO DISPONIBLE";
-			$c->estadoFacturaDescripcion = "NO DISPONIBLE";
-
-			if($idEstadoFactura == 23){
-				//Por facturar
-				$c->subtotal = $c->montoConceptoCotizacion;
-				$c->total = $c->totalConceptoCotizacion;
-				$c->montoIVA = ($c->total) - ($c->subtotal);
-				$c->iva = (($c->total) / ($c->subtotal)) - 1;
-			}
-
-			$queryLadoFacturacion = "
-				SELECT
-					relFC.`idConceptoFactura` idConceptoFactura,
-					IFNULL(subtotal + (subtotal * iva), 'NO DISPONIBLE') total,
-					IFNULL(con.`importe`, 'NO DISPONIBLE') subtotal,
-					IFNULL(con.`idConcepto_cotizacion`, 'NO_BILL') estadoConcepto,
-					IFNULL(con.`id`, 'NO DISPONIBLE') id,
-					IFNULL(con.`descripcion`, 'NO DISPONIBLE') descripcion,
-
-					IFNULL(imp.`monto`, 0) montoIVA,
-					IFNULL(imp.`tasa` / 100, 0) iva,
-
-					IFNULL(fact.`folio`, 'NO DISPONIBLE') folio,
-					IFNULL(DATE_FORMAT(fact.`fechaPago`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaPago,
-					IFNULL(fact.`moneda`, 'NO DISPONIBLE') moneda,
-					IFNULL(fact.`ordenCompra`, 'NO DISPONIBLE') ordenCompra,
-					IFNULL(DATE_FORMAT(fact.`fechaCancelacion`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaCancelacion,
-					IFNULL(DATE_FORMAT(fact.`fechaFactura`, '%d/%m/%Y'), 'NO DISPONIBLE') fechaFactura,
-					
-					IFNULL(edoF.`id`, 'NO DISPONIBLE') estadoFactura,
-					IFNULL(edoF.`descripcion`, 'NO DISPONIBLE') estadoFacturaDescripcion
-				FROM
-					(`concepto_factura_cotizacion` relFC,
-					`concepto` con)
-					LEFT JOIN `cattipoconcepto` tiCon ON tiCon.`id` = ".$idTipoConcepto."
-					LEFT JOIN `factura` fact ON fact.`folio` = '".$folioFactura."'
-					LEFT JOIN `catestadofactura` edoF ON edoF.`id` = ".$idEstadoFactura."
-					LEFT JOIN `impuesto` imp ON imp.`idConcepto` = con.`id` AND imp.`codigo` LIKE '%IVA%'
-				WHERE
-					relFC.`idConceptoCotizacion` = ".$currentID."
-					AND relFC.`idConceptoFactura` = con.`id`
-			";
-
-			$appendQuery = "";
-
-
-			if($fechaFacturaDesde != "none") 
-				$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
-			if($fechaPagoDesde != "none") 
-				$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
-
-			$queryLadoFacturacion .= $appendQuery;
-
-			$conceptos_fact = $this->db->query($queryLadoFacturacion)->result();
-
-			if(count($conceptos_fact) > 0){
-
-				//Recorrer todos los conceptos en la factura asociados al mismo en la cotizaciOn
-				foreach($conceptos_fact as $concepto_factura){
-					//Obtener el número de conceptos de cotización asociados al mismo concepto en la factura
-					$queryNumeroConceptos = "SELECT count(*) numeroConceptosCotizacion
-											FROM `concepto_factura_cotizacion` relFC
-											WHERE
-												relFC.`idConceptoFactura` = ".($concepto_factura->idConceptoFactura)."
-										";
-
-					$numeroConceptosCotizacion = $this->db->query($queryNumeroConceptos)->row();
-					$numeroConceptosCotizacion = $numeroConceptosCotizacion->numeroConceptosCotizacion;
-
-					$masDeUno = false;
-					$c->total += ($concepto_factura->subtotal)*(1 + ($concepto_factura->iva));
-					$c->subtotal += $concepto_factura->subtotal;
-					$c->estadoConcepto = $concepto_factura->estadoConcepto;
-					$c->id = $concepto_factura->id;
-					$c->descripcion = $concepto_factura->descripcion;
-					$c->montoIVA += $concepto_factura->montoIVA;
-					$c->iva = $concepto_factura->iva;
-					$c->folio = $concepto_factura->folio;
-					$c->fechaPago = $concepto_factura->fechaPago;
-					$c->moneda = $concepto_factura->moneda;
-					$c->ordenCompra = $concepto_factura->ordenCompra;
-					$c->fechaCancelacion = $concepto_factura->fechaCancelacion;
-					$c->fechaFactura = $concepto_factura->fechaFactura;
-					$c->estadoFactura = $concepto_factura->estadoFactura;
-					$c->estadoFacturaDescripcion = $concepto_factura->estadoFacturaDescripcion;
-
-					if($numeroConceptosCotizacion > 1){
-						$masDeUno = true;
-						$c->total = ($c->total)/$numeroConceptosCotizacion;
-						$c->subtotal = ($c->subtotal)/$numeroConceptosCotizacion;
-
-						//los updates en el total y subtotal se hacen aquí
-						/*$query_update_montos = "UPDATE
-													`concepto`
-												SET
-													`monto` = ".($c->total).",
-													`importe` = ".($c->subtotal)."
-												WHERE
-													`id` = ".($c->id)." 
-												";
-
-						$this->db->query($query_update_montos);*/
-					}
-
-					//Recalcula
-					$c->total = $c->importeEfectivo;
-					$c->montoIVA = ($c->subtotal)*($c->iva);
-					$c->subtotal = ($c->total) - ($c->montoIVA);
-
-				}
-				/*
-				$query_update_montos = "UPDATE
-											`concepto`
-										SET
-											`monto` = ".($c->total).",
-											`importe` = ".($c->subtotal)."
-										WHERE
-											`id` = ".($c->id)." 
-										";
-
-				$this->db->query($query_update_montos);	*/			
-
-
-				array_push($result_array, $c);
-			}else{
-				array_push($result_array, $c);
-			}
-		}
-			}
+			$query2 .= $appendQuery;
+			$conceptosFactura = $this->db->query($query2)->result();
+			
 		}
 
 		$cotizacionesResultantes = array();
@@ -336,32 +157,7 @@ class Reporte_master_ctrl extends CI_Controller {
 		$importeNoFacturadoPesos = 0;
 		$importeNoFacturadoDolares = 0;
 
-		foreach($result_array as $c){
-			if(! in_array($c->idCotizacion, $cotizacionesResultantes) )
-				array_push($cotizacionesResultantes, $c->idCotizacion);
-
-			if(trim($c->folio) == "NO DISPONIBLE"){
-				$numeroConceptosSinFacturar++;
-
-				if(trim($c->moneda) == "MXN"){
-					$importeNoFacturadoPesos += (float) $c->subtotal;
-				}else if(trim($c->moneda) == "USD"){
-					$importeNoFacturadoDolares += (float) $c->subtotal;					
-				}
-			}else{ 
-				$numeroConceptosFacturados++;
-
-				if(trim($c->moneda) == "USD"){
-					$importeFacturadoDolares += (float) $c->montoConceptoCotizacion;
-				}else{
-					//Siempre cae en esta condición porque aún no se tiene información de la moneda
-					//La cotización siempre se emite en pesos
-					$importeFacturadoPesos += (float) $c->montoConceptoCotizacion;					
-				}
-			}
-		}
-
-		$this->session->set_userdata("last_query_result", $result_array);
+		//$this->session->set_userdata("last_query_result", $result_array);
 
 		$data['mainData'] = $result_array;
 		
