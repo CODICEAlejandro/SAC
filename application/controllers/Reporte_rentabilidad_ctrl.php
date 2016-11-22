@@ -22,11 +22,9 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 		parent::__construct();
 		$this->load->library("session");
 
-		print_r($_SESSION);
-
-		if(isset($_SESSION) && isset($_SESSION['user_active']) && isset($_SESSION['tipo']) && isset($_SESSION['puesto'])){
+		if(isset($_SESSION) && isset($_SESSION['user_active']) && isset($_SESSION['tipo']) && isset($_SESSION['idPuesto'])){
 			$tipo = $_SESSION['tipo'];
-			$puesto = $_SESSION['puesto'];
+			$puesto = $_SESSION['idPuesto'];
 
 			//Accesso para accounts y administradores
 			if( ($tipo != 2) && ($puesto != 5) ){
