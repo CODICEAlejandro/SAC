@@ -317,7 +317,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<button id="exportar-XLS" class="btn btn-success form-control">Exportar en formato XLS</button>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<button id="btn-retrieve-global-detail" class="btn btn-warning form-control">Consultar detalle global</button>
+				<button id="btn-retrieve-global-detail" class="btn btn-warning form-control" style="display: none;">Consultar detalle global</button>
 			</div>
 		</div>
 
