@@ -20,6 +20,7 @@ function sortByPhasename($a, $b)
 class Reporte_rentabilidad_ctrl extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
+		$this->load->library("session");
 
 		if(isset($_SESSION) && isset($_SESSION['user_active']) && isset($_SESSION['tipo']) && isset($_SESSION['puesto'])){
 			$tipo = $_SESSION['tipo'];
