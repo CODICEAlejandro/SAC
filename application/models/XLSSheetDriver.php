@@ -38,7 +38,7 @@ class XLSSheetDriver extends CI_Model {
 		if($position == "NO_GOT")
 			$this->sheet->setCellValue($this->getPosition(),(html_entity_decode($value)));		
 		else
-			$this->sheet->setCellValue($position,(html_entity_decode($value)));		
+			$this->sheet->setCellValue($position, (html_entity_decode($value)));		
 	}
 
 	public function setTitle($title){

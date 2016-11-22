@@ -22,6 +22,9 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 		$data = $this->cargaInicial();
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 
+		print_r($_SESSION);
+
+
 		$this->load->view('Reporte_rentabilidad_vw', $data);
 	}
 
@@ -208,7 +211,7 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 		$queryConsultores = "SELECT 
 								cu.*, 
 								0 as expectedTime,
-								IF(ISNULL(TiempoRealTbl.`tiempoReal`),'0:00',TiempoRealTbl.`tiempoReal`) tiempoReal
+								IF(ISNULL(TiempoRealTbl.`tiempoReal`),'00:00:00',TiempoRealTbl.`tiempoReal`) tiempoReal
 							FROM 
 								`catusuario` cu
 								LEFT JOIN (
