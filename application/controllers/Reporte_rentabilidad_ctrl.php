@@ -21,8 +21,6 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 
-		echo "ENTRO";
-
 		if(isset($_SESSION) && isset($_SESSION['user_active']) && isset($_SESSION['tipo']) && isset($_SESSION['puesto'])){
 			$tipo = $_SESSION['tipo'];
 			$puesto = $_SESSION['puesto'];
@@ -36,6 +34,17 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 	}
 
 	public function index(){
+		if(isset($_SESSION) && isset($_SESSION['user_active']) && isset($_SESSION['tipo']) && isset($_SESSION['puesto'])){
+			$tipo = $_SESSION['tipo'];
+			$puesto = $_SESSION['puesto'];
+
+			//Accesso para accounts y administradores
+			if( ($tipo != 2) && ($puesto != 5) ){
+				die("No permitido");
+			}
+		}else
+			die("No permitido");
+
 		$data = $this->cargaInicial();
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 
