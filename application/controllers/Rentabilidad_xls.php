@@ -112,8 +112,10 @@ class Rentabilidad_xls extends CI_Controller {
 	    $shDv->setCellValue("Tiempo real total");
 	    $shDv->nextCol();
 
+		$xls->setCellBackground("FE9A2E", "A1:".$xls->getPosition());
+
 	    //Agregar contenido
-	    for($row = 2, $k=0, $n=count($data); $k<$n; $k++, $row++){
+	    for($k=0, $n=count($data); $k<$n; $k++){
 	    	$shDv->nextLine();
 
 			$shDv->setCellValue($data[$k]->nombre);
@@ -123,6 +125,7 @@ class Rentabilidad_xls extends CI_Controller {
 			$shDv->setCellValue($data[$k]->total);
 			$shDv->nextCol();
 			$shDv->setCellValue($data[$k]->tiempoReal);
+			$shDv->nextCol();
 	    }
 		
 		$shDv->autosizeColumns();
