@@ -22,8 +22,15 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 		$data = $this->cargaInicial();
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 
-		print_r($_SESSION);
+		if(isset($_SESSION) && isset($_SESSION['user_active']) && isset($_SESSION['tipo']) && isset($_SESSION['puesto'])){
+			$tipo = $_SESSION['tipo'];
+			$puesto = $_SESSION['puesto'];
 
+			//Accesso para accounts y administradores
+			if( !($tipo == 2) || !($puesto == 5)){
+				die("No permitido");
+			}
+		}
 
 		$this->load->view('Reporte_rentabilidad_vw', $data);
 	}
