@@ -21,7 +21,7 @@ class Rentabilidad_xls extends CI_Controller {
 				die("No permitido");
 			}
 		}else
-			die("No permitido");	
+			die("No permitido. Primero inicie sesión.");	
 	}
 
 	public function retrieveData($fechaSup, $fechaInf, $idProyecto, $idConsultor, $idArea, $idCliente){

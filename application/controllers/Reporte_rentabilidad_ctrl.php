@@ -30,7 +30,7 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 				die("No permitido");
 			}
 		}else
-			die("No permitido");
+			die("No permitido. Primero inicie sesión.");
 	}
 
 	public function index(){
