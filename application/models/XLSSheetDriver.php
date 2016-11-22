@@ -36,9 +36,9 @@ class XLSSheetDriver extends CI_Model {
 
 	public function setCellValue($value, $position="NO_GOT"){
 		if($position == "NO_GOT")
-			$this->sheet->setCellValue($this->getPosition(),utf8_encode($value));		
+			$this->sheet->setCellValue($this->getPosition(),utf8_encode(html_entity_decode($value)));		
 		else
-			$this->sheet->setCellValue($position,utf8_encode($value));		
+			$this->sheet->setCellValue($position,utf8_encode(html_entity_decode($value)));		
 	}
 
 	public function setTitle($title){
@@ -219,7 +219,8 @@ class XLSSheetDriver extends CI_Model {
 	    $this->phpexcel->setActiveSheetIndex(0);
 	    
 	    // redireccionamos la salida al navegador del cliente (Excel2007)
-		header('Content-Type: application/vnd.ms-excel; encoding: UTF-8');
+		//header('Content-Type: application/vnd.ms-excel; encoding: UTF-8');
+		header("Content-Type: application/vnd.ms-excel; charset=iso-8859-1");
 		header('Content-Disposition: attachment;filename="'.$fileName.'"');
 		header('Cache-Control: max-age=0');
 
