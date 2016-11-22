@@ -18,9 +18,8 @@ function sortByPhasename($a, $b)
 }
 
 class Reporte_rentabilidad_ctrl extends CI_Controller {
-	public function index(){
-		$data = $this->cargaInicial();
-		$data['menu'] = $this->load->view('Menu_principal',null,true);
+	public function __construct(){
+		parent::__construct();
 
 		if(isset($_SESSION) && isset($_SESSION['user_active']) && isset($_SESSION['tipo']) && isset($_SESSION['puesto'])){
 			$tipo = $_SESSION['tipo'];
@@ -31,6 +30,11 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 				die("No permitido");
 			}
 		}
+	}
+
+	public function index(){
+		$data = $this->cargaInicial();
+		$data['menu'] = $this->load->view('Menu_principal',null,true);
 
 		$this->load->view('Reporte_rentabilidad_vw', $data);
 	}
