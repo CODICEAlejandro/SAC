@@ -55,22 +55,22 @@ class Rentabilidad_xls extends CI_Controller {
 									AND ct.`creacion` BETWEEN '".$fechaInf."' AND '".$fechaSup."'
 							";
 
-		if($idCliente != -1){
+		if($idCliente != "-1"){
 			$querySecondaryTareas = $querySecondaryTareas.' AND cp.`idCliente` ='.$idCliente;
 			$querySecondaryErrores = $querySecondaryErrores.' AND cp.`idCliente` ='.$idCliente;
 		}
 
-		if($idArea != -1){
+		if($idArea != "-1"){
 			$querySecondaryTareas = $querySecondaryTareas.' AND cu.`idArea` = '.$idArea;
 			$querySecondaryErrores = $querySecondaryErrores.' AND cu.`idArea` = '.$idArea;
 		}
 
-		if($idConsultor != -1){
+		if($idConsultor != "-1"){
 			$querySecondaryTareas = $querySecondaryTareas.' AND cu.`id` = '.$idConsultor;
 			$querySecondaryErrores = $querySecondaryErrores.' AND cu.`id` = '.$idConsultor;
 		}
 
-		if($idProyecto != -1){
+		if($idProyecto != "-1"){
 			$querySecondaryTareas = $querySecondaryTareas.' AND cp.`id` = '.$idProyecto;			
 			$querySecondaryErrores = $querySecondaryErrores.' AND cp.`id` = '.$idProyecto;			
 		}
