@@ -17,7 +17,7 @@ class Rentabilidad_xls extends CI_Controller {
 			$puesto = $_SESSION['puesto'];
 
 			//Accesso para accounts y administradores
-			if( !($tipo == 2) || !($puesto == 5)){
+			if( ($tipo != 2) && ($puesto != 5)){
 				die("No permitido");
 			}
 		}
