@@ -29,7 +29,8 @@ class Reporte_rentabilidad_ctrl extends CI_Controller {
 			if( ($tipo != 2) && ($puesto != 5) ){
 				die("No permitido");
 			}
-		}
+		}else
+			die("No permitido");
 	}
 
 	public function index(){
