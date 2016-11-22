@@ -11,6 +11,16 @@ function sortByUsername($a, $b)
 class Rentabilidad_xls extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
+
+		if(isset($_SESSION) && isset($_SESSION['user_active']) && isset($_SESSION['tipo']) && isset($_SESSION['puesto'])){
+			$tipo = $_SESSION['tipo'];
+			$puesto = $_SESSION['puesto'];
+
+			//Accesso para accounts y administradores
+			if( !($tipo == 2) || !($puesto == 5)){
+				die("No permitido");
+			}
+		}
 	}
 
 	public function retrieveData($fechaSup, $fechaInf, $idProyecto, $idConsultor, $idArea, $idCliente){
