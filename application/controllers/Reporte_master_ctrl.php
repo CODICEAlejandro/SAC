@@ -152,6 +152,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->ordenCompra = $conceptoHomogeneo->ordenCompra;
 				$concepto->fechaCancelacion = $conceptoHomogeneo->fechaCancelacion;
 				$concepto->tasa = $conceptoHomogeneo->tasa;
+				$concepto->idConceptoFactura = "";
 				$concepto->cantidadIVA = 0;
 				$concepto->subtotal = 0;
 				$concepto->total = 0;
@@ -162,6 +163,9 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->cantidadIVA += ($concepto_factura->cantidadIVA);
 					$concepto->subtotal += ($concepto_factura->subtotal);
 					$concepto->total += ($concepto_factura->total);
+
+					//Concatena los conceptos asociados de la factura
+					$concepto->idConceptoFactura .= ($concepto_factura->idConceptoFactura).", ";
 				}
 			}else{
 				$concepto->estadoFactura = 'NO DISPONIBLE';
@@ -179,6 +183,11 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->subtotal = $concepto->importe;
 					$concepto->total = ($concepto->subtotal)*(1.16);
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
+				}else if($concepto->idEstadoFactura ==2){
+					//Cancelado
+					$concepto->subtotal = $concepto->montoConceptoCotizacion;
+					$concepto->total = $concepto->totalConceptoCotizacion;
+					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);					
 				}else{
 					$concepto->cantidadIVA = 0;
 					$concepto->subtotal = 0;
