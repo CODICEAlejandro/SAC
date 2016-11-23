@@ -143,7 +143,7 @@ function retrieveData(){
 	$.ajax({
 		url: baseURL+"index.php/Reporte_master_ctrl/getContentAJAX",
 		data: {"idCliente": idCliente, "idRazonSocial": idRazonSocial, "idCotizacion": idCotizacion, "facturaDesde": fechaFacturaDesde, "facturaHasta": fechaFacturaHasta, "pagoDesde": fechaPagoDesde, "pagoHasta": fechaPagoHasta, "idEstadoFactura": idEstadoFactura},
-		dataType: 'json',
+		dataType: 'text',
 		method: 'post',
 		beforeSend: function(){
 			$("#cont-charge-bar").show();
