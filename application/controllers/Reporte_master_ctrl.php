@@ -179,6 +179,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->ordenCompra = 'NO DISPONIBLE';
 				$concepto->fechaCancelacion = 'NO DISPONIBLE';
 				$concepto->tasa = 'NO DISPONIBLE';
+				$concepto->idConceptoFactura = "NO DISPONIBLE";
 
 				if($concepto->idEstadoFactura == 23){
 					//Por facturar
