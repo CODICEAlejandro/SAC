@@ -49,14 +49,18 @@ class Reporte_master_ctrl extends CI_Controller {
 					ct.idEstadoFactura idEstadoFactura,
 					ct.idTipoConcepto idTipoConcepto,
 					ct.folioFactura folio,
-					c.inicioProyecto,
-					c.finProyecto finProyecto,
-					c.fechaVenta fechaVenta,
-					c.fechaJuntaArranque fechaJuntaArranque,
-					c.contrato contrato,
-					p.nombre proyecto,
-					dc.cliente cliente,
-					dc.razonSocial razonSocial
+					IFNULL(c.inicioProyecto, 'NO DISPONIBLE') inicioProyecto,
+					IFNULL(c.finProyecto, 'NO DISPONIBLE') finProyecto,
+					IFNULL(c.fechaVenta, 'NO DISPONIBLE') fechaVenta,
+					IFNULL(c.fechaJuntaArranque, 'NO DISPONIBLE') fechaJuntaArranque,
+					IFNULL(c.contrato, 'NO DISPONIBLE') contrato,
+					IFNULL(c.titulo, 'NO DISPONIBLE') tituloCotizacion,
+					IFNULL(p.nombre, 'NO DISPONIBLE') proyecto,
+					IFNULL(dc.cliente, 'NO DISPONIBLE') cliente,
+					IFNULL(dc.razonSocial, 'NO DISPONIBLE') razonSocial,
+					IFNULL(ce.nombre, 'NO DISPONIBLE') cerrador,
+					IFNULL(ac.nombre, 'NO DISPONIBLE') responsable,
+					IFNULL(r.nombre, 'NO DISPONIBLE') accountManager
 				from
 					concepto_cotizacion ct
 					left join cotizacion c on c.id = ct.idCotizacion
@@ -88,7 +92,8 @@ class Reporte_master_ctrl extends CI_Controller {
 		$result_array = array();
 
 		//Recorrer cada concepto en cotización y asociar con conceptos en facturación
-		foreach($conceptosCotizacion as $concepto){
+		foreach($conceptos_cotizacion as $concepto){
+			//Concepto hace referencia al concepto de la cotización
 			$concepto->total = 0;
 			$concepto->subtotal = 0;
 			$concepto->estadoConcepto = "NO DISPONIBLE";
@@ -113,6 +118,13 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->iva = (($c->total) / ($c->subtotal)) - 1;
 			}
 
+			//Obtener:
+			//-concepto de factura
+			//	-factura
+			//	-estado de factura
+			//	-tipo de concepto
+			//	-impuestos de concepto de factura
+			//relacionados con el concepto de la cotización
 			$query2 = "select
 						cf.descripcion estadoFactura,
 						cc.descripcion tipoConcepto,
@@ -128,7 +140,11 @@ class Reporte_master_ctrl extends CI_Controller {
 						c.monto total
 					from
 						concepto_factura_cotizacion fc
-						inner join concepto_factura_rel cr on (cr.idConcepto = fc.idConceptoFactura and fc.idConceptoCotizacion = ".($concepto->id).")
+						inner join concepto_factura_rel cr 
+							on (
+									cr.idConcepto = fc.idConceptoFactura 
+									and fc.idConceptoCotizacion = ".($concepto->id)."
+							)
 						inner join concepto c on c.id = cr.idConcepto
 						inner join factura f on f.id = cr.idFactura
 						inner join catestadofactura cf on cf.id = ".($concepto->idEstadoFactura)."
@@ -145,7 +161,46 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			$query2 .= $appendQuery;
 			$conceptosFactura = $this->db->query($query2)->result();
-			 
+
+			if(count($conceptosFactura)>0){
+				//Vaciar resultados homogéneos de facturación en concepto de cotización correspondiente
+				$conceptoHomogeneo = $conceptosFactura[0];
+				$concepto->estadoFactura = $conceptoHomogeneo->estadoFactura;
+				$concepto->tipoConcepto = $conceptoHomogeneo->tipoConcepto;
+				$concepto->folio = $conceptoHomogeneo->folio;
+				$concepto->fechaPago = $conceptoHomogeneo->fechaPago;
+				$concepto->monena = $conceptoHomogeneo->monena;
+				$concepto->fechaFactura = $conceptoHomogeneo->fechaFactura;
+				$concepto->ordenCompra = $conceptoHomogeneo->ordenCompra;
+				$concepto->fechaCancelacion = $conceptoHomogeneo->fechaCancelacion;
+				$concepto->tasa = $conceptoHomogeneo->tasa;
+				$concepto->cantidadIVA = 0;
+				$concepto->subtotal = 0;
+				$concepto->total = 0;
+
+				//Calcular la suma de los totales y subtotales de todos los conceptos
+				//de la factura asociados con el mismo de la cotización
+				foreach($conceptosFactura as $concepto_factura){
+					$concepto->cantidadIVA += ($concepto_factura->cantidadIVA);
+					$concepto->subtotal += ($concepto_factura->subtotal);
+					$concepto->total += ($concepto_factura->total);
+				}
+			}else{
+				$concepto->estadoFactura = 'NO DISPONIBLE';
+				$concepto->tipoConcepto = 'NO DISPONIBLE';
+				$concepto->folio = 'NO DISPONIBLE';
+				$concepto->fechaPago = 'NO DISPONIBLE';
+				$concepto->monena = 'NO DISPONIBLE';
+				$concepto->fechaFactura = 'NO DISPONIBLE';
+				$concepto->ordenCompra = 'NO DISPONIBLE';
+				$concepto->fechaCancelacion = 'NO DISPONIBLE';
+				$concepto->tasa = 'NO DISPONIBLE';
+				$concepto->cantidadIVA = 0;
+				$concepto->subtotal = 0;
+				$concepto->total = 0;				
+			}
+
+			array_push($result_array, $concepto);
 		}
 
 		$cotizacionesResultantes = array();
@@ -157,7 +212,8 @@ class Reporte_master_ctrl extends CI_Controller {
 		$importeNoFacturadoPesos = 0;
 		$importeNoFacturadoDolares = 0;
 
-		//$this->session->set_userdata("last_query_result", $result_array);
+		//Almacenar datos para su posible exportación en excel
+		$this->session->set_userdata("last_query_result", $result_array);
 
 		$data['mainData'] = $result_array;
 		
