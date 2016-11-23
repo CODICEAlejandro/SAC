@@ -18,7 +18,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		$result = $xls->readDocument();
 		//print_r($result[0]);
 
-		$this->updateFacturas($result);
+		//$this->updateFacturas($result);
 	}
 
 	/*
@@ -390,7 +390,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	*/
 
 	//Actualizar importe de conceptos de cotización que estén asociados con uno mismo en la factura
-	public function updateFacturas($data){
+	/*public function updateFacturas($data){
 		$queryConceptosCotizacion = "SELECT id FROM concepto_cotizacion";
 		$queryConceptosFactura = "SELECT id, importe FROM concepto";
 
@@ -408,5 +408,96 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 				return;
 			}
 		}
+	}*/
+
+	//Actualiza todos los subtotales y totales de conceptos de facturación con base en su monto de iva calculado
+	public function updateMoney(){
+		$flag = true;
+
+		$query1 = "select
+					f.folio folio,
+					f.fechaPago fechaPago,
+					f.moneda moneda,
+					f.fechaFactura fechaFactura,
+					f.ordenCompra ordenCompra,
+					f.fechaCancelacion fechaCancelacion,
+					i.tasa iva,
+					i.monto cantidadIVA,
+					c.importe subtotal,
+					c.monto total,
+					c.id id,
+					c.valorUnitario valorUnitario
+				from
+					concepto_factura_cotizacion fc
+					inner join concepto_factura_rel cr on (cr.idConcepto = fc.idConceptoFactura)
+					inner join concepto c on c.id = cr.idConcepto
+					inner join concepto_cotizacion t on t.id = fc.idConceptoCotizacion
+					inner join factura f on f.id = cr.idFactura
+					inner join impuesto i on i.idConcepto = c.id
+				where
+					t.idEstadoFactura = 21
+				";
+
+		$tablaR = $this->db->query($query1)->result();
+
+		foreach($tablaR as $concepto){
+			if( (($concepto->iva) != 0) && (($concepto->cantidadIVA) != 0) ){
+				$id = $concepto->id;
+				$iva = (float) $concepto->iva;
+				$cantidadIVA = (float) ($concepto->cantidadIVA);
+
+
+				$tasa = $iva / 100;				
+				$subtotal = $cantidadIVA / $tasa;
+				$total = (1 + $tasa)*$subtotal;
+
+				$queryActualiza = "update concepto
+									set
+										cantidadIVA = ".$cantidadIVA.",
+										monto = ".$total.",
+										importe = ".$subtotal."
+									where
+										id = ".$id."
+								";
+
+				if( $this->db->query($queryActualiza) ){
+					echo "-Concepto(".$id.") actualizado { subtotal = ".$subtotal.", total = ".$total.", iva = ".$cantidadIVA."}<br>";
+				}else{
+					echo "!Concepto(".$id.") ha ocurrido un problema al intentar actualizar<br>";
+					$flag = false;
+					break;
+				}
+			}else{
+				$id = $concepto->id;
+				$iva = 16;
+
+
+				$tasa = $iva / 100;				
+				$cantidadIVA = ($concepto->valorUnitario) * $tasa;
+
+				$subtotal = $concepto->valorUnitario;
+				$total = $subtotal + $cantidadIVA;
+
+				$queryActualiza = "update concepto
+									set
+										cantidadIVA = ".$cantidadIVA.",
+										monto = ".$total.",
+										importe = ".$subtotal."
+									where
+										id = ".$id."
+								";
+
+				if( $this->db->query($queryActualiza) ){
+					echo "--Concepto(".$id.") actualizado { subtotal = ".$subtotal.", total = ".$total.", iva = ".$cantidadIVA."}<br>";
+				}else{
+					echo "!Concepto(".$id.") ha ocurrido un problema al intentar actualizar<br>";
+					$flag = false;
+					break;
+				}				
+			}
+		}
+
+		if(!$flag) echo "!!! Fallo en algoritmia<br>";
+		else echo "--- OK";  
 	}
 }
