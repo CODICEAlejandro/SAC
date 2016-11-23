@@ -388,6 +388,8 @@ class Reporte_master_ctrl extends CI_Controller {
 			$row = $data[$k];
 			$xls->nextLine();
 
+			print_r($row);
+
 			$xls->setCellValue($row->estadoFactura); $xls->nextCol();
 			$xls->setCellValue($row->folio); $xls->nextCol();
 			$xls->setCellValue($row->total); $xls->nextCol();
