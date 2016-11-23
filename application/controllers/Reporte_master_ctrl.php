@@ -192,6 +192,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->total = $concepto->totalConceptoCotizacion;
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);					
 				}else{
+					$concepto->estadoFactura = "NO DISPONIBLE";
 					$concepto->cantidadIVA = 0;
 					$concepto->subtotal = 0;
 					$concepto->total = 0;
