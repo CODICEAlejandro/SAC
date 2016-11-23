@@ -510,7 +510,7 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 										concepto f 
 									";
 
-		$conceptos_factura = $this->db->query($conceptos_factura);
+		$conceptos_factura = $this->db->query($query_conceptos_factura);
 
 		foreach($conceptos_factura as $concepto_factura){
 			$query_relaciones_cotizacion = "select
