@@ -514,7 +514,9 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 
 		foreach($conceptos_factura as $concepto_factura){
 			$query_relaciones_cotizacion = "select
-												*
+												cantidadIVA,
+												monto total,
+												importe subtotal
 											from
 												concepto_factura_cotizacion
 											where
