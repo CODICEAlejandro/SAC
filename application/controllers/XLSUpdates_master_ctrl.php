@@ -506,7 +506,8 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 	public function dividirMontos(){
 		echo "Procesando ...<br>";
 
-		$query_conceptos_factura = "select 
+		$query_conceptos_factura = "select
+										id,
 										cantidadIVA,
 										monto total,
 										importe subtotal
