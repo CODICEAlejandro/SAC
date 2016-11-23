@@ -145,7 +145,7 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			$query2 .= $appendQuery;
 			$conceptosFactura = $this->db->query($query2)->result();
-			
+			 
 		}
 
 		$cotizacionesResultantes = array();
