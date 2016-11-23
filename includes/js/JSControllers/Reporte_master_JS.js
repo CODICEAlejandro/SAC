@@ -205,7 +205,7 @@ function retrieveData(){
 				lastRow.append("<td id='col-cerrador'>"+mainData[k].cerrador+"</td>");
 				lastRow.append("<td id='col-responsable'>"+mainData[k].responsable+"</td>");
 				lastRow.append("<td id='col-accountManager'>"+mainData[k].accountManager+"</td>");
-				lastRow.append("<td id='col-iva'>"+mainData[k].iva+"</td>");
+				lastRow.append("<td id='col-iva'>"+mainData[k].tasa+"</td>");
 				lastRow.append("<td id='col-montoIVA'>"+mainData[k].cantidadIVA+"</td>");
 				lastRow.append("<td id='col-importeEfectivo'>"+mainData[k].importe+"</td>");
 				lastRow.append("<td id='col-fechaCancelacion'>"+mainData[k].fechaCancelacion+"</td>");

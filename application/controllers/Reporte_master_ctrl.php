@@ -118,7 +118,7 @@ class Reporte_master_ctrl extends CI_Controller {
 						f.fechaFactura fechaFactura,
 						f.ordenCompra ordenCompra,
 						f.fechaCancelacion fechaCancelacion,
-						i.tasa iva,
+						i.tasa tasa,
 						i.monto cantidadIVA,
 						c.importe subtotal,
 						c.monto total
@@ -155,7 +155,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->tipoConcepto = $conceptoHomogeneo->tipoConcepto;
 				$concepto->folio = $conceptoHomogeneo->folio;
 				$concepto->fechaPago = $conceptoHomogeneo->fechaPago;
-				$concepto->monena = $conceptoHomogeneo->monena;
+				$concepto->moneda = $conceptoHomogeneo->moneda;
 				$concepto->fechaFactura = $conceptoHomogeneo->fechaFactura;
 				$concepto->ordenCompra = $conceptoHomogeneo->ordenCompra;
 				$concepto->fechaCancelacion = $conceptoHomogeneo->fechaCancelacion;
