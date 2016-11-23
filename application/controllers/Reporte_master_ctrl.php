@@ -179,7 +179,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					//Por facturar
 					$concepto->subtotal = $concepto->importe;
 					$concepto->total = ($concepto->subtotal)*(1.16);
-					$concepto->cantidadIVA = ($concepto->total) - ($c->subtotal);
+					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
 				}else{
 					$concepto->cantidadIVA = 0;
 					$concepto->subtotal = 0;
