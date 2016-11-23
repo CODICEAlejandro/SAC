@@ -543,6 +543,8 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 											where
 												idConceptoFactura = ".($concepto_factura->id)."
 										";
+
+					$this->db->query($query_update_dinero);
 				}
 			}
 		}
