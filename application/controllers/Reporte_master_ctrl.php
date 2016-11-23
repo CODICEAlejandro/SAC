@@ -155,9 +155,9 @@ class Reporte_master_ctrl extends CI_Controller {
 			$appendQuery = "";
 
 			if($fechaFacturaDesde != "none") 
-				$appendQuery .= " AND fact.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
+				$appendQuery .= " AND f.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
 			if($fechaPagoDesde != "none") 
-				$appendQuery .= " AND fact.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
+				$appendQuery .= " AND f.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
 
 			$query2 .= $appendQuery;
 			$conceptosFactura = $this->db->query($query2)->result();
