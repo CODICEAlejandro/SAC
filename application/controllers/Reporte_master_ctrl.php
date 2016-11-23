@@ -388,7 +388,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			$row = $data[$k];
 			$xls->nextLine();
 
-			$xls->setCellValue($row->estadoFacturaDescripcion); $xls->nextCol();
+			$xls->setCellValue($row->estadoFactura); $xls->nextCol();
 			$xls->setCellValue($row->folio); $xls->nextCol();
 			$xls->setCellValue($row->total); $xls->nextCol();
 			$xls->setCellValue($row->fechaPago); $xls->nextCol();
@@ -402,17 +402,17 @@ class Reporte_master_ctrl extends CI_Controller {
 			$xls->setCellValue($row->referencia); $xls->nextCol();
 			$xls->setCellValue($row->descripcion); $xls->nextCol();
 			$xls->setCellValue($row->tituloCotizacion); $xls->nextCol();
-			$xls->setCellValue($row->fechaInicio); $xls->nextCol();
-			$xls->setCellValue($row->fechaFin); $xls->nextCol();
+			$xls->setCellValue($row->inicioProyecto); $xls->nextCol();
+			$xls->setCellValue($row->finProyecto); $xls->nextCol();
 			$xls->setCellValue($row->razonSocial); $xls->nextCol();
 			$xls->setCellValue($row->fechaVenta); $xls->nextCol();
 			$xls->setCellValue($row->fechaJuntaArranque); $xls->nextCol();
 			$xls->setCellValue($row->cerrador); $xls->nextCol();
 			$xls->setCellValue($row->responsable); $xls->nextCol();
 			$xls->setCellValue($row->accountManager); $xls->nextCol();
-			$xls->setCellValue($row->iva); $xls->nextCol();
-			$xls->setCellValue($row->montoIVA); $xls->nextCol();
-			$xls->setCellValue($row->importeEfectivo); $xls->nextCol();
+			$xls->setCellValue($row->tasa); $xls->nextCol();
+			$xls->setCellValue($row->cantidadIVA); $xls->nextCol();
+			$xls->setCellValue($row->importe); $xls->nextCol();
 			$xls->setCellValue($row->fechaCancelacion); $xls->nextCol();
 			$xls->setCellValue($row->contrato); $xls->nextCol();
 			$xls->setCellValue($row->nota); $xls->nextCol();
