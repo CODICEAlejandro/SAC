@@ -55,7 +55,6 @@ class Reporte_master_ctrl extends CI_Controller {
 					IFNULL(c.fechaJuntaArranque, 'NO DISPONIBLE') fechaJuntaArranque,
 					IFNULL(c.contrato, 'NO DISPONIBLE') contrato,
 					IFNULL(c.titulo, 'NO DISPONIBLE') tituloCotizacion,
-					IFNULL(p.nombre, 'NO DISPONIBLE') proyecto,
 					IFNULL(dc.cliente, 'NO DISPONIBLE') cliente,
 					IFNULL(dc.razonSocial, 'NO DISPONIBLE') razonSocial,
 					IFNULL(ce.nombre, 'NO DISPONIBLE') cerrador,
@@ -73,7 +72,6 @@ class Reporte_master_ctrl extends CI_Controller {
 									direccionfiscal d
 									inner join catcliente cl on cl.id = d.idPadre
 					) dc on dc.id = c.idRazonSocial
-					left join catproyecto p on p.idCotizacion = c.id
 					left join catusuario ce on ce.id = c.idCerrador
 					left join catusuario ac on ac.id = c.accountManager
 					left join catusuario r on r.id = c.idResponsable
@@ -114,7 +112,8 @@ class Reporte_master_ctrl extends CI_Controller {
 						i.tasa tasa,
 						i.monto cantidadIVA,
 						c.importe subtotal,
-						c.monto total
+						c.monto total,
+						c.id idConceptoFactura
 					from
 						concepto_factura_cotizacion fc
 						inner join concepto_factura_rel cr 
@@ -358,7 +357,8 @@ class Reporte_master_ctrl extends CI_Controller {
 		$xls->setCellValue("Total"); $xls->nextCol();
 		$xls->setCellValue("Fecha de pago"); $xls->nextCol();
 		$xls->setCellValue("Cliente"); $xls->nextCol();
-		$xls->setCellValue("ID"); $xls->nextCol();
+		$xls->setCellValue("ID Concepto Cotizacion"); $xls->nextCol();
+		$xls->setCellValue("ID Concepto Factura"); $xls->nextCol();
 		$xls->setCellValue("Subtotal"); $xls->nextCol();
 		$xls->setCellValue("Moneda"); $xls->nextCol();
 		$xls->setCellValue("Fecha de factura"); $xls->nextCol();
@@ -394,6 +394,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			$xls->setCellValue($row->fechaPago); $xls->nextCol();
 			$xls->setCellValue($row->cliente); $xls->nextCol();
 			$xls->setCellValue($row->id); $xls->nextCol();
+			$xls->setCellValue($row->idConceptoFactura); $xls->nextCol();
 			$xls->setCellValue($row->subtotal); $xls->nextCol();
 			$xls->setCellValue($row->moneda); $xls->nextCol();
 			$xls->setCellValue($row->fechaFactura); $xls->nextCol();
