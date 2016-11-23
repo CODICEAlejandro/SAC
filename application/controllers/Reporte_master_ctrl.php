@@ -94,13 +94,6 @@ class Reporte_master_ctrl extends CI_Controller {
 		//Recorrer cada concepto en cotización y asociar con conceptos en facturación
 		foreach($conceptos_cotizacion as $concepto){
 			//Concepto hace referencia al concepto de la cotización
-			if($concepto->idEstadoFactura == 23){
-				//Por facturar
-				$concepto->subtotal = $c->montoConceptoCotizacion;
-				$concepto->total = $c->totalConceptoCotizacion;
-				$concepto->montoIVA = ($c->total) - ($c->subtotal);
-				$concepto->iva = (($c->total) / ($c->subtotal)) - 1;
-			}
 
 			//Obtener:
 			//-concepto de factura
@@ -181,9 +174,17 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->ordenCompra = 'NO DISPONIBLE';
 				$concepto->fechaCancelacion = 'NO DISPONIBLE';
 				$concepto->tasa = 'NO DISPONIBLE';
-				$concepto->cantidadIVA = 0;
-				$concepto->subtotal = 0;
-				$concepto->total = 0;				
+
+				if($concepto->idEstadoFactura == 23){
+					//Por facturar
+					$concepto->subtotal = $concepto->importe;
+					$concepto->total = ($concepto->subtotal)*(1.16);
+					$concepto->cantidadIVA = ($concepto->total) - ($c->subtotal);
+				}else{
+					$concepto->cantidadIVA = 0;
+					$concepto->subtotal = 0;
+					$concepto->total = 0;
+				}
 			}
 
 			array_push($result_array, $concepto);
