@@ -500,4 +500,49 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		if(!$flag) echo "!!! Fallo en algoritmia<br>";
 		else echo "--- OK";  
 	}
+
+
+	//Dividir montos cuando hay un solo concepto en la factura a muchos en la cotizacion
+	public function dividirMontos(){
+		$query_conceptos_factura = "select 
+											* 
+									from 
+										concepto f 
+									";
+
+		$conceptos_factura = $this->db->query($conceptos_factura);
+
+		foreach($conceptos_factura as $concepto_factura){
+			$query_relaciones_cotizacion = "select
+												*
+											from
+												concepto_factura_cotizacion
+											where
+												idConceptoFactura = ".($concepto_factura->id)."
+										";
+
+
+			$relaciones_cotizacion = $this->db->query($query_relaciones_cotizacion);
+			$numero_relaciones_cotizacion = count($relaciones_cotizacion);
+
+			if(count($numero_relaciones_cotizacion) > 0){
+				foreach($relaciones_cotizacion as $relacion){
+
+					$cantidadIVA = ($concepto_factura->cantidadIVA) / $numero_relaciones_cotizacion;
+					$total = ($concepto_factura->total) / $numero_relaciones_cotizacion;
+					$subtotal = ($concepto_factura->subtotal) / $numero_relaciones_cotizacion;
+
+					$query_update_dinero = "update
+												concepto_factura_cotizacion
+											set
+												cantidadIVA = $cantidadIVA,
+												total = $total,
+												subtotal = $subtotal
+											where
+												idConceptoFactura = ".($concepto_factura->id)."
+										";
+				}
+			}
+		}
+	}
 }
