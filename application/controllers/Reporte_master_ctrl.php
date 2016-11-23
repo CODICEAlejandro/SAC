@@ -154,6 +154,9 @@ class Reporte_master_ctrl extends CI_Controller {
 						1 = 1
 				";
 
+			echo $query2;
+			die();
+
 			$appendQuery = "";
 
 			if($fechaFacturaDesde != "none") 
