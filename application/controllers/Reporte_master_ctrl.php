@@ -170,7 +170,6 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->idConceptoFactura .= ($concepto_factura->idConceptoFactura).", ";
 				}
 			}else{
-				$concepto->estadoFactura = 'NO DISPONIBLE';
 				$concepto->tipoConcepto = 'NO DISPONIBLE';
 				$concepto->folio = 'NO DISPONIBLE';
 				$concepto->fechaPago = 'NO DISPONIBLE';
@@ -186,7 +185,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->subtotal = $concepto->importe;
 					$concepto->total = ($concepto->subtotal)*(1.16);
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
-				}else if($concepto->idEstadoFactura ==2){
+				}else if( ($concepto->idEstadoFactura ==2) || ($concepto->idEstadoFactura ==2) ){
 					//Cancelado
 					$concepto->subtotal = $concepto->montoConceptoCotizacion;
 					$concepto->total = $concepto->totalConceptoCotizacion;
