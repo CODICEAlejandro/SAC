@@ -94,22 +94,6 @@ class Reporte_master_ctrl extends CI_Controller {
 		//Recorrer cada concepto en cotización y asociar con conceptos en facturación
 		foreach($conceptos_cotizacion as $concepto){
 			//Concepto hace referencia al concepto de la cotización
-			$concepto->total = 0;
-			$concepto->subtotal = 0;
-			$concepto->estadoConcepto = "NO DISPONIBLE";
-			$concepto->id = "NO DISPONIBLE";
-			$concepto->descripcion = "NO DISPONIBLE";
-			$concepto->montoIVA = 0;
-			$concepto->iva = 0;
-			$concepto->folio = "NO DISPONIBLE";
-			$concepto->fechaPago = "NO DISPONIBLE";
-			$concepto->moneda = "NO DISPONIBLE";
-			$concepto->ordenCompra = "NO DISPONIBLE";
-			$concepto->fechaCancelacion = "NO DISPONIBLE";
-			$concepto->fechaFactura = "NO DISPONIBLE";
-			$concepto->estadoFactura = "NO DISPONIBLE";
-			$concepto->estadoFacturaDescripcion = "NO DISPONIBLE";
-
 			if($concepto->idEstadoFactura == 23){
 				//Por facturar
 				$concepto->subtotal = $c->montoConceptoCotizacion;
