@@ -504,6 +504,8 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 
 	//Dividir montos cuando hay un solo concepto en la factura a muchos en la cotizacion
 	public function dividirMontos(){
+		echo "Procesando ...<br>";
+
 		$query_conceptos_factura = "select 
 											* 
 									from 
