@@ -112,9 +112,9 @@ class Reporte_master_ctrl extends CI_Controller {
 						f.ordenCompra ordenCompra,
 						f.fechaCancelacion fechaCancelacion,
 						i.tasa tasa,
-						i.monto cantidadIVA,
-						c.importe subtotal,
-						c.monto total,
+						fc.cantidadIVA cantidadIVA,
+						fc.importe subtotal,
+						fc.monto total,
 						c.id idConceptoFactura
 					from
 						concepto_factura_cotizacion fc
