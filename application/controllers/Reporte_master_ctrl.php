@@ -48,6 +48,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					ct.nota nota,
 					ct.idEstadoFactura idEstadoFactura,
 					ct.idTipoConcepto idTipoConcepto,
+					ct.monto montoConceptoCotizacion,
+					ct.total totalConceptoCotizacion,
 					ct.folioFactura folio,
 					IFNULL(c.inicioProyecto, 'NO DISPONIBLE') inicioProyecto,
 					IFNULL(c.finProyecto, 'NO DISPONIBLE') finProyecto,
