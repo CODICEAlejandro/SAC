@@ -169,7 +169,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->tipoConcepto = 'NO DISPONIBLE';
 				$concepto->folio = 'NO DISPONIBLE';
 				$concepto->fechaPago = 'NO DISPONIBLE';
-				$concepto->monena = 'NO DISPONIBLE';
+				$concepto->moneda = 'NO DISPONIBLE';
 				$concepto->fechaFactura = 'NO DISPONIBLE';
 				$concepto->ordenCompra = 'NO DISPONIBLE';
 				$concepto->fechaCancelacion = 'NO DISPONIBLE';
