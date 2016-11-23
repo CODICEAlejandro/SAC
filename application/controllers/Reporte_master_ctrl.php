@@ -150,6 +150,8 @@ class Reporte_master_ctrl extends CI_Controller {
 						inner join catestadofactura cf on cf.id = ".($concepto->idEstadoFactura)."
 						inner join cattipoconcepto cc on cc.id = ".($concepto->idTipoConcepto)."
 						inner join impuesto i on i.idConcepto = c.id
+					where
+						1 = 1
 				";
 
 			$appendQuery = "";
