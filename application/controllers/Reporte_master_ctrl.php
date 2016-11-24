@@ -180,14 +180,15 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->tasa = 'NO DISPONIBLE';
 				$concepto->idConceptoFactura = "NO DISPONIBLE";
 
-				if($concepto->idEstadoFactura == 23){
-					//Por facturar
-					$concepto->estadoFactura = "POR FACTURAR";
+				if($concepto->idEstadoFactura == 22){
+					//Cancelado
+					$concepto->estadoFactura = "CANCELADO";
 					$concepto->subtotal = $concepto->importe;
 					$concepto->total = ($concepto->subtotal)*(1.16);
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
-				}else if( ($concepto->idEstadoFactura ==2) || ($concepto->idEstadoFactura ==2) ){
-					//Cancelado
+				}else if( ($concepto->idEstadoFactura == 23) || ($concepto->idEstadoFactura ==2) ){
+					//Por facturar
+					$concepto->estadoFactura = "POR FACTURAR";
 					$concepto->subtotal = $concepto->montoConceptoCotizacion;
 					$concepto->total = $concepto->totalConceptoCotizacion;
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);					
