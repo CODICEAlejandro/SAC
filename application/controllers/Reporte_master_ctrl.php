@@ -159,15 +159,23 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->subtotal = 0;
 				$concepto->total = 0;
 
-				//Calcular la suma de los totales y subtotales de todos los conceptos
-				//de la factura asociados con el mismo de la cotización
-				foreach($conceptosFactura as $concepto_factura){
-					$concepto->cantidadIVA += ($concepto_factura->cantidadIVA);
-					$concepto->subtotal += ($concepto_factura->subtotal);
-					$concepto->total += ($concepto_factura->total);
+				if($concepto->idEstadoFactura == 24){
+					//No pagado
+					$concepto->estadoFactura = "NO PAGADO";
+					$concepto->subtotal = $concepto->montoConceptoCotizacion;
+					$concepto->total = $concepto->totalConceptoCotizacion;
+					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
+				}else{
+					//Calcular la suma de los totales y subtotales de todos los conceptos
+					//de la factura asociados con el mismo de la cotización
+					foreach($conceptosFactura as $concepto_factura){
+						$concepto->cantidadIVA += ($concepto_factura->cantidadIVA);
+						$concepto->subtotal += ($concepto_factura->subtotal);
+						$concepto->total += ($concepto_factura->total);
 
-					//Concatena los conceptos asociados de la factura
-					$concepto->idConceptoFactura .= ($concepto_factura->idConceptoFactura).", ";
+						//Concatena los conceptos asociados de la factura
+						$concepto->idConceptoFactura .= ($concepto_factura->idConceptoFactura).", ";
+					}
 				}
 			}else{
 				$concepto->tipoConcepto = 'NO DISPONIBLE';
@@ -189,12 +197,6 @@ class Reporte_master_ctrl extends CI_Controller {
 				}else if($concepto->idEstadoFactura == 23){
 					//Por facturar
 					$concepto->estadoFactura = "POR FACTURAR";
-					$concepto->subtotal = $concepto->montoConceptoCotizacion;
-					$concepto->total = $concepto->totalConceptoCotizacion;
-					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
-				}else if($concepto->idEstadoFactura == 24){
-					//No pagado
-					$concepto->estadoFactura = "NO PAGADO";
 					$concepto->subtotal = $concepto->montoConceptoCotizacion;
 					$concepto->total = $concepto->totalConceptoCotizacion;
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
