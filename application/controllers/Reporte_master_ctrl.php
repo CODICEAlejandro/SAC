@@ -182,16 +182,22 @@ class Reporte_master_ctrl extends CI_Controller {
 
 				if($concepto->idEstadoFactura == 22){
 					//Cancelado
-					$concepto->estadoFactura = "CANCELADO";
+					$concepto->estadoFactura = "CANCELADA";
 					$concepto->subtotal = $concepto->importe;
 					$concepto->total = ($concepto->subtotal)*(1.16);
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
-				}else if( ($concepto->idEstadoFactura == 23) || ($concepto->idEstadoFactura ==2) ){
+				}else if($concepto->idEstadoFactura == 23){
 					//Por facturar
 					$concepto->estadoFactura = "POR FACTURAR";
 					$concepto->subtotal = $concepto->montoConceptoCotizacion;
 					$concepto->total = $concepto->totalConceptoCotizacion;
-					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);					
+					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
+				}else if($concepto->idEstadoFactura == 24){
+					//Por facturar
+					$concepto->estadoFactura = "NO PAGADO";
+					$concepto->subtotal = $concepto->montoConceptoCotizacion;
+					$concepto->total = $concepto->totalConceptoCotizacion;
+					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
 				}else{
 					$concepto->estadoFactura = "NO DISPONIBLE";
 					$concepto->cantidadIVA = 0;
