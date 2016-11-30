@@ -197,8 +197,8 @@ class Reporte_master_ctrl extends CI_Controller {
 				if($concepto->idEstadoFactura == 22){
 					//Cancelado
 					$concepto->estadoFactura = "CANCELADA";
-					$concepto->subtotal = $concepto->importe;
-					$concepto->total = ($concepto->subtotal)*(1.16);
+					$concepto->subtotal = $concepto->montoConceptoCotizacion;
+					$concepto->total = $concepto->totalConceptoCotizacion;
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
 				}else if($concepto->idEstadoFactura == 23){
 					//Por facturar
