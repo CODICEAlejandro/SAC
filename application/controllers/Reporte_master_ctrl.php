@@ -96,7 +96,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			//Concepto hace referencia al concepto de la cotización
 
 			//Obtener:
-			//-concepto de factura
+			//  -concepto de factura
 			//	-factura
 			//	-estado de factura
 			//	-tipo de concepto

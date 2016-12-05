@@ -26,7 +26,7 @@ class Lectura_factura_ctrl extends CI_Controller {
 		$factura = Factura::parseFactura($data);
 		$factura->save(true);
 
-		echo $factura->saludar();
+		print_r($factura);
 	}
 
 	public function getRazonesSociales($idCliente){
@@ -113,81 +113,161 @@ class Lectura_factura_ctrl extends CI_Controller {
 		// >>>>>>>>>>>>> Abrir XML
 
 		$xml = simplexml_load_file($file["tmp_name"]);
+		$atributosPrincipales = $xml->attributes();
 
 		//Registrar los namespaces en el objeto
 		$namespaces = $xml->getNameSpaces(true);
-		$xml->registerXPathNamespace("tfd", $namespaces["tfd"]);
-		$xml->registerXPathNamespace("fx", $namespaces["fx"]);
 
-		//Acceder árbol de conceptos y luego descender a Concepto
-		$conceptos = $xml->xpath("//fx:Conceptos/fx:Concepto");
-		//Recorrer cada concepto en busca de sus atributos para almacenarlos en una estructura
-		foreach($conceptos as $element){
-			$objConcepto = new $this->Concepto();
+		if(isset($namespaces["tfd"]))
+			$xml->registerXPathNamespace("tfd", $namespaces["tfd"]);
 
-			$objConcepto->cantidad = $element->xpath("fx:Cantidad")[0]->__toString();
-			$objConcepto->unidadDeMedida = $element->xpath("fx:UnidadDeMedida")[0]->__toString();
-			$objConcepto->descripcion = $element->xpath("fx:Descripcion")[0]->__toString();
-			$objConcepto->valorUnitario = $element->xpath("fx:ValorUnitario")[0]->__toString();
-			$objConcepto->importe = $element->xpath("fx:Importe")[0]->__toString();
+		if(isset($namespaces["fx"])){
+			$xml->registerXPathNamespace("fx", $namespaces["fx"]);
 
-			//Obtener los extras
-			//Asumimos que solo existe un fragmento etiquetado como ConceptoEx
-			$conceptoEx = $element->xpath("fx:ConceptoEx")[0];
-			$objConcepto->precioLista = $conceptoEx->xpath("fx:PrecioLista")[0]->__toString();
-			$objConcepto->importeLista = $conceptoEx->xpath("fx:ImporteLista")[0]->__toString();
-			$importeTotal = $conceptoEx->xpath("fx:ImporteTotal")[0]->__toString();
+			//Acceder árbol de conceptos y luego descender a Concepto
+			$conceptos = $xml->xpath("//fx:Conceptos/fx:Concepto");
 
-			//Obtener Impuestos
-			$impuestos = $conceptoEx->xpath("fx:Impuestos/fx:Impuesto");
-			$listaDeImpuestos = array();
-			foreach($impuestos as $impuesto){
-				$objImpuesto = new $this->Impuesto();
+			//Recorrer cada concepto en busca de sus atributos para almacenarlos en una estructura
+			foreach($conceptos as $element){
+				$objConcepto = new $this->Concepto();
 
-				$objImpuesto->contexto = $impuesto->xpath("fx:Contexto")[0]->__toString();
-				$objImpuesto->operacion = $impuesto->xpath("fx:Operacion")[0]->__toString();
-				$objImpuesto->codigo = $impuesto->xpath("fx:Codigo")[0]->__toString();
-				$objImpuesto->base = $impuesto->xpath("fx:Base")[0]->__toString();
-				$objImpuesto->tasa = $impuesto->xpath("fx:Tasa")[0]->__toString();
-				$objImpuesto->monto = $impuesto->xpath("fx:Monto")[0]->__toString();
+				$objConcepto->cantidad = $element->xpath("fx:Cantidad")[0]->__toString();
+				$objConcepto->unidadDeMedida = $element->xpath("fx:UnidadDeMedida")[0]->__toString();
+				$objConcepto->descripcion = $element->xpath("fx:Descripcion")[0]->__toString();
+				$objConcepto->valorUnitario = $element->xpath("fx:ValorUnitario")[0]->__toString();
+				$objConcepto->importe = $element->xpath("fx:Importe")[0]->__toString();
+				$objConcepto->monto = $objConcepto->importe;
 
-				$objConcepto->pushImpuesto($objImpuesto);
+				//Obtener los extras
+				//Asumimos que solo existe un fragmento etiquetado como ConceptoEx
+				$conceptoEx = $element->xpath("fx:ConceptoEx")[0];
+				$objConcepto->precioLista = $conceptoEx->xpath("fx:PrecioLista")[0]->__toString();
+				$objConcepto->importeLista = $conceptoEx->xpath("fx:ImporteLista")[0]->__toString();
+				$importeTotal = $conceptoEx->xpath("fx:ImporteTotal")[0]->__toString();
+
+				//Obtener Impuestos
+				$impuestos = $conceptoEx->xpath("fx:Impuestos/fx:Impuesto");
+				$listaDeImpuestos = array();
+				foreach($impuestos as $impuesto){
+					$objImpuesto = new $this->Impuesto();
+
+					$objImpuesto->contexto = $impuesto->xpath("fx:Contexto")[0]->__toString();
+					$objImpuesto->operacion = $impuesto->xpath("fx:Operacion")[0]->__toString();
+					$objImpuesto->codigo = $impuesto->xpath("fx:Codigo")[0]->__toString();
+					$objImpuesto->base = $impuesto->xpath("fx:Base")[0]->__toString();
+					$objImpuesto->tasa = $impuesto->xpath("fx:Tasa")[0]->__toString();
+					$objImpuesto->monto = $impuesto->xpath("fx:Monto")[0]->__toString();
+					$objConcepto->monto += $objImpuesto->monto;
+
+					$objConcepto->pushImpuesto($objImpuesto);
+				}
+
+				//Obtener textos de posición
+				$textosDePosicion = $conceptoEx->xpath("fx:TextosDePosicion/fx:Texto");
+				$texto = "";
+				foreach($textosDePosicion as $textoPosicion){
+					$texto .= $textoPosicion->__toString()."\r\n";
+				}
+
+				$objConcepto->textosDePosicion = $texto;
+				$objFactura->pushConcepto($objConcepto);
 			}
 
-			//Obtener textos de posición
-			$textosDePosicion = $conceptoEx->xpath("fx:TextosDePosicion/fx:Texto");
-			$texto = "";
-			foreach($textosDePosicion as $textoPosicion){
-				$texto .= $textoPosicion->__toString()."\r\n";
+			//Obtener totales
+			$totales = $xml->xpath("//fx:Totales")[0];
+			$objFactura->moneda = $totales->xpath("fx:Moneda")[0]->__toString();
+			$objFactura->tipoDeCambioVenta = $totales->xpath("fx:TipoDeCambioVenta")[0]->__toString();
+			$objFactura->subtotalBruto = $totales->xpath("fx:SubTotalBruto")[0]->__toString();
+			$objFactura->subtotal = $totales->xpath("fx:SubTotal")[0]->__toString();
+			$objFactura->total = $totales->xpath("fx:Total")[0]->__toString();
+			$objFactura->totalEnLetra = $totales->xpath("fx:TotalEnLetra")[0]->__toString();
+			$objFactura->formaDePago = $totales->xpath("fx:FormaDePago")[0]->__toString();
+
+			//Resumen de impuestos
+			$resImpuestos = $totales->xpath("fx:ResumenDeImpuestos")[0];
+			$objFactura->totalTrasladosFederales = $resImpuestos->xpath("fx:TotalTrasladosFederales")[0]->__toString();
+			$objFactura->totalIVATrasladado = $resImpuestos->xpath("fx:TotalIVATrasladado")[0]->__toString();
+			$objFactura->totalIEPSTrasladado = $resImpuestos->xpath("fx:TotalIEPSTrasladado")[0]->__toString();
+			$objFactura->totalRetencionesFederales = $resImpuestos->xpath("fx:TotalRetencionesFederales")[0]->__toString();
+			$objFactura->totalISRRetenido = $resImpuestos->xpath("fx:TotalISRRetenido")[0]->__toString();
+			$objFactura->totalIVARetenido = $resImpuestos->xpath("fx:TotalIVARetenido")[0]->__toString();
+			$objFactura->totalTrasladosLocales = $resImpuestos->xpath("fx:TotalTrasladosLocales")[0]->__toString();
+			$objFactura->totalRetencionesLocales = $resImpuestos->xpath("fx:TotalRetencionesLocales")[0]->__toString();
+
+		}else{
+			$conceptos = $xml->xpath("//cfdi:Conceptos/cfdi:Concepto");
+
+			//En este caso el mismo impouesto se aplica a todos los conceptos
+			$impuestos = $xml->xpath("//cfdi:Impuestos/cfdi:Traslados/cfdi:Traslado");
+
+			foreach($conceptos as $concepto){
+				$objConcepto = new $this->Concepto();
+				$c = $concepto->attributes();
+
+				$objConcepto->cantidad = $c->cantidad->__toString();
+				$objConcepto->unidadDeMedida = $c->unidad->__toString();
+				$objConcepto->descripcion = $c->descripcion->__toString();
+				$objConcepto->valorUnitario = $c->valorUnitario->__toString();
+				$objConcepto->importe = $c->importe->__toString();
+				$objConcepto->monto = $objConcepto->importe;
+				
+				foreach($impuestos as $impuesto){
+					$objImpuesto = new $this->Impuesto();
+					$i = $impuesto->attributes();
+
+					$objImpuesto->contexto = "SIN INFO EN XML";
+					$objImpuesto->operacion = "SIN INFO EN XML";
+					$objImpuesto->codigo = $i["impuesto"]->__toString();
+					$objImpuesto->base = $objConcepto->importe;
+					$objImpuesto->tasa = (float) $i["tasa"];
+					$objImpuesto->monto = (($objImpuesto->tasa)/100) * ($objImpuesto->base);
+
+					$objConcepto->monto += $objImpuesto->monto;
+
+					$objConcepto->pushImpuesto($objImpuesto);
+				}
+
+				//Obtener los extras
+				$objConcepto->precioLista = $c->valorUnitario->__toString();
+				$objConcepto->importeLista = $c->importe->__toString();
+				$importeTotal = $c->importe->__toString();
+
+				$objFactura->pushConcepto($objConcepto);				
 			}
 
-			$objConcepto->textosDePosicion = $texto;
-			$objFactura->pushConcepto($objConcepto);
+			$objFactura->totalEnLetra = "SIN INFO EN XML";
+
+
+			if(isset($atributosPrincipales["Moneda"]))
+				$objFactura->moneda = $atributosPrincipales["Moneda"]->__toString();
+			else
+				$objFactura->moneda = "SIN INFO EN XML";				
+
+			if(isset($atributosPrincipales["TipoCambio"]))
+				$objFactura->tipoDeCambioVenta = $atributosPrincipales["TipoCambio"]->__toString();
+			else
+				$objFactura->tipoDeCambioVenta = "SIN INFO EN XML";				
+
+			if(isset($atributosPrincipales["subTotal"])){
+				$objFactura->subtotalBruto = $atributosPrincipales["subTotal"]->__toString();
+				$objFactura->subtotal = $atributosPrincipales["subTotal"]->__toString();
+			}else
+				$objFactura->tipoDeCambioVenta = "SIN INFO EN XML";				
+
+			if(isset($atributosPrincipales["total"]))
+				$objFactura->total = $atributosPrincipales["total"]->__toString();
+			else
+				$objFactura->total = "SIN INFO EN XML";				
+
+			if(isset($atributosPrincipales["formaDePago"]))
+				$objFactura->formaDePago = $atributosPrincipales["formaDePago"]->__toString();
+			else
+				$objFactura->formaDePago = "SIN INFO EN XML";				
 		}
 
 		//Encabezados de factura
-		$objFactura->fechaFactura = explode("T", $xml->attributes()["fecha"]->__toString())[0];
-
-		//Obtener totales
-		$totales = $xml->xpath("//fx:Totales")[0];
-		$objFactura->moneda = $totales->xpath("fx:Moneda")[0]->__toString();
-		$objFactura->tipoDeCambioVenta = $totales->xpath("fx:TipoDeCambioVenta")[0]->__toString();
-		$objFactura->subtotalBruto = $totales->xpath("fx:SubTotalBruto")[0]->__toString();
-		$objFactura->subtotal = $totales->xpath("fx:SubTotal")[0]->__toString();
-		$objFactura->total = $totales->xpath("fx:Total")[0]->__toString();
-		$objFactura->totalEnLetra = $totales->xpath("fx:TotalEnLetra")[0]->__toString();
-		$objFactura->formaDePago = $totales->xpath("fx:FormaDePago")[0]->__toString();
-
-		//Resumen de impuestos
-		$resImpuestos = $totales->xpath("fx:ResumenDeImpuestos")[0];
-		$objFactura->totalTrasladosFederales = $resImpuestos->xpath("fx:TotalTrasladosFederales")[0]->__toString();
-		$objFactura->totalIVATrasladado = $resImpuestos->xpath("fx:TotalIVATrasladado")[0]->__toString();
-		$objFactura->totalIEPSTrasladado = $resImpuestos->xpath("fx:TotalIEPSTrasladado")[0]->__toString();
-		$objFactura->totalRetencionesFederales = $resImpuestos->xpath("fx:TotalRetencionesFederales")[0]->__toString();
-		$objFactura->totalISRRetenido = $resImpuestos->xpath("fx:TotalISRRetenido")[0]->__toString();
-		$objFactura->totalIVARetenido = $resImpuestos->xpath("fx:TotalIVARetenido")[0]->__toString();
-		$objFactura->totalTrasladosLocales = $resImpuestos->xpath("fx:TotalTrasladosLocales")[0]->__toString();
-		$objFactura->totalRetencionesLocales = $resImpuestos->xpath("fx:TotalRetencionesLocales")[0]->__toString();
+		$objFactura->fechaFactura = explode("T", $atributosPrincipales["fecha"]->__toString())[0];
+		$objFactura->folio = $atributosPrincipales["serie"].$atributosPrincipales["folio"];
 
 		$data['tiposConcepto'] = $this->db->get("cattipoconcepto")->result();
 		$data['clientes'] = $this->Cliente->traerTodo();

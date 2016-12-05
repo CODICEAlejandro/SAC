@@ -152,12 +152,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<td id="id"><?php echo $k; ?></td>
 						<td id="matchCol">
-							<span id="append-matchCol">
-								<select class="form-control idMatched" name="idMatched[]" class="idMatched" id="idMatched" style="width: 300px;">
-								<option value="-1">Seleccione una opción</option>
-								</select>
+							<span id="append-section-matchCol" class="append-section-matchCol">
+								<div id="clone-match-col" class="clone-match-col">
+									<span id="append-matchCol">
+										<select class="form-control idMatched" name="idMatched[]" class="idMatched" id="idMatched" style="width: 300px;">
+										<option value="-1">Seleccione una opción</option>
+										</select>
+									</span>
+									<span id="append-totalRelacionado">
+										<input type="text" class="form-control totalRelacionado" id="totalRelacionado" name="totalRelacionado[]" style="width: 100px; text-align: right;" value="<?php echo $c->monto; ?>">
+									</span>
+									<div style="width: 100%; border-bottom: 5px solid black; margin-bottom: 8px; padding-bottom: 8px;"></div>
+								</div>
 							</span>
-							<button class="btn btn-primary" id="btn-add-matched-select" style="width: 100%; margin-top: 10px;">
+
+							<button class="btn btn-primary btn-add-matched-select" style="width: 100%; margin-top: 10px;">
 								Agregar
 							</button>
 						</td>
@@ -181,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td id="importeCol"><?php echo $c->importe; ?></td>
 						<td id="montoCol"><?php echo $c->monto; ?></td>
 						<td id="montoEfectivoCol">
-							<input type="text" class="form-control montoEfectivo" style="width: 100px; text-align: right;" value="<?php echo $c->monto; ?>">
+							<input type="text" class="form-control montoEfectivo" id="montoEfectivo" style="width: 100px; text-align: right;" value="<?php echo $c->monto; ?>">
 						</td>
 						<td id="textosDePosicionCol"><?php echo $c->textosDePosicion; ?></td>
 						<td id="impuestosCol">
@@ -238,7 +247,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<span><?php echo $factura->tipoDeCambioVenta; ?></span>
 				</div>
 				<div>
-					<label>Moneda: </label>
+					<label>Subtotal: </label>
 					<span><?php echo $factura->subtotal; ?></span>
 				</div>
 				<div>
@@ -295,7 +304,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label for="folioFactura">Folio</label>
-				<input type="text" id="folioFactura" class="form-control" style="margin-bottom: 15px;">
+				<input type="text" id="folioFactura" class="form-control" style="margin-bottom: 15px;" value="<?php echo $factura->folio; ?>">
 			</div>
 		</div>
 		<div class="row">

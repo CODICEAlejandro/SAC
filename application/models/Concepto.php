@@ -31,6 +31,7 @@ class Concepto extends CI_Model {
 	public static function parseConcepto($data){
 		$result = new Concepto();
 
+		$result->idMatched = array();
 		$result->cantidad = $data["cantidad"];
 		$result->unidadDeMedida = $data["unidadDeMedida"];
 		$result->descripcion = $data["descripcion"];
@@ -47,10 +48,6 @@ class Concepto extends CI_Model {
 		$result->idPeriodoRecurrencia = $data["idPeriodoRecurrencia"];
 		$result->idMatched = $data["idMatched"];
 		$result->montoEfectivo = $data["montoEfectivo"];
-
-		for($k = 0, $n = count($data["idMatched"]); $k < $n; $k++){
-			array_push($result->idMatched, $data["idMatched"][$k]);
-		}
 
 		for($k=0, $n=count($data['impuestos']); $k<$n; $k++)
 			$result->pushImpuesto( Impuesto::parseImpuesto($data['impuestos'][$k]) );
@@ -102,8 +99,15 @@ class Concepto extends CI_Model {
 
 		//Insertar relaciones del concepto actual con los conceptos en cotizaciOn
 		for($k = 0, $n = count($this->idMatched); $k < $n; $k++){
-			$queryRelacion = "INSERT INTO `concepto_factura_cotizacion` (`idConceptoFactura`, `idConceptoCotizacion`) 
-							VALUES (".$idConcepto.", ".($this->idMatched[$k]).")";
+			$queryRelacion = "INSERT INTO `concepto_factura_cotizacion` 
+							(`idConceptoFactura`, `idConceptoCotizacion`, `total`, `subtotal`, `cantidadIVA`) 
+							VALUES 
+								(".$idConcepto.", 
+								".($this->idMatched[$k][0]).", 
+								".($this->idMatched[$k][1]).",
+								".(($this->idMatched[$k][1])*1.16).",
+								".(($this->idMatched[$k][1])*0.16).
+								")";
 			$this->db->query($queryRelacion);
 		}
 

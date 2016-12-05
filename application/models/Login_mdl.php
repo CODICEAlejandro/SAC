@@ -12,32 +12,43 @@ class Login_mdl extends CI_Model {
 	//Retorna el número de usuarios con el usuario y password indicado
 	//$data["user","password"] -> n
 	function count_usuarios_up($data){
-		$user = htmlentities($data["user"],ENT_QUOTES,'UTF-8');
-		$pass = htmlentities($data["password"],ENT_QUOTES,'UTF-8');
+		if(
+			isset($data)
+			&& isset($data['user'])
+			&& isset($data['password'])
+		){
+			$user = htmlentities($data["user"],ENT_QUOTES,'UTF-8');
+			$pass = htmlentities($data["password"],ENT_QUOTES,'UTF-8');
 
-		$this->db->where("correo =",$user);
-		$this->db->where("password =",$pass);
+			$this->db->where("correo =",$user);
+			$this->db->where("password =",$pass);
 
-		$this->db->from($this->tbl_users);
-		$query = $this->db->get();
+			$this->db->from($this->tbl_users);
+			$query = $this->db->get();
 
-		$numberOfUsers = $query->num_rows();
-
-		return $numberOfUsers;
+			$numberOfUsers = $query->num_rows();
+			return $numberOfUsers;
+		}else
+			return 0;
 	}
 
 	//Retorna el número de usuarios con el nombre indicado
 	//$data["user"] -> n
 	function count_usuarios_u($data){
-		$user = htmlentities($data["user"],ENT_QUOTES,'UTF-8');
+		if(
+			isset($data)
+			&& isset($data['user'])
+		){
+			$user = htmlentities($data["user"],ENT_QUOTES,'UTF-8');
 
-		$this->db->where("correo =", $user);
-		$this->db->from($this->tbl_users);
-		$query = $this->db->get();
+			$this->db->where("correo =", $user);
+			$this->db->from($this->tbl_users);
+			$query = $this->db->get();
 
-		$numberOfUsers = $query->num_rows();
+			$numberOfUsers = $query->num_rows();
 
-		return $numberOfUsers;
+			return $numberOfUsers;
+		}else return 0;
 	}
 
 	//Retorna el usuario indicado y mensajes de estado, usando su password como credencial de acceso
