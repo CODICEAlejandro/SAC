@@ -11,9 +11,6 @@ function sortByUsername($a, $b)
 class ControlTareas_xls extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
-
-		$this->load->library('PHPExcel.php');
-		$this->load->library('XLSSheetDriver.php');
 	}
 
 	public function retrieveData($fechaSup, $fechaInf, $idProyecto, $idConsultor, $idArea, $idCliente){
@@ -109,85 +106,62 @@ class ControlTareas_xls extends CI_Controller {
 	}
 
 	public function setExcel ($fechaSup, $fechaInf, $idProyecto, $idConsultor, $idArea, $idCliente) {
+			$this->load->model("XLSSheetDriver");
+
 			$data = $this->retrieveData($fechaSup, $fechaInf, $idProyecto, $idConsultor, $idArea, $idCliente);
-			$shDv = $this->xlssheetdriver;
-
-		    // configuramos las propiedades del documento
-		    $this->phpexcel->getProperties()->setCreator("Alejandro Segura")
-		                                 ->setLastModifiedBy("Alejandro Segura")
-		                                 ->setTitle("Reporte de rentabilidad - CODICE")
-		                                 ->setSubject("CODICE")
-		                                 ->setDescription("Reporte de rentabilidad.");
+			$xls = new $this->XLSSheetDriver();
+			$xls->setTitle("Reporte de control de tareas");
 		     
-		    // agregamos información a las celdas
-		    $sheet = $this->phpexcel->setActiveSheetIndex(0);
-
 		    //Agregar encabezados
-		    $sheet->setCellValue($shDv->getPosition(),'Consultor');
-		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Área"));
-		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Cliente"));
-		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), "Proyecto");
-		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), "Fase");
-		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), "Tiempo Estimado");
-		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), "Tiempo Real");
-		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Título"));
-		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Fecha"));
-		    $shDv->nextCol();
-		    $sheet->setCellValue($shDv->getPosition(), utf8_decode("Descripción"));
+		    $xls->setCellValue('Consultor');
+		    $xls->nextCol();
+		    $xls->setCellValue("Área");
+		    $xls->nextCol();
+		    $xls->setCellValue("Cliente");
+		    $xls->nextCol();
+		    $xls->setCellValue("Proyecto");
+		    $xls->nextCol();
+		    $xls->setCellValue("Fase");
+		    $xls->nextCol();
+		    $xls->setCellValue("Tiempo Estimado");
+		    $xls->nextCol();
+		    $xls->setCellValue("Tiempo Real");
+		    $xls->nextCol();
+		    $xls->setCellValue("Título");
+		    $xls->nextCol();
+		    $xls->setCellValue("Fecha");
+		    $xls->nextCol();
+		    $xls->setCellValue("Descripción");
+
+		    $xls->setCellBackground("FE9A2E", "A1:".$xls->getPosition());
 
 		    //Agregar contenido
-		    $shDv->gotoMark('DOCUMENT_BEGIN');
-		    for($row = 2, $k=0, $n=count($data); $k<$n; $k++, $row++){
-	    	    $shDv->gotoMark('DOCUMENT_BEGIN');
-	    		$shDv->setRow($row);
+		    for($k=0, $n=count($data); $k<$n; $k++){
+		    	$xls->nextLine();
 
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->consultor)));
-	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->area)));
-	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->cliente)));
-	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->proyecto)));
-	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->fase)));
-	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->tiempoEstimado)));
-	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->tiempoReal)));
-	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->titulo)));
-	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->creacion)));
-	    		$shDv->nextCol();
-	    		$sheet->setCellValue($shDv->getPosition(), utf8_decode(html_entity_decode($data[$k]->descripcion)));
+	    		$xls->setCellValue($data[$k]->consultor);
+	    		$xls->nextCol();
+	    		$xls->setCellValue($data[$k]->area);
+	    		$xls->nextCol();
+	    		$xls->setCellValue($data[$k]->cliente);
+	    		$xls->nextCol();
+	    		$xls->setCellValue($data[$k]->proyecto);
+	    		$xls->nextCol();
+	    		$xls->setCellValue($data[$k]->fase);
+	    		$xls->nextCol();
+	    		$xls->setCellValue($data[$k]->tiempoEstimado);
+	    		$xls->nextCol();
+	    		$xls->setCellValue($data[$k]->tiempoReal);
+	    		$xls->nextCol();
+	    		$xls->setCellValue($data[$k]->titulo);
+	    		$xls->nextCol();
+	    		$xls->setCellValue($data[$k]->creacion);
+	    		$xls->nextCol();
+	    		$xls->setCellValue($data[$k]->descripcion);
 		    }
 
-	        // Renombramos la hoja de trabajo
-	        $this->phpexcel->getActiveSheet()->setTitle('Reporte de control de tareas');
-	        
-	        // configuramos el documento para que la hoja
-	        // de trabajo número 0 sera la primera en mostrarse
-	        // al abrir el documento
-	        $this->phpexcel->setActiveSheetIndex(0);
-	        
-	        // redireccionamos la salida al navegador del cliente (Excel2007)
-	        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-	        // header('Content-Disposition: attachment;filename="reporte_rentabilidad.xls"');
-	        // header('Cache-Control: max-age=0');
-	    	header('Content-Type: application/vnd.ms-excel; encoding: UTF-8');
-	    	header('Content-Disposition: attachment;filename="reporte_control_tareas.xls"');
-	    	header('Cache-Control: max-age=0');
-
-	        $objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel5');
-	        $objWriter->save('php://output');
+		    $xls->autosizeColumns();
+		    $xls->out("Reporte_de_control_de_tareas.xls");
 	}
 }
 
