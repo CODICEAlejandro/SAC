@@ -242,15 +242,6 @@ class Reporte_master_ctrl extends CI_Controller {
 		//Almacenar datos para su posible exportación en excel
 		$this->session->set_userdata("last_query_result", $result_array);
 
-		$cotizacionesResultantes = array();
-		$numeroConceptosFacturados = 0;
-		$numeroConceptosSinFacturar = 0;
-
-		$importeFacturadoPesos = 0;
-		$importeFacturadoDolares = 0;
-		$importeNoFacturadoPesos = 0;
-		$importeNoFacturadoDolares = 0;
-
 		$data['mainData'] = $result_array;
 		
 		$data['analytics'] = array();
