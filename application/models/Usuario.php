@@ -109,5 +109,10 @@ class Usuario extends CI_Model {
 
 		return $data;
 	}
+
+	public function traerPuesto($idPuesto){
+		$this->db->where("idPuesto =", $idPuesto);
+		return $this->db->get("catusuario")->result();
+	}
 }
 ?>

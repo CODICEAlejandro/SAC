@@ -65,6 +65,7 @@ class Factura extends CI_Model {
 		$result->fechaFactura = $data['fechaFactura'];
 		$result->fechaCancelacion = $data['fechaCancelacion'];
 		$result->importeEfectivo = $data['importeEfectivo'];
+		$result->xml = $data['xml'];
 
 		for($k=0, $n = count($data['conceptos']); $k<$n; $k++){
 			$result->pushConcepto(Concepto::parseConcepto($data['conceptos'][$k]));

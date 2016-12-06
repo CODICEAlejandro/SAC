@@ -103,6 +103,7 @@ class Lectura_factura_ctrl extends CI_Controller {
 
 		$this->load->library('upload', $config);
 		$result = $this->upload->do_upload('fileXML');
+		$objFactura->xml = $fileName;
 
 		// if($result) echo "OK => ###:::### ";
 		// else print_r($this->upload->display_errors());
