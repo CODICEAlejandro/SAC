@@ -54,6 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_proveedor_ctrl" style="text-align: left;">Ir a administrador</a>
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Lectura_factura_ctrl" style="text-align: left;">Subir factura</a>
 			</div>
 		</div>
 
