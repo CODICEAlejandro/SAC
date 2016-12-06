@@ -97,12 +97,25 @@ function isFill(){
 	$("#btn-guardar-factura").prop("disabled", !flag);
 }
 
-function addMatchedSelect(){
-	var cloneSection = $("#idMatched").clone(true);
-	var appendSection = $("#append-matchCol");
+function addMatchedSelect(sender){
+	var parentRow = sender.parent().parent();
 
-	cloneSection.attr("id", "idMatched"+( $(".idMatched").size() ) );
-	cloneSection.val("-1");
+	var cloneSection = parentRow.find("#clone-match-col").clone(true);
+	var appendSection = parentRow.find("#append-section-matchCol");
+
+	var totalRel = cloneSection.find("#totalRelacionado");
+	var totalConcepto = parseFloat(parentRow.find("#montoEfectivo").val());
+	var totalAcumulado = 0;
+
+	var rowsConceptos = parentRow.find(".totalRelacionado");
+	rowsConceptos.each(function(i){
+		totalAcumulado += parseFloat($(this).val());
+	});
+
+	var totalRestante = totalConcepto - totalAcumulado;
+	totalRel.val(totalRestante);
+
+	cloneSection.attr("id", "clone-match-col"+( $(".clone-match-col").size() ) );
 
 	appendSection.append(cloneSection);
 }
@@ -111,9 +124,9 @@ $(function(){
 	initDatepicker("#fechaPago", "#fechaPagoAlt", 'dd/mm/yy', 'yy-mm-dd');
 	initDatepicker("#fechaCancelacion", "#fechaCancelacionAlt", 'dd/mm/yy', 'yy-mm-dd');
 
-	$("#btn-add-matched-select").click(function(event){
+	$(".btn-add-matched-select").click(function(event){
 		event.preventDefault();
-		addMatchedSelect();
+		addMatchedSelect($(this));
 	});
 
 	$("#folioFactura").change(function(){
@@ -169,10 +182,24 @@ $(function(){
 	$(".idMatched").change(function(){
 		var sender = $(this);
 		var proxID = parseInt(sender.closest("tr").find("#id").html());
+		var elements = sender.parent().parent().siblings();
+		var k, n;
+		var montoRelacionado = sender.parent().parent().find("#totalRelacionado").val();
 
-		factura.conceptos[proxID].idMatched = sender.val();
+		factura.conceptos[proxID].idMatched = [[sender.val(), montoRelacionado]];
+
+		elements.each(function(index){
+			montoRelacionado = $(this).find("#totalRelacionado").val();
+			factura.conceptos[proxID].idMatched.push([$(this).find("#idMatched").val(), montoRelacionado]);
+		});
+
 		isFill();
 	});
+
+	$(".totalRelacionado").change(function(){
+		$(".idMatched").change();
+	});
+
 
 	$(".tipoConcepto").change(function(){
 		var sender = $(this);
