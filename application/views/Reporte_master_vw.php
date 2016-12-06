@@ -157,10 +157,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				>
 					<tbody>
 						<tr>
-							<td>Número de cotizaciones</td>
-							<td id="numeroCotizaciones"></td>
-						</tr>
-						<tr>
 							<td>Conceptos facturados</td>
 							<td id="numeroConceptosFacturados"></td>
 						</tr>

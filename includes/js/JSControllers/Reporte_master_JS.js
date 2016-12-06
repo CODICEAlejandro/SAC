@@ -31,7 +31,6 @@ function retrieveABill(){
 
 			appendedEstadoFactura += "</select>";
 
-			$("#numeroCotizaciones").html(analytics['numeroCotizaciones']);
 			$("#numeroConceptosFacturados").html(analytics['numeroConceptosFacturados']);
 			$("#numeroConceptosSinFactura").html(analytics['numeroConceptosSinFacturar']);
 

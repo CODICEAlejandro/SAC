@@ -39,6 +39,15 @@ class Reporte_master_ctrl extends CI_Controller {
 		$fechaPagoDesde = htmlentities($fechaPagoDesde, ENT_QUOTES, 'UTF-8');
 		$fechaPagoHasta = htmlentities($fechaPagoHasta, ENT_QUOTES, 'UTF-8');
 
+		$cotizacionesResultantes = array();
+		$numeroConceptosFacturados = 0;
+		$numeroConceptosSinFacturar = 0;
+
+		$importeFacturadoPesos = 0;
+		$importeFacturadoDolares = 0;
+		$importeNoFacturadoPesos = 0;
+		$importeNoFacturadoDolares = 0;
+
 		// Obtener los todos los conceptos de las cotizaciones
 		$query1 = "select
 					ct.id id,
@@ -183,6 +192,16 @@ class Reporte_master_ctrl extends CI_Controller {
 						$concepto->idConceptoFactura .= ($concepto_factura->idConceptoFactura).", ";
 					}
 				}
+
+				if($conceptoHomogeneo->moneda == "MXN"){
+					$importeFacturadoPesos += $concepto->total;
+				}else if($conceptoHomogeneo->moneda == "USD"){
+					$importeFacturadoDolares += $concepto->total;
+				}else{
+					$importeFacturadoPesos += $concepto->total;
+				}
+
+				$numeroConceptosFacturados++;
 			}else{
 				$concepto->tipoConcepto = 'NO DISPONIBLE';
 				$concepto->folio = 'NO DISPONIBLE';
@@ -212,10 +231,16 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->subtotal = 0;
 					$concepto->total = 0;
 				}
+
+				$importeNoFacturadoPesos += $concepto->total;
+				$numeroConceptosSinFacturar++;
 			}
 
 			array_push($result_array, $concepto);
 		}
+
+		//Almacenar datos para su posible exportación en excel
+		$this->session->set_userdata("last_query_result", $result_array);
 
 		$cotizacionesResultantes = array();
 		$numeroConceptosFacturados = 0;
@@ -226,13 +251,10 @@ class Reporte_master_ctrl extends CI_Controller {
 		$importeNoFacturadoPesos = 0;
 		$importeNoFacturadoDolares = 0;
 
-		//Almacenar datos para su posible exportación en excel
-		$this->session->set_userdata("last_query_result", $result_array);
-
 		$data['mainData'] = $result_array;
 		
 		$data['analytics'] = array();
-		$data['analytics']['numeroCotizaciones'] = count($cotizacionesResultantes);
+		$data['analytics']['numeroCotizaciones'] = 0;
 		$data['analytics']['numeroConceptosFacturados'] = $numeroConceptosFacturados;
 		$data['analytics']['numeroConceptosSinFacturar'] = $numeroConceptosSinFacturar;
 
