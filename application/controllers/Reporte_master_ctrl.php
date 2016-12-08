@@ -432,7 +432,6 @@ class Reporte_master_ctrl extends CI_Controller {
 		$xls->setCellValue("Account Manager"); $xls->nextCol();
 		$xls->setCellValue("IVA"); $xls->nextCol();
 		$xls->setCellValue("Monto de IVA"); $xls->nextCol();
-		$xls->setCellValue("Importe"); $xls->nextCol();
 		$xls->setCellValue("Fecha de cancelación"); $xls->nextCol();
 		$xls->setCellValue("Contrato"); $xls->nextCol();
 		$xls->setCellValue("Nota");
@@ -468,7 +467,6 @@ class Reporte_master_ctrl extends CI_Controller {
 			$xls->setCellValue($row->accountManager); $xls->nextCol();
 			$xls->setCellValue($row->tasa); $xls->nextCol();
 			$xls->setCellValue($row->cantidadIVA); $xls->nextCol();
-			$xls->setCellValue($row->importe); $xls->nextCol();
 			$xls->setCellValue($row->fechaCancelacion); $xls->nextCol();
 			$xls->setCellValue($row->contrato); $xls->nextCol();
 			$xls->setCellValue($row->nota); $xls->nextCol();
