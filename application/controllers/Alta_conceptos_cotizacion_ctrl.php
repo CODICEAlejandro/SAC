@@ -112,11 +112,10 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 			$total_concepto = htmlentities($post["total-concepto"][$k], ENT_QUOTES, 'UTF-8');
 
 			$query_concepto = "insert into concepto_cotizacion 
-									(monto, descripcion, idTipoConcepto, referencia, idCotizacion, 
+									(descripcion, idTipoConcepto, referencia, idCotizacion, 
 									nota, cantidad, unidadDeMedida, valorUnitario, importe, 
 									idEstadoFactura, total)
 							values (
-									".$monto_concepto.",
 									'".$descripcion_concepto."',
 									".$tipo_concepto.",
 									'".$referencia_concepto."',

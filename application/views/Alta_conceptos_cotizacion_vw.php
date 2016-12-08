@@ -152,11 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 clone-section-concepto" id="clone-section-concepto" style="display: none; padding: 15px; border: 2px #aaa dotted; ">
 		<div style="margin-top: 15px; margin-bottom: 15px; padding-bottom: 15px;">
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-				<label>Monto</label>
-				<input type="text" name="monto-concepto[]" id="monto-concepto" class="form-control">
-			</div>						
-			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label>Descripción</label>
 				<input type="text" name="descripcion-concepto[]" id="descripcion-concepto" class="form-control">							
 			</div>						
@@ -178,10 +174,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<input type="text" name="nota-concepto[]" id="nota-concepto" class="form-control">
 			</div>						
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-				<label>Cantidad</label>
-				<input type="text" name="cantidad-concepto[]" id="cantidad-concepto" class="form-control">
-			</div>						
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>Unidad de medida</label>
 				<select name="unidad-medida-concepto[]" id="unidad-medida-concepto" class="form-control">
 					<option>Selecciona una opción</option>
@@ -189,10 +181,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<option value="<?php echo $u->id; ?>"><?php echo $u->clave; ?></option>
 					<?php } ?>
 				</select>
+			</div>
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<label>Cantidad</label>
+				<input type="text" name="cantidad-concepto[]" id="cantidad-concepto" class="form-control cantidad-concepto">
 			</div>						
-				<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>Valor unitario</label>
-				<input type="text" name="valor-unitario-concepto[]" id="valor-unitario-concepto" class="form-control">
+				<input type="text" name="valor-unitario-concepto[]" id="valor-unitario-concepto" class="form-control valor-unitario-concepto">
 			</div>						
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<label>Importe</label>

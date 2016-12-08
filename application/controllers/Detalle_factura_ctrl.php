@@ -10,8 +10,9 @@ class Detalle_factura_ctrl extends CI_Controller {
 		$this->load->model("RelacionConceptoFactura");
 	}
 
-	public function detallarFactura($idFactura){
+	public function detallarFactura($idFactura, $folioFactura){
 		$data['currentFactura'] = $idFactura;
+		$data['folioFactura'] = $folioFactura;
 		$data['conceptos'] = $this->Factura->traerConceptos($idFactura);
 		$data['menu'] = $this->load->view('Menu_principal', null, true);
 

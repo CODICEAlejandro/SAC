@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="container">
 		<div class="row" style="border-bottom: 2px solid #AAA; padding-bottom: 10px;">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<h4>Factura #<?php echo $currentFactura; ?></h4>
+				<h4>Factura #<?php echo $currentFactura; ?> - <?php echo $folioFactura; ?></h4>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding-right: 0px; float: right; width: 40%;">
 				<div class="form-group">
