@@ -20,6 +20,7 @@ function appendContactos(appendSection, data = null){
 		form.find("#extension").val(jEntityDecode(data.extension));
 		form.find("#idTipoContacto").val(data.idTipoContacto);
 		form.find("#nota").val(jEntityDecode(data.nota));
+		form.find("#correo").val(jEntityDecode(data.correo));
 		form.find("#sc-data-detail").hide();
 
 		form.find("form").submit(function(event){
