@@ -53,12 +53,13 @@ function submitNewContact(element){
 	var extension = form.find("#extension").val();
 	var idTipoContacto = form.find("#idTipoContacto").val();
 	var nota = form.find("#nota").val();
+	var correo = form.find("#correo").val();
 	var idPadre = $("#cCliente").val();
 
 	$.ajax({
 		url: pageController+'/nuevoContacto_AJAX',
 		method: 'post',
-		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idPadre':idPadre, 'idTipoContacto':idTipoContacto, 'nota':nota},
+		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idPadre':idPadre, 'idTipoContacto':idTipoContacto, 'nota':nota, 'correo': correo},
 		dataType: 'json',
 		success: function(response){
 			alert("Se ha realizado correctamente la operación.");
@@ -100,12 +101,14 @@ function submitEditContact(element){
 	var extension = form.find("#extension").val();
 	var idTipoContacto = form.find("#idTipoContacto").val();
 	var nota = form.find("#nota").val();
+	var correo = form.find("#correo").val();
+
 	var idPadre = section.attr("id-padre");
 
 	$.ajax({
 		url: pageController+'/editarContacto_AJAX/'+idPadre,
 		method: 'post',
-		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idTipoContacto':idTipoContacto, 'nota':nota},
+		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idTipoContacto':idTipoContacto, 'nota':nota, 'correo':correo},
 		dataType: 'json',
 		success: function(response){
 			alert("Contacto actualizado.");

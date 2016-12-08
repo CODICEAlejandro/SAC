@@ -27,15 +27,19 @@
 			>
 				<div class="form-group">
 					<div class="row">
-						<div class="col-xs-11 col-sm-11 col-md-3 col-lg-3">
+						<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
 							<label>Nombre</label>
 							<input type="text" name="nombre" id="nombre" class="form-control">
 						</div>
-						<div class="col-xs-11 col-sm-11 col-md-3 col-lg-3">
+						<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
 							<label>Apellido</label>
 							<input type="text" name="apellido" id="apellido" class="form-control">
 						</div>
-						<div class="col-xs-11 col-sm-11 col-md-4 col-lg-4">
+						<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Correo</label>
+							<input type="text" name="correo" id="correo" class="form-control">
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<label>Nota</label>
 							<input type="text" name="nota" id="nota" class="form-control">
 						</div>
