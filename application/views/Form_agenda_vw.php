@@ -35,11 +35,11 @@
 							<label>Apellido</label>
 							<input type="text" name="apellido" id="apellido" class="form-control">
 						</div>
-						<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 							<label>Correo</label>
 							<input type="text" name="correo" id="correo" class="form-control">
 						</div>
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="col-xs-11 col-sm-11 col-md-10 col-lg-10">
 							<label>Nota</label>
 							<input type="text" name="nota" id="nota" class="form-control">
 						</div>
@@ -51,7 +51,7 @@
 							<?php } ?>
 							</select>
 						</div>
-						<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<section id="sc-actions-contacto">
 								<button id="btn-ver-detalle-contacto" class="btn btn-warning" style="margin-top: 25px; width: 50%;">Ver</button>
 								<button id="btn-eliminar-contacto" class="btn btn-danger" style="margin-top: 25px;">Eliminar</button>
