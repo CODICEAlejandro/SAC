@@ -49,7 +49,7 @@ function retrieveABill(){
 				lastRow.append("<td id='col-estadoFactura'>"+appendedEstadoFactura+"</td>");
 				lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
 				lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
-				lastRow.append("<td id='col-fechaPago'>"+mainData[k].fechaPago+"</td>");
+				lastRow.append("<td><input class='form-control' id='col-fechaPago' value='"+mainData[k].fechaPago+"' style='width: 150px;'></td>");
 				lastRow.append("<td id='col-cliente'>"+mainData[k].cliente+"</td>");
 				lastRow.append("<td id='col-id'>"+mainData[k].id+"</td>");
 				lastRow.append("<td id='col-subtotal'>"+mainData[k].subtotal+"</td>");
@@ -77,6 +77,7 @@ function retrieveABill(){
 
 				lastRow.find("#estadoFacturaSelect").val(mainData[k].estadoFactura);
 				lastRow.find("#estadoFacturaSelect").attr('data-id', mainData[k].idConceptoCotizacion);
+				lastRow.find("#col-fechaPago").attr('data-id', mainData[k].idConceptoCotizacion);
 	
 				lastRow.find("#btn-save-note").click(function(){
 					var currentID = $(this).attr("data-id");
@@ -104,6 +105,13 @@ function retrieveABill(){
 					var currentEstadoFactura = $(this).val();
 
 					saveEstadoFactura(currentID, currentEstadoFactura);
+				});
+
+				lastRow.find("#col-fechaPago").change(function(){
+					var currentID = $(this).attr("data-id");
+					var fechaPago = $(this).val();
+
+					saveFechaPago(currentID, fechaPago);
 				});
 			}
 		},
@@ -185,7 +193,7 @@ function retrieveData(){
 				lastRow.append("<td id='col-estadoFactura'>"+appendedEstadoFactura+"</td>");
 				lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
 				lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
-				lastRow.append("<td id='col-fechaPago'>"+mainData[k].fechaPago+"</td>");
+				lastRow.append("<td><input class='form-control' id='col-fechaPago' value='"+mainData[k].fechaPago+"' style='width: 150px;'></td>");
 				lastRow.append("<td id='col-cliente'>"+mainData[k].cliente+"</td>");
 				lastRow.append("<td id='col-id'>"+mainData[k].id+"</td>");
 				lastRow.append("<td id='col-subtotal'>"+mainData[k].subtotal+"</td>");
@@ -213,6 +221,7 @@ function retrieveData(){
 
 				lastRow.find("#estadoFacturaSelect").val(mainData[k].idEstadoFactura);
 				lastRow.find("#estadoFacturaSelect").attr('data-id', mainData[k].id);
+				lastRow.find("#col-fechaPago").attr('data-id', mainData[k].id);
 	
 				lastRow.find("#btn-save-note").click(function(){
 					var currentID = $(this).attr("data-id");
@@ -241,6 +250,13 @@ function retrieveData(){
 
 					saveEstadoFactura(currentID, currentEstadoFactura);
 				});
+
+				lastRow.find("#col-fechaPago").change(function(){
+					var currentID = $(this).attr("data-id");
+					var fechaPago = $(this).val();
+
+					saveFechaPago(currentID, fechaPago);
+				});
 			}
 		},
 		error: function(){
@@ -268,10 +284,26 @@ function saveNote(idConceptoCotizacion, nota){
 function saveEstadoFactura(idConceptoCotizacion, idEstadoFactura){
 	var estadoPeticion = 1;
 
+	// $.ajax({
+	// 	url: baseURL+'index.php/Reporte_master_ctrl/saveEstadoFactura',
+	// 	method: 'post',
+	// 	data: {'idConceptoCotizacion': idConceptoCotizacion, 'idEstadoFactura': idEstadoFactura},
+	// 	error: function(){
+	// 		estadoPeticion = 0;
+	// 		alert("Ha ocurrido un error. Intente de nuevo, por favor.");
+	// 	}
+	// });
+
+	return estadoPeticion;
+}
+
+function saveFechaPago(idConceptoCotizacion, fechaPago){
+	var estadoPeticion = 1;
+
 	$.ajax({
-		url: baseURL+'index.php/Reporte_master_ctrl/saveEstadoFactura',
+		url: baseURL+'index.php/Reporte_master_ctrl/saveFechaPago',
 		method: 'post',
-		data: {'idConceptoCotizacion': idConceptoCotizacion, 'idEstadoFactura': idEstadoFactura},
+		data: {'idConceptoCotizacion': idConceptoCotizacion, 'fechaPago': fechaPago},
 		error: function(){
 			estadoPeticion = 0;
 			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
