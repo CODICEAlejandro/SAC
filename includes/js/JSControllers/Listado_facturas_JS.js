@@ -42,7 +42,7 @@ function retrievePageItems(filtered = true){
 
 				lastRow = table.find("tr:last-child");
 				lastRow.append("<td>"+response.data.items[k].id+"</td>");
-				lastRow.append("<td>"+response.data.items[k].folio+"</td>");
+				lastRow.append("<td id='folio'>"+response.data.items[k].folio+"</td>");
 				lastRow.append("<td>"+response.data.items[k].ordenCompra+"</td>");
 				lastRow.append("<td>"+response.data.items[k].fechaPago+"</td>");
 				lastRow.append('<td><div class="input-group"><textarea id="nota" rows="2" style="width: 95%" class="form-control">'+response.data.items[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+response.data.items[k].id+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
@@ -61,12 +61,16 @@ function retrievePageItems(filtered = true){
 				});
 
 				lastRow.find("#btn-consultar-factura").click(function(event){
-					var idFactura = $(this).closest("tr").attr("data-id");
+					var cRow = $(this).closest("tr");
 
-					window.location.replace(baseURL+'index.php/Detalle_factura_ctrl/detallarFactura/'+idFactura);
+					var idFactura = cRow.attr("data-id");
+					var folio = cRow.find("td#folio").html();
+
+					window.location.replace(baseURL+'index.php/Detalle_factura_ctrl/detallarFactura/'+idFactura+'/'+folio);
 
 					event.preventDefault();
 				});
+
 			}
 		},
 		error: function(){

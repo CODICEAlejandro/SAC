@@ -189,15 +189,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>Valor unitario</label>
 				<input type="text" name="valor-unitario-concepto[]" id="valor-unitario-concepto" class="form-control valor-unitario-concepto">
-			</div>						
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+			</div>					
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<label>IVA</label>
+				<select type="text" id="iva" class="form-control iva">
+					<option value="16">16%</option>
+					<option value="0">0%</option>
+				</select>
+			</div>					
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				<label>Importe</label>
 				<input type="text" name="importe-concepto[]" id="importe-concepto" class="form-control">
 			</div>						
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				<label>Total</label>
 				<input type="text" name="total-concepto[]" id="total-concepto" class="form-control">
-			</div>						
+			</div>				
 		</div>
 	</div>
 </body>

@@ -13,12 +13,13 @@ function appendContactos(appendSection, data = null){
 		form.attr("id", "sc_edit_contacto_"+appendSection.find("form").length);
 		form.attr("id-padre", data.id);
 
-		form.find("#nombre").val(data.nombre);
-		form.find("#apellido").val(data.apellido);
-		form.find("#lada").val(data.lada);
-		form.find("#telefono").val(data.telefono);
-		form.find("#extension").val(data.extension);
+		form.find("#nombre").val(jEntityDecode(data.nombre));
+		form.find("#apellido").val(jEntityDecode(data.apellido));
+		form.find("#lada").val(jEntityDecode(data.lada));
+		form.find("#telefono").val(jEntityDecode(data.telefono));
+		form.find("#extension").val(jEntityDecode(data.extension));
 		form.find("#idTipoContacto").val(data.idTipoContacto);
+		form.find("#nota").val(jEntityDecode(data.nota));
 		form.find("#sc-data-detail").hide();
 
 		form.find("form").submit(function(event){
@@ -51,12 +52,13 @@ function submitNewContact(element){
 	var telefono = form.find("#telefono").val();
 	var extension = form.find("#extension").val();
 	var idTipoContacto = form.find("#idTipoContacto").val();
+	var nota = form.find("#nota").val();
 	var idPadre = $("#cCliente").val();
 
 	$.ajax({
 		url: pageController+'/nuevoContacto_AJAX',
 		method: 'post',
-		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idPadre':idPadre, 'idTipoContacto':idTipoContacto},
+		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idPadre':idPadre, 'idTipoContacto':idTipoContacto, 'nota':nota},
 		dataType: 'json',
 		success: function(response){
 			alert("Se ha realizado correctamente la operación.");
@@ -97,12 +99,13 @@ function submitEditContact(element){
 	var telefono = form.find("#telefono").val();
 	var extension = form.find("#extension").val();
 	var idTipoContacto = form.find("#idTipoContacto").val();
+	var nota = form.find("#nota").val();
 	var idPadre = section.attr("id-padre");
 
 	$.ajax({
 		url: pageController+'/editarContacto_AJAX/'+idPadre,
 		method: 'post',
-		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idTipoContacto':idTipoContacto},
+		data: {'nombre':nombre, 'apellido':apellido, 'lada':lada, 'telefono':telefono, 'extension':extension, 'idTipoContacto':idTipoContacto, 'nota':nota},
 		dataType: 'json',
 		success: function(response){
 			alert("Contacto actualizado.");

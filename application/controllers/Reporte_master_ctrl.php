@@ -53,7 +53,6 @@ class Reporte_master_ctrl extends CI_Controller {
 					ct.id id,
 					ct.referencia referencia,
 					ct.descripcion descripcion,
-					ct.importe importe,
 					ct.nota nota,
 					ct.idEstadoFactura idEstadoFactura,
 					ct.idTipoConcepto idTipoConcepto,

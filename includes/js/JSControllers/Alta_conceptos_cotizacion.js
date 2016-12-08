@@ -81,6 +81,33 @@ $(function(){
 		$("#main-form").submit();
 	});
 
+	$(".valor-unitario-concepto, .cantidad-concepto, .iva").change(function(){
+		var sender = $(this);
+		var parent_section = sender.closest(".clone-section-concepto").first();
+
+		var valor_unitario = parseFloat(parent_section.find("#valor-unitario-concepto").val());
+		var cantidad = parseInt(parent_section.find("#cantidad-concepto").val());
+		var importeObj = parent_section.find("#importe-concepto");
+		var totalObj = parent_section.find("#total-concepto");
+		var iva = (parseFloat(parent_section.find("#iva").val()) / 100) + 1;
+
+		var importe, total;
+
+		importe = valor_unitario * cantidad;
+		total = importe * iva;
+
+		if(isNaN(importe) || isNaN(total)){
+			importe = "";
+			total = "";
+		}else{
+			importe = importe.toFixed(2);
+			total = total.toFixed(2);
+		}
+
+		importeObj.val(importe);
+		totalObj.val(total);
+	});
+
 	initDatepicker("#fecha_junta_arranque", "#alt_fecha_junta_arranque", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fecha_venta", "#alt_fecha_venta", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fecha_inicio_proyecto", "#alt_fecha_inicio_proyecto", "dd/mm/yy", "yy-mm-dd");

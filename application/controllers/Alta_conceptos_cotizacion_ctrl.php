@@ -99,8 +99,7 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 		$this->db->query($query_cotizacion);
 		$id_cotizacion = $this->db->insert_id();
 
-		for($k=0, $n=count($post["monto-concepto"]); $k<$n; $k++){
-			$monto_concepto = htmlentities($post["monto-concepto"][$k], ENT_QUOTES, 'UTF-8');
+		for($k=0, $n=count($post["descripcion-concepto"]); $k<$n; $k++){
 			$descripcion_concepto = htmlentities($post["descripcion-concepto"][$k], ENT_QUOTES, 'UTF-8');
 			$tipo_concepto = htmlentities($post["id-tipo-concepto"][$k], ENT_QUOTES, 'UTF-8');
 			$referencia_concepto = htmlentities($post["referencia-concepto"][$k], ENT_QUOTES, 'UTF-8');
@@ -113,7 +112,7 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 
 			$query_concepto = "insert into concepto_cotizacion 
 									(descripcion, idTipoConcepto, referencia, idCotizacion, 
-									nota, cantidad, unidadDeMedida, valorUnitario, importe, 
+									nota, cantidad, unidadDeMedida, valorUnitario, monto, 
 									idEstadoFactura, total)
 							values (
 									'".$descripcion_concepto."',
@@ -132,9 +131,9 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 			$this->db->query($query_concepto);
 			$id_concepto = $this->db->insert_id();
 
-			redirect('/Panel_control_ctrl', 'refresh');
 		}
 
+		redirect('/Panel_control_ctrl', 'refresh');
 	}
 }
 
