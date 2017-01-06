@@ -29,13 +29,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="currentRazon">Razón social</label>
-						<select class="form-control" id="currentRazon">
-							<option value="-1">Todas</option>
+						<label>Folio de la cotización</label>
+						<select class="form-control" id="currentCotizacion">
+							<option value="-1">Mostrar todas</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Consultar cotizaciones asociadas" class="btn btn-primary form-control">
+						<input type="submit" id="btn-submit-consulta" value="Consultar cotizaciones asociadas" class="btn btn-primary form-control">
 					</div>
 				</form>
 			</div>
@@ -43,12 +43,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<div class="row" style="margin-top: 15px;">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<table class="table" id="tbl-razon-social">
+				<table class="table table-bordered" id="tbl-razon-social">
 					<thead>
-						<th>Folio de cotización</th>
-						<th>Razón social asociada</th>
-						<th style="width: 60%;">Nota</th>
-						<th>Creación</th>
+						<th style="width: 5%;">Folio de cotización</th>
+						<th style="width: 20%;">Nota</th>
+						<th style="width: 5%;">Creación</th>
+						<th style="width: 70%;">Concepto - Fechas por facturar</th>
 					</thead>
 					<tbody>
 					</tbody>

@@ -54,7 +54,7 @@
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<section id="sc-actions-contacto">
 								<button id="btn-ver-detalle-contacto" class="btn btn-warning" style="margin-top: 25px; width: 50%;">Ver</button>
-								<button id="btn-eliminar-contacto" class="btn btn-danger" style="margin-top: 25px;">Eliminar</button>
+								<button id="btn-eliminar-contacto" class="btn btn-danger" style="margin-top: 25px; width: 50%;">Eliminar</button>
 							</section>
 						</div>						
 					</div>

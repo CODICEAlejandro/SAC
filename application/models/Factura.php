@@ -61,10 +61,10 @@ class Factura extends CI_Model {
 		$result->fechaPago = $data['fechaPago'];
 		$result->ordenCompra = $data['ordenCompra'];
 		$result->iva = $data['iva'];
-		$result->idCotizacion = $data['idCotizacion'];
+		//$result->idCotizacion = $data['idCotizacion'];
 		$result->fechaFactura = $data['fechaFactura'];
 		$result->fechaCancelacion = $data['fechaCancelacion'];
-		$result->importeEfectivo = $data['importeEfectivo'];
+		//$result->importeEfectivo = $data['importeEfectivo'];
 		$result->xml = $data['xml'];
 
 		for($k=0, $n = count($data['conceptos']); $k<$n; $k++){

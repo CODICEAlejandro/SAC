@@ -79,7 +79,7 @@ class Concepto extends CI_Model {
 					"monto" => $this->monto,
 					"estadoActivo" => 1,
 					"descripcion" => $this->descripcion,
-					"idTipoConcepto" => $this->idTipoConcepto,
+					//"idTipoConcepto" => $this->idTipoConcepto,
 					"referencia" => $this->referencia,
 					"recurrencia" => $this->recurrencia,
 					"contadorPagos" => 0,
@@ -97,16 +97,20 @@ class Concepto extends CI_Model {
 
 		$idConcepto = $this->insertar($data);
 
-		//Insertar relaciones del concepto actual con los conceptos en cotizaciOn
+		//Insertar relaciones del concepto actual con las fechas de factura correspondientes
 		for($k = 0, $n = count($this->idMatched); $k < $n; $k++){
+			//Obtener el importe (subtotal) de la fecha de factura
+			$result_subtotal = $this->db->query("select importe from fecha_factura where id = ".($this->idMatched[$k][0]))->row();
+			$subtotal = $result_subtotal->importe;
+
 			$queryRelacion = "INSERT INTO `concepto_factura_cotizacion` 
-							(`idConceptoFactura`, `idConceptoCotizacion`, `total`, `subtotal`, `cantidadIVA`) 
+							(`idConceptoFactura`, `idFechaFactura`, `total`, `subtotal`, `cantidadIVA`) 
 							VALUES 
 								(".$idConcepto.", 
 								".($this->idMatched[$k][0]).", 
-								".($this->idMatched[$k][1]).",
-								".(($this->idMatched[$k][1])*1.16).",
-								".(($this->idMatched[$k][1])*0.16).
+								".($subtotal*1.16).",
+								".($subtotal).",
+								".($subtotal*0.16).
 								")";
 			$this->db->query($queryRelacion);
 		}

@@ -82,6 +82,51 @@ class Lectura_factura_ctrl extends CI_Controller {
 		echo json_encode($this->db->query($query)->result());				
 	}
 
+	public function getFechasFacturacion(){
+		$idCliente = $this->input->post("idCliente");
+		$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
+
+		$queryFechas = "select
+							f.id idFechaFactura,
+							f.referencia referenciaFecha,
+							date_format(f.fecha, '%d/%m/%Y') fechaFactura,
+							ifnull(cot.folio, 'Sin cotizacion asociada') folioCotizacion
+						from
+							fecha_factura f
+							left join concepto_cotizacion con on con.id = f.idConceptoCotizacion
+							left join cotizacion cot on cot.id = con.idCotizacion
+						where
+							cot.idCliente = ".$idCliente."
+						";
+
+		$result = $this->db->query($queryFechas)->result();
+		echo json_encode($result);
+	}
+
+	public function getFechaFacturacion($idFechaFacturacion){
+		$idFechaFacturacion = htmlentities($idFechaFacturacion, ENT_QUOTES, 'UTF-8');
+
+		$queryFechas = "select
+							f.id idFechaFactura,
+							f.importe importeFecha,
+							f.referencia referenciaFecha,
+							date_format(f.fecha, '%d/%m/%Y') fechaFactura,
+							f.nota notaFecha,
+							ifnull(cot.folio, 'Sin cotizacion asociada') folioCotizacion,
+							ifnull(cas.clave, 'Sin servicio definido') claveServicio
+						from
+							fecha_factura f
+							left join concepto_cotizacion con on con.id = f.idConceptoCotizacion
+							left join cotizacion cot on cot.id = con.idCotizacion
+							left join catservicio cas on cas.id = con.idClasificacion_servicio
+						where
+							f.id = ".$idFechaFacturacion."
+						";
+
+		$result = $this->db->query($queryFechas)->row();
+		echo json_encode($result);		
+	}
+
 	public function procesarXML(){
 		// >>>>>>>>>> Subir XML
 		$file = $_FILES['fileXML'];
@@ -118,6 +163,18 @@ class Lectura_factura_ctrl extends CI_Controller {
 
 		//Registrar los namespaces en el objeto
 		$namespaces = $xml->getNameSpaces(true);
+
+		// Total, subtotal e iva de la factura
+		$generalFactura = $xml->xpath("//cfdi:Comprobante")[0]->attributes();
+		$dataFactura["subtotal"] = (float) $generalFactura->subTotal->__toString();
+		$dataFactura["total"] =  (float) $generalFactura->total->__toString();
+		$dataFactura["iva"] = 100 * ($dataFactura["total"] - $dataFactura["subtotal"]) / $dataFactura["subtotal"];
+
+		// Datos propios del receptor (Para el caso del cliente)
+		// Para el caso del proveedor, se toman los datos del emisor
+		$cliente = $xml->xpath("//cfdi:Receptor")[0]->attributes();
+		$dataReceptor["razonSocial"] = $cliente->nombre->__toString();
+		$dataReceptor["rfc"] = $cliente->rfc->__toString();
 
 		if(isset($namespaces["tfd"]))
 			$xml->registerXPathNamespace("tfd", $namespaces["tfd"]);
@@ -270,11 +327,13 @@ class Lectura_factura_ctrl extends CI_Controller {
 		$objFactura->fechaFactura = explode("T", $atributosPrincipales["fecha"]->__toString())[0];
 		$objFactura->folio = $atributosPrincipales["serie"].$atributosPrincipales["folio"];
 
+		$data["generalFactura"] = $dataFactura;
+		$data["receptor"] = $dataReceptor;
 		$data['tiposConcepto'] = $this->db->get("cattipoconcepto")->result();
 		$data['clientes'] = $this->Cliente->traerTodo();
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 		$data['factura'] = $objFactura;
-		$data['estadosFactura'] = $this->db->get("catestadofactura")->result();
+		$data['estadosFactura'] = $this->db->query("select * from catestadofactura where id = 24")->result();
 		$this->load->view("Lectura_factura_vw", $data);
 	}
 

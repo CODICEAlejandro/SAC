@@ -98,25 +98,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<?php if(isset($factura)){ ?>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					<label>RFC</label>
+					<div style="text-align: right;"><?php echo $receptor["rfc"]; ?></div>
+				</div>
+				<br>
+				<div class="form-group">
+					<label>Razón social sugerida</label>
+					<div style="text-align: right;" id="razonSocialSugerida" ><?php echo $receptor["razonSocial"]; ?></div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group">
 					<label>Cliente</label>
 					<select class="form-control" id="clienteAsociado">
-					<option value="-1">Ninguno</option>
-					<?php foreach($clientes as $cliente){ ?>
-					<option value="<?php echo $cliente->id; ?>"><?php echo $cliente->nombre; ?></option>
-					<?php } ?>
+						<option value="-1">Ninguno</option>
+						<?php foreach($clientes as $cliente){ ?>
+						<option value="<?php echo $cliente->id; ?>">
+							<?php echo $cliente->nombre; ?>		
+						</option>
+						<?php } ?>
 					</select>
 				</div>
 				<div class="form-group">
 					<label>Razón social</label>
 					<select class="form-control" id="razonSocialAsociada">
-						<option value="-1">Ninguna</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label>Cotización</label>
-					<select class="form-control" id="cotizacionAsociada">
 						<option value="-1">Ninguna</option>
 					</select>
 				</div>
@@ -128,7 +135,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 						<th>#</th>
 						<th>Match</th>
-						<th>Tipo</th>
 						<th>Cantidad</th>
 						<th>Unidad de medida</th>
 						<th>Descripción</th>
@@ -138,7 +144,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>Importe de lista</th>
 						<th>Importe total</th>
 						<th>Monto</th>
-						<th>Importe efectivo</th>
 						<th>Textos de posicion</th>
 						<th>Impuestos</th>
 						<th>Notas</th>
@@ -154,31 +159,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td id="matchCol">
 							<span id="append-section-matchCol" class="append-section-matchCol">
 								<div id="clone-match-col" class="clone-match-col">
-									<span id="append-matchCol">
-										<select class="form-control idMatched" name="idMatched[]" class="idMatched" id="idMatched" style="width: 300px;">
-										<option value="-1">Seleccione una opción</option>
-										</select>
-									</span>
-									<span id="append-totalRelacionado">
-										<input type="text" class="form-control totalRelacionado" id="totalRelacionado" name="totalRelacionado[]" style="width: 100px; text-align: right;" value="<?php echo $c->monto; ?>">
-									</span>
-									<div style="width: 100%; border-bottom: 5px solid black; margin-bottom: 8px; padding-bottom: 8px;"></div>
+									<div class="form-group">
+										<span id="append-matchCol">
+											<label>Fecha de facturación asociada</label>
+											<select class="form-control idMatched" name="idMatched[]" id="idMatched" style="width: 300px;">
+												<option value="-1">Seleccione una opción</option>
+											</select>
+										</span>
+									</div>
+									<div class="form-group">
+										<label>Importe: 
+											<span id="importeFechaFactura"></span>
+										</label>
+									</div>
+									<div class="form-group">
+										<label>Nota: 
+											<span id="notaFechaFactura"></span>
+										</label>
+									</div>
+									<div class="form-group">
+										<label>Servicio: 
+											<span id="servicioConcepto"></span>
+										</label>
+									</div>
+									<div class="form-group">
+										<div style="width: 100%; border-bottom: 5px solid black; margin-bottom: 8px; padding-bottom: 8px;"></div>
+									</div>
 								</div>
 							</span>
 
 							<button class="btn btn-primary btn-add-matched-select" style="width: 100%; margin-top: 10px;">
 								Agregar
 							</button>
-						</td>
-						<td id="tipoCol">
-							<select class="form-control tipoConcepto" id="tipoConcepto" name="tipoConcepto" style="width: 200px;">
-							<option value="-1">Seleccione una opción</option>
-							<?php foreach($tiposConcepto as $tipo){ ?>
-							<option value="<?php echo $tipo->id; ?>">
-								<?php echo $tipo->descripcion; ?>
-							</option>
-							<?php } ?>
-							</select>
 						</td>
 						<td id="cantidadCol"><?php echo $c->cantidad; ?></td>
 						<td id="unidadDeMedidaCol"><?php echo $c->unidadDeMedida; ?></td>
@@ -189,9 +201,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td id="importeListaCol"><?php echo $c->importeLista; ?></td>
 						<td id="importeCol"><?php echo $c->importe; ?></td>
 						<td id="montoCol"><?php echo $c->monto; ?></td>
-						<td id="montoEfectivoCol">
-							<input type="text" class="form-control montoEfectivo" id="montoEfectivo" style="width: 100px; text-align: right;" value="<?php echo $c->monto; ?>">
-						</td>
 						<td id="textosDePosicionCol"><?php echo $c->textosDePosicion; ?></td>
 						<td id="impuestosCol">
 							<?php foreach($c->impuestos as $i){ ?>
@@ -311,7 +320,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label for="estadoFactura">Estado</label>
 				<select id="estadoFactura" class="form-control" style="margin-bottom: 15px;">
-					<option value="-1">Seleccione una opción</option>
 				<?php foreach($estadosFactura as $e){ ?>
 					<option value="<?php echo $e->id; ?>"><?php echo $e->descripcion; ?></option>
 				<?php } ?>
@@ -341,13 +349,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label for="ivaFactura">IVA</label>
-				<input type="text" id="ivaFactura" class="form-control" style="margin-bottom: 15px;">
+				<input type="text" id="ivaFactura" class="form-control" style="margin-bottom: 15px;" value="<?php echo $generalFactura['iva']; ?> %">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label for="importeFactura">Importe</label>
-				<input type="text" id="importeFactura" class="form-control" style="margin-bottom: 15px;">
+				<input type="text" id="importeFactura" class="form-control" style="margin-bottom: 15px;" value="<?php echo $generalFactura['subtotal']; ?>">
 			</div>
 		</div>
 

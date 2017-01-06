@@ -45,16 +45,38 @@ class Cliente extends CI_Model {
 
 		$query = "SELECT
 					tc.`id` id,
-					df.`razonSocial` razonSocial,
+					ccli.`nombre` nombreCliente,
+					date_format(tc.`creacion`, '%d/%m/%Y') creacion,
+					tc.`nota` nota,
+					tc.`titulo` titulo,
+					tc.`folio` folio
+				FROM
+					`cotizacion` tc
+					INNER JOIN `catcliente` ccli ON ccli.`id` = tc.`idCliente`
+				WHERE
+					ccli.`id` = ".$idCliente."
+					AND tc.`estadoActivo` = 1
+				";
+
+		return $this->db->query($query)->result();
+	}
+
+	public function traerCotizacion($idCliente, $idCotizacion){		
+		$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
+		$idCotizacion = htmlentities($idCotizacion, ENT_QUOTES, 'UTF-8');
+
+		$query = "SELECT
+					tc.`id` id,
+					ccli.`nombre` nombreCliente,
 					date_format(tc.`creacion`, '%d/%m/%Y') creacion,
 					tc.`nota` nota
 				FROM
 					`cotizacion` tc
-					INNER JOIN `direccionfiscal` df ON df.`id` = tc.`idRazonSocial`
-					INNER JOIN `catcliente` ccli ON ccli.`id` = df.`idPadre`
+					INNER JOIN `catcliente` ccli ON ccli.`id` = tc.`idCliente`
 				WHERE
 					ccli.`id` = ".$idCliente."
 					AND tc.`estadoActivo` = 1
+					AND tc.`id` = ".$idCotizacion."
 				";
 
 		return $this->db->query($query)->result();
@@ -64,16 +86,19 @@ class Cliente extends CI_Model {
 		$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
 
 		$query = "SELECT
-					tc.*
+					tc.`id` id,
+					ccli.`nombre` nombreCliente,
+					date_format(tc.`creacion`, '%d/%m/%Y') creacion,
+					tc.`nota` nota
 				FROM
 					`cotizacion` tc
-					INNER JOIN `direccionfiscal` df ON df.`id` = tc.`idDireccionFiscal`
-					INNER JOIN `catcliente` ccli ON ccli.`id` = df.`idPadre`
+					INNER JOIN `catcliente` ccli ON ccli.`id` = tc.`idCliente`
 				WHERE
 					ccli.`id` = ".$idCliente."
 				";
 
-		return $this->db->query($query)->result();	}
+		return $this->db->query($query)->result();	
 	}
+}
 
 ?>

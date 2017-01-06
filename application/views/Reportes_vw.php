@@ -22,6 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Reporte_rentabilidad_ctrl'; ?>" style="text-align: left;">Reporte de rentabilidad</a>
 					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Reporte_control_tareas_ctrl'; ?>" style="text-align: left;">Control de tareas</a>
 					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Reporte_master_ctrl'; ?>" style="text-align: left;">Reporte master</a>
+					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Facturacion/Reporte_facturacion_ctrl'; ?>" style="text-align: left;">Reporte de facturación</a>
 				</div>
 			</div>
 		</div>		

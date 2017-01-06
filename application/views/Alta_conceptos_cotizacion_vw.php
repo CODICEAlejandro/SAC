@@ -12,6 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		var baseURL = "<?php echo base_url(); ?>";
 	</script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/mainFunctions.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/Class/ConceptoCotizacion.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_conceptos_cotizacion.js"></script>
 	<title>JOBS</title>
 
@@ -37,12 +38,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } ?>
 					</select>
 				</div>
-				<div class="form-group">
-					<label>Razón social</label>
-					<select class="form-control" id="id-razon-social" name="id-razon-social">
-						<option value="-1">Ninguna</option>
-					</select>
-				</div>
 
 				<div class="form-group">
 					<label>Cotización</label>
@@ -55,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group">
 					<label>Notas</label>
-					<textarea name="nota-cotizacion" class="form-control" rows="5"></textarea>
+					<textarea name="nota-cotizacion" id="nota-cotizacion" class="form-control" rows="5"></textarea>
 				</div>	
 			</div>
 		</div>
@@ -69,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<label>Fecha de venta</label>
 				<input type="text" class="datepicker form-control" id="fecha_venta">
-				<input type="hidden" name="alt_fecha_venta" id="fecha_venta">
+				<input type="hidden" name="alt_fecha_venta" id="alt_fecha_venta">
 			</div>
 		</div>
 
@@ -83,19 +78,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<label>Fecha de fin del proyecto</label>
 				<input type="text" class="datepicker form-control" id="fecha_fin_proyecto">
 				<input type="text" name="alt_fecha_fin_proyecto" id="alt_fecha_fin_proyecto">
-			</div>
-		</div>
-
-
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<label>Responsable</label>
-				<select class="form-control" id="id_responsable" name="id_responsable">
-				<option value="-1">Seleccione una opción</option>
-				<?php foreach($usuario as $u){ ?>
-				<option value="<?php echo $u->id; ?>"><?php echo $u->nombre; ?></option>
-				<?php } ?>
-				</select>
 			</div>
 		</div>
 
@@ -114,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label>Account Manager</label>
-				<select class="form-control" id="id_account_maneger" name="id_account_manager">
+				<select class="form-control" id="id_account_manager" name="id_account_manager">
 				<option value="-1">Seleccione una opción</option>
 				<?php foreach($account as $a){ ?>
 				<option value="<?php echo $a->id; ?>"><?php echo $a->nombre; ?></option>
@@ -138,8 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
-		<div class="row" id="append-section-concepto">
-		</div>
+		<div class="row" id="append-section-concepto"></div>
 
 		<div class="row" style="margin-top: 15px; margin-bottom: 15px;">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -157,39 +138,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<input type="text" name="descripcion-concepto[]" id="descripcion-concepto" class="form-control">							
 			</div>						
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-				<label>Tipo</label>
-				<select class="form-control" name="id-tipo-concepto[]" id="id-tipo-concepto">
+				<label>Servicio</label>
+				<select class="form-control servicio-concepto" name="servicio-concepto[]" id="servicio-concepto">
 					<option>Seleccione una opción</option>
 					<?php foreach($tipoConcepto as $t){ ?>
 					<option value="<?php echo $t->id; ?>"><?php echo $t->descripcion; ?></option>
 					<?php } ?>
 				</select>
 			</div>						
-			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<label>Clasificación</label>
+				<select class="form-control" name="clasificacion-concepto[]" id="clasificacion-concepto">
+					<option>Seleccione una opción</option>
+				</select>
+			</div>						
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<label>Referencia</label>
 				<input type="text" name="referencia-concepto[]" id="referencia-concepto" class="form-control">
 			</div>						
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label>Nota</label>
 				<input type="text" name="nota-concepto[]" id="nota-concepto" class="form-control">
 			</div>						
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-				<label>Unidad de medida</label>
-				<select name="unidad-medida-concepto[]" id="unidad-medida-concepto" class="form-control">
-					<option>Selecciona una opción</option>
-					<?php foreach($unidadMedida as $u){ ?>
-					<option value="<?php echo $u->id; ?>"><?php echo $u->clave; ?></option>
-					<?php } ?>
-				</select>
-			</div>
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-				<label>Cantidad</label>
-				<input type="text" name="cantidad-concepto[]" id="cantidad-concepto" class="form-control cantidad-concepto">
-			</div>						
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-				<label>Valor unitario</label>
-				<input type="text" name="valor-unitario-concepto[]" id="valor-unitario-concepto" class="form-control valor-unitario-concepto">
-			</div>					
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>IVA</label>
 				<select type="text" id="iva" class="form-control iva">
@@ -204,7 +174,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				<label>Total</label>
 				<input type="text" name="total-concepto[]" id="total-concepto" class="form-control">
-			</div>				
+			</div>
+
+			<div class="row" id="append-section-fecha-factura"></div>
+
+			<div class="row" style="margin-top: 15px;">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<button class="btn btn-default form-control" id="btn-add-fecha-factura">Agregar fecha de facturación</button>
+				</div>
+			</div>
 		</div>
+	</div>
+
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 clone-section-fecha-factura" id="clone-section-fecha-factura" style="display: none; border-top: 2px #999 dotted; border-bottom: 2px #999 dotted; margin: 15px 0px; padding: 15px;">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<label>Importe</label>
+			<input type="text" name="importe-fecha-factura[]" id="importe-fecha-factura" class="form-control">							
+		</div>						
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<label>Referencia</label>
+			<input type="text" name="referencia-fecha-factura[]" id="referencia-fecha-factura" class="form-control">							
+		</div>						
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<label>Nota</label>
+			<input type="text" name="nota-fecha-factura[]" id="nota-fecha-factura" class="form-control">							
+		</div>						
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<label>Fecha</label>
+			<input type="text" name="fecha-factura[]" id="fecha-factura" class="form-control datepicker">							
+			<input type="text" name="fecha-factura-alt[]" id="fecha-factura-alt" class="form-control">							
+		</div>	
 	</div>
 </body>

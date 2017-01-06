@@ -58,82 +58,95 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 		echo json_encode($this->db->query($query)->result());
 	}
 
+	public function getClasificaciones(){
+		$idServicio = $this->input->post("idServicio");
+		$idServicio = htmlentities($idServicio, ENT_QUOTES, 'UTF-8');
+
+		$result = $this->db->query("select * from catclasificacion_servicio where id_servicio =".$idServicio)->result();
+
+		echo json_encode($result);
+	}
+
 	public function guardarCotizacion(){
 		$post = $this->input->post();
 
-		$idRazonSocial = htmlentities($post["id-razon-social"], ENT_QUOTES, 'UTF-8');
-		$nota_cotizacion = htmlentities($post["nota-cotizacion"], ENT_QUOTES, 'UTF-8');
-		$fecha_junta_arranque = htmlentities($post["alt_fecha_junta_arranque"], ENT_QUOTES, 'UTF-8');
-		$fecha_inicio_proyecto = htmlentities($post["alt_fecha_inicio_proyecto"], ENT_QUOTES, 'UTF-8');
-		$fecha_fin_proyecto = htmlentities($post["alt_fecha_fin_proyecto"], ENT_QUOTES, 'UTF-8');
-		$fecha_venta = htmlentities($post["alt_fecha_venta"], ENT_QUOTES, 'UTF-8');
-		$idCerrador = htmlentities($post["id_cerrador"], ENT_QUOTES, 'UTF-8');
-		$idResponsable = htmlentities($post["id_responsable"], ENT_QUOTES, 'UTF-8');
-		$accountManager = htmlentities($post["id_account_manager"], ENT_QUOTES, 'UTF-8');
-		$titulo_cotizacion = htmlentities($post["titulo_cot"], ENT_QUOTES, 'UTF-8');
-		$folioCotizacion = htmlentities($post["folio-cotizacion"], ENT_QUOTES, 'UTF-8');
-		
+		$id_cliente = htmlentities($post["idCliente"], ENT_QUOTES, 'UTF-8');
+		$nota_cotizacion = htmlentities($post["notaCotizacion"], ENT_QUOTES, 'UTF-8');
+		$fecha_junta_arranque = htmlentities($post["fechaJuntaArranque"], ENT_QUOTES, 'UTF-8');
+		$fecha_inicio_proyecto = htmlentities($post["fechaInicioProyecto"], ENT_QUOTES, 'UTF-8');
+		$fecha_fin_proyecto = htmlentities($post["fechaFinProyecto"], ENT_QUOTES, 'UTF-8');
+		$fecha_venta = htmlentities($post["fechaVenta"], ENT_QUOTES, 'UTF-8');
+		$id_cerrador = htmlentities($post["idCerrador"], ENT_QUOTES, 'UTF-8');
+		$account_manager = htmlentities($post["accountManager"], ENT_QUOTES, 'UTF-8');
+		$titulo_cotizacion = htmlentities($post["tituloCotizacion"], ENT_QUOTES, 'UTF-8');
+		$folio_cotizacion = htmlentities($post["folioCotizacion"], ENT_QUOTES, 'UTF-8');
+
 		$query_cotizacion = "INSERT INTO `cotizacion` 
-										(`idRazonSocial`, `folio`, `estadoActivo`, `nota`, 
+										(`idCliente`, `folio`, `estadoActivo`, `nota`, 
 										`fechaJuntaArranque`, `inicioProyecto`, `finProyecto`, 
-										`fechaVenta`, `idCerrador`, `idResponsable`, `contrato`, 
+										`fechaVenta`, `idCerrador`, `contrato`, 
 										`accountManager`, `titulo`)
 							VALUES
 							(
-								".$idRazonSocial.", 
-								'".$folioCotizacion."',
+								".$id_cliente.", 
+								'".$folio_cotizacion."',
 								1, 
 								'".$nota_cotizacion."', 
 								'".$fecha_junta_arranque."', 
 								'".$fecha_inicio_proyecto."', 
 								'".$fecha_fin_proyecto."', 
 								'".$fecha_venta."', 
-								".$idCerrador.", 
-								".$idResponsable.", 
+								".$id_cerrador.", 
 								1, 
-								".$accountManager.", 
+								".$account_manager.", 
 								'".$titulo_cotizacion."'
-							);
-							";
+							)";
 
 		$this->db->query($query_cotizacion);
 		$id_cotizacion = $this->db->insert_id();
 
-		for($k=0, $n=count($post["descripcion-concepto"]); $k<$n; $k++){
-			$descripcion_concepto = htmlentities($post["descripcion-concepto"][$k], ENT_QUOTES, 'UTF-8');
-			$tipo_concepto = htmlentities($post["id-tipo-concepto"][$k], ENT_QUOTES, 'UTF-8');
-			$referencia_concepto = htmlentities($post["referencia-concepto"][$k], ENT_QUOTES, 'UTF-8');
-			$nota_concepto = htmlentities($post["nota-concepto"][$k], ENT_QUOTES, 'UTF-8');
-			$cantidad_concepto = htmlentities($post["cantidad-concepto"][$k], ENT_QUOTES, 'UTF-8');
-			$unidad_medida_concepto = htmlentities($post["unidad-medida-concepto"][$k], ENT_QUOTES, 'UTF-8');
-			$valor_unitario_concepto = htmlentities($post["valor-unitario-concepto"][$k], ENT_QUOTES, 'UTF-8');
-			$importe_concepto = htmlentities($post["importe-concepto"][$k], ENT_QUOTES, 'UTF-8');
-			$total_concepto = htmlentities($post["total-concepto"][$k], ENT_QUOTES, 'UTF-8');
+		//Insertar los conceptos con sus fechas de facturación correspondientes
+		$conceptos = json_decode($_POST["conceptos"]);
 
-			$query_concepto = "insert into concepto_cotizacion 
-									(descripcion, idTipoConcepto, referencia, idCotizacion, 
-									nota, cantidad, unidadDeMedida, valorUnitario, monto, 
-									idEstadoFactura, total)
-							values (
-									'".$descripcion_concepto."',
-									".$tipo_concepto.",
-									'".$referencia_concepto."',
-									".$id_cotizacion.",
-									'".$nota_concepto."',
-									".$cantidad_concepto.",
-									'".$unidad_medida_concepto."',
-									".$valor_unitario_concepto.",
-									".$importe_concepto.",
-									23,
-									".$total_concepto.
-								")";
+		for($k=0, $n=count($conceptos); $k<$n; $k++){
+			$c = $conceptos[$k];
 
-			$this->db->query($query_concepto);
-			$id_concepto = $this->db->insert_id();
+			$monto = $c->importe;
+			$total = $c->total;
 
+			$descripcion = $c->descripcion;
+			$idTipoConcepto = $c->servicio;
+			$idClasificacionConcepto = $c->clasificacion;
+			$referencia = $c->referencia;
+			$idCotizacion = $id_cotizacion;
+			$nota = $c->nota;
+
+			$query_insertar_concepto = "insert into concepto_cotizacion(monto,descripcion,idTipoConcepto,
+																		idClasificacionConcepto,referencia,idCotizacion,
+																		nota,total)
+										values (".$monto.",'".$descripcion."',".$idTipoConcepto.",".$idClasificacionConcepto.",'".$referencia."',
+												".$idCotizacion.",'".$nota."',".$total.")";
+
+			$this->db->query($query_cotizacion);
+			$id_concepto_cotizacion = $this->db->insert_id();
+
+			for($m=0, $numeroFechas = count($c->fechasFactura); $m<$numeroFechas; $m++){
+				$f = $c->fechasFactura[$m];
+
+				$importe = $f->importe;
+				$referencia = $f->referencia;
+				$fecha = $f->fecha;
+				$nota = $f->nota;
+				$idConceptoCotizacion = $id_concepto_cotizacion;
+
+				$query_insertar_fecha = "insert into fecha_factura (importe, referencia, fecha, nota, idConceptoCotizacion)
+										values (".$importe.",'".$referencia."','".$fecha."','".$nota."',".$idConceptoCotizacion.",23)";
+
+				$this->db->query($query_insertar_fecha);
+			}
 		}
 
-		redirect('/Panel_control_ctrl', 'refresh');
+		//redirect('/Panel_control_ctrl', 'refresh');
 	}
 }
 

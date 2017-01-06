@@ -143,10 +143,43 @@ function initDatepicker(visualContainer, altContainer, dateFormat, altFormat){
 	$(visualContainer).attr("readonly", true);
 }
 
+//Recibe los objetos jquery
+function jInitDatepicker(visualContainer, altContainer, dateFormat, altFormat){
+	visualContainer.datepicker( "destroy" );
+	visualContainer.removeClass("hasDatepicker").removeAttr('id');
+
+	altContainer.datepicker( "destroy" );
+	altContainer.removeClass("hasDatepicker").removeAttr('id');
+
+	visualContainer.datepicker({
+		dateFormat: dateFormat,
+		altFormat: altFormat,
+		altField: altContainer
+	}).datepicker('setDate', new Date());
+
+	altContainer.hide();
+	visualContainer.attr("readonly", true);
+}
 
 //Quita saltos de línea de cadena
 function removeBlanks(cad){
 	return cad.replace(/<br>|\n|\r/, ". ");
+}
+
+
+//Clona una sección indicada y la pega en otra, reasignando un id serializado
+function jCloneSection(cloneSection, appendSection, inherited){
+	var clon;
+
+	if(inherited === undefined) inherited = true;
+
+	clon = cloneSection.clone(inherited);
+	clon.attr("id", "clon-"+(appendSection.children().size()));
+	clon.show();
+
+	appendSection.append(clon);
+
+	return clon;
 }
 
 /*

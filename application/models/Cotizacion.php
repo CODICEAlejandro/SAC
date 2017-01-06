@@ -113,13 +113,12 @@ class Cotizacion extends CI_Model {
 	public function traerTodo(){
 		$query = "SELECT
 					tc.`id` id,
-					df.`razonSocial` razonSocial,
+					ccli.`nombre` nombreCliente,
 					date_format(tc.`creacion`, '%d/%m/%Y') creacion,
 					tc.`nota` nota
 				FROM
 					`cotizacion` tc
-					INNER JOIN `direccionfiscal` df ON df.`id` = tc.`idRazonSocial`
-					INNER JOIN `catcliente` ccli ON ccli.`id` = df.`idPadre`
+					INNER JOIN `catcliente` ccli ON ccli.`id` = tc.`idCliente`
 				WHERE
 					tc.`estadoActivo` = 1
 				";

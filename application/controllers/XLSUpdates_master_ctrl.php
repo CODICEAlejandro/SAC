@@ -410,6 +410,115 @@ class XLSUpdates_master_ctrl extends CI_Controller {
 		}
 	}*/
 
+	// Generar una fecha de facturación para cada concepto de cotizacion que tome como parámetros:
+	// importe <- El subtotal del concepto de la factura relacionado si existe. (concepto_factura_cotizacion(subtotal))
+	//			Si no existe, toma el importe del propio concepto (concepto_cotizacion(importe))
+	// referencia <- concepto_cotizacion(referencia)
+	// fecha <- Fecha de facturación de la factura correspondiente al concepto asociado (factura(fechaPago))
+	// nota <- concepto_cotizacion(nota)
+	// idConceptoCotizacion <- concepto_cotizacion(id)
+	// idEstadoFactura <- concepto_cotizacion(idEstadoFactura)
+
+	public function genFechasFactura(){
+		/*$queryConcepto_Cotizacion = "select
+										cc.*,
+										IFNULL(cfc.subtotal, 'SIN RELACION') subtotalConceptoFacturaRelacionado,
+										IFNULL(f.fechaPago, 'SIN FACTURA') fechaPagoFactura
+									from
+										concepto_cotizacion cc
+										left join concepto_factura_cotizacion cfc on cfc.idConceptoCotizacion = cc.id
+										left join concepto cf on cf.id = cfc.idConceptoFactura
+										left join concepto_factura_rel cfr on cfr.idConcepto = cf.id
+										left join factura f on f.id = cfr.idFactura
+									";*/
+
+		$queryConcepto_Cotizacion = "select
+										cc.*
+									from
+										concepto_cotizacion cc
+									";
+
+		$conceptos_cotizacion = $this->db->query($queryConcepto_Cotizacion)->result();
+
+		foreach($conceptos_cotizacion as $cc){
+			$query_relacional_factura = "select
+											cfc.subtotal subtotalConceptoFacturaRelacionado,
+											f.fechaPago fechaPagoFactura
+										from
+											concepto_cotizacion cc
+											inner join concepto_factura_cotizacion cfc on cfc.idConceptoCotizacion = cc.id
+											inner join concepto cf on cf.id = cfc.idConceptoFactura
+											inner join concepto_factura_rel cfr on cfr.idConcepto = cf.id
+											inner join factura f on f.id = cfr.idFactura
+										where
+											cc.id = ".($cc->id)."
+										";
+
+			$conceptos_relacionados = $this->db->query($query_relacional_factura)->result();
+
+			if(count($conceptos_relacionados) > 0){
+				//Convención: Toma la primer fecha de factura
+				$fecha = $conceptos_relacionados[0]->fechaPagoFactura;
+
+				//Recorre cada concepto asociado para realizar una sumatoria de los subtotales
+				$importe = 0;
+				foreach($conceptos_relacionados as $c_rel){
+					$importe += $c_rel->subtotalConceptoFacturaRelacionado;
+				}
+
+			}else{
+				$importe = $cc->monto;
+				$fecha = $cc->fechaPago;
+			}
+
+			$queryInsertar_FechaFactura = "insert into fecha_factura (importe, referencia, fecha, nota, idConceptoCotizacion, idEstadoFactura)
+											values (".$importe.", 
+													'".($cc->referencia)."',
+													'".$fecha."',
+													'".($cc->nota)."',
+													".($cc->id).",
+													".($cc->idEstadoFactura)."
+												)";
+
+			echo "<br> > Insertando referencia a ".($cc->id)." ... ";
+			if($this->db->query($queryInsertar_FechaFactura))
+				echo " >>> hecho <<< ";
+			else
+				echo " <<< error >>>";
+		}
+
+		echo "<br> ---- OK ----";
+	}
+
+
+	// Generar las relaciones fecha_factura <-> concepto_factura correspondientes;
+	// Donde: La relación es M:N
+	// idFechaFactura <- fecha_factura(id)
+	public function genRelationsFecha_Concepto(){
+		$queryUpdate_Relaciones = "update 
+										concepto_factura_cotizacion cfc
+										inner join concepto_cotizacion cc on cc.id = cfc.idConceptoCotizacion
+										inner join fecha_factura ff on ff.idConceptoCotizacion = cc.id
+									set
+										cfc.idFechaFactura = ff.id";
+
+
+		$querySelect_Relaciones = "select *
+									from
+										fecha_factura f
+									where
+										f.id in (
+											select
+												idFechaFactura
+											from
+												concepto_factura_cotizacion
+										)
+									";
+									
+		$queryUpdateEstado_Fecha = "";
+	}
+
+
 	//Actualiza todos los subtotales y totales de conceptos de facturación con base en su monto de iva calculado
 	public function updateMoney(){
 		$flag = true;

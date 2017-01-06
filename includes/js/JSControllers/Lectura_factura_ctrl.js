@@ -8,9 +8,23 @@ function retrieveRazonesSociales(idCliente){
 		method: 'post',
 		dataType: 'json',
 		success: function(response){
+			var razonSugerida = $("#razonSocialSugerida").html();
+			var appendedOption;
+			var flag = 0;
+
 			appendSection.append("<option value='-1'>Ninguna</option>");
 			for(k=0, n=response.length; k<n; k++){
-				appendSection.append("<option value='"+response[k].id+"'>"+response[k].razonSocial+"</option>");
+				appendedOption = "<option value='"+response[k].id+"' ";
+
+				if(flag != 1)
+					if( (response[k].razonSocial.indexOf(razonSugerida) >= 0) || (razonSugerida.indexOf(response[k].razonSocial)>=0) ){
+						appendedOption += " selected ";
+						flag = 1;
+					}
+
+				appendedOption += ">"+response[k].razonSocial+"</option>"
+
+				appendSection.append(appendedOption);
 			}
 		},
 		error: function(){
@@ -19,50 +33,39 @@ function retrieveRazonesSociales(idCliente){
 	});
 }
 
-function retrieveCotizaciones(idRazonSocial){
-	var k, n;
-	var appendSection = $("#cotizacionAsociada");
-	appendSection.find("*").remove();
+function retrieveFechasFactura(idCliente){
+	// Appens Section en este caso apunta al select donde se hacen
+	// los matches correspondientes.
+	var appendSection = $('#conceptos-tbl tbody select.idMatched');
 
 	$.ajax({
-		url: baseURL+"index.php/Lectura_factura_ctrl/getCotizaciones/"+idRazonSocial,
+		url: baseURL+'index.php/Lectura_factura_ctrl/getFechasFacturacion/'+idCliente,
 		method: 'post',
+		data: {'idCliente': idCliente},
 		dataType: 'json',
 		success: function(response){
-			appendSection.append("<option value='-1'>Ninguna</option>");
+			var k, n;
+			var appendedDescription;
+
+			// Limpieza de los select
+			appendSection.find("*").remove();
+
+			appendSection.append('<option value="-1">Ninguno</option>');
+
 			for(k=0, n=response.length; k<n; k++){
-				appendSection.append("<option value='"+response[k].id+"'>"+response[k].folio+"</option>");
-			}
+				appendedDescription =  '<option value="'+response[k].idFechaFactura+'">';
+				appendedDescription += response[k].folioCotizacion+' - ';
+				appendedDescription += response[k].referenciaFecha+' - ';
+				appendedDescription += response[k].fechaFactura;
+				appendedDescription += '</option>';
+
+				appendSection.append(appendedDescription);
+			}			
 		},
 		error: function(){
 			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
 		}
-	});	
-}
-
-function retrieveConceptosCotizacion(idCotizacion){
-	var k, m, n;
-	var appendSection = $("#conceptos-tbl tbody tr");
-
-	$.ajax({
-		url: baseURL+"index.php/Lectura_factura_ctrl/getConceptosCotizacion/"+idCotizacion,
-		method: 'post',
-		dataType: 'json',
-		success: function(response){
-			appendSection.each(function(index){
-				k = $(this).find("#idMatched");
-				k.find("*").remove();
-				
-				k.append("<option value='-1'>Seleccione una opción</option>");
-				for(m=0, n=response.length; m<n; m++){
-					k.append("<option value='"+response[m].id+"'>"+response[m].descripcion+"</option>");
-				}
-			});
-		},
-		error: function(){
-			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
-		}
-	});		
+	});
 }
 
 function isFill(){
@@ -71,8 +74,7 @@ function isFill(){
 	var folio = $("#folioFactura").val();
 	var estadoFactura = parseInt( $("#estadoFactura").val() );
 
-	var matchedElements = $(".idMatched, .tipoConcepto");
-	var tiposConcepto = $(".tipoConcepto");
+	var matchedElements = $(".idMatched");
 
 	var flag = true;
 
@@ -98,26 +100,23 @@ function isFill(){
 }
 
 function addMatchedSelect(sender){
-	var parentRow = sender.parent().parent();
+	var parentRow = sender.closest("tr");
 
 	var cloneSection = parentRow.find("#clone-match-col").clone(true);
 	var appendSection = parentRow.find("#append-section-matchCol");
 
-	var totalRel = cloneSection.find("#totalRelacionado");
-	var totalConcepto = parseFloat(parentRow.find("#montoEfectivo").val());
-	var totalAcumulado = 0;
+	var importe = cloneSection.find("span#importeFechaFactura");
+	var nota = cloneSection.find("span#notaFechaFactura");
+	var servicio = cloneSection.find("span#servicioConcepto");
 
-	var rowsConceptos = parentRow.find(".totalRelacionado");
-	rowsConceptos.each(function(i){
-		totalAcumulado += parseFloat($(this).val());
-	});
-
-	var totalRestante = totalConcepto - totalAcumulado;
-	totalRel.val(totalRestante);
 
 	cloneSection.attr("id", "clone-match-col"+( $(".clone-match-col").size() ) );
-
 	appendSection.append(cloneSection);
+
+	//Limpiar campos
+	importe.html("");
+	nota.html("");
+	servicio.html("");
 }
 
 $(function(){
@@ -151,61 +150,55 @@ $(function(){
 		factura.ordenCompra = $(this).val();
 	});
 
-	$("#ivaFactura").change(function(){
-		factura.iva = $(this).val();
-	});
-
-	$("#importeFactura").change(function(){
-		factura.importe = $(this).val();
-	});
-
-	$("#clienteAsociado").change(function(event){
-		event.preventDefault();
-
+	$("#clienteAsociado").change(function(){
 		retrieveRazonesSociales($(this).val());
-	});
-
-	$("#razonSocialAsociada").change(function(event){
-		event.preventDefault();
-
-		retrieveCotizaciones($(this).val());
-	});
-
-	$("#cotizacionAsociada").change(function(event){
-		event.preventDefault();
-		factura.idCotizacion = $(this).val();
-
-		retrieveConceptosCotizacion($(this).val());
-		isFill();
+		retrieveFechasFactura($(this).val());
 	});
 
 	$(".idMatched").change(function(){
 		var sender = $(this);
+		var idSel = sender.val();
+		var currentRow = sender.closest(".clone-match-col").first();
+
+		//ProxID es el índice en el arreglo de conceptos asociados con la factura
+		//Dicho dato no es almacenado en la BD, solo posiciona cada elemento en dicho conjunto
 		var proxID = parseInt(sender.closest("tr").find("#id").html());
-		var elements = sender.parent().parent().siblings();
+
+		//Elements apunta a cada uno de las fechas de facturación en el set del renglón actual
+		var elements = sender.closest("#matchCol").find(".clone-match-col");
+		
+		var importeFechaFactura;
 		var k, n;
-		var montoRelacionado = sender.parent().parent().find("#totalRelacionado").val();
 
-		factura.conceptos[proxID].idMatched = [[sender.val(), montoRelacionado]];
+		// Vaciar arreglo de matches actuales para el concepto en cuestión
+		// para evitar duplicación de claves
+		factura.conceptos[proxID].idMatched = new Array();
 
+		// Asociar las fechas de factura del cada renglón con el concepto 
+		// correspondiente de la factura
 		elements.each(function(index){
-			montoRelacionado = $(this).find("#totalRelacionado").val();
-			factura.conceptos[proxID].idMatched.push([$(this).find("#idMatched").val(), montoRelacionado]);
+			importeFechaFactura = $(this).find("#importeFechaFactura").html();
+			factura.conceptos[proxID].idMatched.push([$(this).find("#idMatched").val(), importeFechaFactura]);
 		});
 
-		isFill();
-	});
+		$.ajax({
+			url: baseURL+'index.php/Lectura_factura_ctrl/getFechaFacturacion/'+idSel,
+			method: 'post',
+			dataType: 'json',
+			success: function(response){
+				var importe = currentRow.find("span#importeFechaFactura");
+				var nota = currentRow.find("span#notaFechaFactura");
+				var servicio = currentRow.find("span#servicioConcepto");
 
-	$(".totalRelacionado").change(function(){
-		$(".idMatched").change();
-	});
+				importe.html(response.importeFecha);
+				nota.html(response.notaFecha);
+				servicio.html(response.claveServicio);
+			},
+			error: function(){
+				alert("Error. Intente de nuevo, por favor.");				
+			}
+		});
 
-
-	$(".tipoConcepto").change(function(){
-		var sender = $(this);
-		var proxID = parseInt(sender.closest("tr").find("#id").html());
-
-		factura.conceptos[proxID].idTipoConcepto = sender.val();
 		isFill();
 	});
 
@@ -214,13 +207,6 @@ $(function(){
 		var proxID = parseInt(sender.closest("tr").find("#id").html());
 
 		factura.conceptos[proxID].nota = sender.val();
-	});
-
-	$(".importeEfectivo").change(function(){
-		var sender = $(this);
-		var proxID = parseInt(sender.closest("tr").find("#id").html());
-
-		factura.conceptos[proxID].montoEfectivo = sender.val();
 	});
 
 	$("#notasFactura").change(function(){
@@ -245,8 +231,14 @@ $(function(){
 		});
 	});
 
+	//$("#ivaFactura").attr("readonly", true);
+	$("#importeFactura").attr("readonly", true);
+
+	factura.iva = $("#ivaFactura").val();
+	factura.importe = $("#importeFactura").val();
+	$("#estadoFactura").val(24);
 	$("#btn-guardar-factura").prop("disabled", true);
 	$("#fechaPago").change();
 	$("#fechaCancelacion").change();
-	$(".montoEfectivo").change();
+	$("#estadoFactura").change();
 });

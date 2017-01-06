@@ -18,18 +18,26 @@ class Control_cotizacion_ctrl extends CI_Controller {
 		$this->load->view('Control_cotizacion_vw', $data);
 	}
 
-	public function retrieveSocialReasons_AJAX(){
-		$result['status'] = 'OK';
-		$result['data'] = array();
+	public function cancelarConcepto(){
+		$post = $this->input->post();
 
-		$idCliente = $this->input->post('idCliente');
+		if(isset($post["idConcepto"])){
+			$idConcepto = htmlentities($post["idConcepto"], ENT_QUOTES, 'UTF-8');
 
-		if($idCliente == -1)
-			$result['data'] = $this->DireccionFiscal->traerTodo($idCliente);
-		else
-			$result['data'] = $this->DireccionFiscal->traerAsociadas($idCliente);
+			// Nota: Se cancelan las fechas de factura no facturas y asociadas al concepto en cuestión.
+			// No se cancela el concepto de la cotización.
+			$queryCancelaFechasFactura = "update 
+											fecha_factura
+										set 
+											idEstadoFactura = 22
+										where
+											idConceptoCotizacion = ".$idConcepto."
+											and idEstadoFactura = 23
+										";
+			$this->db->query($queryCancelaFechasFactura);
 
-		echo json_encode($result);
+			echo "Concepto y fechas asociadas cancelados";
+		}else echo "Corrupci&oacute;n de la informaci&oacute;n";
 	}
 
 	public function retrieveQuotations_AJAX(){
@@ -37,19 +45,94 @@ class Control_cotizacion_ctrl extends CI_Controller {
 		$result['data'] = array();
 
 		$idCliente = $this->input->post('idCliente');
-		$idRazonSocial = $this->input->post('idRazonSocial');
+		$idCotizacion = $this->input->post('idCotizacion');
 
-		if($idRazonSocial != -1)
-			$result['data'] = $this->DireccionFiscal->traerCotizaciones($idRazonSocial);
-		else{
-			if($idCliente != -1)
-				$result['data'] = $this->Cliente->traerCotizaciones($idCliente);
+		if($idCliente != -1){
+			if($idCotizacion == -1)
+				$cotizaciones = $this->Cliente->traerCotizaciones($idCliente);
 			else
-				$result['data'] = $this->Cotizacion->traerTodo();
+				$cotizaciones = $this->Cliente->traerCotizacion($idCliente, $idCotizacion);
+		}else
+			$cotizaciones = $this->Cotizacion->traerTodo();
+		
+		//Asociar cotizaciones con conceptos_cotización y estos con fechas_factura
+		/*
+		Modelo de datos: arreglo = { 
+									[
+										"cotizacion" => cotizacion_1,
+										"conceptos" =>  [
+															[
+																"concepto" => concepto_1,
+																"fechas_factura" => [ fecha_1, fecha_N ]
+															],
+															...
+															[
+																"concepto" => concepto_N,
+																"fechas_factura" => [ fecha_1, fecha_N ]
+															]
+														]
+									],
+									...
+								}
+		*/
+
+		$resultado = array();
+		$k = 0;
+
+		foreach($cotizaciones as $c){
+			$resultado[$k]["cotizacion"] = $c;
+
+			$query_conceptos_cotizacion = "select c.id id, c.descripcion descripcion, cef.descripcion estadoFactura
+										from 
+											concepto_cotizacion c
+											left join catestadofactura cef on cef.id = c.idEstadoFactura  
+										where c.idCotizacion = ".($c->id);
+			$conceptos = $this->db->query($query_conceptos_cotizacion)->result();
+
+			$m = 0;
+			foreach($conceptos as $con){
+
+				$resultado[$k]["conceptos"][$m]["concepto"] = $con;
+				$query_fechas_factura = "select * from fecha_factura where idEstadoFactura = 23 and idConceptoCotizacion = ".($con->id);
+				$resultado[$k]["conceptos"][$m]["fechas_factura"] =  $this->db->query($query_fechas_factura)->result();
+
+				$m++;
+			}
+
+			$k++;
 		}
 
-		echo json_encode($result);
+		echo json_encode($resultado);
 	}
+
+	public function cancelarFechaFactura(){
+		$idFechaFactura = $this->input->post("idFechaFactura");
+		$idFechaFactura = htmlentities($idFechaFactura, ENT_QUOTES, 'UTF-8');
+
+		$queryFechaFactura = "update fecha_factura set idEstadoFactura = 22 where id = ".$idFechaFactura;
+		$this->db->query($queryFechaFactura);
+	}
+
+	public function guardarFechaFactura(){
+		$idFechaFactura = $this->input->post("idFechaFactura");
+		$nota = $this->input->post("nota");
+		$referencia = $this->input->post("referencia");
+		$nuevaFecha = $this->input->post("nuevaFecha");
+
+		$idFechaFactura = htmlentities($idFechaFactura, ENT_QUOTES, 'UTF-8');
+		$nota = htmlentities($nota, ENT_QUOTES, 'UTF-8');
+		$referencia = htmlentities($referencia, ENT_QUOTES, 'UTF-8');
+		$nuevaFecha = htmlentities($nuevaFecha, ENT_QUOTES, 'UTF-8');
+
+		$queryFechaFactura = "update fecha_factura 
+								set 
+									fecha = '".$nuevaFecha."', 
+									nota = '".$nota."',
+									referencia = '".$referencia."' 
+								where id = ".$idFechaFactura;
+		$this->db->query($queryFechaFactura);
+	}
+
 
 	public function saveNote_AJAX(){
 		$id = $this->input->post('id');
@@ -57,6 +140,15 @@ class Control_cotizacion_ctrl extends CI_Controller {
 		unset($data['id']);
 
 		$this->Cotizacion->actualizar($id, $data);
+	}
+
+
+	public function traerCotizaciones_AJAX(){
+		$idCliente = $this->input->post('idCliente');
+
+		$result = $this->Cliente->traerCotizaciones($idCliente);
+
+		echo json_encode($result);
 	}
 }
 
