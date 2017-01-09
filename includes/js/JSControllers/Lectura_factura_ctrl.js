@@ -193,11 +193,20 @@ $(function(){
 				importe.html(response.importeFecha);
 				nota.html(response.notaFecha);
 				servicio.html(response.claveServicio);
+
+				// Comprobar si el monto de la fecha factura seleccionada difiere en más o menos de 1
+				// var toleranciaSuperior = 1;
+				// var toleracionInferior = 1;
+				// var comparativo = parseFloat(sender.closest("tr").find("#importeCol").html());
+
+				// if( response.importeFecha>(comparativo+toleranciaSuperior) && response.importeFecha<(comparativo-toleranciaInferior) ){
+				// 	alert("Los importes difieren es más de "+toleranciaSuperior+" o en menos de "+toleracionInferior);
+				// }
 			},
 			error: function(){
 				alert("Error. Intente de nuevo, por favor.");				
 			}
-		});
+		});		
 
 		isFill();
 	});
@@ -231,7 +240,7 @@ $(function(){
 		});
 	});
 
-	//$("#ivaFactura").attr("readonly", true);
+	$("#ivaFactura").attr("readonly", true);
 	$("#importeFactura").attr("readonly", true);
 
 	factura.iva = $("#ivaFactura").val();

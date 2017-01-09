@@ -100,8 +100,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group">
-					<label>RFC</label>
-					<div style="text-align: right;"><?php echo $receptor["rfc"]; ?></div>
+					<label>Cliente sugerido</label>
+					<div style="text-align: right;"><?php echo $receptor["cliente_sugerido"]; ?></div>
 				</div>
 				<br>
 				<div class="form-group">

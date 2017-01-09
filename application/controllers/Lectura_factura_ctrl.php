@@ -173,8 +173,20 @@ class Lectura_factura_ctrl extends CI_Controller {
 		// Datos propios del receptor (Para el caso del cliente)
 		// Para el caso del proveedor, se toman los datos del emisor
 		$cliente = $xml->xpath("//cfdi:Receptor")[0]->attributes();
-		$dataReceptor["razonSocial"] = $cliente->nombre->__toString();
-		$dataReceptor["rfc"] = $cliente->rfc->__toString();
+		$dataReceptor["razonSocial"] = htmlentities($cliente->nombre->__toString(), ENT_QUOTES, 'UTF-8');
+		$dataReceptor["rfc"] = htmlentities($cliente->rfc->__toString(), ENT_QUOTES, 'UTF-8');
+
+		// Obtener el cliente sugerido si es que existe el RFC asociado con alguna de sus
+		// direcciones fiscales
+		$cliente_sugerido = $this->db->query("select cc.nombre as nombre
+											from
+												catcliente cc inner join direccionfiscal df on df.idPadre = cc.id
+											where rfc = '".$dataReceptor["rfc"]."'")->row();
+
+		if(isset($cliente_sugerido))
+			$dataReceptor["cliente_sugerido"] = $cliente_sugerido->nombre;
+		else
+			$dataReceptor["cliente_sugerido"] = "NO HAY COINCIDENCIAS";
 
 		if(isset($namespaces["tfd"]))
 			$xml->registerXPathNamespace("tfd", $namespaces["tfd"]);
