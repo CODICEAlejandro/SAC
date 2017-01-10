@@ -75,11 +75,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				return estado;
 			}
-		</script>		
+		</script>
+		<style>
+			tr td:first-child {
+				background-color: #ffdf80;
+				text-align: right;
+				width: 30%;
+			}
+
+			tr td:last-child {
+				background-color: #eee;
+				text-align: right;
+			}
+
+			table, td, th {
+				border: 1px solid #aaa !important;
+			}
+		</style>		
 	</head>
 	<body>
 		<?=$menu ?>
 		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<h3 style="float:right;"><span class="glyphicon glyphicon-ok" style="margin-right: 10px; color:orange;"></span>Terminar la tarea</h3>
+				</div>
+			</div>			
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 
@@ -91,24 +112,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						action = "<?php echo base_url().'index.php/Marcar_terminado_ctrl/actualizarTarea/'.$cTarea->id; ?>"
 						enctype = "multipart/form-data"
 					>
-						<div>
-							<label>ID de la tarea: <?php echo $cTarea->id; ?></label>
-							<br>
-							<label>Cliente: <?php echo $cTarea->cliente->nombre; ?></label>
-							<br>
-							<label>Proyecto: <?php echo $cTarea->proyecto->nombre; ?></label>
-							<br>
-							<label>Título: <?php echo $cTarea->titulo; ?></label>
-							<br>
-							<label>Descripción: <?php echo $cTarea->descripcion; ?></label>
-							<br>
-							<label>Fase: <?php echo $cTarea->fase->nombre; ?></label>
-							<br>
-							<label>Estado: <?php echo $cTarea->estado->nombre; ?></label>
-							<br>
-							<label>Tiempo estimado: <span id="TiempoEstimado"><?php echo $cTarea->tiempoEstimado; ?></span></label>
-							<br>
+						<div class="form-group">
+							<table class="table">
+								<thead>
+								</thead>
+								<tbody>
+									<tr>
+										<td>ID de la tarea</td>
+										<td><?php echo $cTarea->id; ?></td>
+									</tr>
+									<tr>
+										<td>Cliente</td>
+										<td><?php echo $cTarea->cliente->nombre; ?></td>
+									</tr>
+									<tr>
+										<td>Proyecto</td>
+										<td><?php echo $cTarea->proyecto->nombre; ?></td>
+									</tr>
+									<tr>
+										<td>Título de la tarea</td>
+										<td><?php echo $cTarea->titulo; ?></td>
+									</tr>
+									<tr>
+										<td>Descripción de la tarea</td>
+										<td><?php echo $cTarea->descripcion; ?></td>
+									</tr>
+									<tr>
+										<td>Fase</td>
+										<td><?php echo $cTarea->fase->nombre; ?></td>
+									</tr>
+									<tr>
+										<td>Estado actual de la tarea</td>
+										<td><?php echo $cTarea->estado->nombre; ?></td>
+									</tr>
+									<tr>
+										<td>Tiempo estimado</td>
+										<td><span id="TiempoEstimado"><?php echo $cTarea->tiempoEstimado; ?></span></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
+
 						<div class="form-group">
 							<label for="TiempoReal">Tiempo real</label>
 							<input 	type="text" 
@@ -132,7 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input type="hidden" name="idEstado" value="2">
 						</div>
 						<div class="form-group">
-							<input type="submit" value="Terminar" id="btnTerminar" class="btn btn-primary" disabled>
+							<input type="submit" value="Terminar" id="btnTerminar" class="btn btn-primary form-control" disabled>
 						</div>
 					</form>
 
@@ -146,23 +190,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						action = "<?php echo base_url().'index.php/Marcar_terminado_ctrl/actualizarRetrabajo/'.$cRetrabajo->id; ?>"
 						enctype = "multipart/form-data"
 					>
-						<div>
-							<label>ID de la tarea: <?php echo $cRetrabajo->tareaOrigen->id; ?></label>
-							<br>
-							<label>Cliente: <?php echo $cRetrabajo->cliente->nombre; ?></label>
-							<br>
-							<label>Proyecto: <?php echo $cRetrabajo->proyecto->nombre; ?></label>
-							<br>
-							<label>Título: <?php echo $cRetrabajo->tareaOrigen->titulo; ?></label>
-							<br>
-							<label>Descripción: <?php echo $cRetrabajo->descripcion; ?></label>
-							<br>
-							<label>Fase: <?php echo $cRetrabajo->tareaOrigen->fase->nombre; ?></label>
-							<br>
-							<label>Estado: <?php echo $cRetrabajo->estado->nombre; ?></label>
-							<br>
-							<label>Tiempo estimado: <span id="TiempoEstimado"><?php echo $cRetrabajo->tiempoEstimado; ?></span></label>
-							<br>
+						<div class="form-group">
+							<table class="table table-bordered">
+								<thead>
+								</thead>
+								<tbody>
+									<tr>
+										<td>ID de la tarea</td>
+										<td><?php echo $cRetrabajo->tareaOrigen->id; ?></td>
+									</tr>
+									<tr>
+										<td>Cliente</td>
+										<td><?php echo $cRetrabajo->cliente->nombre; ?></td>
+									</tr>
+									<tr>
+										<td>Proyecto</td>
+										<td><?php echo $cRetrabajo->proyecto->nombre; ?></td>
+									</tr>
+									<tr>
+										<td>Título de la tarea</td>
+										<td><?php echo $cRetrabajo->tareaOrigen->titulo; ?></td>
+									</tr>
+									<tr>
+										<td>Descripción de la tarea</td>
+										<td><?php echo $cRetrabajo->descripcion; ?></td>
+									</tr>
+									<tr>
+										<td>Fase</td>
+										<td><?php echo $cRetrabajo->tareaOrigen->fase->nombre; ?></td>
+									</tr>
+									<tr>
+										<td>Estado actual de la tarea</td>
+										<td><?php echo $cRetrabajo->estado->nombre; ?></td>
+									</tr>
+									<tr>
+										<td>Tiempo estimado</td>
+										<td><span id="TiempoEstimado"><?php echo $cRetrabajo->tiempoEstimado; ?></span></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 						<div class="form-group">
 							<label for="TiempoReal">Tiempo real</label>
@@ -187,7 +253,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input type="hidden" name="idEstado" value="2">
 						</div>
 						<div class="form-group">
-							<input type="submit" value="Terminar" id="btnTerminar" class="btn btn-primary" disabled>
+							<input type="submit" value="Terminar" id="btnTerminar" class="btn btn-primary form-control" disabled>
 						</div>
 					</form>
 						</div>
