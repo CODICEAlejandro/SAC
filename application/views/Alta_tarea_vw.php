@@ -71,6 +71,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
+				<h3 style="float:right;"><span class="glyphicon glyphicon-pushpin" style="margin-right: 10px; color:orange;"></span>Crear una tarea</h3>
+			</div>
+		</div>			
+
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
 
 				<table class="table">
 					<tbody>
