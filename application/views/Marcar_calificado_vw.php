@@ -211,7 +211,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<label>Archivo de evidencia: 
 					<a 
 						class="btn btn-primary"
-						href="<?php echo base_url().'index.php/Marcar_calificado_ctrl/downloadFile/'.($cRetrabajo->id).'/true/'.($cRetrabajo->archivo); ?>"
+						href="<?php echo base_url().'img/'.$cRetrabajo->archivo; ?>"
+						target="_blank"
 					>
 					Archivo adjunto
 					</a>
