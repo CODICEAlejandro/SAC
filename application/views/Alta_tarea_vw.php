@@ -47,6 +47,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			return estado
 		}
 	</script>
+
+	<style>
+		tr td:first-child {
+			background-color: #ffdf80;
+			text-align: right;
+			width: 30%;
+		}
+
+		tr td:last-child {
+			background-color: #eee;
+			text-align: right;
+		}
+
+		table, td, th {
+			border: 1px solid #aaa !important;
+		}
+	</style>
 </head>
 <body>
 	<?=$menu ?>
@@ -55,12 +72,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
 
-				<div>
-					<label><?php echo $cliente->nombre; ?></label>		
-				</div>
-				<div>
-					<label><?php echo $proyecto->nombre; ?></label>		
-				</div>
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>Cliente</td>
+							<td><?php echo $cliente->nombre; ?></td>
+						</tr>
+						<tr>
+							<td>Proyecto</td>
+							<td><?php echo $proyecto->nombre; ?></td>
+						</tr>
+					</tbody>
+				</table>
 
 				<?php if(!isset($retrabajo)){ ?>
 				<form
