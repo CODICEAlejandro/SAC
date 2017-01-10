@@ -212,7 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<a 
 						class="btn btn-primary"
 						href="<?php echo base_url().'img/'.$cRetrabajo->archivo; ?>"
-						target="_blank"
+						target="_blank" 
 					>
 					Archivo adjunto
 					</a>
