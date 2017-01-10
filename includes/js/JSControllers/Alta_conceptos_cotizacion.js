@@ -92,6 +92,41 @@ $(function(){
 
 			var clon = jCloneSection($("#clone-section-fecha-factura"), append_section_fecha);
 			jInitDatepicker(clon.find("#fecha-factura"), clon.find("#fecha-factura-alt"), "dd/mm/yy", "yy-mm-dd");
+
+			// Asociar evento de cambio de importe, para recalcular totales de concepto padre
+			clon.find("#importe-fecha-factura").change(function(){
+				var importes = append_section_fecha.find(".importe-fecha-factura");
+				var importeSuma = 0;
+				var totalSuma = 0;
+				var padre = $(this).closest(".clone-section-concepto").first();
+				var importeImp = padre.find("#importe-concepto");
+				var totalImp = padre.find("#total-concepto");
+				var iva = (parseFloat(padre.find("#iva").val()) / 100) + 1;
+				var valor = 0;
+
+				importes.each(function(i){
+					valor = $(this).val();
+					if(valor == "") valor = 0;
+					else valor = parseFloat(valor);
+
+					importeSuma += valor;
+				});
+
+				totalSuma = importeSuma * iva;
+				importeImp.val(importeSuma);
+				totalImp.val(totalSuma);
+			});
+		});
+
+		cloneSection.find("#iva, #importe-concepto").change(function(){
+			var importe = cloneSection.find("#importe-concepto").val();
+			var totalImp = cloneSection.find("#total-concepto");
+			var iva = (parseFloat(cloneSection.find("#iva").val()) / 100) + 1;
+
+			if(importe == "") importe = 0;
+			else importe = parseFloat(importe);
+
+			totalImp.val(importe*iva);
 		});
 
 		appendSection.append(cloneSection);
@@ -142,7 +177,8 @@ $(function(){
 				total : current.find("#total-concepto").val(),
 				fechasFactura : new Array(),
 				servicio: current.find("#servicio-concepto").val(),
-				clasificacion: current.find("#clasificacion-concepto").val()
+				clasificacion: current.find("#clasificacion-concepto").val(),
+				iva: current.find("#iva").val()
 			};
 
 			sc_fecha_factura = current.find("#append-section-fecha-factura .clone-section-fecha-factura");
@@ -153,7 +189,7 @@ $(function(){
 					importe : currentFecha.find("#importe-fecha-factura").val(),
 					referencia : currentFecha.find("#referencia-fecha-factura").val(),
 					nota : currentFecha.find("#nota-fecha-factura").val(),
-					fecha : currentFecha.find("#fecha-factura-alt").val()
+					fecha : currentFecha.find("input[name='fecha-factura-alt[]']").val()
 				};
 
 				concepto.fechasFactura.push(fecha_factura);
@@ -165,7 +201,7 @@ $(function(){
 		$.ajax({
 			url: baseURL+"index.php/Alta_conceptos_cotizacion_ctrl/guardarCotizacion",
 			method: 'post',
-			dataType: 'json',
+			dataType: 'text',
 			data: {"conceptos":JSON.stringify(conceptos),"idCliente":idCliente,"folioCotizacion":folioCotizacion,"notaCotizacion":notaCotizacion,"fechaJuntaArranque":fechaJuntaArranque,"fechaVenta":fechaVenta,"fechaInicioProyecto":fechaInicioProyecto,"fechaFinProyecto":fechaFinProyecto,"idCerrador":idCerrador,"accountManager":accountManager,"tituloCotizacion":tituloCotizacion},
 			success: function(response){
 				alert("Operación realizada con éxito");
@@ -176,34 +212,6 @@ $(function(){
 			}	
 		});
 	});
-
-	$(".valor-unitario-concepto, .cantidad-concepto, .iva").change(function(){
-		var sender = $(this);
-		var parent_section = sender.closest(".clone-section-concepto").first();
-
-		var valor_unitario = parseFloat(parent_section.find("#valor-unitario-concepto").val());
-		var cantidad = parseInt(parent_section.find("#cantidad-concepto").val());
-		var importeObj = parent_section.find("#importe-concepto");
-		var totalObj = parent_section.find("#total-concepto");
-		var iva = (parseFloat(parent_section.find("#iva").val()) / 100) + 1;
-
-		var importe, total;
-
-		importe = valor_unitario * cantidad;
-		total = importe * iva;
-
-		if(isNaN(importe) || isNaN(total)){
-			importe = "";
-			total = "";
-		}else{
-			importe = importe.toFixed(2);
-			total = total.toFixed(2);
-		}
-
-		importeObj.val(importe);
-		totalObj.val(total);
-	});
-
 
 	initDatepicker("#fecha_junta_arranque", "#alt_fecha_junta_arranque", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fecha_venta", "#alt_fecha_venta", "dd/mm/yy", "yy-mm-dd");

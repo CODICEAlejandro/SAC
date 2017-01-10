@@ -162,18 +162,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>						
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>IVA</label>
-				<select type="text" id="iva" class="form-control iva">
+				<select id="iva" class="form-control iva">
 					<option value="16">16%</option>
 					<option value="0">0%</option>
 				</select>
 			</div>					
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				<label>Importe</label>
-				<input type="text" name="importe-concepto[]" id="importe-concepto" class="form-control">
+				<input type="text" name="importe-concepto[]" id="importe-concepto" class="form-control" value="0" readonly="true">
 			</div>						
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				<label>Total</label>
-				<input type="text" name="total-concepto[]" id="total-concepto" class="form-control">
+				<input type="text" name="total-concepto[]" id="total-concepto" class="form-control" value="0" readonly="true">
 			</div>
 
 			<div class="row" id="append-section-fecha-factura"></div>
@@ -186,10 +186,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 clone-section-fecha-factura" id="clone-section-fecha-factura" style="display: none; border-top: 2px #999 dotted; border-bottom: 2px #999 dotted; margin: 15px 0px; padding: 15px;">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 clone-section-fecha-factura" id="clone-section-fecha-factura" style="display: none; border-top: 2px orange dotted; border-bottom: 2px orange dotted; margin: 15px 0px; padding: 15px;">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label>Importe</label>
-			<input type="text" name="importe-fecha-factura[]" id="importe-fecha-factura" class="form-control">							
+			<input type="text" name="importe-fecha-factura[]" id="importe-fecha-factura" class="importe-fecha-factura form-control">							
 		</div>						
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label>Referencia</label>

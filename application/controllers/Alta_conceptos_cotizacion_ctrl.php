@@ -82,10 +82,10 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 		$folio_cotizacion = htmlentities($post["folioCotizacion"], ENT_QUOTES, 'UTF-8');
 
 		$query_cotizacion = "INSERT INTO `cotizacion` 
-										(`idCliente`, `folio`, `estadoActivo`, `nota`, 
-										`fechaJuntaArranque`, `inicioProyecto`, `finProyecto`, 
-										`fechaVenta`, `idCerrador`, `contrato`, 
-										`accountManager`, `titulo`)
+								(`idCliente`, `folio`, `estadoActivo`, `nota`, 
+								`fechaJuntaArranque`, `inicioProyecto`, `finProyecto`, 
+								`fechaVenta`, `idCerrador`, `contrato`, 
+								`accountManager`, `titulo`)
 							VALUES
 							(
 								".$id_cliente.", 
@@ -120,14 +120,15 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 			$referencia = $c->referencia;
 			$idCotizacion = $id_cotizacion;
 			$nota = $c->nota;
+			$iva = $c->iva;
 
 			$query_insertar_concepto = "insert into concepto_cotizacion(monto,descripcion,idTipoConcepto,
-																		idClasificacionConcepto,referencia,idCotizacion,
-																		nota,total)
+																		idClasificacion_servicio,referencia,idCotizacion,
+																		nota,total,iva)
 										values (".$monto.",'".$descripcion."',".$idTipoConcepto.",".$idClasificacionConcepto.",'".$referencia."',
-												".$idCotizacion.",'".$nota."',".$total.")";
+												".$idCotizacion.",'".$nota."',".$total.",".$iva.")";
 
-			$this->db->query($query_cotizacion);
+			$this->db->query($query_insertar_concepto);
 			$id_concepto_cotizacion = $this->db->insert_id();
 
 			for($m=0, $numeroFechas = count($c->fechasFactura); $m<$numeroFechas; $m++){
@@ -139,7 +140,7 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 				$nota = $f->nota;
 				$idConceptoCotizacion = $id_concepto_cotizacion;
 
-				$query_insertar_fecha = "insert into fecha_factura (importe, referencia, fecha, nota, idConceptoCotizacion)
+				$query_insertar_fecha = "insert into fecha_factura (importe, referencia, fecha, nota, idConceptoCotizacion, idEstadoFactura)
 										values (".$importe.",'".$referencia."','".$fecha."','".$nota."',".$idConceptoCotizacion.",23)";
 
 				$this->db->query($query_insertar_fecha);
