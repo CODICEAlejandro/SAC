@@ -170,16 +170,135 @@ function removeBlanks(cad){
 //Clona una sección indicada y la pega en otra, reasignando un id serializado
 function jCloneSection(cloneSection, appendSection, inherited){
 	var clon;
+	var newID;
 
 	if(inherited === undefined) inherited = true;
 
 	clon = cloneSection.clone(inherited);
-	clon.attr("id", "clon-"+(appendSection.children().size()));
+	newID = cloneSection.attr("id")+"-clon-"+(appendSection.children().size())
+
+	clon.attr("id", newID);
 	clon.show();
 
 	appendSection.append(clon);
 
-	return clon;
+	return appendSection.find("#"+newID);
+}
+
+//Append after text
+function insertAfterElement(arrElements, message, classT){
+	var k, n;
+
+	for(k=0, n=arrElements.length; k<n; k++)
+		arrElements[k].after("<div class='"+classT+"'>"+message+"</div>");
+}
+
+//Validación de selects adjuntos en selector. Si X.val() == nullValue => !filled
+function areSelected(selector, nullValue, showErrors, errorMessage){
+	var flag = 0;
+	var failAt = new Array();
+	var message = "Seleccione una opción.";
+	var k, n;
+
+	selector.each(function(index){
+		if($(this).val() === nullValue){
+			flag++;
+			failAt.push(selector.eq(index));
+		}
+	});
+
+	if(typeof showErrors !== 'undefined'){
+		if(showErrors){
+			if(typeof errorMessage !== 'undefined'){
+				message = errorMessage;
+			}
+
+			insertAfterElement(failAt, message, 'AErrorMessage');
+		}
+	}
+
+	return {'status': flag, 'failAt': failAt};
+}
+
+//Validación de campos que deben ser numéricos
+function areNumeric(selector, showErrors, errorMessage){
+	var flag = 0;
+	var failAt = new Array();
+	var message = "El campo debe ser numérico.";
+	var k, n;
+
+	selector.each(function(index){
+		if( !($.isNumeric($(this).val())) ){
+			flag++;
+			failAt.push(selector.eq(index));
+		}
+	});
+
+	if(typeof showErrors !== 'undefined'){
+		if(showErrors){
+			if(typeof errorMessage !== 'undefined'){
+				message = errorMessage;
+			}
+			
+			insertAfterElement(failAt, message, 'AErrorMessage');
+		}
+	}
+
+	return {'status': flag, 'failAt': failAt};	
+}
+
+//Validación de campos que no deben estar vacíos
+function areFilled(selector){
+	var flag = true;
+	var failAt = null;
+
+	selector.each(function(index){
+		if(flag){
+			if( $(this).val().trim() == '' || $(this).val().length == 0 ){
+				flag = false;
+				failAt = selector.eq(index);
+				return;
+			}
+		}
+	});
+
+	return {'status': flag, 'failAt': failAt};		
+}
+
+//Validación de longitud mínima
+function minLength(selector, length){
+	var flag = true;
+	var failAt = null;
+
+	selector.each(function(index){
+		if(flag){
+			if( $(this).val().length < length ){
+				flag = false;
+				failAt = selector.eq(index);
+				return;
+			}
+		}
+	});
+
+	return {'status': flag, 'failAt': failAt};	
+}
+
+//Validación de longitud máxima
+function minLength(selector, length){
+	var flag = true;
+	var failAt = null;
+
+	selector.each(function(index){
+		if(flag){
+			if( $(this).val().length > length ){
+				flag = false;
+				failAt = selector.eq(index);
+				return;
+			}
+		}
+	});
+
+	return {'status': flag, 'failAt': failAt};	
 }
 
 /*

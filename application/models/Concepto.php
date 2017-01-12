@@ -48,6 +48,9 @@ class Concepto extends CI_Model {
 		$result->idPeriodoRecurrencia = $data["idPeriodoRecurrencia"];
 		$result->idMatched = $data["idMatched"];
 		$result->montoEfectivo = $data["montoEfectivo"];
+		$result->idClasificacion_servicio = $data["idClasificacion_servicio"];
+		$result->iva = $data["iva"];
+		$result->total = $data["total"];
 
 		for($k=0, $n=count($data['impuestos']); $k<$n; $k++)
 			$result->pushImpuesto( Impuesto::parseImpuesto($data['impuestos'][$k]) );
@@ -62,17 +65,20 @@ class Concepto extends CI_Model {
 						"estadoActivo" => 1,
 						"descripcion" => $this->descripcion,
 						"idTipoConcepto" => $this->idTipoConcepto,
+						//"idClasificacion_servicio" => $this->idClasificacion_servicio,
 						"referencia" => $this->referencia,
 						"idCotizacion" => $this->idCotizacion,
-						"recurrencia" => $this->recurrencia,
-						"contadorPagos" => 1,
+						//"recurrencia" => $this->recurrencia,
+						//"contadorPagos" => 1,
 						"nota" => $this->nota,
-						"cantidad" => $this->cantidad,
-						"unidadDeMedida" => $this->unidadDeMedida,
-						"valorUnitario" => $this->valorUnitario,
-						"importe" => $this->importe,
-						"textosDePosicion" => $this->textosDePosicion,
-						"idPeriodoRecurrencia" => $this->idPeriodoRecurrencia
+						"iva" => $this->iva,
+						"total" => $this->total
+						//"cantidad" => $this->cantidad,
+						//"unidadDeMedida" => $this->unidadDeMedida,
+						//"valorUnitario" => $this->valorUnitario,
+						//"importe" => $this->importe,
+						//"textosDePosicion" => $this->textosDePosicion,
+						//"idPeriodoRecurrencia" => $this->idPeriodoRecurrencia
 					);
 		else{
 			$data = array(
@@ -81,18 +87,19 @@ class Concepto extends CI_Model {
 					"descripcion" => $this->descripcion,
 					//"idTipoConcepto" => $this->idTipoConcepto,
 					"referencia" => $this->referencia,
-					"recurrencia" => $this->recurrencia,
-					"contadorPagos" => 0,
+					//"recurrencia" => $this->recurrencia,
+					//"contadorPagos" => 0,
 					"nota" => $this->nota,
 					"cantidad" => $this->cantidad,
 					"unidadDeMedida" => $this->unidadDeMedida,
 					"valorUnitario" => $this->valorUnitario,
 					"importe" => $this->importe,
-					"textosDePosicion" => $this->textosDePosicion
+					"textosDePosicion" => $this->textosDePosicion,
+					"cantidadIVA" => 0
 				);
 		}
 
-		if(is_null($this->idTipoConcepto)) unset($data["idTipoConcepto"]);
+		//if(is_null($this->idTipoConcepto)) unset($data["idTipoConcepto"]);
 		//if(is_null($this->idMatched)) unset($data["idConcepto_cotizacion"]);
 
 		$idConcepto = $this->insertar($data);
