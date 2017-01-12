@@ -27,28 +27,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		.p-center {
 			text-align: center;
 		}
+
+		.progress {
+			border-radius: 0px !important;
+			height: 23px !important;
+			background: white !important;
+			background-color: white !important;
+		}
 	</style>
 </head>
 <body>
 	<?=$menu ?>
 
 	<div class="container">
-
+		<div class="row" style="background: #FFAE3C;">
+			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
 		<!-- ################################## PORCENTAJES DE AVANCE GENERALES ######################################### -->
 
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<h3>Porcentajes de avance generales</h3>
-			</div>
-
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<p>
-					<strong>Total facturado: </strong> <?php echo $resultados["porcentajes_generales"]["tf"]; ?>
-				</p>
+				<h3 style="text-align: center;">Porcentajes de avance generales</h3>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Meta roja</h4>
+				<h5>Meta roja</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -66,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Meta verde</h4>
+				<h5>Meta verde</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -85,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Meta superverde</h4>
+				<h5>Meta superverde</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -101,27 +103,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
+
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
+				<p style="text-align: center;">
+					<strong>Total facturado: </strong> 
+				</p>
+				<h1 style="text-align: center; font-size: 50px; margin-top: 20px;">
+					$ <?php echo $resultados["porcentajes_generales"]["tf"]; ?>
+				</h1>
+			</div>
+
 		</div>
 
 		<!-- ################################## PORCENTAJES DE AVANCE ######################################### -->
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
 
-
-		<div class="row">
+		<div class="row" style="background: #eee;">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<h3>Porcentajes de avance por tipo de cliente</h3>
+				<h4 style="text-align: center;">Porcentajes de avance por tipo de cliente</h4>
 			</div>
 
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-center">
-				<h3>Clientes actuales</h3>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<p>
-					<strong>Monto facturado: </strong> <?php echo $resultados["porcentajes_por_tipo"]["sa"]; ?>
-				</p>
+				<h4>Clientes actuales</h4>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Meta roja</h4>
+				<h5>Meta roja</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -139,7 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Meta verde</h4>
+				<h5>Meta verde</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -157,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Meta superverde</h4>
+				<h5>Meta superverde</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -174,17 +184,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<p style="text-align: center;">
+					<strong>Monto facturado: </strong> 
+				</p>
+				<h3 style="text-align: center;">
+					$ <?php echo $resultados["porcentajes_por_tipo"]["sa"]; ?>
+				</h3>
+			</div>
+
+
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-center">
-				<h3>Clientes nuevos</h3>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<p>
-					<strong>Monto facturado: </strong> <?php echo $resultados["porcentajes_por_tipo"]["sn"]; ?>
-				</p>
+				<h4>Clientes nuevos</h4>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Meta roja</h4>
+				<h5>Meta roja</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -202,7 +219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Meta verde</h4>
+				<h5>Meta verde</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -220,7 +237,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Meta superverde</h4>
+				<h5>Meta superverde</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -236,22 +253,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-		</div>
 
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<p style="text-align: center;">
+					<strong>Monto facturado: </strong>
+				</p>
+				<h3  style="text-align: center;">
+					$ <?php echo $resultados["porcentajes_por_tipo"]["sn"]; ?>
+				</h3>
+			</div>
+		</div>
+		
+				</div>
+			</div>
 		
 		<!-- ################################## AVANCE DE FACTURACIÓN ######################################### -->
 
 
-		<div class="row">
+		<div class="row" style="background: #FFD78A; color: black;">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<h3>Avance de facturación por tipo de cliente y proyecto</h3>
+				<h4 style="text-align: center;">Avance de facturación por tipo de cliente y proyecto</h4>
 			</div>
 
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-center">
+			<!--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-center">
 				<h3>Clientes actuales</h3>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Proyectos nuevos</h4>
+			</div>-->			
+ 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5>Proyectos nuevos</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -269,7 +297,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h4>Proyectos ya contemplados</h4>
+				<h5>Proyectos ya contemplados</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -284,6 +312,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    	<?php echo $resultados['avance_de_facturacion']['afa_t2']; ?>%
 				  	</div>
 				</div>
+			</div>
+		</div>
+
 			</div>
 		</div>
 	</div>
