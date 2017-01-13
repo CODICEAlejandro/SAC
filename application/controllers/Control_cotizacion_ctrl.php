@@ -82,10 +82,9 @@ class Control_cotizacion_ctrl extends CI_Controller {
 		foreach($cotizaciones as $c){
 			$resultado[$k]["cotizacion"] = $c;
 
-			$query_conceptos_cotizacion = "select c.id id, c.descripcion descripcion, cef.descripcion estadoFactura
+			$query_conceptos_cotizacion = "select c.id id, c.descripcion descripcion
 										from 
 											concepto_cotizacion c
-											left join catestadofactura cef on cef.id = c.idEstadoFactura  
 										where c.idCotizacion = ".($c->id);
 			$conceptos = $this->db->query($query_conceptos_cotizacion)->result();
 
