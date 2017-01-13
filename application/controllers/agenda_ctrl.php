@@ -9,7 +9,7 @@ class agenda_ctrl extends CI_Controller {
 									->query("select nombre,correo,telefono from catusuario where activo = 'S'")
 									->result();
 
-		$this->load->view("agenda_vw", $data);
+		$this->load->view("agenda_vw", $data); 
 	}
 
 }
