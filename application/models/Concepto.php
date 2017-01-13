@@ -86,7 +86,7 @@ class Concepto extends CI_Model {
 					"estadoActivo" => 1,
 					"descripcion" => $this->descripcion,
 					//"idTipoConcepto" => $this->idTipoConcepto,
-					"referencia" => $this->referencia,
+					//"referencia" => $this->referencia,
 					//"recurrencia" => $this->recurrencia,
 					//"contadorPagos" => 0,
 					"nota" => $this->nota,

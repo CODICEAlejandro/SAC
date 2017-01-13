@@ -66,6 +66,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								<p class="navbar-text">
+									<a href="<?php echo base_url().'index.php/agenda_ctrl'; ?>"
+										style="margin-right: 15px; color: black;">
+										<span class="glyphicon glyphicon-book"></span>
+									</a>
 									<?php echo $this->session->userdata('nombre'); ?>				
 								</p>
 								<img class="navbar-brand" src="<?php echo base_url().'img/logoPerfil.png'; ?>">							
