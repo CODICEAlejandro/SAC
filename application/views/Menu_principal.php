@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								<p class="navbar-text">
-									<a href="<?php echo base_url().'index.php/agenda_ctrl'; ?>"
+									<a href="<?php echo base_url().'index.php/Agenda_telefonica_ctrl'; ?>"
 										style="margin-right: 15px; color: black;">
 										<span class="glyphicon glyphicon-book"></span>
 									</a>

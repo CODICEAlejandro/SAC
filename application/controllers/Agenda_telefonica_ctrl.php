@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Agenda_ctrl extends CI_Controller {
+class Agenda_telefonica_ctrl extends CI_Controller {
 
 	public function index(){
 		$data["menu"] = $this->load->view("Menu_principal", null, true);
@@ -12,6 +12,6 @@ class Agenda_ctrl extends CI_Controller {
 		$this->load->view("agenda_vw", $data); 
 	}
 
-}
+} 
 
 ?>
