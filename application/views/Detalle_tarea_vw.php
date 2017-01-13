@@ -49,7 +49,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php if($cTarea->archivo!=''){ ?>
 				<a 
 					class="btn btn-primary"
-					href="<?php echo base_url().'files/'.$cTarea->archivo; ?>"
+					href="<?php echo base_url().'img/'.$cTarea->archivo; ?>"
+					target="__blank"
 				>
 				Archivo adjunto
 				</a>
