@@ -34,13 +34,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			background: white !important;
 			background-color: white !important;
 		}
+
+		#section-1 {	
+			background: rgba(255,218,145,1);
+			background: -moz-linear-gradient(top, rgba(255,218,145,1) 0%, rgba(255,146,10,1) 100%);
+			background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,218,145,1)), color-stop(100%, rgba(255,146,10,1)));
+			background: -webkit-linear-gradient(top, rgba(255,218,145,1) 0%, rgba(255,146,10,1) 100%);
+			background: -o-linear-gradient(top, rgba(255,218,145,1) 0%, rgba(255,146,10,1) 100%);
+			background: -ms-linear-gradient(top, rgba(255,218,145,1) 0%, rgba(255,146,10,1) 100%);
+			background: linear-gradient(to bottom, rgba(255,218,145,1) 0%, rgba(255,146,10,1) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffda91', endColorstr='#ff920a', GradientType=0 );
+		}
+
+		#section-2 {
+
+			background: rgba(255,255,255,1);
+			background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(148,148,148,1) 100%);
+			background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(148,148,148,1)));
+			background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(148,148,148,1) 100%);
+			background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(148,148,148,1) 100%);
+			background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(148,148,148,1) 100%);
+			background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(148,148,148,1) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#949494', GradientType=0 );
+
+		}
 	</style>
 </head>
 <body>
 	<?=$menu ?>
 
 	<div class="container">
-		<div class="row" style="background: #FFAE3C;">
+		<div class="row" id="section-1">
 			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
 		<!-- ################################## PORCENTAJES DE AVANCE GENERALES ######################################### -->
 
@@ -119,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
 
-		<div class="row" style="background: #eee;">
+		<div class="row" id="section-2">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<h4 style="text-align: center;">Porcentajes de avance por tipo de cliente</h4>
 			</div>
