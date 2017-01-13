@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php if($cTarea->archivo!=''){ ?>
 				<a 
 					class="btn btn-primary"
-					href="<?php echo base_url().'index.php/Marcar_calificado_ctrl/downloadFile/'.($cTarea->id).'/false/'.($cTarea->archivo); ?>"
+					href="<?php echo base_url().'files/'.$cTarea->archivo; ?>"
 				>
 				Archivo adjunto
 				</a>
