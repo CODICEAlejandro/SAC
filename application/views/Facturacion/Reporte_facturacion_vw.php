@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			border-radius: 0px !important;
 			height: 23px !important;
 			background: white !important;
-			background-color: white !important;
+			background: black !important;		
 		}
 
 		#section-1 {	
