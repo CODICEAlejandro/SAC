@@ -34,11 +34,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label>Account manager a cargo</label>
 						<select name="account" id="account" class="form-control">
-							<option>Seleccione una opción</option>
+							<option value="-1">Seleccione una opción</option>
 							<?php foreach($accounts as $c){ ?>
 							<option value="<?php echo $c->id; ?>"><?php echo $c->nombre; ?></option>
 							<?php } ?>
 						</select>
+						<div id="message_account" style="color: red;"></div>
 					</div>
 
 					<span id="append-concepto-section"></span>

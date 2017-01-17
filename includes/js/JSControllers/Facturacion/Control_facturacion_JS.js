@@ -41,6 +41,29 @@ function guardarFormulario(sender){
 	});
 }
 
+function buscarAccount(idCliente){
+	$.ajax({
+		url: baseURL+'index.php/Facturacion/Captura_facturacion_ctrl/buscarAccount',
+		method: 'post',
+		data: {'cliente': idCliente},
+		dataType: 'json',
+		success: function(response){
+			if(response.nombre != "NOT_FOUND"){
+				$("#message_account").html(response.nombre);
+				$("#account").val(response.id_account);
+				$("#account").hide();
+			}else{
+				$("#message_account").html("Sin account asignado. Seleccione una opción de arriba.");
+				$("#account").val("-1");
+				$("#account").show();
+			}
+		},
+		error: function(){
+			alert("Ha ocurrido un error. Intente de nuevo más tarde, por favor.");
+		}		
+	});
+}
+
 // ***************************
 // ******** Handlers *********
 // ***************************
@@ -66,8 +89,15 @@ function clickCloneConceptoSection(){
 	});
 }
 
+function changeCliente(){
+	$("#cliente").change(function(){
+		buscarAccount($(this).val());
+	});
+}
+
 
 $(function(){
 	clickCloneConceptoSection();
 	submitMainForm();
+	changeCliente();
 });

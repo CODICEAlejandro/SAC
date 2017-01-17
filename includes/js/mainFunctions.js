@@ -301,6 +301,55 @@ function minLength(selector, length){
 	return {'status': flag, 'failAt': failAt};	
 }
 
+// Format number
+// round = {"up" => .5 sube, "down" => .5 baja, "none" => trunca la cantidad}
+// function formatFloat(number, separator_miles, separator_millones, n_decimals, round){
+// 	var str_number = number.toString();
+// 	var arr = str_number.split(".");
+// 	var k, n;
+// 	var str_int, str_float;
+// 	var res_int, res_float;
+
+// 	if(arr.length == 2){
+// 		str_int = arr[1];
+// 		str_float = arr[0];
+
+// 		//Enteros
+// 		for(k=0, n=str_int.length; k<n; k++){
+// 			if( (k+1)%6 == 0 ){
+// 				//Millon
+// 				res_int += str_int[k]+separator_millones;
+// 			}else if( (k+1)%3 == 0 ){
+// 				//Mil
+// 				res_int += str_int[k]+separator_miles;
+// 			}else{
+// 				res_int += str_int[k];
+// 			}
+// 		}
+
+// 		//Decimales
+// 		for(k=0; k<n_decimals; k++){
+// 			if(k == (n_decimals-1)){
+// 				//Ultimo dígito que debe o no redondearse
+// 				if(round == "up"){
+// 					if(str_float[k])
+// 				}else if(round == "down"){
+
+// 				}else if(round == "none"){
+
+// 				}
+// 			}else{
+
+// 			}
+// 		}
+// 	}else if(arr.length == 1){
+// 		//Sin decimales
+// 		res_float = "";
+// 		for(k=0; k<n_decimals; k++)
+// 			res_float += "0";
+// 	}else throw "Formato incorrecto";
+// }
+
 /*
 function parseDate(datetime){
 	var date = datetime;

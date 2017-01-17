@@ -45,6 +45,23 @@ class Captura_facturacion_ctrl extends CI_Controller {
 		echo "OK";
 	}
 
+	public function buscarAccount(){
+		$cliente = htmlentities($this->input->post("cliente"), ENT_QUOTES, 'UTF-8');
+
+		$query_account = "select
+							ifnull(u.nombre, 'NOT_FOUND') nombre,
+							ifnull(u.id, 'NOT_FOUND') id_account
+						from
+							catcliente c
+							left join account_manager u on u.id = c.id_account_manager
+						where
+							c.id = ".$cliente."
+						";
+		$res_account = $this->db->query($query_account)->row();
+
+		echo json_encode($res_account);
+	}
+
 }
 
 ?>

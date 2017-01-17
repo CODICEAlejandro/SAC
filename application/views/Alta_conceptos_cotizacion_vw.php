@@ -16,6 +16,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Alta_conceptos_cotizacion.js"></script>
 	<title>JOBS</title>
 
+	<style>
+		.btn-destroy-fecha {
+			cursor: pointer;
+		}
+
+		.btn-destroy-concepto {
+			cursor: pointer;
+		}
+	</style>
+
 </head>
 <body>
 	<?=$menu; ?>
@@ -134,6 +144,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 clone-section-concepto" id="clone-section-concepto" style="display: none; padding: 15px; border: 2px #aaa dotted; ">
 		<div style="margin-top: 15px; margin-bottom: 15px; padding-bottom: 15px;">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div id="btn-destroy-concepto" class="btn-destroy-concepto" style="float:right;">
+					<span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label>Descripción</label>
 				<input type="text" name="descripcion-concepto[]" id="descripcion-concepto" class="form-control">							
 			</div>						
@@ -187,6 +202,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 clone-section-fecha-factura" id="clone-section-fecha-factura" style="display: none; border-top: 2px orange dotted; border-bottom: 2px orange dotted; margin: 15px 0px; padding: 15px;">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div id="btn-destroy-fecha" class="btn-destroy-fecha" style="float:right; color:orange;">
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label>Importe</label>
 			<input type="text" name="importe-fecha-factura[]" id="importe-fecha-factura" class="importe-fecha-factura form-control">							

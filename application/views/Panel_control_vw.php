@@ -42,7 +42,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_info_codice_ctrl" style="text-align: left;">Información de facturación</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Lectura_factura_ctrl" style="text-align: left;">Subir factura</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Alta_conceptos_cotizacion_ctrl" style="text-align: left;">Junta de arranque</a>
-				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Facturacion/Captura_facturacion_ctrl" style="text-align: left;">Captura de facturación</a>
 			</div>
 		</div>
 
@@ -58,6 +57,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Lectura_factura_proveedor_ctrl" style="text-align: left;">Subir factura</a>
 			</div>
 		</div>
+
+		<!-- Facturación -->
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h3>Facturación</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Facturacion/Captura_facturacion_ctrl" style="text-align: left;">Captura de facturación</a>
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Facturacion/Categorizacion_facturacion_ctrl" style="text-align: left;">Categorización de conceptos</a>
+			</div>
+		</div>
+
 
 		<!-- Control de Proyectos -->
 		<div class="row">

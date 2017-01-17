@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['porcentajes_generales']['par'] > 100)? 100: $resultados['porcentajes_generales']['par']; ?>%"
 					>
-				    	<?php echo $resultados['porcentajes_generales']['par']; ?>%
+				    	<?php echo number_format($resultados['porcentajes_generales']['par'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['porcentajes_generales']['pav'] > 100)? 100: $resultados['porcentajes_generales']['pav']; ?>%"
 					>
-				    	<?php echo $resultados['porcentajes_generales']['pav']; ?>%
+				    	<?php echo number_format($resultados['porcentajes_generales']['pav'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['porcentajes_generales']['pasv'] > 100)? 100: $resultados['porcentajes_generales']['pasv']; ?>%"
 					>
-				    	<?php echo $resultados['porcentajes_generales']['pasv']; ?>%
+				    	<?php echo number_format($resultados['porcentajes_generales']['pasv'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -133,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<strong>Total facturado: </strong> 
 				</p>
 				<h1 style="text-align: center; font-size: 50px; margin-top: 20px;">
-					$ <?php echo $resultados["porcentajes_generales"]["tf"]; ?>
+					$ <?php echo number_format($resultados["porcentajes_generales"]["tf"],2); ?>
 				</h1>
 			</div>
 
@@ -167,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['porcentajes_por_tipo']['par_t1'] > 100)? 100: $resultados['porcentajes_por_tipo']['par_t1']; ?>%"
 					>
-				    	<?php echo $resultados['porcentajes_por_tipo']['par_t1']; ?>%
+				    	<?php echo number_format($resultados['porcentajes_por_tipo']['par_t1'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -185,7 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['porcentajes_por_tipo']['pav_t1'] > 100)? 100: $resultados['porcentajes_por_tipo']['pav_t1']; ?>%"
 					>
-				    	<?php echo $resultados['porcentajes_por_tipo']['pav_t1']; ?>%
+				    	<?php echo number_format($resultados['porcentajes_por_tipo']['pav_t1'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -203,7 +203,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['porcentajes_por_tipo']['pasv_t1'] > 100)? 100: $resultados['porcentajes_por_tipo']['pasv_t1']; ?>%"
 					>
-				    	<?php echo $resultados['porcentajes_por_tipo']['pasv_t1']; ?>%
+				    	<?php echo number_format($resultados['porcentajes_por_tipo']['pasv_t1'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -213,7 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<strong>Monto facturado: </strong> 
 				</p>
 				<h3 style="text-align: center;">
-					$ <?php echo $resultados["porcentajes_por_tipo"]["sa"]; ?>
+					$ <?php echo number_format($resultados["porcentajes_por_tipo"]["sa"],2); ?>
 				</h3>
 			</div>
 
@@ -237,7 +237,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['porcentajes_por_tipo']['par_t2'] > 100)? 100: $resultados['porcentajes_por_tipo']['par_t2']; ?>%"
 					>
-				    	<?php echo $resultados['porcentajes_por_tipo']['par_t2']; ?>%
+				    	<?php echo number_format($resultados['porcentajes_por_tipo']['par_t2'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -255,7 +255,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['porcentajes_por_tipo']['pav_t2'] > 100)? 100: $resultados['porcentajes_por_tipo']['pav_t2']; ?>%"
 					>
-				    	<?php echo $resultados['porcentajes_por_tipo']['pav_t2']; ?>%
+				    	<?php echo number_format($resultados['porcentajes_por_tipo']['pav_t2'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -273,7 +273,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['porcentajes_por_tipo']['pasv_t2'] > 100)? 100: $resultados['porcentajes_por_tipo']['pasv_t2']; ?>%"
 					>
-				    	<?php echo $resultados['porcentajes_por_tipo']['pasv_t2']; ?>%
+				    	<?php echo number_format($resultados['porcentajes_por_tipo']['pasv_t2'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -283,7 +283,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<strong>Monto facturado: </strong>
 				</p>
 				<h3  style="text-align: center;">
-					$ <?php echo $resultados["porcentajes_por_tipo"]["sn"]; ?>
+					$ <?php echo number_format($resultados["porcentajes_por_tipo"]["sn"],2); ?>
 				</h3>
 			</div>
 		</div>
@@ -315,7 +315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['avance_de_facturacion']['afn_t2'] > 100)? 100: $resultados['avance_de_facturacion']['afn_t2']; ?>%"
 					>
-				    	<?php echo $resultados['avance_de_facturacion']['afn_t2']; ?>%
+				    	<?php echo number_format($resultados['avance_de_facturacion']['afn_t2'],2); ?>%
 				  	</div>
 				</div>
 			</div>
@@ -333,7 +333,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						aria-valuemax="100" 
 						style="width: <?php echo ($resultados['avance_de_facturacion']['afa_t2'] > 100)? 100: $resultados['avance_de_facturacion']['afa_t2']; ?>%"
 					>
-				    	<?php echo $resultados['avance_de_facturacion']['afa_t2']; ?>%
+				    	<?php echo number_format($resultados['avance_de_facturacion']['afa_t2'],2); ?>%
 				  	</div>
 				</div>
 			</div>

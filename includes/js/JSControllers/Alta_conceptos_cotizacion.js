@@ -113,8 +113,12 @@ $(function(){
 				});
 
 				totalSuma = importeSuma * iva;
-				importeImp.val(importeSuma);
-				totalImp.val(totalSuma);
+				importeImp.val(importeSuma.toFixed(2));
+				totalImp.val(totalSuma.toFixed(2));
+			});
+
+			clon.find("#btn-destroy-fecha").click(function(){
+				clon.remove();
 			});
 		});
 
@@ -126,8 +130,13 @@ $(function(){
 			if(importe == "") importe = 0;
 			else importe = parseFloat(importe);
 
-			totalImp.val(importe*iva);
+			totalImp.val((importe*iva).toFixed(2));
 		});
+
+		cloneSection.find("#btn-destroy-concepto").click(function(){
+			cloneSection.remove();
+		});
+
 
 		appendSection.append(cloneSection);
 	});

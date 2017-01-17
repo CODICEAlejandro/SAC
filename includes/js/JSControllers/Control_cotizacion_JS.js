@@ -137,7 +137,8 @@ function clickCancelaConcepto(){
 	$(".btn-cancelar-concepto").click(function(e){
 		e.preventDefault();
 
-		cancelarConcepto($(this));
+		if(confirm("¿Está seguro que desea cancelar el concepto con sus fechas asociadas?"))
+			cancelarConcepto($(this));
 	});
 }
 
@@ -145,7 +146,8 @@ function clickCancelarFechaFactura(){
 	$(".btn-cancelar-fecha").click(function(e){
 		e.preventDefault();
 
-		cancelarFechaFactura($(this));
+		if(confirm("¿Está seguro que desea cancelar esta fecha de facturación?"))
+			cancelarFechaFactura($(this));
 	});	
 }
 
@@ -160,8 +162,9 @@ function clickGuardarFechaFactura(){
 function clickCancelarConcepto(){
 	$(".btn-cancelar-concepto").click(function(e){
 		e.preventDefault();
-
-		cancelarConcepto($(this));
+	
+		if(confirm("¿Está seguro que desea cancelar el concepto con sus fechas asociadas?"))
+			cancelarConcepto($(this));
 	});
 }
 
