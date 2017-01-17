@@ -109,7 +109,6 @@ function retrieveQuotations(){
 			clickSaveNota();
 			changeNota();
 
-			clickCancelarConcepto();
 			clickCancelarFechaFactura();
 			clickGuardarFechaFactura();
 			
