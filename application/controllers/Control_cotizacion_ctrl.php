@@ -125,7 +125,7 @@ class Control_cotizacion_ctrl extends CI_Controller {
 
 		$queryFechaFactura = "update fecha_factura 
 								set 
-									fecha = '".$nuevaFecha."', 
+									fecha_final = '".$nuevaFecha."', 
 									nota = '".$nota."',
 									referencia = '".$referencia."' 
 								where id = ".$idFechaFactura;

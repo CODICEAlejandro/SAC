@@ -144,7 +144,9 @@ function initDatepicker(visualContainer, altContainer, dateFormat, altFormat){
 }
 
 //Recibe los objetos jquery
-function jInitDatepicker(visualContainer, altContainer, dateFormat, altFormat){
+function jInitDatepicker(visualContainer, altContainer, dateFormat, altFormat, defaultValue){
+	if(typeof defaultValue === "undefined") defaultValue = new Date();
+
 	visualContainer.datepicker( "destroy" );
 	visualContainer.removeClass("hasDatepicker").removeAttr('id');
 
@@ -155,7 +157,7 @@ function jInitDatepicker(visualContainer, altContainer, dateFormat, altFormat){
 		dateFormat: dateFormat,
 		altFormat: altFormat,
 		altField: altContainer
-	}).datepicker('setDate', new Date());
+	}).datepicker('setDate', defaultValue);
 
 	altContainer.hide();
 	visualContainer.attr("readonly", true);

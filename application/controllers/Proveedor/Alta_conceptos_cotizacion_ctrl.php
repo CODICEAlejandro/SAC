@@ -13,7 +13,7 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 		$this->load->model("Usuario");
 
 		$data['clientes'] = $this->db
-								 ->query("select * from catcliente where tipo = 0 and estadoActivo = 1")
+								 ->query("select * from catcliente where tipo = 1 and estadoActivo = 1")
 								 ->result();
 		$data['usuario'] = $this->Usuario->traerTodo();
 		$data['account'] = $this->Usuario->traerPuesto(5);
@@ -21,7 +21,7 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 		$data['unidadMedida'] = $this->db->query("select * from catunidadmedida")->result();
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 
-		$this->load->view("Alta_conceptos_cotizacion_vw", $data);
+		$this->load->view("Proveedor/Alta_conceptos_cotizacion_vw", $data);
 	}
 
 	public function getRazonesSociales($idCliente){

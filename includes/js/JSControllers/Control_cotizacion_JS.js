@@ -73,7 +73,7 @@ function retrieveQuotations(){
 						appendText += 		"<td>";
 						appendText +=			"<div class='row'>";
 						appendText +=				"<div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>";
-						appendText +=					"<input type='text' id='fecha-factura' class='datepicker form-control' value='"+conceptos[x]["fechas_factura"][m].fecha+"'>";
+						appendText +=					"<input type='text' id='fecha-factura' class='datepicker form-control' value='"+conceptos[x]["fechas_factura"][m].fecha_final+"'>";
 						appendText +=					"<input type='text' id='fecha-factura-alt' class='form-control'>";
 						appendText +=				"</div>";
 						appendText +=				"<div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>";
@@ -102,6 +102,7 @@ function retrieveQuotations(){
 					appendText += "</tr>";
 
 					appendSectionConceptos.append(appendText);
+
 				}
 			}
 
@@ -113,7 +114,12 @@ function retrieveQuotations(){
 			clickGuardarFechaFactura();
 			
 			$(".datepicker").each(function(){
-				jInitDatepicker($(this), $(this).siblings("#fecha-factura-alt"), 'dd/mm/yy', 'yy-mm-dd');				
+				var partes = $(this).val().split("-");
+				var dia = partes[2];
+				var mes = partes[1];
+				var anio = partes[0];
+
+				jInitDatepicker($(this), $(this).siblings("#fecha-factura-alt"), 'dd/mm/yy', 'yy-mm-dd', new Date(anio, mes, dia));				
 			});
 
 			//Vuelve a habilitar botón de consulta

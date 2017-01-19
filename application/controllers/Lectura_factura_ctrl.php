@@ -89,7 +89,7 @@ class Lectura_factura_ctrl extends CI_Controller {
 		$queryFechas = "select
 							f.id idFechaFactura,
 							f.referencia referenciaFecha,
-							date_format(f.fecha, '%d/%m/%Y') fechaFactura,
+							date_format(f.fecha_final, '%d/%m/%Y') fechaFactura,
 							ifnull(cot.folio, 'Sin cotizacion asociada') folioCotizacion
 						from
 							fecha_factura f
