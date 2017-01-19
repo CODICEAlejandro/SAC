@@ -57,6 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_proveedor_ctrl" style="text-align: left;">Ir a administrador</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Proveedor/Alta_conceptos_cotizacion_ctrl" style="text-align: left;">Alta de conceptos</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Lectura_factura_proveedor_ctrl" style="text-align: left;">Subir factura</a>
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Proveedor/Por_pagar_ctrl" style="text-align: left;">Cuentas por pagar</a>
 			</div>
 		</div>
 

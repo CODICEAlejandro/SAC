@@ -1,7 +1,7 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cobranza_ctrl extends CI_Controller {
+class Por_pagar_ctrl extends CI_Controller {
 	public function index(){
 		$data['menu'] = $this->load->view('Menu_principal', null, true);
 
@@ -16,11 +16,11 @@ class Cobranza_ctrl extends CI_Controller {
 										inner join cotizacion cot on cot.id = cc.idCotizacion
 										inner join catcliente catcli on catcli.id = cot.idCliente
 									where f.idEstadoFactura in (24,25) 
-										and catcli.tipo = 0
+										and catcli.tipo = 1
 									order by f.idEstadoFactura, f.fecha_final asc";
 
 		$data['fechas'] = $this->db->query($query_fechas_no_pagadas)->result();
-		$this->load->view("Cobranza_vw", $data);
+		$this->load->view("Proveedor/Por_pagar_vw", $data);
 	}
 
 	public function pagar($idFechaFactura){
