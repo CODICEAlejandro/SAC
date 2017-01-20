@@ -6,16 +6,17 @@ class Mailer extends CI_Model {
 
 	public function __construct(){
 		$this->load->library('PHPMailer.php');
-		$this->owner = new PHPMailer();
-		$this->owner->IsSMTP();
-		$this->owner->SMTPAuth = true;
-		$this->owner->IsHTML(true);
-		$this->owner->CharSet = 'UTF-8';
-		$this->owner->Host = "webmail.andanac.com"; 
-		$this->owner->From = "jobscodice@codice.com";
-		$this->owner->FromName = "JOBS CODICE";
-		$this->owner->Username = "jobscodice@jobscodice.codice.com";
-		$this->owner->Password = "?qfhWAuR8KlX";
+        $this->owner = new PHPMailer();
+        $this->owner->IsSMTP();
+        $this->owner->SMTPAuth = true;
+        $this->owner->IsHTML(true);
+        $this->owner->CharSet = 'UTF-8';
+        $this->owner->Host = "mail.emociondeportiva.com"; 
+        $this->owner->From = "registro@emociondeportiva.com";
+        $this->owner->FromName = "Emoción Deportiva";
+        $this->owner->Username = "registro@emociondeportiva.com";
+        $this->owner->Password = "&ru0kR3e@Ee7";
+
 		// $this->owner->Port = 587;
 	}
 
