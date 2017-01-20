@@ -32,10 +32,10 @@ class Cobranza_ctrl extends CI_Controller {
 	}
 
 	public function cancelar($idFechaFactura, $key_candidate, $action){
-		die("POLLO");
 		$idFechaFactura = htmlentities($idFechaFactura, ENT_QUOTES, 'UTF-8');
 		$query_traer_key = "select key_cancelar key from fecha_factura
 							where id = ".$idFechaFactura;
+		die("POLLO");
 		$res_key = $this->db->query($query_traer_key)->row();
 		$key = $res_key->key;
 
