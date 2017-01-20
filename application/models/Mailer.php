@@ -12,8 +12,8 @@ class Mailer extends CI_Model {
         $this->owner->IsHTML(true);
         $this->owner->CharSet = 'UTF-8';
         $this->owner->Host = "mail.emociondeportiva.com"; 
-        $this->owner->From = "registro@emociondeportiva.com";
-        $this->owner->FromName = "Emoción Deportiva";
+        $this->owner->From = "jobs@jobs.codice.com";
+        $this->owner->FromName = "JOBS";
         $this->owner->Username = "registro@emociondeportiva.com";
         $this->owner->Password = "&ru0kR3e@Ee7";
 
