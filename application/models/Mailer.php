@@ -29,7 +29,7 @@ class Mailer extends CI_Model {
 		}
 
 		if (!$this->owner->send()) {
-			echo "Mailer Error: " . $mail->ErrorInfo;
+			echo "Mailer Error: " . $this->owner->ErrorInfo;
 		} else {
 			echo "Message sent!";
 		}	
