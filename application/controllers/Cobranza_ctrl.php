@@ -37,8 +37,6 @@ class Cobranza_ctrl extends CI_Controller {
 							where id = ".$idFechaFactura;
 		$res_key = $this->db->query($query_traer_key)->row();
 		$key = $res_key->key_cancelar;
-		echo $key;
-		die("POLLO");
 
 		if($key_candidate == $key){
 			if($action == "confirma"){
