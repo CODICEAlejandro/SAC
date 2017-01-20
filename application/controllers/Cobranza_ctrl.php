@@ -92,8 +92,8 @@ class Cobranza_ctrl extends CI_Controller {
 		$body .= "<br>- Fecha recorrida: ".$f->fecha_final;
 		$body .= "<br>- Concepto relacionado: ".$f->desc_concepto;
 		$body .= "<br>- Cotización: ".$f->folio_cotizacion;
-		$body .= "<br>- Liga de confirmación: ".$url_confirmacion;
-		$body .= "<br>- Liga de refutación: ".$url_denegado;
+		$body .= "<br>- Liga de confirmación: <a href='".$url_confirmacion."' target='_blank'>CLICK</a>";
+		$body .= "<br>- Liga de refutación: <a href='".$url_denegado."' target='_blank'>CLICK</a>";
 
 		$mailer->sendEmail($subject, $body, $to);
 	}
