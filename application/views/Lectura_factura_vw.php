@@ -339,7 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="col-xs-2 col-sm-1 col-md-1 col-lg-1">
 				<label style="margin-bottom: 0;">Cancelar</label>
-				<input type="checkbox" id="estaCancelado" style="margin-top: 0;">
+				<input type="checkbox" id="estaCancelada" style="margin-top: 0;">
 			</div>
 			<div class="col-xs-10 col-sm-11 col-md-11 col-lg-11">
 				<input type="text" id="fechaCancelacion" class="form-control datepicker" style="margin-bottom: 15px;" readonly="true">

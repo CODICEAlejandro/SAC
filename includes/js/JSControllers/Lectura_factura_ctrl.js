@@ -222,9 +222,10 @@ $(function(){
 		factura.nota = $(this).val();
 	});
 
-	$("#estaCancelada").change(function(){
-		if($(this).is(":checked"))
+	$("#estaCancelada").click(function(){
+		if($(this).is(":checked")){
 			factura.estaCancelada = 1;
+		}
 		else
 			factura.estaCancelada = 0;
 	});
