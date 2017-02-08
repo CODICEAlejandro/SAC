@@ -31,6 +31,7 @@ class Factura extends CI_Model {
 	var $fechaCancelacion = "";
 	var $importeEfectivo = 0.0;
 	var $xml = "";
+	var $estaCancelada = 0;
 
 	public function __construct(){
 		parent::__construct();
@@ -66,6 +67,7 @@ class Factura extends CI_Model {
 		$result->fechaCancelacion = $data['fechaCancelacion'];
 		//$result->importeEfectivo = $data['importeEfectivo'];
 		$result->xml = $data['xml'];
+		$result->estaCancelada = $data['estaCancelada'];
 
 		for($k=0, $n = count($data['conceptos']); $k<$n; $k++){
 			$result->pushConcepto(Concepto::parseConcepto($data['conceptos'][$k]));
@@ -98,7 +100,8 @@ class Factura extends CI_Model {
 			"importe" => $this->importe,
 			"fechaFactura" => $this->fechaFactura,
 			"fechaCancelacion" => $this->fechaCancelacion,
-			"xml" => $this->xml
+			"xml" => $this->xml,
+			"estaCancelada" => $this->estaCancelada
 		);
 
 		//Depurar atributos nulos

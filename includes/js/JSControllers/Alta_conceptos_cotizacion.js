@@ -214,7 +214,7 @@ $(function(){
 			data: {"conceptos":JSON.stringify(conceptos),"idCliente":idCliente,"folioCotizacion":folioCotizacion,"notaCotizacion":notaCotizacion,"fechaJuntaArranque":fechaJuntaArranque,"fechaVenta":fechaVenta,"fechaInicioProyecto":fechaInicioProyecto,"fechaFinProyecto":fechaFinProyecto,"idCerrador":idCerrador,"accountManager":accountManager,"tituloCotizacion":tituloCotizacion},
 			success: function(response){
 				alert("Operación realizada con éxito");
-				//window.location.replace(baseURL+"index.php/Panel_control_ctrl");
+				window.location.replace(baseURL+"index.php/Panel_control_ctrl");
 			},
 			error: function(){
 				alert("Ha ocurrido un error. Intente de nuevo, por favor.");

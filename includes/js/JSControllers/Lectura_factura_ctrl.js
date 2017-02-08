@@ -222,6 +222,13 @@ $(function(){
 		factura.nota = $(this).val();
 	});
 
+	$("#estaCancelada").change(function(){
+		if($(this).is(":checked"))
+			factura.estaCancelada = 1;
+		else
+			factura.estaCancelada = 0;
+	});
+
 	$("#btn-guardar-factura").click(function(event){
 		event.preventDefault();
 
@@ -233,6 +240,7 @@ $(function(){
 			},
 			success: function(response){
 				alert("Factura generada");
+				window.location.replace(baseURL+"index.php/Panel_control_ctrl");
 			},
 			error: function(){
 				alert("Error. Intente de nuevo, por favor.");
