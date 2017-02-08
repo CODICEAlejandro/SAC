@@ -222,6 +222,14 @@ $(function(){
 		factura.nota = $(this).val();
 	});
 
+	$("#estaCancelada").click(function(){
+		if($(this).is(":checked")){
+			factura.estaCancelada = 1;
+		}
+		else
+			factura.estaCancelada = 0;
+	});
+
 	$("#btn-guardar-factura").click(function(event){
 		event.preventDefault();
 
