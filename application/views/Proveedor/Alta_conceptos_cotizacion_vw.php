@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group">
-					<label>Cliente</label>
+					<label>Proveedor</label>
 					<select class="form-control" id="id-cliente">
 					<option value="-1">Ninguno</option>
 					<?php foreach($clientes as $cliente){ ?>
@@ -66,26 +66,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 
 		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="display: none;">
 				<label>Fecha de la junta de arranque</label>
 				<input type="text" class="datepicker form-control" id="fecha_junta_arranque">
 				<input type="hidden" name="alt_fecha_junta_arranque" id="alt_fecha_junta_arranque">
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-				<label>Fecha de venta</label>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<label>Fecha de compra</label>
 				<input type="text" class="datepicker form-control" id="fecha_venta">
 				<input type="hidden" name="alt_fecha_venta" id="alt_fecha_venta">
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="display: none;">
 				<label>Fecha de inicio del proyecto</label>
 				<input type="text" class="datepicker form-control" id="fecha_inicio_proyecto">
 				<input type="hidden" name="alt_fecha_inicio_proyecto" id="alt_fecha_inicio_proyecto">
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-				<label>Fecha de fin del proyecto</label>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<label>Fecha de pago</label>
 				<input type="text" class="datepicker form-control" id="fecha_fin_proyecto">
 				<input type="text" name="alt_fecha_fin_proyecto" id="alt_fecha_fin_proyecto">
 			</div>
@@ -103,11 +103,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row" style="display: none;">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label>Account Manager</label>
 				<select class="form-control" id="id_account_manager" name="id_account_manager">
-				<option value="-1">Seleccione una opción</option>
+				<option value="NULL">Seleccione una opción</option>
 				<?php foreach($account as $a){ ?>
 				<option value="<?php echo $a->id; ?>"><?php echo $a->nombre; ?></option>
 				<?php } ?>
