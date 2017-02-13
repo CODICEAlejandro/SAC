@@ -15,8 +15,8 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 		$data['clientes'] = $this->db
 								 ->query("select * from catcliente where tipo = 0 and estadoActivo = 1")
 								 ->result();
-		$data['usuario'] = $this->db->query("select * from catusuario where idPuesto in (4,5) and estadoActivo = 1");
-		$data['account'] = $this->db->query("select * from catusuario where idPuesto in (4,5) and estadoActivo = 1");
+		$data['usuario'] = $this->db->query("select * from catusuario where idPuesto in (4,5) and activo = 'S'")->result();
+		$data['account'] = $this->db->query("select * from catusuario where idPuesto in (4,5) and activo = 'S'")->result();
 		$data['tipoConcepto'] = $this->db->query("select * from cattipoconcepto")->result();
 		$data['unidadMedida'] = $this->db->query("select * from catunidadmedida")->result();
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
