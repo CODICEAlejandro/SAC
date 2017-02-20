@@ -164,13 +164,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<span id="append-section-matchCol" class="append-section-matchCol">
 								<div id="clone-match-col" class="clone-match-col">
 									<div class="form-group">
-										<button class="btn-delete-match">
 											<span 
-												class="glyphicon glyphicon-remove" 
+												class="glyphicon glyphicon-remove btn-delete-match" 
 												style="float: right; margin-right: 10px; font-size: 20px;"
 											>
 											</span>
-										</button>
 									</div>
 									<div class="form-group">
 										<span id="append-matchCol">
