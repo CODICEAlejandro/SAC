@@ -110,7 +110,7 @@ function addMatchedSelect(sender){
 	var servicio = cloneSection.find("span#servicioConcepto");
 
 
-	cloneSection.attr("id", "clone-match-col"+( $(".clone-match-col").size() ) );
+	cloneSection.attr("id", "clone-match-col"+( $(".clone-match-col").size() )+(new Date()).getTime() );
 	appendSection.append(cloneSection);
 
 	//Limpiar campos
@@ -119,9 +119,22 @@ function addMatchedSelect(sender){
 	servicio.html("");
 }
 
+function deleteMatch(sender){
+	var parentRow = sender.closest("tr");
+	var currentMatches = parentRow.find("#append-section-matchCol").find(".clone-match-col").size();
+	if(currentMatches > 1){
+		sender.closest(".clone-match-col").remove();
+	}else alert("Por lo menos debe existir una fecha de factura asociada para cada concepto");
+}
+
 $(function(){
 	initDatepicker("#fechaPago", "#fechaPagoAlt", 'dd/mm/yy', 'yy-mm-dd');
 	initDatepicker("#fechaCancelacion", "#fechaCancelacionAlt", 'dd/mm/yy', 'yy-mm-dd');
+
+	$(".delete-match-col").click(function(event){
+		event.preventDefault();
+		deleteMatch($(this));
+	})
 
 	$(".btn-add-matched-select").click(function(event){
 		event.preventDefault();
