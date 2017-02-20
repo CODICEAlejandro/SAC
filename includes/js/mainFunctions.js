@@ -177,7 +177,7 @@ function jCloneSection(cloneSection, appendSection, inherited){
 	if(inherited === undefined) inherited = true;
 
 	clon = cloneSection.clone(inherited);
-	newID = cloneSection.attr("id")+"-clon-"+(appendSection.children().size())
+	newID = cloneSection.attr("id")+"-clon-"+(appendSection.children().size()+"-"+(new Date()).getTime());
 
 	clon.attr("id", newID);
 	clon.show();
