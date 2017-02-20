@@ -56,6 +56,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		    background-color: black !important;
 		    color: white !important;
 		}
+
+		.btn-delete-match:hover {
+			cursor: pointer;
+		}
 	</style>
 </head>
 <body>
@@ -171,6 +175,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td id="matchCol">
 							<span id="append-section-matchCol" class="append-section-matchCol">
 								<div id="clone-match-col" class="clone-match-col">
+									<div class="form-group">
+											<span 
+												class="glyphicon glyphicon-remove btn-delete-match" 
+												style="float: right; margin-right: 10px; font-size: 20px;"
+											>
+											</span>
+									</div>
 									<div class="form-group">
 										<span id="append-matchCol">
 											<label>Fecha de facturación asociada</label>

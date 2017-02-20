@@ -339,7 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<label for="fechaPago">Fecha de pago</label>
+				<label for="fechaPago">Fecha de pago probable</label>
 				<input type="text" id="fechaPago" class="form-control datepicker" style="margin-bottom: 15px;" readonly="true">
 				<input type="text" id="fechaPagoAlt" class="form-control datepicker" style="margin-bottom: 15px; display: none;" readonly="true">
 			</div>

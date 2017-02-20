@@ -134,7 +134,7 @@ $(function(){
 	$(".btn-delete-match").click(function(event){
 		event.preventDefault();
 		deleteMatch($(this));
-	})
+	});
 
 	$(".btn-add-matched-select").click(function(event){
 		event.preventDefault();
