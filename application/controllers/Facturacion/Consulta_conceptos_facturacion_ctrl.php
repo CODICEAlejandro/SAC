@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
+class Consulta_conceptos_facturacion_ctrl extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
