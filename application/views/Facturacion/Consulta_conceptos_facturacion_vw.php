@@ -1,3 +1,6 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 
 <!DOCTYPE html>
 <html>
@@ -37,16 +40,6 @@
 						<th>Temporalidad</th>
 					</thead>
 					<tbody>
-						<?php foreach($facturacion as $f){ ?>
-						<tr>
-							<td><?php echo $f->cliente; ?></td>
-							<td><?php echo $f->account; ?></td>
-							<td><?php echo $f->concepto; ?></td>
-							<td><?php echo $f->monto; ?></td>
-							<td><?php echo $f->fecha; ?></td>
-							<td><?php echo $f->temporalidad; ?></td>
-						</tr>
-						<?php } ?>
 					</tbody>
 				</table>
 			</div>
