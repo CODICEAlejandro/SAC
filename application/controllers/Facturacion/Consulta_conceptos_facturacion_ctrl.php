@@ -11,7 +11,7 @@ class Consulta_conceptos_facturacion_ctrl extends CI_Controller {
 		$data["facturacion"] = $this->cargar_principal(); 
 		$data["menu"] = $this->load->view("Menu_principal", null, true);
 
-		$this->load->view("Consulta_conceptos_facturacion_vw", $data);
+		$this->load->view("Facturacion/Consulta_conceptos_facturacion_vw", $data);
 	}
 
 	//Carga la información principal 
