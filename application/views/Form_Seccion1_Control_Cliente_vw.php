@@ -68,6 +68,7 @@
 						<div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
 							<label>País</label>
 							<select name="idPais" id="idPais" class="idPais form-control">
+								<option value="NULL">Seleccione una opción</option>
 								<?php foreach($paises as $pais){ ?>
 									<option value="<?php echo $pais->id; ?>"><?php echo $pais->nombre; ?></option>
 								<?php } ?>
