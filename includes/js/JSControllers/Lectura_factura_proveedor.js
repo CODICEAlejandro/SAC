@@ -102,7 +102,7 @@ function isFill(){
 function addMatchedSelect(sender){
 	var parentRow = sender.closest("tr");
 
-	var cloneSection = parentRow.find("#clone-match-col").clone(true);
+	var cloneSection = parentRow.find(".clone-match-col").first().clone(true);
 	var appendSection = parentRow.find("#append-section-matchCol");
 
 	var importe = cloneSection.find("span#importeFechaFactura");
@@ -110,7 +110,7 @@ function addMatchedSelect(sender){
 	var servicio = cloneSection.find("span#servicioConcepto");
 
 
-	cloneSection.attr("id", "clone-match-col"+( $(".clone-match-col").size() ) );
+	cloneSection.attr("id", "clone-match-col"+( $(".clone-match-col").size() )+(new Date()).getTime() );
 	appendSection.append(cloneSection);
 
 	//Limpiar campos
