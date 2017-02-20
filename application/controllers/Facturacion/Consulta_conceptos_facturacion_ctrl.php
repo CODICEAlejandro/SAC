@@ -28,6 +28,7 @@ class Consulta_conceptos_facturacion_ctrl extends CI_Controller {
 					from historico_facturacion hf
 						inner join catcliente c on c.id = hf.id_cliente
 						inner join catusuario u on u.id = hf.id_account_manager
+					order by hf.fecha
 					";
 
 		return $this->db->query($query)->result();
