@@ -131,7 +131,7 @@ $(function(){
 	initDatepicker("#fechaPago", "#fechaPagoAlt", 'dd/mm/yy', 'yy-mm-dd');
 	initDatepicker("#fechaCancelacion", "#fechaCancelacionAlt", 'dd/mm/yy', 'yy-mm-dd');
 
-	$(".delete-match-col").click(function(event){
+	$(".btn-delete-match").click(function(event){
 		event.preventDefault();
 		deleteMatch($(this));
 	})

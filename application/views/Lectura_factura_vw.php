@@ -56,6 +56,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		    background-color: black !important;
 		    color: white !important;
 		}
+
+		.btn-delete-match:hover {
+			cursor: pointer;
+		}
 	</style>
 </head>
 <body>
