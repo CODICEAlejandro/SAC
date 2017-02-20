@@ -41,6 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_info_codice_ctrl" style="text-align: left;">Información de facturación</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Alta_conceptos_cotizacion_ctrl" style="text-align: left;">Junta de arranque</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_cotizacion_ctrl" style="text-align: left;">Seguimiento de cobranza</a>
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Facturacion/Consulta_conceptos_facturacion_ctrl" style="text-align: left;">Seguimiento de facturación</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Lectura_factura_ctrl" style="text-align: left;">Subir factura</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Cobranza_ctrl" style="text-align: left;">Cobranza</a>
 			</div>
