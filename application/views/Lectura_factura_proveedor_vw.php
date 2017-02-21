@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group">
-					<label>Cliente</label>
+					<label>Proveedor</label>
 					<select class="form-control" id="clienteAsociado">
 						<option value="-1">Ninguno</option>
 						<?php foreach($clientes as $cliente){ ?>
