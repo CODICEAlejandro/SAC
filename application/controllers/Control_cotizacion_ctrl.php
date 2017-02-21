@@ -92,7 +92,13 @@ class Control_cotizacion_ctrl extends CI_Controller {
 			foreach($conceptos as $con){
 
 				$resultado[$k]["conceptos"][$m]["concepto"] = $con;
-				$query_fechas_factura = "select * from fecha_factura where idEstadoFactura = 23 and idConceptoCotizacion = ".($con->id);
+				$query_fechas_factura = "select id, importe, referencia, 
+											DATE_FORMAT(fecha,'%d/%m/%Y') fecha, nota, 
+											idEstadoFactura,
+											DATE_FORMAT(fecha_final,'%d/%m/%Y') fecha_final,
+											DATE_FORMAT(fecha_final_confirmada,'%d/%m/%Y') fecha_final_confirmada,
+											idBanco, key_cancelar 
+										from fecha_factura where idEstadoFactura = 23 and idConceptoCotizacion = ".($con->id);
 				$resultado[$k]["conceptos"][$m]["fechas_factura"] =  $this->db->query($query_fechas_factura)->result();
 
 				$m++;
