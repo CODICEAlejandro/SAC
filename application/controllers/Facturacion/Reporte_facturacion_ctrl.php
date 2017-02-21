@@ -73,30 +73,35 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 			elseif($c->tipo == 2) $suma_nueva = $c->monto;
 		}
 
+
+		//Traer metas para clientes actuales y para clientes nuevos, separadas, mas no sumadas
+		$metas_nuevas = $this->db->query("select * from meta_facturacion where tipo_periodo = 2")->row();
+		$metas_actuales = $this->db->query("select * from meta_facturacion where tipo_periodo = 1")->row();
+
 		// Para clientes actuales (tipo = 1)
 		// Para clientes nuevos (tipo = 2)
 		if($this->suma_roja == 0){
 			$porcentaje_avance_rojo_t1 = 100;
 			$porcentaje_avance_rojo_t2 = 100;
 		}else{
-			$porcentaje_avance_rojo_t1 = 100 * $suma_actual / $this->suma_roja;
-			$porcentaje_avance_rojo_t2 = 100 * $suma_nueva / $this->suma_roja;
+			$porcentaje_avance_rojo_t1 = 100 * $suma_actual / $metas_actuales->roja;
+			$porcentaje_avance_rojo_t2 = 100 * $suma_nueva / $metas_nuevas->roja;
 		}
 		
 		if($this->suma_verde == 0){
 			$porcentaje_avance_verde_t1 = 100;
 			$porcentaje_avance_verde_t2 = 100;
 		}else{
-			$porcentaje_avance_verde_t1 = 100 * $suma_actual / $this->suma_verde;
-			$porcentaje_avance_verde_t2 = 100 * $suma_nueva / $this->suma_verde;
+			$porcentaje_avance_verde_t1 = 100 * $suma_actual / $metas_actuales->verde;
+			$porcentaje_avance_verde_t2 = 100 * $suma_nueva / $metas_nuevas->verde;
 		}
 
 		if($this->suma_superverde == 0){
 			$porcentaje_avance_superverde_t1 = 100;
 			$porcentaje_avance_superverde_t2 = 100;
 		}else{
-			$porcentaje_avance_superverde_t1 = 100 * $suma_actual / $this->suma_superverde;
-			$porcentaje_avance_superverde_t2 = 100 * $suma_nueva / $this->suma_superverde;
+			$porcentaje_avance_superverde_t1 = 100 * $suma_actual / $metas_actuales->superverde;
+			$porcentaje_avance_superverde_t2 = 100 * $suma_nueva / $metas_nuevas->superverde;
 		}
 
 
