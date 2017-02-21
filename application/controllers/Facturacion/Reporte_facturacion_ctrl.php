@@ -116,10 +116,10 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 					"par_t2" => $porcentaje_avance_rojo_t2,
 					"pav_t2" => $porcentaje_avance_verde_t2,
 					"pasv_t2" => $porcentaje_avance_superverde_t2,
-					"sn" => $suma_nueva
+					"sn" => $suma_nueva,
 					"meta_nueva_roja" => $metas_nuevas->roja,
 					"meta_nueva_verde" => $metas_nuevas->verde,
-					"meta_nueva_superverde" => $metas_nuevas->superverde,
+					"meta_nueva_superverde" => $metas_nuevas->superverde
 				);
 	}
 

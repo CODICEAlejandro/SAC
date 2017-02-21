@@ -225,7 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<h4>Clientes nuevos</h4>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5>Meta roja </h5>
+				<h5>Meta roja ($<?php echo number_format($resultados['porcentajes_por_tipo']['meta_nueva_roja'],2); ?>)</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
