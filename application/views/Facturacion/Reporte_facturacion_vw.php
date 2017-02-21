@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
 	<title>JOBS</title>
@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5>Meta roja</h5>
+				<h5>Meta roja ($<?php echo number_format($resultados['metas_totales']['suma_roja'],2); ?>)</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
@@ -92,7 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5>Meta verde</h5>
+				<h5>Meta verde ($<?php echo number_format($resultados['metas_totales']['suma_verde'],2); ?>)</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -111,7 +111,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5>Meta superverde</h5>
+				<h5>Meta superverde ($<?php echo number_format($resultados['metas_totales']['suma_superverde'],2); ?>)</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">

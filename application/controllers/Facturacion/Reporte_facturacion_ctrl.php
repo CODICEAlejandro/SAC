@@ -29,6 +29,7 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 		$r["porcentajes_generales"] = $this->calcularPorcentajesGenerales();
 		$r["porcentajes_por_tipo"] = $this->calcularPorcentajesPorTipo();
 		$r["avance_de_facturacion"] = $this->calcularAvanceDeFacturacion();
+		$r["metas_totales"] = array("suma_roja" => $this->suma_roja, "suma_verde" => $this->suma_verde, "suma_superverde" => $this->suma_superverde);
 
 		return $r;
 	}
