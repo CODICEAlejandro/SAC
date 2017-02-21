@@ -303,7 +303,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<h3>Clientes actuales</h3>
 			</div>-->			
  			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5>Proyectos nuevos ($<?php echo number_format($resultados['avance_de_facturacion']['suma_verde'],2); ?>)</h5>
+				<h5>Proyectos nuevos ($<?php echo number_format($resultados['avance_de_facturacion']['pn'],2); ?>)</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
