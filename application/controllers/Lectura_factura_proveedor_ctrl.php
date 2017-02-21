@@ -342,7 +342,7 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 		$data["generalFactura"] = $dataFactura;
 		$data["receptor"] = $dataReceptor;
 		$data['tiposConcepto'] = $this->db->get("cattipoconcepto")->result();
-		$data['clientes'] = $this->Cliente->traerTodo();
+		$data['clientes'] = $this->db->query("select * from catcliente where tipo = 1 and estadoActivo = 1 order by nombre asc")->result();
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 		$data['factura'] = $objFactura;
 		$data['estadosFactura'] = $this->db->query("select * from catestadofactura where id = 24")->result();
