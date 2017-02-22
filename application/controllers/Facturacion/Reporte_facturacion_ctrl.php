@@ -36,6 +36,8 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 
 
 	public function calcularColor($cienPorCiento, $actual){
+		if($cienPorCiento == 0) $cienPorCiento = 1;
+
 		$porcentaje_obtenido = ($actual * 100) / $cienPorCiento;
 		$dia_anio = (((int) date("z")))-2*(((int) date("W"))-1);
 
