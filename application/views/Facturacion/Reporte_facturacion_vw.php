@@ -32,6 +32,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			text-align: right;
 		}
 
+		.p-right-bottom {
+			text-align: right;
+			margin-top: -19px;
+		}
+
 		.p-center {
 			text-align: center;
 		}
@@ -98,8 +103,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["porcentajes_generales"]["avance_rojo"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["porcentajes_generales"]["avance_rojo"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
@@ -120,8 +125,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["porcentajes_generales"]["avance_verde"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["porcentajes_generales"]["avance_verde"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
@@ -141,8 +146,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["porcentajes_generales"]["avance_superverde"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["porcentajes_generales"]["avance_superverde"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
@@ -188,8 +193,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_rojo_actual"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_rojo_actual"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
@@ -209,8 +214,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_verde_actual"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_verde_actual"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
@@ -230,8 +235,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_superverde_actual"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_superverde_actual"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -267,8 +272,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_rojo_nuevo"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_rojo_nuevo"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
@@ -288,8 +293,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_verde_nuevo"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_verde_nuevo"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 
@@ -310,8 +315,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_superverde_nuevo"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_superverde_nuevo"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -355,8 +360,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["avance_de_facturacion"]["avance_nuevo_t2"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["avance_de_facturacion"]["avance_nuevo_t2"]["diferencia"]; ?>% abajo</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
@@ -376,8 +381,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
-				<h5><?php echo $resultados["avance_de_facturacion"]["avance_actual_t2"]["diferencia"]; ?>%</h5>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right-bottom">
+				<h5><?php echo $resultados["avance_de_facturacion"]["avance_actual_t2"]["diferencia"]; ?>% abajo</h5>
 			</div>
 		</div>
 
