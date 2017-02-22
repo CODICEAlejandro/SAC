@@ -119,9 +119,9 @@ function retrieveQuotations(){
 			
 			$(".datepicker").each(function(){
 				var partes = $(this).val().split("-");
-				var dia = partes[2];
+				var dia = partes[0];
 				var mes = partes[1];
-				var anio = partes[0];
+				var anio = partes[2];
 
 				jInitDatepicker($(this), $(this).siblings("#fecha-factura-alt"), 'dd/mm/yy', 'yy-mm-dd', new Date(anio, mes, dia));				
 			});
