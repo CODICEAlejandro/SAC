@@ -46,7 +46,7 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 		}else if( ($porcentaje_obtenido >= (0.95 * $porcentaje_anio)) && ($porcentaje_obtenido < (1.15 * $porcentaje_anio)) ){
 			return "progress-bar-green";
 		}else if( $porcentaje_obtenido >= (1.15 * $porcentaje_anio) ){
-			return "progress-bar-supergreen";
+			return "progress-bar-supergreen ".$dia_anio;
 		}else
 			return "unknown-progress-color";
 	}
