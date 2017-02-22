@@ -304,7 +304,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_superverde_nuevo']; ?>" 
+						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_superverde_nuevo']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_por_tipo']['pasv_t2']; ?>" 
 						aria-valuemin="0" 

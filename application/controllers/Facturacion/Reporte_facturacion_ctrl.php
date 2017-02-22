@@ -43,6 +43,7 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 
 		$porcentaje_anio = ($dia_anio * 100) / 260.0;
 		$diferencia = (($actual/$dia_anio)/($cienPorCiento/260) -1)*100;
+		$diferencia = number_format($diferencia, 2);
 
 		if($porcentaje_obtenido < (0.95 * $porcentaje_anio)){
 			return array("color" => "progress-bar-red", "diferencia" => $diferencia);
