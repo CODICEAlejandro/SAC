@@ -123,6 +123,7 @@ function retrieveQuotations(){
 				var mes = partes[1];
 				var anio = partes[2];
 
+				alert(dia+"-"+mes+"-"+anio);
 				jInitDatepicker($(this), $(this).siblings("#fecha-factura-alt"), 'dd/mm/yy', 'yy-mm-dd', new Date(anio, mes, dia));				
 			});
 
