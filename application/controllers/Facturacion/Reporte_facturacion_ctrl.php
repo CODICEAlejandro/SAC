@@ -34,6 +34,23 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 		return $r;
 	}
 
+
+	public function calcularColor($cienPorCiento, $actual){
+		$porcentaje_obtenido = ($actual * 100) / $cienPorCiento;
+		$dia_anio = (((int) date("z")))-2*(((int) date("W"))-1);
+
+		$porcentaje_anio = $dia_anio / 260.0;
+
+		if($porcentaje_obtenido < (0.95 * $porcentaje_anio)){
+			return "progress-bar-red";
+		}else if( ($porcentaje_obtenido >= (0.95 * $porcentaje_anio)) && ($porcentaje_obtenido < (1.15 * $porcentaje_anio)) ){
+			return "progress-bar-green";
+		}else if( $porcentaje_obtenido >= (1.15 * $porcentaje_anio) ){
+			return "progress-bar-supergreen";
+		}else
+			return "unknown-progress-color";
+	}
+
 	public function calcularPorcentajesGenerales(){
 		$query_total_facturado = "select ifnull(sum(monto), 0) as monto from historico_facturacion";
 		$res_total_facturado = $this->db->query($query_total_facturado)->row();
@@ -51,7 +68,11 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 		return array("par" => $porcentaje_avance_rojo,
 					"pav" => $porcentaje_avance_verde,
 					"pasv" => $porcentaje_avance_superverde,
-					"tf" => $total_facturado);
+					"tf" => $total_facturado,
+					"avance_rojo" => $this->calcularColor($this->suma_roja, $total_facturado),
+					"avance_verde" => $this->calcularColor($this->suma_verde, $total_facturado),
+					"avance_superverde" => $this->calcularColor($this->suma_roja, $total_facturado)
+				);
 	}
 
 	public function calcularPorcentajesPorTipo(){
@@ -119,7 +140,10 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 					"sn" => $suma_nueva,
 					"meta_nueva_roja" => $metas_nuevas->roja,
 					"meta_nueva_verde" => $metas_nuevas->verde,
-					"meta_nueva_superverde" => $metas_nuevas->superverde
+					"meta_nueva_superverde" => $metas_nuevas->superverde,
+					"avance_rojo" => $this->calcularColor($metas_actuales->roja, $total_facturado),
+					"avance_verde" => $this->calcularColor($metas_actuales->verde, $total_facturado),
+					"avance_superverde" => $this->calcularColor($metas_actuales->superverde, $total_facturado)
 				);
 	}
 

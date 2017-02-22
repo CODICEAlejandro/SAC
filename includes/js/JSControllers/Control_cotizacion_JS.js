@@ -68,6 +68,10 @@ function retrieveQuotations(){
 					
 					//Ciclo de generación de fechas de factura
 					for(m=0, numeroFechasFactura = conceptos[x]["fechas_factura"].length; m<numeroFechasFactura; m++){
+						if(conceptos[x]["fechas_factura"][m].fecha_final == "00/00/0000"){
+							conceptos[x]["fechas_factura"][m].fecha_final = conceptos[x]["fechas_factura"][m].fecha;
+						}
+
 						appendText += "<table style='width: 100%;' class='table table-bordered fecha-factura' fecha-factura-id='"+conceptos[x]["fechas_factura"][m].id+"'><tbody>";
 						appendText += 	"<tr>";
 						appendText += 		"<td>";
