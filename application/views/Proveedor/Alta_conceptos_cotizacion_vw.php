@@ -51,7 +51,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<div class="form-group">
 					<label>Cotización</label>
-					<input type="text" name="folio-cotizacion" id="folio-cotizacion" placeholder="Ingrese el folio de la cotización" class="form-control">
+					<input type="text" name="folio-cotizacion" id="folio-cotizacion" placeholder="Ingrese el folio de la cotización" class="form-control"
+					value="<?php echo $numeroCotizacion->numero; ?>"
+					>
 				</div>
 			</div>
 		</div>
