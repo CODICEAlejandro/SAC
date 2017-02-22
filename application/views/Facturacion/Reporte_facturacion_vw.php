@@ -20,6 +20,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			background: #2D6 !important;
 		}
 
+		.progress-bar-red {
+			background: #C50000 !important;
+		}
+
+		.progress-bar-green {
+			background: #2CA500 !important;
+		}
+
 		.p-right {
 			text-align: right;
 		}
@@ -79,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar progress-bar-danger" 
+						class="progress-bar <?php echo $resultados['avance_rojo']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_generales']['par']; ?>" 
 						aria-valuemin="0" 
@@ -98,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar progress-bar-success" 
+						class="progress-bar <?php echo $resultados['avance_verde']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_generales']['pav']; ?>" 
 						aria-valuemin="0" 
@@ -116,7 +124,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar progress-bar-supergreen" 
+						class="progress-bar <?php echo $resultados['avance_superverde']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_generales']['pasv']; ?>" 
 						aria-valuemin="0" 
