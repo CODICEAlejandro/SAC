@@ -146,9 +146,9 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 					"avance_rojo_actual" => $this->calcularColor($metas_actuales->roja, $suma_actual),
 					"avance_verde_actual" => $this->calcularColor($metas_actuales->verde, $suma_actual),
 					"avance_superverde_actual" => $this->calcularColor($metas_actuales->superverde, $suma_actual),
-					"avance_rojo_actual" => $this->calcularColor($metas_actuales->roja, $suma_nueva),
-					"avance_verde_actual" => $this->calcularColor($metas_actuales->verde, $suma_nueva),
-					"avance_superverde_actual" => $this->calcularColor($metas_actuales->superverde, $suma_nueva)
+					"avance_rojo_nuevo" => $this->calcularColor($metas_actuales->roja, $suma_nueva),
+					"avance_verde_nuevo" => $this->calcularColor($metas_actuales->verde, $suma_nueva),
+					"avance_superverde_nuevo" => $this->calcularColor($metas_actuales->superverde, $suma_nueva)
 				);
 	}
 
