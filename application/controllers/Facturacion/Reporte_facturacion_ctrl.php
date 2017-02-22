@@ -46,7 +46,7 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 		}else if( ($porcentaje_obtenido >= (0.95 * $porcentaje_anio)) && ($porcentaje_obtenido < (1.15 * $porcentaje_anio)) ){
 			return "progress-bar-green";
 		}else if( $porcentaje_obtenido >= (1.15 * $porcentaje_anio) ){
-			return "progress-bar-supergreen ".$dia_anio;
+			return "progress-bar-supergreen";
 		}else
 			return "unknown-progress-color";
 	}
@@ -214,7 +214,9 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 					"afn_t2" => $avance_facturacion_nuevo_t2,
 					"afa_t2" => $avance_facturacion_actual_t2,
 					"ps" => $pago_seguro,
-					"pn" => $pago_nuevo
+					"pn" => $pago_nuevo,
+					"avance_nuevo_t2" => $this->calcularColor($pago_nuevo, $suma_nueva_t2),
+					"avance_actual_t2" => $this->calcularColor($pago_nuevo, $suma_actual_t2)
 				);
 	}
 }
