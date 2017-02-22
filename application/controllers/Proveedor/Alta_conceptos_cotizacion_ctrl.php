@@ -22,6 +22,10 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 		$data['tipoConcepto'] = $this->db->query("select * from cattipoconcepto")->result();
 		$data['unidadMedida'] = $this->db->query("select * from catunidadmedida")->result();
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
+		$data['numeroCotizacion'] = $this->db("select ifnull(max(cast(cot.folio as signed))+1,1) numero
+									from cotizacion cot
+									inner join catcliente cc on cc.id = cot.idCliente
+									where cc.tipo=1")->row();
 
 		$this->load->view("Proveedor/Alta_conceptos_cotizacion_vw", $data);
 	}
