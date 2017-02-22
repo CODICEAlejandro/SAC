@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/mainFunctions.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/Class/ConceptoCotizacion.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Proveedor/Alta_conceptos_cotizacion.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Proveedor/Alta_conceptos_cotizacion_proveedor.js"></script>
 	<title>JOBS</title>
 
 	<style>
