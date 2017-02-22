@@ -3,6 +3,7 @@ function retrieveRazonesSociales(idCliente){
 	var appendSection = $("#id-razon-social");
 	appendSection.find("*").remove();
 
+
 	$.ajax({
 		url: baseURL+"index.php/Alta_conceptos_cotizacion_ctrl/getRazonesSociales/"+idCliente,
 		method: 'post',
