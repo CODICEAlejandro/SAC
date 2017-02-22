@@ -42,15 +42,16 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 		$dia_anio = (((int) date("z")))-2*(((int) date("W"))-1);
 
 		$porcentaje_anio = ($dia_anio * 100) / 260.0;
+		$diferencia = $porcentaje_anio - $porcentaje_obtenido;
 
 		if($porcentaje_obtenido < (0.95 * $porcentaje_anio)){
-			return "progress-bar-red";
+			return array("color" => "progress-bar-red", "diferencia" => $diferencia);
 		}else if( ($porcentaje_obtenido >= (0.95 * $porcentaje_anio)) && ($porcentaje_obtenido < (1.15 * $porcentaje_anio)) ){
-			return "progress-bar-green";
+			return array("color" => "progress-bar-green", "diferencia" => $diferencia);
 		}else if( $porcentaje_obtenido >= (1.15 * $porcentaje_anio) ){
-			return "progress-bar-supergreen";
+			return array("color" => "progress-bar-supergreen", "diferencia" => $diferencia);
 		}else
-			return "unknown-progress-color";
+			return array("color" => "unknown-progress-color", "diferencia" => $diferencia);
 	}
 
 	public function calcularPorcentajesGenerales(){

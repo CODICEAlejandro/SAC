@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['porcentajes_generales']['avance_rojo']; ?>" 
+						class="progress-bar <?php echo $resultados['porcentajes_generales']['avance_rojo']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_generales']['par']; ?>" 
 						aria-valuemin="0" 
@@ -98,6 +98,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["porcentajes_generales"]["avance_rojo"]["diferencia"]; ?>%</h5>
+			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
 				<h5>Meta verde ($<?php echo number_format($resultados['metas_totales']['suma_verde'],2); ?>)</h5>
@@ -106,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['porcentajes_generales']['avance_verde']; ?>" 
+						class="progress-bar <?php echo $resultados['porcentajes_generales']['avance_verde']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_generales']['pav']; ?>" 
 						aria-valuemin="0" 
@@ -117,6 +120,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["porcentajes_generales"]["avance_verde"]["diferencia"]; ?>%</h5>
+			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
 				<h5>Meta superverde ($<?php echo number_format($resultados['metas_totales']['suma_superverde'],2); ?>)</h5>
@@ -124,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['porcentajes_generales']['avance_superverde']; ?>" 
+						class="progress-bar <?php echo $resultados['porcentajes_generales']['avance_superverde']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_generales']['pasv']; ?>" 
 						aria-valuemin="0" 
@@ -134,6 +140,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    	<?php echo number_format($resultados['porcentajes_generales']['pasv'],2); ?>%
 				  	</div>
 				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["porcentajes_generales"]["avance_superverde"]["diferencia"]; ?>%</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 20px;">
@@ -168,7 +177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_rojo_actual']; ?>" 
+						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_rojo_actual']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_por_tipo']['par_t1']; ?>" 
 						aria-valuemin="0" 
@@ -179,6 +188,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_rojo_actual"]["diferencia"]; ?>%</h5>
+			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
 				<h5>Meta verde ($<?php echo number_format($resultados['porcentajes_por_tipo']['meta_actual_verde'],2); ?>)</h5>
@@ -186,7 +198,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_verde_actual']; ?>" 
+						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_verde_actual']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_por_tipo']['pav_t1']; ?>" 
 						aria-valuemin="0" 
@@ -197,6 +209,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_verde_actual"]["diferencia"]; ?>%</h5>
+			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
 				<h5>Meta superverde ($<?php echo number_format($resultados['porcentajes_por_tipo']['meta_actual_superverde'],2); ?>)</h5>
@@ -204,7 +219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_superverde_actual']; ?>" 
+						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_superverde_actual']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_por_tipo']['pasv_t1']; ?>" 
 						aria-valuemin="0" 
@@ -214,6 +229,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    	<?php echo number_format($resultados['porcentajes_por_tipo']['pasv_t1'],2); ?>%
 				  	</div>
 				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_superverde_actual"]["diferencia"]; ?>%</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -238,7 +256,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_rojo_nuevo']; ?>" 
+						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_rojo_nuevo']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_por_tipo']['par_t2']; ?>" 
 						aria-valuemin="0" 
@@ -249,6 +267,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_rojo_nuevo"]["diferencia"]; ?>%</h5>
+			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
 				<h5>Meta verde ($<?php echo number_format($resultados['porcentajes_por_tipo']['meta_nueva_verde'],2); ?>)</h5>
@@ -256,7 +277,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_verde_nuevo']; ?>" 
+						class="progress-bar <?php echo $resultados['porcentajes_por_tipo']['avance_verde_nuevo']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['porcentajes_por_tipo']['pav_t2']; ?>" 
 						aria-valuemin="0" 
@@ -267,6 +288,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_verde_nuevo"]["diferencia"]; ?>%</h5>
+			</div>
+
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
 				<h5>Meta superverde ($<?php echo number_format($resultados['porcentajes_por_tipo']['meta_nueva_superverde'],2); ?>)</h5>
@@ -284,6 +309,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    	<?php echo number_format($resultados['porcentajes_por_tipo']['pasv_t2'],2); ?>%
 				  	</div>
 				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["porcentajes_por_tipo"]["avance_superverde_nuevo"]["diferencia"]; ?>%</h5>
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -316,7 +344,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['avance_de_facturacion']['avance_nuevo_t2']; ?>" 
+						class="progress-bar <?php echo $resultados['avance_de_facturacion']['avance_nuevo_t2']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['avance_de_facturacion']['afn_t2']; ?>" 
 						aria-valuemin="0" 
@@ -327,6 +355,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["avance_de_facturacion"]["avance_nuevo_t2"]["diferencia"]; ?>%</h5>
+			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
 				<h5>Proyectos ya contemplados ($<?php echo number_format($resultados['avance_de_facturacion']['pn'],2); ?>)</h5>
@@ -334,7 +365,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="progress">
 					<div 
-						class="progress-bar <?php echo $resultados['avance_de_facturacion']['avance_actual_t2']; ?>" 
+						class="progress-bar <?php echo $resultados['avance_de_facturacion']['avance_actual_t2']['color']; ?>" 
 						role="progressbar" 
 						aria-valuenow="<?php echo $resultados['avance_de_facturacion']['afa_t2']; ?>" 
 						aria-valuemin="0" 
@@ -344,6 +375,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    	<?php echo number_format($resultados['avance_de_facturacion']['afa_t2'],2); ?>%
 				  	</div>
 				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p-right">
+				<h5><?php echo $resultados["avance_de_facturacion"]["avance_actual_t2"]["diferencia"]; ?>%</h5>
 			</div>
 		</div>
 
