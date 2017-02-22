@@ -74,7 +74,7 @@ class Reporte_facturacion_ctrl extends CI_Controller {
 					"tf" => $total_facturado,
 					"avance_rojo" => $this->calcularColor($this->suma_roja, $total_facturado),
 					"avance_verde" => $this->calcularColor($this->suma_verde, $total_facturado),
-					"avance_superverde" => $this->calcularColor($this->suma_roja, $total_facturado)
+					"avance_superverde" => $this->calcularColor($this->suma_superverde, $total_facturado)
 				);
 	}
 

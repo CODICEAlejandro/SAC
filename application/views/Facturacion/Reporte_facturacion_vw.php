@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		.p-right-bottom {
 			text-align: right;
-			margin-top: -19px;
+			margin-top: -19px !important;
 		}
 
 		.p-center {
