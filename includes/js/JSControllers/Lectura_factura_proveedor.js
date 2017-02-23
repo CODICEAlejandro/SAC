@@ -173,6 +173,12 @@ $(function(){
 		retrieveFechasFactura($(this).val());
 	});
 
+	$("#fecha_desde, #fecha_hasta").change(function(){
+		var idCliente = $("#clienteAsociado").val();
+
+		retrieveFechasFactura(idCliente);
+	});
+
 	$(".idMatched").change(function(){
 		var sender = $(this);
 		var idSel = sender.val();
