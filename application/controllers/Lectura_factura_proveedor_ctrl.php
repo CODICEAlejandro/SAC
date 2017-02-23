@@ -84,6 +84,8 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 
 	public function getFechasFacturacion(){
 		$idCliente = $this->input->post("idCliente");
+		$fechaDesde = $this->input->post("fecha_desde");
+		$fechaHasta = $this->input->post("fecha_hasta");
 		$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
 
 		$queryFechas = "select
@@ -97,6 +99,7 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 							left join cotizacion cot on cot.id = con.idCotizacion
 						where
 							cot.idCliente = ".$idCliente."
+							and DATE(cot.creacion) >= '".$fechaDesde."' and DATE(cot.creacion) <= '".$fechaHasta."'
 						";
 
 		$result = $this->db->query($queryFechas)->result();

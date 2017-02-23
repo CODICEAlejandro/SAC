@@ -37,11 +37,13 @@ function retrieveFechasFactura(idCliente){
 	// Appens Section en este caso apunta al select donde se hacen
 	// los matches correspondientes.
 	var appendSection = $('#conceptos-tbl tbody select.idMatched');
+	var fecha_desde = $("#fecha_desde_alt").val();
+	var fecha_hasta = $("#fecha_hasta_alt").val();
 
 	$.ajax({
 		url: baseURL+'index.php/Lectura_factura_ctrl/getFechasFacturacion/'+idCliente,
 		method: 'post',
-		data: {'idCliente': idCliente},
+		data: {'idCliente': idCliente, 'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta},
 		dataType: 'json',
 		success: function(response){
 			var k, n;
@@ -131,6 +133,8 @@ function deleteMatch(sender){
 $(function(){
 	initDatepicker("#fechaPago", "#fechaPagoAlt", 'dd/mm/yy', 'yy-mm-dd');
 	initDatepicker("#fechaCancelacion", "#fechaCancelacionAlt", 'dd/mm/yy', 'yy-mm-dd');
+	initDatepicker("#fecha_desde", "#fecha_desde_alt", 'dd/mm/yy', 'yy-mm-dd');
+	initDatepicker("#fecha_hasta", "#fecha_hasta_alt", 'dd/mm/yy', 'yy-mm-dd');
 
 	$(".btn-delete-match").click(function(event){
 		event.preventDefault();

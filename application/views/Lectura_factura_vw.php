@@ -131,6 +131,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<option value="-1">Ninguna</option>
 					</select>
 				</div>
+				<div class="form-group">
+					<label>Fecha desde donde se muestran las fechas de facturación</label>
+					<input type="text" id="fecha_desde" class="form-control datepicker">
+					<input type="text" id="fecha_desde_alt" class="form-control datepicker">
+				</div>
+				<div class="form-group">
+					<label>Fecha hasta donde se muestran las fechas de facturación</label>
+					<input type="text" id="fecha_hasta" class="form-control datepicker">
+					<input type="text" id="fecha_hasta_alt" class="form-control datepicker">
+				</div>
 			</div>
 		</div>
 		<div class="row">
