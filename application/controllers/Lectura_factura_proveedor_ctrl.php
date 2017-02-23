@@ -99,7 +99,7 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 							left join cotizacion cot on cot.id = con.idCotizacion
 						where
 							cot.idCliente = ".$idCliente."
-							and DATE(cot.creacion) >= '".$fechaDesde."' and DATE(cot.creacion) <= '".$fechaHasta."'
+							and DATE(f.fecha_final) >= '".$fechaDesde."' and DATE(f.fecha_final) <= '".$fechaHasta."'
 						";
 
 		$result = $this->db->query($queryFechas)->result();
