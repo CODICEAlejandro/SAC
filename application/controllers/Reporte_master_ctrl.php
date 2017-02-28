@@ -55,6 +55,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					ff.referencia referencia,
 					ff.nota nota,
 					ff.importe montoFechaFactura,
+					ff.idEstadoFactura idEstadoFactura,
 					con_cot.descripcion descripcion,
 					con_cot.total totalConceptoCotizacion,
 					con_cot.idTipoConcepto idTipoConcepto,
@@ -105,7 +106,6 @@ class Reporte_master_ctrl extends CI_Controller {
 						f.fechaFactura fechaFactura,
 						f.ordenCompra ordenCompra,
 						f.fechaCancelacion fechaCancelacion,
-						f.idEstadoFactura idEstadoFactura,
 						i.tasa tasa,
 						fc.cantidadIVA cantidadIVA,
 						fc.subtotal subtotal,
@@ -153,7 +153,6 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->cantidadIVA = $conceptoHomogeneo->cantidadIVA;
 				$concepto->subtotal = $conceptoHomogeneo->subtotal;
 				$concepto->total = $conceptoHomogeneo->total;
-				$concepto->idEstadoFactura = $conceptoHomogeneo->idEstadoFactura;
 
 				if($concepto->idEstadoFactura == 22){
 					//Cancelado
