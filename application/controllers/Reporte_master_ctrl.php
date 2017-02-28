@@ -153,6 +153,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				$concepto->cantidadIVA = $conceptoHomogeneo->cantidadIVA;
 				$concepto->subtotal = $conceptoHomogeneo->subtotal;
 				$concepto->total = $conceptoHomogeneo->total;
+				$concepto->idEstadoFactura = $conceptoHomogeneo->idEstadoFactura;
 
 				if($concepto->idEstadoFactura == 22){
 					//Cancelado
