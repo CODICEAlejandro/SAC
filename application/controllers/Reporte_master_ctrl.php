@@ -5,6 +5,7 @@ ini_set('memory_limit','-1');
 ini_set('max_execution_time', 30000);
 set_time_limit(30000);
 
+
 class Reporte_master_ctrl extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
