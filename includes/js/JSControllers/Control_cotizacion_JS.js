@@ -120,11 +120,11 @@ function retrieveQuotations(){
 			$(".datepicker").each(function(){
 				var partes = $(this).val().split("/");
 				var dia = parseInt(partes[0]);
-				var mes = parseInt(partes[1]);
+				var mes = parseInt(partes[1])-1;
 				var anio = parseInt(partes[2]);
 
 				//alert(dia+"-"+mes+"-"+anio);
-				//jInitDatepicker($(this), $(this).siblings("#fecha-factura-alt"), 'dd/mm/yy', 'yy-mm-dd', new Date(anio, mes, dia, 0, 0, 0, 0));				
+				jInitDatepicker($(this), $(this).siblings("#fecha-factura-alt"), 'dd/mm/yy', 'yy-mm-dd', new Date(anio, mes, dia, 0, 0, 0, 0));				
 			});
 
 			//Vuelve a habilitar botón de consulta
