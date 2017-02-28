@@ -65,17 +65,13 @@ class Reporte_master_ctrl extends CI_Controller {
 					c.contrato contrato,
 					c.titulo tituloCotizacion,
 					IFNULL(ce.nombre, 'NO ASIGNADO') cerrador,
-					IFNULL(ac.nombre, 'NO ASIGNADO') accountManager,
-					IFNULL(f.folio, 'NO DISPONIBLE') folio
+					IFNULL(ac.nombre, 'NO ASIGNADO') accountManager
 				from
 					fecha_factura ff
 					left join concepto_cotizacion con_cot on con_cot.id = ff.idConceptoCotizacion
 					left join cotizacion c on c.id = con_cot.idCotizacion
 					left join catusuario ce on ce.id = c.idCerrador
 					left join catusuario ac on ac.id = c.accountManager
-					left join concepto_factura_cotizacion cfc on cfc.idFechaFactura = ff.id
-					left join concepto_factura_rel con_fact_rel on con_fact_rel.idConcepto = cfc.idConceptoFactura
-					left join factura f on f.id = con_fact_rel.idFactura
 				where
 					con_cot.estadoActivo = 1				
 				";
@@ -109,6 +105,7 @@ class Reporte_master_ctrl extends CI_Controller {
 						f.fechaFactura fechaFactura,
 						f.ordenCompra ordenCompra,
 						f.fechaCancelacion fechaCancelacion,
+						f.idEstadoFactura idEstadoFactura,
 						i.tasa tasa,
 						fc.cantidadIVA cantidadIVA,
 						fc.subtotal subtotal,
