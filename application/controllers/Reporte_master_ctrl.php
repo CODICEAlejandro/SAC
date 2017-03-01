@@ -84,8 +84,6 @@ class Reporte_master_ctrl extends CI_Controller {
 					con_cot.estadoActivo = 1				
 				";
 
-		if($idEstadoFactura != -1) $appendQuery .= " AND f.`idEstadoFactura` = ".$idEstadoFactura;
-		if($folioFactura != "none") $appendQuery .= " AND f.`folio` = '".$folioFactura."'";
 		if($idCliente != -1) $appendQuery .= " AND c.`idCliente` = ".$idCliente;
 		if($idCotizacion != -1) $appendQuery .= " AND c.`folio` = '".$idCotizacion."'";
 
@@ -138,6 +136,10 @@ class Reporte_master_ctrl extends CI_Controller {
 				$appendQuery .= " AND f.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
 			if($fechaPagoDesde != "none") 
 				$appendQuery .= " AND f.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
+			if($idEstadoFactura != -1) 
+				$appendQuery .= " AND f.`idEstadoFactura` = ".$idEstadoFactura;
+			if($folioFactura != "none") 
+				$appendQuery .= " AND f.`folio` = '".$folioFactura."'";
 
 			$query2 .= $appendQuery;
 			$conceptosFactura = $this->db->query($query2)->result();
