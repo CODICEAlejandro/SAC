@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php } ?>
 					</select>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display: hidden;">
 					<label for="idRazonSocial">Razón social</label>
 					<select id="idRazonSocial" class="form-control">
 						<option value="-1">Mostrar todas</option>
