@@ -112,6 +112,10 @@ class Cobranza_ctrl extends CI_Controller {
 		}else
 			echo "FAIL";*/
 
+		//Elimina relación con concepto de factura de concepto_factura_cotizacion
+		$query_rompe_relacion = "delete from concepto_factura_cotizacion where idFechaFactura = ".$idFechaFactura;
+		$this->db->query($query_rompe_relacion);
+
 		//Actualiza estado de fecha de factura a POR FACTURAR (23)
 		$query_actualiza = "update fecha_factura set idEstadoFactura = 23 where id = ".$idFechaFactura;
 		if($this->db->query($query_actualiza))
