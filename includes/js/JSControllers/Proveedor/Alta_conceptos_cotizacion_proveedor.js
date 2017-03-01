@@ -68,6 +68,7 @@ function revisarCamposObligatorios(){
 	var message = "";
 	var errores = 0;
 
+	var idCliente = $("#id-cliente").val();
 	var folioCotizacion = $("#folio-cotizacion").val();
 	var accountManager = $("#id_account_manager").val();
 	var cerrador = $("#id_cerrador").val();
@@ -77,9 +78,12 @@ function revisarCamposObligatorios(){
 
 	var importe = $(".append-section-fecha-factura .importe-fecha-factura");
 
-	if(folioCotizacion.trim() == ""){
+	if(idCliente.trim() == "-1"){
 		errores++;
-		message = "El folio de la cotiación es un campo obligatorio";
+		message = "Debe seleccionar el proveedor al que le pertenece la cotización";
+	}else if(folioCotizacion.trim() == ""){
+		errores++;
+		message = "El folio de la cotización es un campo obligatorio";
 	}else if(accountManager == "-1"){
 		errores++;
 		message = "Ingrese al account manager que llevará la cotización";
