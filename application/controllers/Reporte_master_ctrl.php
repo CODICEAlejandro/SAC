@@ -59,7 +59,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					ff.importe subtotal,
 					(ff.importe * ((con_cot.iva/100)+1)) total,
 					(ff.importe - (ff.importe * ((con_cot.iva/100)+1))) cantidadIVA,
-					con_cot.iva iva,
+					con_cot.iva tasa,
 					con_cot.descripcion descripcion,
 					con_cot.total totalConceptoCotizacion,
 					tipo_con.descripcion tipoConcepto,
