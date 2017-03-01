@@ -57,7 +57,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					ff.importe montoFechaFactura,
 					ff.idEstadoFactura idEstadoFactura,
 					ff.importe subtotal,
-					(ff.importe * ((con_cot.iva/100)+1) total,
+					(ff.importe * ((con_cot.iva/100)+1)) total,
 					con_cot.iva cantidadIVA,
 					con_cot.descripcion descripcion,
 					con_cot.total totalConceptoCotizacion,
