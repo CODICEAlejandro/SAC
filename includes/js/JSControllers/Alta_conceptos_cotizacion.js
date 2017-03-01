@@ -76,8 +76,6 @@ function revisarCamposObligatorios(){
 
 	var importe = $(".importe-fecha-factura");
 
-	alert("POLLO");
-
 	if(folioCotizacion.trim() == ""){
 		errores++;
 		message = "El folio de la cotiación es un campo obligatorio";
@@ -89,21 +87,21 @@ function revisarCamposObligatorios(){
 		message = "Ingrese al cerrador de la cotización";
 	}
 
-	servicio.each(funcion(index){
+	servicio.each(function(index){
 		if($(this).val() == "-1"){
 			errores++;
 			message = "Debe seleccionar el servicio correspondiente a cada concepto";
 		}
 	});
 
-	clasificacion.each(funcion(index){
+	clasificacion.each(function(index){
 		if($(this).val() == "-1"){
 			errores++;
 			message = "Debe seleccionar la categoria correspondiente a cada concepto";
 		}
 	});
 
-	importe.each(funcion(index){
+	importe.each(function(index){
 		if($(this).val().trim() == ""){
 			errores++;
 			message = "Debe ingresar el importe correspondiente de cada fecha de facturación";
