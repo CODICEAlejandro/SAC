@@ -58,13 +58,14 @@ class Reporte_master_ctrl extends CI_Controller {
 					ff.idEstadoFactura idEstadoFactura,
 					con_cot.descripcion descripcion,
 					con_cot.total totalConceptoCotizacion,
-					con_cot.idTipoConcepto idTipoConcepto,
+					tipo_con.descripcion tipoConcepto,
 					c.inicioProyecto inicioProyecto,
 					c.finProyecto finProyecto,
 					c.fechaVenta fechaVenta,
 					c.fechaJuntaArranque fechaJuntaArranque,
-					c.contrato contrato,
 					c.titulo tituloCotizacion,
+					cli.nombre cliente,
+					IF(c.contrato=1, 'SÍ', 'NO') contrato,
 					IFNULL(ce.nombre, 'NO ASIGNADO') cerrador,
 					IFNULL(ac.nombre, 'NO ASIGNADO') accountManager
 				from
@@ -73,6 +74,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					left join cotizacion c on c.id = con_cot.idCotizacion
 					left join catusuario ce on ce.id = c.idCerrador
 					left join catusuario ac on ac.id = c.accountManager
+					left join cliente cli on cli.id = c.idCliente
+					left join cattipoconcepto tipo_con on tipo_con.id = con_cot.idTipoConcepto
 				where
 					con_cot.estadoActivo = 1				
 				";
@@ -99,7 +102,6 @@ class Reporte_master_ctrl extends CI_Controller {
 			//relacionados con el concepto de la cotización
 			$query2 = "select
 						edo_fac.descripcion estadoFactura,
-						tipo_con.descripcion tipoConcepto,
 						f.folio folio,
 						f.fechaPago fechaPago,
 						f.moneda moneda,
@@ -121,7 +123,6 @@ class Reporte_master_ctrl extends CI_Controller {
 						inner join concepto c on c.id = cr.idConcepto
 						inner join factura f on f.id = cr.idFactura
 						inner join catestadofactura edo_fac on edo_fac.id = f.idEstadoFactura
-						inner join cattipoconcepto tipo_con on tipo_con.id = ".($concepto->idTipoConcepto)."
 						inner join impuesto i on i.idConcepto = c.id
 					where
 						1 = 1
@@ -174,7 +175,6 @@ class Reporte_master_ctrl extends CI_Controller {
 
 				$numeroConceptosFacturados++;
 			}else{
-				$concepto->tipoConcepto = 'NO DISPONIBLE';
 				$concepto->folio = 'NO DISPONIBLE';
 				$concepto->fechaPago = 'NO DISPONIBLE';
 				$concepto->moneda = 'NO DISPONIBLE';
