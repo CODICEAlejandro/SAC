@@ -165,7 +165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>						
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>Clasificación</label>
-				<select class="form-control" name="clasificacion-concepto[]" id="clasificacion-concepto">
+				<select class="form-control clasificacion-concepto" name="clasificacion-concepto[]" id="clasificacion-concepto">
 					<option>Seleccione una opción</option>
 				</select>
 			</div>						
@@ -193,7 +193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<input type="text" name="total-concepto[]" id="total-concepto" class="form-control" value="0" readonly="true">
 			</div>
 
-			<div class="row" id="append-section-fecha-factura"></div>
+			<div class="row append-section-fecha-factura" id="append-section-fecha-factura"></div>
 
 			<div class="row" style="margin-top: 15px;">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

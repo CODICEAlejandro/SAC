@@ -104,7 +104,7 @@ function revisarCamposObligatorios(){
 	importe.each(function(index){
 		if($(this).val().trim() == ""){
 			errores++;
-			message = "Debe ingresar el importe correspondiente de cada fecha de facturación";
+			message = "Debe ingresar el importe correspondiente a cada fecha de facturación";
 		}
 	});
 
