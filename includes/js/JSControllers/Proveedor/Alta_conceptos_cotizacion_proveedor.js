@@ -206,6 +206,8 @@ $(function(){
 	$("#btn-save-cotizacion").click(function(event){
 		event.preventDefault();
 
+		if(!revisarCamposObligatorios()) return false;
+
 		var idCliente = $("#id-cliente").val();
 		var folioCotizacion = $("#folio-cotizacion").val();
 		var notaCotizacion  = $("#nota-cotizacion").val();
