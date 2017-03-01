@@ -63,6 +63,57 @@ function retrieveClasificaciones(sender){
 	});
 }
 
+function revisarCamposObligatorios(){
+	var message = "";
+	var errores = 0;
+
+	var folioCotizacion = $("#folio-cotizacion").val();
+	var accountManager = $("#id_account_manager").val();
+	var cerrador = $("#id_cerrador").val();
+
+	var servicio = $(".servicio-concepto");
+	var clasificacion = $(".clasificacion-concepto");
+
+	var importe = $(".importe-fecha-factura");
+
+	if(folioCotizacion.trim() == ""){
+		errores++;
+		message = "El folio de la cotiación es un campo obligatorio";
+	}else if(accountManager == "-1"){
+		errores++;
+		message = "Ingrese al account manager que llevará la cotización";
+	}else if(cerrador == "-1"){
+		errores++;
+		message = "Ingrese al cerrador de la cotización";
+	}
+
+	servicio.each(funcion(index){
+		if($(this).val() == "-1"){
+			errores++;
+			message = "Debe seleccionar el servicio correspondiente a cada concepto";
+		}
+	});
+
+	clasificacion.each(funcion(index){
+		if($(this).val() == "-1"){
+			errores++;
+			message = "Debe seleccionar la categoria correspondiente a cada concepto";
+		}
+	});
+
+	importe.each(funcion(index){
+		if($(this).val().trim() == ""){
+			errores++;
+			message = "Debe ingresar el importe correspondiente de cada fecha de facturación";
+		}
+	});
+
+	if(errores > 0){
+		alert(message);
+		return false;
+	}else return true;
+}
+
 $(function(){
 	$("#id-cliente").change(function(event){
 		event.preventDefault();
@@ -153,6 +204,8 @@ $(function(){
 
 	$("#btn-save-cotizacion").click(function(event){
 		event.preventDefault();
+
+		if(!revisarCamposObligatorios()) return false;
 
 		var idCliente = $("#id-cliente").val();
 		var folioCotizacion = $("#folio-cotizacion").val();

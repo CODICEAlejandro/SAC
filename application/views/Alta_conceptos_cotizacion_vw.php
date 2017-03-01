@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>Servicio</label>
 				<select class="form-control servicio-concepto" name="servicio-concepto[]" id="servicio-concepto">
-					<option>Seleccione una opción</option>
+					<option value="-1">Seleccione una opción</option>
 					<?php foreach($tipoConcepto as $t){ ?>
 					<option value="<?php echo $t->id; ?>"><?php echo $t->descripcion; ?></option>
 					<?php } ?>
@@ -164,8 +164,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>						
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>Clasificación</label>
-				<select class="form-control" name="clasificacion-concepto[]" id="clasificacion-concepto">
-					<option>Seleccione una opción</option>
+				<select class="form-control clasificacion-concepto" name="clasificacion-concepto[]" id="clasificacion-concepto">
+					<option value="-1">Seleccione una opción</option>
 				</select>
 			</div>						
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
