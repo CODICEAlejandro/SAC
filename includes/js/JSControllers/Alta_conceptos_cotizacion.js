@@ -71,10 +71,10 @@ function revisarCamposObligatorios(){
 	var accountManager = $("#id_account_manager").val();
 	var cerrador = $("#id_cerrador").val();
 
-	var servicio = $(".servicio-concepto");
-	var clasificacion = $(".clasificacion-concepto");
+	var servicio = $("#append-section-concepto .servicio-concepto");
+	var clasificacion = $("#append-section-concepto .clasificacion-concepto");
 
-	var importe = $(".importe-fecha-factura");
+	var importe = $(".append-section-fecha-factura .importe-fecha-factura");
 
 	if(folioCotizacion.trim() == ""){
 		errores++;
