@@ -62,15 +62,12 @@ function retrieveABill(){
 				lastRow.append("<td id='col-tituloCotizacion'>"+mainData[k].tituloCotizacion+"</td>");
 				lastRow.append("<td id='col-fechaInicio'>"+mainData[k].fechaInicio+"</td>");
 				lastRow.append("<td id='col-fechaFin'>"+mainData[k].fechaFin+"</td>");
-				lastRow.append("<td id='col-razonSocial'>"+mainData[k].razonSocial+"</td>");
 				lastRow.append("<td id='col-fechaVenta'>"+mainData[k].fechaVenta+"</td>");
 				lastRow.append("<td id='col-fechaJuntaArranque'>"+mainData[k].fechaJuntaArranque+"</td>");
 				lastRow.append("<td id='col-cerrador'>"+mainData[k].cerrador+"</td>");
-				lastRow.append("<td id='col-responsable'>"+mainData[k].responsable+"</td>");
 				lastRow.append("<td id='col-accountManager'>"+mainData[k].accountManager+"</td>");
 				lastRow.append("<td id='col-iva'>"+mainData[k].iva+"</td>");
 				lastRow.append("<td id='col-montoIVA'>"+mainData[k].montoIVA+"</td>");
-				lastRow.append("<td id='col-importeEfectivo'>"+mainData[k].importeEfectivo+"</td>");
 				lastRow.append("<td id='col-fechaCancelacion'>"+mainData[k].fechaCancelacion+"</td>");
 				lastRow.append("<td id='col-contrato'>"+mainData[k].contrato+"</td>");
 				lastRow.append('<td id="col-nota"><div class="input-group" id="fatherNote" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control notaConcepto">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].idConceptoCotizacion+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');

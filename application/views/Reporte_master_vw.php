@@ -235,11 +235,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>Proyecto</th>
 							<th>Fecha de inicio del proyecto</th>
 							<th>Fecha de finalización del proyecto</th>
-							<th>Razón social</th>
 							<th>Fecha de venta</th>
 							<th>Fecha de junta de arranque</th>
 							<th>Cerrador</th>
-							<th>Responsable</th>
 							<th>Account Manager</th>
 							<th>%IVA</th>
 							<th>IVA</th>
