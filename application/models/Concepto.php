@@ -105,6 +105,7 @@ class Concepto extends CI_Model {
 		$idConcepto = $this->insertar($data);
 
 		//Insertar relaciones del concepto actual con las fechas de factura correspondientes
+		$ids_fechas_factura = "";
 		for($k = 0, $n = count($this->idMatched); $k < $n; $k++){
 			//Obtener el importe (subtotal) de la fecha de factura
 			$result_subtotal = $this->db->query("select importe from fecha_factura where id = ".($this->idMatched[$k][0]))->row();
@@ -120,7 +121,15 @@ class Concepto extends CI_Model {
 								".($subtotal*0.16).
 								")";
 			$this->db->query($queryRelacion);
+
+			$ids_fechas_factura .= ($this->idMatched[$k][0]).",";
+
 		}
+
+		//Actualizar el estado de la factura en Fecha_factura.idFechaFactura a NO PAGADO
+		$ids_fechas_factura = substr($ids_fechas_factura, 0, strlen($ids_fechas_factura)-1); //Quitando la última coma (,)
+		$$query_fecha_factura = "UPDATE fecha_factura set idFechaFactura = 24 where id in (".$ids_fechas_factura.")";
+		$this->db->query($query_fecha_factura);
 
 		if($recursive){
 			foreach($this->impuestos as $impuesto){
