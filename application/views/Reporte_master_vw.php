@@ -243,7 +243,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>Account Manager</th>
 							<th>%IVA</th>
 							<th>IVA</th>
-							<th>Importe</th>
 							<th>Fecha de cancelación</th>
 							<th>Contrato</th>
 							<th>Nota</th>
