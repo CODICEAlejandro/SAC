@@ -82,7 +82,7 @@ class Cobranza_ctrl extends CI_Controller {
 		$url_confirmacion = base_url()."index.php/Cobranza_ctrl/cancelar/".$idFechaFactura."/".$key."/confirma";
 		$url_denegado = base_url()."index.php/Cobranza_ctrl/cancelar/".$idFechaFactura."/".$key."/refuta";
 
-		$to = array("massmy@live.com.mx", "alejandro.segura@codice.com");
+		$to = array("massmy@live.com.mx", "rod@codice.com", "alejandro.segura@codice.com");
 		$subject = "JOBS - Solicitud de cancelación de una fecha de facturación";
 		$body = "Se ha solicitado su aprobación para cancelar la fecha de facturación:";
 		$body .= "<br>- ".$idFechaFactura;
