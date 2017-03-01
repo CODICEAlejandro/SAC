@@ -209,7 +209,6 @@ function retrieveData(){
 				lastRow.append("<td id='col-accountManager'>"+mainData[k].accountManager+"</td>");
 				lastRow.append("<td id='col-iva'>"+mainData[k].tasa+"</td>");
 				lastRow.append("<td id='col-montoIVA'>"+mainData[k].cantidadIVA+"</td>");
-				lastRow.append("<td id='col-importeEfectivo'>"+mainData[k].importe+"</td>");
 				lastRow.append("<td id='col-fechaCancelacion'>"+mainData[k].fechaCancelacion+"</td>");
 				lastRow.append("<td id='col-contrato'>"+mainData[k].contrato+"</td>");
 				lastRow.append('<td id="col-nota"><div class="input-group" id="fatherNote" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control notaConcepto">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].id+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
