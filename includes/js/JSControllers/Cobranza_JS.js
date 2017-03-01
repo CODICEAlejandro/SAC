@@ -55,7 +55,7 @@ $(function(){
 			dataType: 'text',
 			method: 'post',
 			success: function(r){
-				var clon = sender.closest("tr").clone(true);
+				/*var clon = sender.closest("tr").clone(true);
 				var btnRefacturar = clon.find(".btn-refacturar");
 				var btnCancelar = clon.find(".btn-cancelar");
 				var btnPagar = clon.find(".btn-pagar");
@@ -68,7 +68,8 @@ $(function(){
 				radios.data("id", r);
 				radios.attr("name", "confirmada"+r);
 
-				appendSection.append(clon);
+				appendSection.append(clon);*/
+				sender.closest("tr").remove();
 
 				alert("Fecha refacturada.");
 			},
