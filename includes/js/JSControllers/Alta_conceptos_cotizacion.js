@@ -76,6 +76,8 @@ function revisarCamposObligatorios(){
 
 	var importe = $(".importe-fecha-factura");
 
+	alert("POLLO");
+
 	if(folioCotizacion.trim() == ""){
 		errores++;
 		message = "El folio de la cotiación es un campo obligatorio";
