@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php } ?>
 					</select>
 				</div>
-				<div class="form-group" style="display: hidden;">
+				<div class="form-group" style="display: none;">
 					<label for="idRazonSocial">Razón social</label>
 					<select id="idRazonSocial" class="form-control">
 						<option value="-1">Mostrar todas</option>
@@ -116,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<div style="width: 100%; min-height: 1px; border-bottom: 1px solid gray; margin-bottom: 15px; margin-top: 15px;"></div>
 
-				<div class="form-group">
+				<div class="form-group" style="display: none;">
 					<div class="row">
 						<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
 							<label for="buscadorFolio">Folio</label>
