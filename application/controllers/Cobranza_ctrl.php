@@ -82,7 +82,7 @@ class Cobranza_ctrl extends CI_Controller {
 		$url_confirmacion = base_url()."index.php/Cobranza_ctrl/cancelar/".$idFechaFactura."/".$key."/confirma";
 		$url_denegado = base_url()."index.php/Cobranza_ctrl/cancelar/".$idFechaFactura."/".$key."/refuta";
 
-		$to = array("massmy@live.com.mx", "rod@codice.com");
+		$to = array("massmy@live.com.mx", "rod@codice.com", "alejandro.segura@codice.com");
 		$subject = "JOBS - Solicitud de cancelación de una fecha de facturación";
 		$body = "Se ha solicitado su aprobación para cancelar la fecha de facturación:";
 		$body .= "<br>- ".$idFechaFactura;
@@ -100,9 +100,9 @@ class Cobranza_ctrl extends CI_Controller {
 
 	public function refacturar($idFechaFactura){
 		$idFechaFactura = htmlentities($idFechaFactura, ENT_QUOTES, 'UTF-8');
-		$fecha = $this->db->query("select * from fecha_factura where id = ".$idFechaFactura)->result_array();
+		//$fecha = $this->db->query("select * from fecha_factura where id = ".$idFechaFactura)->result_array();
 
-		if(count($fecha) == 1){			
+		/*if(count($fecha) == 1){			
 			$fecha = $fecha[0];
 			//$fecha['idEstadoFactura'] = 23;	//Genera fecha clon por facturar
 			unset($fecha['id']);			//Quita ID actual, para autoincrementarlo con DBMS
@@ -110,7 +110,13 @@ class Cobranza_ctrl extends CI_Controller {
 			$this->db->insert('fecha_factura', $fecha);
 			echo $this->db->insert_id();
 		}else
-			echo "FAIL";
+			echo "FAIL";*/
+
+		//Actualiza estado de fecha de factura a POR FACTURAR (23)
+		$query_actualiza = "update fecha_factura set idEstadoFactura = 23 where id = ".$idFechaFactura;
+		if($this->db->query($query_actualiza))
+			echo "OK";
+		else echo "FAIL";
 	}
 
 	public function actualizarConfirmacion($idFechaFactura, $estado){
