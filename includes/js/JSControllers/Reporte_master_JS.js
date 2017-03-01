@@ -203,11 +203,9 @@ function retrieveData(){
 				lastRow.append("<td id='col-tituloCotizacion'>"+mainData[k].tituloCotizacion+"</td>");
 				lastRow.append("<td id='col-fechaInicio'>"+mainData[k].inicioProyecto+"</td>");
 				lastRow.append("<td id='col-fechaFin'>"+mainData[k].finProyecto+"</td>");
-				lastRow.append("<td id='col-razonSocial'>"+mainData[k].razonSocial+"</td>");
 				lastRow.append("<td id='col-fechaVenta'>"+mainData[k].fechaVenta+"</td>");
 				lastRow.append("<td id='col-fechaJuntaArranque'>"+mainData[k].fechaJuntaArranque+"</td>");
 				lastRow.append("<td id='col-cerrador'>"+mainData[k].cerrador+"</td>");
-				lastRow.append("<td id='col-responsable'>"+mainData[k].responsable+"</td>");
 				lastRow.append("<td id='col-accountManager'>"+mainData[k].accountManager+"</td>");
 				lastRow.append("<td id='col-iva'>"+mainData[k].tasa+"</td>");
 				lastRow.append("<td id='col-montoIVA'>"+mainData[k].cantidadIVA+"</td>");
