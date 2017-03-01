@@ -74,7 +74,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					left join cotizacion c on c.id = con_cot.idCotizacion
 					left join catusuario ce on ce.id = c.idCerrador
 					left join catusuario ac on ac.id = c.accountManager
-					left join cliente cli on cli.id = c.idCliente
+					left join catcliente cli on cli.id = c.idCliente
 					left join cattipoconcepto tipo_con on tipo_con.id = con_cot.idTipoConcepto
 				where
 					con_cot.estadoActivo = 1				
