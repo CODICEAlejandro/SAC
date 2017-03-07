@@ -381,7 +381,7 @@ $(function(){
 	});
 
 	$("#idCliente").change(function(){
-		retrieveCotizacionesDesdeCliente();
+		//retrieveCotizacionesDesdeCliente();
 	});
 
 	$("#idRazonSocial").change(function(){
