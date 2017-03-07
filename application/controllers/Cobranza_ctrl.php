@@ -16,7 +16,7 @@ class Cobranza_ctrl extends CI_Controller {
 										cc.id = f.idConceptoCotizacion
 										inner join cotizacion cot on cot.id = cc.idCotizacion
 										inner join catcliente catcli on catcli.id = cot.idCliente
-										left join (select factura.folio folioFactura, fecha.id idFecha
+										inner join (select factura.folio folioFactura, fecha.id idFecha
 													from factura inner join concepto_factura_rel cf on cf.idFactura = factura.id
 													inner join concepto on concepto.id = cf.idConcepto
 													inner join concepto_factura_cotizacion cfc on cfc.idConceptoFactura = concepto.id
