@@ -164,7 +164,7 @@ $(function(){
 					
 						appended += '<input type="radio" class="radio-confirmada" value="0"';
 						appended += ' data-id="'+fecha.id+'"';
-						appended += ' name="confirmada'+fecha.id'" checked>';
+						appended += ' name="confirmada'+fecha.id+'" checked>';
 					
 					}
 						
