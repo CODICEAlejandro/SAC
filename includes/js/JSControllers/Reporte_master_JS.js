@@ -308,15 +308,15 @@ function saveFechaPago(idConceptoCotizacion, fechaPago){
 }
 
 
-function retrieveCotizacionesDesdeCliente(){
+function retrieveRazonesSociales(){
 	var id = $("#idCliente").val();
-	var appendSection = $("#idCotizacion");
+	var appendSection = $("#idRazonSocial");
 
 	appendSection.find("*").remove();
 	appendSection.append("<option value='-1'>Mostrar todas</option>")
 
 	$.ajax({
-		url: baseURL+'index.php/Reporte_master_ctrl/getCotizaciones',
+		url: baseURL+'index.php/Reporte_master_ctrl/getRazonesSociales/',
 		dataType: 'json',
 		data: {"idCliente" : id},
 		method: 'post',
@@ -381,7 +381,7 @@ $(function(){
 	});
 
 	$("#idCliente").change(function(){
-		//retrieveCotizacionesDesdeCliente();
+		retrieveRazonesSociales();
 	});
 
 	$("#idRazonSocial").change(function(){
