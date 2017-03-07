@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<table class="table table-bordered table-hover">
 				<thead>
-					<th>Fecha</th>
+					<th style="width: 115px;">Fecha</th>
 					<th>Confirmada</th>
 					<th>Estimada</th>
 					<th>Folio de la factura</th>
@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<tbody>
 				<?php foreach($fechas as $f){ ?>
 				<?php if($f->idEstadoFactura == 25){ ?>
-				<tr class="row-fecha" id="row-fecha" style="outline: 1px solid orange; background: #aaa">
+				<tr class="row-fecha" id="row-fecha" style="outline: 1px solid orange; background: #aaa;">
 				<?php }else{ ?>
 				<tr class="row-fecha" id="row-fecha">
 				<?php } ?>

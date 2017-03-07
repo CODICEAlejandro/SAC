@@ -79,6 +79,56 @@ $(function(){
 		});
 	});
 
+	$("#cliente").change(function(){
+		var idCliente = $(this).val();
+		var selectCotizacion = $("#cotizacion");
+
+		$.ajax({
+			url: baseURL+'index.php/Cobranza_ctrl/traerCotizaciones',
+			dataType: 'json',
+			method: 'post',
+			data: {'idCliente': idCliente},
+			success: function(response){
+				var k,i;
+
+				selectCotizacion.find("option").remove();
+				selectCotizacion.append("<option value='-1'>Mostrar todas</option>");
+				for(k=0, i=response.length; k<i; k++){
+					selectCotizacion.append("<option value='"+response[k].idCotizacion+"'>"+response[k].nombreCotizacion+"</option>");
+				}
+			},
+			error: function(){
+				alert("No se han podido recuperar las cotizaciones del cliente seleccionado. Intente de nuevo, por favor.");
+			}
+		});
+	});
+
+	$("#filtrarBtn").click(function(event){
+		event.preventDefault();
+
+		var cliente = $("#cliente").val();
+		var cotizacion = $("#cotizacion").val();
+
+		$.ajax({
+			url: baseURL+'index.php/Cobranza_ctrl/cargarTabla',
+			dataType: 'json',
+			method: 'post',
+			data: {'idCliente': idCliente},
+			success: function(response){
+				var k,i;
+
+				selectCotizacion.find("option").remove();
+				selectCotizacion.append("<option value='-1'>Mostrar todas</option>");
+				for(k=0, i=response.length; k<i; k++){
+					selectCotizacion.append("<option value='"+response[k].idCotizacion+"'>"+response[k].nombreCotizacion+"</option>");
+				}
+			},
+			error: function(){
+				alert("No se han podido recuperar las cotizaciones del cliente seleccionado. Intente de nuevo, por favor.");
+			}
+		});		
+	});
+
 	$(".radio-confirmada").change(function(){
 		var sender = $(this);
 		var idFechaFactura = sender.data("id");
@@ -115,7 +165,7 @@ $(function(){
 	$(".datepicker").each(function(){
 		var partes = $(this).val().split("/");
 		var dia = partes[0];
-		var mes = partes[1];
+		var mes = partes[1]-1;
 		var anio = partes[2];
 
 		jInitDatepicker($(this), $(this).parent().find("#datepicker-alt"), "dd/mm/yy", "yy-mm-dd", new Date(anio, mes, dia));

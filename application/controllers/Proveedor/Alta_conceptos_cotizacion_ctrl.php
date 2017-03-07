@@ -19,7 +19,7 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 											from administrador
 											order by nombre")->result();
 		$data['account'] = $this->db->query("select * from catusuario where idPuesto in (4,5) and activo = 'S' order by nombre asc")->result();
-		$data['tipoConcepto'] = $this->db->query("select * from cattipoconcepto")->result();
+		$data['tipoConcepto'] = $this->db->query("select * from cattipoconcepto where tipo = 1")->result();
 		$data['unidadMedida'] = $this->db->query("select * from catunidadmedida")->result();
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 		$data['numeroCotizacion'] = $this->db->query("select ifnull(max(cast(cot.folio as signed))+1,1) numero
