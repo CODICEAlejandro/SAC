@@ -316,12 +316,14 @@ function retrieveRazonesSociales(){
 	appendSection.append("<option value='-1'>Mostrar todas</option>")
 
 	$.ajax({
-		url: baseURL+'index.php/Reporte_master_ctrl/getRazonesSociales/',
+		url: baseURL+'index.php/Reporte_master_ctrl/getRazonesSociales',
 		dataType: 'json',
 		data: {"idCliente" : id},
 		method: 'post',
 		success: function(response){
 			var k, n;
+
+			alert(response.length);
 
 			for(k=0, n=response.length; k<n; k++){
 				appendSection.append("<option value="+response[k].id+">"+response[k].razonSocial+"</option>");
