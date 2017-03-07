@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<th>Referencia</th>
 					<th>Concepto asociado</th>
 				</thead>
-				<tbody>
+				<tbody id="main-content-section">
 				<?php foreach($fechas as $f){ ?>
 				<?php if($f->idEstadoFactura == 25){ ?>
 				<tr class="row-fecha" id="row-fecha" style="outline: 1px solid orange; background: #aaa;">

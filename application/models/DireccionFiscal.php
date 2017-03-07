@@ -60,6 +60,26 @@ class DireccionFiscal extends CI_Model {
 		return $this->db->query($query)->result();
 	}
 
+	public function traerCotizacionesDelCliente($idCliente){		
+		$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
+		$query = "SELECT
+					tc.`id` id,
+					df.`razonSocial` razonSocial,
+					date_format(tc.`creacion`, '%d/%m/%Y') creacion,
+					tc.`nota` nota,
+					tc.`folio` folio
+				FROM
+					`cotizacion` tc
+					INNER JOIN `direccionfiscal` df ON df.`id` = tc.`idRazonSocial`
+					INNER JOIN `catcliente` ccli ON ccli.`id` = df.`idPadre`
+				WHERE
+					ccli.`id` = ".$idCliente."
+					AND tc.`estadoActivo` = 1
+				";
+
+		return $this->db->query($query)->result();
+	}
+
 	public function traerCotizaciones_AI($idDireccionFiscal){		
 		$idDireccionFiscal = htmlentities($idDireccionFiscal, ENT_QUOTES, 'UTF-8');
 		$query = "SELECT
