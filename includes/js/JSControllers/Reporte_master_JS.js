@@ -323,9 +323,9 @@ function retrieveRazonesSociales(){
 		success: function(response){
 			var k, n;
 
-			alert(response.length);
 
 			for(k=0, n=response.length; k<n; k++){
+				alert(response[0].razonSocial);
 				appendSection.append("<option value="+response[k].id+">"+response[k].razonSocial+"</option>");
 			}
 		},
