@@ -6,15 +6,21 @@ class Cobranza_ctrl extends CI_Controller {
 		$data['menu'] = $this->load->view('Menu_principal', null, true);
 
 		$query_fechas_no_pagadas = "select 
-										f.id id, f.importe importe_fecha, f.referencia ref_fecha, 
+										distinct f.id id, f.importe importe_fecha, f.referencia ref_fecha, 
 										DATE_FORMAT(f.fecha_final, '%d/%m/%Y') fecha_final,
 										f.nota nota_fecha, f.fecha_final_confirmada confirmada,
 										cc.descripcion desc_concepto_asociado,
-										f.idEstadoFactura idEstadoFactura
+										f.idEstadoFactura idEstadoFactura, cot.folio folioCotizacion,
+										R1.folioFactura folioFactura, catcli.nombre cliente
 									from fecha_factura f inner join concepto_cotizacion cc on
 										cc.id = f.idConceptoCotizacion
 										inner join cotizacion cot on cot.id = cc.idCotizacion
 										inner join catcliente catcli on catcli.id = cot.idCliente
+										left join (select factura.folio folioFactura, fecha.id idFecha
+													from factura inner join concepto_factura_rel cf on cf.idFactura = factura.id
+													inner join concepto on concepto.id = cf.idConcepto
+													inner join concepto_factura_cotizacion cfc on cfc.idConceptoFactura = concepto.id
+													inner join fecha_factura fecha on fecha.id = cfc.idFechaFactura) R1 on R1.idFecha = f.id
 									where f.idEstadoFactura in (24,25) 
 										and catcli.tipo = 0
 									order by f.idEstadoFactura, f.fecha_final asc";

@@ -25,6 +25,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<th>Fecha</th>
 					<th>Confirmada</th>
 					<th>Estimada</th>
+					<th>Folio de la factura</th>
+					<th>Folio de la cotización</th>
+					<th>Cliente</th>
 					<th>Pagar</th>
 					<th>Cancelar</th>
 					<th>Refacturar</th>
@@ -65,6 +68,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							data-id="<?php echo $f->id; ?>"
 							name="confirmada<?php echo $f->id; ?>" checked>
 						<?php } ?>
+					</td>
+					<td>
+						<?php echo $f->folioFactura; ?>
+					</td>
+					<td>
+						<?php echo $f->folioCotizacion; ?>
+					</td>
+					<td>
+						<?php echo $f->cliente; ?>
 					</td>
 					<td>
 						<button data-id="<?php echo $f->id; ?>" id="btn-pagar"
