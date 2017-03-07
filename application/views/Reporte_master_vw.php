@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<option value="-1">Mostrar todas</option>
 					</select>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display: none;">
 					<label for="idCotizacion">Cotización</label>
 					<select id="idCotizacion" class="form-control">
 						<option value="-1">Mostrar todas</option>
