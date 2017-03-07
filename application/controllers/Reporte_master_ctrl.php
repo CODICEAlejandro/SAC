@@ -305,9 +305,9 @@ class Reporte_master_ctrl extends CI_Controller {
 	}
 
 	public function getCotizaciones(){
-		$idRazonSocial = $this->input->post("idRazonSocial");
+		$idCliente = $this->input->post("idCliente");
 
-		echo json_encode($this->DireccionFiscal->traerCotizacionesDelCliente($idRazonSocial));
+		echo json_encode($this->DireccionFiscal->traerCotizacionesDelCliente($idCliente));
 	}
 
 	public function getABillAJAX(){

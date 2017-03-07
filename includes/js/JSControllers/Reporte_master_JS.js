@@ -308,7 +308,7 @@ function saveFechaPago(idConceptoCotizacion, fechaPago){
 }
 
 
-function retrieveRazonesSociales(){
+function retrieveCotizacionesDesdeCliente(){
 	var id = $("#idCliente").val();
 	var appendSection = $("#idCotizacion");
 
@@ -381,7 +381,7 @@ $(function(){
 	});
 
 	$("#idCliente").change(function(){
-		retrieveRazonesSociales();
+		retrieveCotizacionesDesdeCliente();
 	});
 
 	$("#idRazonSocial").change(function(){
