@@ -79,28 +79,22 @@ $(function(){
 		});
 	});
 
-	$("#cliente").change(function(){
-		var idCliente = $(this).val();
-		var selectCotizacion = $("#cotizacion");
+	$(".btn-guardar-nota").click(function(event){
+		event.preventDefault();
+
+		var nuevaNota = $(this).html();
 
 		$.ajax({
-			url: baseURL+'index.php/Cobranza_ctrl/traerCotizaciones',
-			dataType: 'json',
+			url: baseURL+'index.php/Cobranza_ctrl/guardarNotaSeguimiento',
+			dataType: 'text',
 			method: 'post',
-			data: {'idCliente': idCliente},
-			success: function(response){
-				var k,i;
-
-				selectCotizacion.find("option").remove();
-				selectCotizacion.append("<option value='-1'>Mostrar todas</option>");
-				for(k=0, i=response.length; k<i; k++){
-					selectCotizacion.append("<option value='"+response[k].idCotizacion+"'>"+response[k].nombreCotizacion+"</option>");
-				}
-			},
+			data: {'nota': nuevaNota},
+			async: false,
+			success: function(r){},
 			error: function(){
-				alert("No se han podido recuperar las cotizaciones del cliente seleccionado. Intente de nuevo, por favor.");
+				alert('Ha ocurrido un error. Intente de nuevo, por favor.');
 			}
-		});
+		});		
 	});
 
 	$(".radio-confirmada").change(function(){

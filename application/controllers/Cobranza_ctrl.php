@@ -21,6 +21,16 @@ class Cobranza_ctrl extends CI_Controller {
 		$this->load->view("Cobranza_vw", $data);
 	}
 
+	public function guardarNotaSeguimiento(){
+		if(isset($_POST) && isset($_POST["nota"]) && isset($_POST["idFechaFactura"])){
+			$nota = $_POST["nota"];
+			$idFechaFactura = $_POST["idFechaFactura"];
+		}else return false;
+
+		$query = "update fecha_factura set nota_seguimiento = '".$nota."' where id = ".$idFechaFactura;
+		$this->db->query($query);
+	}
+
 	public function traerData($idCliente = -1){
 		$query_fechas_no_pagadas = "select 
 										distinct f.id id, f.importe importe_fecha, f.referencia ref_fecha, 
@@ -28,6 +38,7 @@ class Cobranza_ctrl extends CI_Controller {
 										f.nota nota_fecha, f.fecha_final_confirmada confirmada,
 										cc.descripcion desc_concepto_asociado,
 										f.idEstadoFactura idEstadoFactura, cot.folio folioCotizacion,
+										IFNULL(f.nota_seguimiento, '') nota_seguimiento,
 										R1.folioFactura folioFactura, catcli.nombre cliente
 									from fecha_factura f inner join concepto_cotizacion cc on
 										cc.id = f.idConceptoCotizacion

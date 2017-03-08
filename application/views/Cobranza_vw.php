@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<th>Refacturar</th>
 					<th>Referencia</th>
 					<th>Concepto asociado</th>
+					<th>Nota de seguimiento</th>
 				</thead>
 				<tbody id="main-content-section">
 				<?php foreach($fechas as $f){ ?>
@@ -121,6 +122,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</td>
 					<td><?php echo $f->ref_fecha; ?></td>
 					<td><?php echo $f->desc_concepto_asociado; ?></td>
+					<td>
+						<textarea class="form-control" cols="5" rows="3"><?php echo $f->nota_seguimiento; ?></textarea>
+						<button class="form-control btn btn-primary" class="btn-guardar-nota">Guardar</button>
+					</td>
 				</tr>
 				<?php } ?>
 				</tbody>
