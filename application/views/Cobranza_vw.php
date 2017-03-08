@@ -124,7 +124,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td><?php echo $f->desc_concepto_asociado; ?></td>
 					<td>
 						<textarea class="form-control" cols="5" rows="3"><?php echo $f->nota_seguimiento; ?></textarea>
-						<button class="form-control btn btn-primary" class="btn-guardar-nota" data-id="<?php echo $f->id; ?>">Guardar</button>
+						<button class="form-control btn btn-primary btn-guardar-nota" data-id="<?php echo $f->id; ?>">Guardar</button>
 					</td>
 				</tr>
 				<?php } ?>
