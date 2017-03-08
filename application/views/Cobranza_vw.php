@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<option value="-1">Todos los clientes</option>
 						<?php foreach($clientes as $c){ ?>
 						<option value="<?php echo $c->id; ?>"><?php echo $c->nombre; ?></option>
-						<?php  ?>
+						<?php } ?>
 					</select>
 				</div>
 				<div class="form-group">

@@ -41,7 +41,14 @@ class Cobranza_ctrl extends CI_Controller {
 									where f.idEstadoFactura in (24,25) 
 										and catcli.tipo = 0";
 
+		$appendWhere = "";
 
+		if($idCliente != -1){
+			$appendWhere .= " and catcli.id = ".$idCliente;
+		}
+
+		$query_fechas_no_pagadas .= $appendWhere;
+		$query_fechas_no_pagadas .= " order by f.idEstadoFactura, f.fecha_final asc";
 
 		return $this->db->query($query_fechas_no_pagadas)->result();
 	}
