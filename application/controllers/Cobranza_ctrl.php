@@ -5,6 +5,21 @@ class Cobranza_ctrl extends CI_Controller {
 	public function index(){
 		$data['menu'] = $this->load->view('Menu_principal', null, true);
 
+		$data['fechas'] = $this->traerData();
+		$this->load->view("Cobranza_vw", $data);
+	}
+
+	public function getData_AJAX(){
+		if(isset($_POST) && isset($_POST["idCliente"])){
+			$idCliente = htmlentities($_POST["idCliente"], ENT_QUOTES, "UTF-8");
+		}else $idCliente = -1;
+
+		$data["fechas"] = $this->traerData($idCliente);
+		$data['menu'] = $this->load->view('Menu_principal', null, true);
+		$this->load->view("Cobranza_vw", $data);
+	}
+
+	public function traerData($idCliente = -1){
 		$query_fechas_no_pagadas = "select 
 										distinct f.id id, f.importe importe_fecha, f.referencia ref_fecha, 
 										DATE_FORMAT(f.fecha_final, '%d/%m/%Y') fecha_final,
@@ -22,11 +37,18 @@ class Cobranza_ctrl extends CI_Controller {
 													inner join concepto_factura_cotizacion cfc on cfc.idConceptoFactura = concepto.id
 													inner join fecha_factura fecha on fecha.id = cfc.idFechaFactura) R1 on R1.idFecha = f.id
 									where f.idEstadoFactura in (24,25) 
-										and catcli.tipo = 0
-									order by f.idEstadoFactura, f.fecha_final asc";
+										and catcli.tipo = 0";
 
-		$data['fechas'] = $this->db->query($query_fechas_no_pagadas)->result();
-		$this->load->view("Cobranza_vw", $data);
+		$appendWhere = "";
+
+		if($idCliente == -1){
+			$appendWhere .= " and catcli.id = ".$idCliente;
+		}
+
+		$query_fechas_no_pagadas .= $appendWhere;
+		$query_fechas_no_pagadas .= "order by f.idEstadoFactura, f.fecha_final asc";
+
+		return $this->db->query($query_fechas_no_pagadas)->result();
 	}
 
 	public function pagar($idFechaFactura){

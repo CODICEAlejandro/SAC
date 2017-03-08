@@ -20,6 +20,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<div class="container">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<form class="form" method="post" action="<?php echo base_url(); ?>index.php/Cobranza_ctrl/getData_AJAX">
+				<div class="form-group">
+					<label>Mostrar cotizaciones de </label>
+					<select class="form-control" name="idCliente">
+						<option value="-1">Todos los clientes</option>
+						<?php foreach($clientes as $c){ ?>
+						<option value="<?php echo $c->id; ?>"><?php echo $c->nombre; ?></option>
+						<?php  ?>
+					</select>
+				</div>
+				<div class="form-group">
+					<input type="submit" class="form-control btn btn-info" value="Filtrar">
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<table class="table table-bordered table-hover">
 				<thead>
 					<th style="width: 115px;">Fecha</th>
