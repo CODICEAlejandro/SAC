@@ -83,12 +83,13 @@ $(function(){
 		event.preventDefault();
 
 		var nuevaNota = $(this).html();
+		var id = $(this).attr("data-id");
 
 		$.ajax({
 			url: baseURL+'index.php/Cobranza_ctrl/guardarNotaSeguimiento',
 			dataType: 'text',
 			method: 'post',
-			data: {'nota': nuevaNota},
+			data: {'nota': nuevaNota, "idFechaFactura": id},
 			async: false,
 			success: function(r){},
 			error: function(){
