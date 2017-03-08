@@ -151,7 +151,9 @@ class Concepto extends CI_Model {
 			$data[$key] = htmlentities($value, ENT_QUOTES, 'UTF-8');
 
 		$this->db->insert($this->table, $data);
-		return $this->db->insert_id();
+		$concepto = $this->db->query("select max(id) idConcepto from concepto")->row();
+
+		return $concepto->idConcepto;
 	}
 
 	public function traer($id){
