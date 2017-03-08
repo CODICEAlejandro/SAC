@@ -59,7 +59,7 @@ class Concepto extends CI_Model {
 	}
 
 	public function save($recursive = true){
-		if($this->table == 'concepto_cotizacion')
+		if($this->table == 'concepto_cotizacion'){
 			$data = array(
 						"monto" => $this->monto,
 						"estadoActivo" => 1,
@@ -80,7 +80,7 @@ class Concepto extends CI_Model {
 						//"textosDePosicion" => $this->textosDePosicion,
 						//"idPeriodoRecurrencia" => $this->idPeriodoRecurrencia
 					);
-		else{
+		}else{
 			$data = array(
 					"monto" => $this->monto,
 					"estadoActivo" => 1,

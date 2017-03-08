@@ -136,11 +136,16 @@ class Factura extends CI_Model {
 	}
 
 	public function insertar($data){
+		$idFactura = $this->db->query("select max(id) id from factura")->row();
+		$idFactura = $idFactura->id;
+		$idFactura++;
+
+		$data["idFactura"] = $idFactura;
 		foreach($data as $key => $value)
 			$data[$key] = htmlentities($value, ENT_QUOTES, 'UTF-8');
 
 		$this->db->insert($this->table, $data);
-		return $this->db->insert_id();
+		return $idFactura;
 	}
 
 	public function traer($id){
