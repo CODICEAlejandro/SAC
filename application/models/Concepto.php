@@ -126,9 +126,9 @@ class Concepto extends CI_Model {
 
 		}
 
-		//Actualizar el estado de la factura en Fecha_factura.idFechaFactura a NO PAGADO
+		//Actualizar el estado de la factura en Fecha_factura.idEstadoFactura a NO PAGADO
 		$ids_fechas_factura = substr($ids_fechas_factura, 0, strlen($ids_fechas_factura)-1); //Quitando la última coma (,)
-		$query_fecha_factura = "UPDATE fecha_factura set idFechaFactura = 24 where id in (".$ids_fechas_factura.")";
+		$query_fecha_factura = "UPDATE fecha_factura set idEstadoFactura = 24 where id in (".$ids_fechas_factura.")";
 		$this->db->query($query_fecha_factura);
 
 		if($recursive){
