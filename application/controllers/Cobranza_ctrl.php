@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Cobranza_ctrl extends CI_Controller {
 	public function index(){
 		$data['menu'] = $this->load->view('Menu_principal', null, true);
-
+		$data["clientes"] = $this->db->query("select * from catcliente where tipo = 0 and estadoActivo = 1")->result();
 		$data['fechas'] = $this->traerData();
 		$this->load->view("Cobranza_vw", $data);
 	}
@@ -14,6 +14,7 @@ class Cobranza_ctrl extends CI_Controller {
 			$idCliente = htmlentities($_POST["idCliente"], ENT_QUOTES, "UTF-8");
 		}else $idCliente = -1;
 
+		$data["clientes"] = $this->db->query("select * from catcliente where tipo = 0 and estadoActivo = 1")->result();
 		$data["fechas"] = $this->traerData($idCliente);
 		$data['menu'] = $this->load->view('Menu_principal', null, true);
 		$this->load->view("Cobranza_vw", $data);
