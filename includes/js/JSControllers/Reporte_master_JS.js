@@ -163,13 +163,14 @@ function retrieveData(){
 			var mainData = response['mainData'];
 			var analytics = response['analytics'];
 
-			var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control' style='width: 150px;'>";
+			//var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control' style='width: 150px;'>";
+			var appendedEstadoFactura = "";
 
-			for(k=0, n=estadosFactura.length; k<n; k++){
-				appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadosFactura[k].descripcion+"</option>";
-			}
+			//for(k=0, n=estadosFactura.length; k<n; k++){
+				//appendedEstadoFactura += "<option value="+estadosFactura[k].id+">"+estadosFactura[k].descripcion+"</option>";
+			//}
 
-			appendedEstadoFactura += "</select>";
+			//appendedEstadoFactura += "</select>";
 
 			$("#numeroCotizaciones").html(analytics['numeroCotizaciones']);
 			$("#numeroConceptosFacturados").html(analytics['numeroConceptosFacturados']);
@@ -184,13 +185,19 @@ function retrieveData(){
 			$("#totalDolares").html( (analytics['importeNoFacturadoDolares'] + analytics['importeFacturadoDolares']) + " USD");
 
 			for(k=0, n=mainData.length; k<n; k++){
+				for(edo=0, edoN=estadosFactura.length; edo<edoN; edo++){
+					if(estadosFactura[edo].id = mainData[k].idEstadoFactura){
+						appendedEstadoFactura = estadoFactura[edo].descripcion;
+					}
+				}
+
 				table.append("<tr></tr>");
 				lastRow = table.find("tr:last-child");
 
 				lastRow.append("<td id='col-estadoFactura'>"+appendedEstadoFactura+"</td>");
 				lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
 				lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
-				lastRow.append("<td><input class='form-control' id='col-fechaPago' value='"+mainData[k].fechaPago+"' style='width: 150px;'></td>");
+				lastRow.append("<td><input class='form-control' id='col-fechaPago' value='"+mainData[k].fechaPago+"' style='width: 150px;' disabled></td>");
 				lastRow.append("<td id='col-cliente'>"+mainData[k].cliente+"</td>");
 				lastRow.append("<td id='col-id'>"+mainData[k].id+"</td>");
 				lastRow.append("<td id='col-subtotal'>"+mainData[k].subtotal+"</td>");
@@ -213,9 +220,9 @@ function retrieveData(){
 				lastRow.append("<td id='col-contrato'>"+mainData[k].contrato+"</td>");
 				lastRow.append('<td id="col-nota"><div class="input-group" id="fatherNote" style="width: 300px;"><textarea rows="4" style="width: 95%" id="nota" class="form-control notaConcepto">'+mainData[k].nota+'</textarea><span class="input-group-btn"><button class="btn btn-default" id="btn-save-note" data-id='+mainData[k].id+' type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button></span></div></td>');
 
-				lastRow.find("#estadoFacturaSelect").val(mainData[k].idEstadoFactura);
-				lastRow.find("#estadoFacturaSelect").attr('data-id', mainData[k].id);
-				lastRow.find("#col-fechaPago").attr('data-id', mainData[k].id);
+				//lastRow.find("#estadoFacturaSelect").val(mainData[k].idEstadoFactura);
+				//lastRow.find("#estadoFacturaSelect").attr('data-id', mainData[k].id);
+				//lastRow.find("#col-fechaPago").attr('data-id', mainData[k].id);
 	
 				lastRow.find("#btn-save-note").click(function(){
 					var currentID = $(this).attr("data-id");
@@ -238,19 +245,23 @@ function retrieveData(){
 					button.removeClass().addClass("btn btn-warning");
 				});
 
+				/*
 				lastRow.find("#estadoFacturaSelect").change(function(){
 					var currentID = $(this).attr("data-id");
 					var currentEstadoFactura = $(this).val();
 
 					saveEstadoFactura(currentID, currentEstadoFactura);
 				});
+				*/
 
+				/*
 				lastRow.find("#col-fechaPago").change(function(){
 					var currentID = $(this).attr("data-id");
 					var fechaPago = $(this).val();
 
 					saveFechaPago(currentID, fechaPago);
 				});
+				*/
 			}
 		},
 		error: function(){
