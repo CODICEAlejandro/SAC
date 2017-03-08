@@ -123,7 +123,8 @@ class Factura extends CI_Model {
 
 				$dataConcepto_factura = array(
 					"idConcepto" => $idConcepto,
-					"idFactura" => $idFactura
+					"idFactura" => $idFactura,
+					"nota" => ""
 				);
 				$this->db->insert("concepto_factura_rel", $dataConcepto_factura);
 			}
