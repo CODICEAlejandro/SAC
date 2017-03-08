@@ -24,9 +24,9 @@ class Lectura_factura_ctrl extends CI_Controller {
 		$data = json_decode($data, true);
 
 		$factura = Factura::parseFactura($data);
-		$factura->save(true);
+		$response = $factura->save(true);
 
-		print_r($factura);
+		echo $response;
 	}
 
 	public function getRazonesSociales($idCliente){

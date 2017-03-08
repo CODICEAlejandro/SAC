@@ -135,6 +135,7 @@ class Concepto extends CI_Model {
 			foreach($this->impuestos as $impuesto){
 				$impuesto->idConcepto = $idConcepto;
 				$impuesto->save();
+				echo "Relacionando impuesto con concepto: IDCONCEPTO => ".$idConcepto."<br>";
 			}
 		}
 
