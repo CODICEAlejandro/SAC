@@ -31,6 +31,11 @@ class Concepto extends CI_Model {
 	public static function parseConcepto($data){
 		$result = new Concepto();
 
+		//Cambio de variables no definidas por valores nulos correspondientes al tipo de dato
+		if(!isset($data["idClasificacion_servicio"])) $data["idClasificacion_servicio"] = 0;
+		if(!isset($data["iva"])) $data["iva"] = 0.0;
+		if(!isset($data["total"])) $data["total"] = 0.0;
+
 		$result->idMatched = array();
 		$result->cantidad = $data["cantidad"];
 		$result->unidadDeMedida = $data["unidadDeMedida"];
