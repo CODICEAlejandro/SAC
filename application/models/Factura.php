@@ -140,7 +140,7 @@ class Factura extends CI_Model {
 		$idFactura = $idFactura->id;
 		$idFactura++;
 
-		$data["idFactura"] = $idFactura;
+		$data["id"] = $idFactura;
 		foreach($data as $key => $value)
 			$data[$key] = htmlentities($value, ENT_QUOTES, 'UTF-8');
 
