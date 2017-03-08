@@ -148,7 +148,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				//Vaciar resultados homogéneos de facturación en concepto de cotización correspondiente
 				$conceptoHomogeneo = $conceptosFactura[0];
 				$concepto->estadoFactura = $conceptoHomogeneo->estadoFactura;
-				$concepto->tipoConcepto = $conceptoHomogeneo->tipoConcepto;
+				//$concepto->tipoConcepto = $conceptoHomogeneo->tipoConcepto;
 				$concepto->folio = $conceptoHomogeneo->folio;
 				$concepto->fechaPago = $conceptoHomogeneo->fechaPago;
 				$concepto->moneda = $conceptoHomogeneo->moneda;
