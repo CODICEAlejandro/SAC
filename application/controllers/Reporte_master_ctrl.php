@@ -180,6 +180,8 @@ class Reporte_master_ctrl extends CI_Controller {
 				}
 
 				$numeroConceptosFacturados++;
+				//Se agrego aquí en vez de abajo, solo cuando entra en esta condición se debe mostrar
+				array_push($result_array, $concepto);
 			}else{
 				$concepto->folio = 'NO DISPONIBLE';
 				$concepto->fechaPago = 'NO DISPONIBLE';
@@ -208,11 +210,12 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->total = 0;
 				}
 
-				$importeNoFacturadoPesos += $concepto->total;
-				$numeroConceptosSinFacturar++;
+				//$importeNoFacturadoPesos += $concepto->total;
+				//$numeroConceptosSinFacturar++;
 			}
 
-			array_push($result_array, $concepto);
+			// Se quito de aqui el array push, pues no se deben meter todos los conceptos, sino únicamente los que estén SI DISPONIBLES
+			//array_push($result_array, $concepto);
 		}
 
 		//Almacenar datos para su posible exportación en excel
