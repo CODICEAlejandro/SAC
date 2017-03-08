@@ -264,7 +264,7 @@ $(function(){
 			},
 			success: function(response){
 				alert("Factura generada");
-				window.location.replace(baseURL+"index.php/Panel_control_ctrl");
+				//window.location.replace(baseURL+"index.php/Panel_control_ctrl");
 			},
 			error: function(){
 				alert("Error. Intente de nuevo, por favor.");
