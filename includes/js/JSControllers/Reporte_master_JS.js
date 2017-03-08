@@ -187,7 +187,8 @@ function retrieveData(){
 			for(k=0, n=mainData.length; k<n; k++){
 				for(edo=0, edoN=estadosFactura.length; edo<edoN; edo++){
 					if(estadosFactura[edo].id = mainData[k].idEstadoFactura){
-						appendedEstadoFactura = estadoFactura[edo].descripcion;
+						appendedEstadoFactura = estadosFactura[edo].descripcion;
+						break;
 					}
 				}
 
