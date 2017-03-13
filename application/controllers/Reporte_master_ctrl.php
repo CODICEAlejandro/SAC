@@ -199,8 +199,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
 					array_push($result_array, $concepto);
 
-					$importeNoFacturadoPesos += $concepto->total;
-					$numeroConceptosSinFacturar++;
+					// $importeNoFacturadoPesos += $concepto->total;
+					// $numeroConceptosSinFacturar++;
 
 				}else if($concepto->idEstadoFactura == 23){
 					//Por facturar
@@ -210,8 +210,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
 					array_push($result_array, $concepto);
 
-					$importeNoFacturadoPesos += $concepto->total;
-					$numeroConceptosSinFacturar++;
+					// $importeNoFacturadoPesos += $concepto->total;
+					// $numeroConceptosSinFacturar++;
 				}else{
 					//$concepto->estadoFactura = "NO DEFINIDO";
 					$concepto->cantidadIVA = 0;
@@ -219,8 +219,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->total = 0;
 				}
 
-				//$importeNoFacturadoPesos += $concepto->total;
-				//$numeroConceptosSinFacturar++;
+				$importeNoFacturadoPesos += $concepto->total;
+				$numeroConceptosSinFacturar++;
 			}
 
 			// Se quito de aqui el array push, pues no se deben meter todos los conceptos, sino únicamente los que estén SI DISPONIBLES
