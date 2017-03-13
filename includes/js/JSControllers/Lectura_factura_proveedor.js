@@ -268,6 +268,7 @@ $(function(){
 			},
 			error: function(){
 				alert("Error. Intente de nuevo, por favor.");
+				window.location.replace(baseURL+"index.php/Panel_control_ctrl");
 			}
 		});
 	});
