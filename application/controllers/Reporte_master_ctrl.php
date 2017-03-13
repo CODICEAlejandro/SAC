@@ -57,6 +57,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					ff.importe montoFechaFactura,
 					ff.idEstadoFactura idEstadoFactura,
 					ff.importe subtotal,
+					ff.fecha_final fechaPago,
 					(ff.importe * ((con_cot.iva/100)+1)) total,
 					(ff.importe - (ff.importe * ((con_cot.iva/100)+1))) cantidadIVA,
 					con_cot.iva tasa,
@@ -108,7 +109,6 @@ class Reporte_master_ctrl extends CI_Controller {
 			//relacionados con el concepto de la cotización
 			$query2 = "select
 						f.folio folio,
-						f.fechaPago fechaPago,
 						f.moneda moneda,
 						f.fechaFactura fechaFactura,
 						f.ordenCompra ordenCompra,
@@ -150,7 +150,7 @@ class Reporte_master_ctrl extends CI_Controller {
 				//$concepto->estadoFactura = $conceptoHomogeneo->estadoFactura;
 				//$concepto->tipoConcepto = $conceptoHomogeneo->tipoConcepto;
 				$concepto->folio = $conceptoHomogeneo->folio;
-				$concepto->fechaPago = $conceptoHomogeneo->fechaPago;
+				//$concepto->fechaPago = $conceptoHomogeneo->fechaPago;
 				$concepto->moneda = $conceptoHomogeneo->moneda;
 				$concepto->fechaFactura = $conceptoHomogeneo->fechaFactura;
 				$concepto->ordenCompra = $conceptoHomogeneo->ordenCompra;
