@@ -69,11 +69,13 @@ class Reporte_master_ctrl extends CI_Controller {
 					c.fechaJuntaArranque fechaJuntaArranque,
 					c.titulo tituloCotizacion,
 					cli.nombre cliente,
+					edo_fac.descripcion estadoFactura,
 					IF(c.contrato=1, 'SÍ', 'NO') contrato,
 					IFNULL(ce.nombre, 'NO ASIGNADO') cerrador,
 					IFNULL(ac.nombre, 'NO ASIGNADO') accountManager
 				from
 					fecha_factura ff
+					inner join catestadofactura edo_fac on edo_fac.id = ff.idEstadoFactura
 					left join concepto_cotizacion con_cot on con_cot.id = ff.idConceptoCotizacion
 					left join cotizacion c on c.id = con_cot.idCotizacion
 					left join catusuario ce on ce.id = c.idCerrador
@@ -86,6 +88,8 @@ class Reporte_master_ctrl extends CI_Controller {
 
 		if($idCliente != -1) $appendQuery .= " AND c.`idCliente` = ".$idCliente;
 		if($idCotizacion != -1) $appendQuery .= " AND c.`folio` = '".$idCotizacion."'";
+		if($idEstadoFactura != -1) $appendQuery .= " AND ff.`idEstadoFactura` = ".$idEstadoFactura;
+
 
 		$query1 .= $appendQuery;
 		$conceptos_cotizacion = $this->db->query($query1)->result();
@@ -103,7 +107,6 @@ class Reporte_master_ctrl extends CI_Controller {
 			//	-impuestos de concepto de factura
 			//relacionados con el concepto de la cotización
 			$query2 = "select
-						edo_fac.descripcion estadoFactura,
 						f.folio folio,
 						f.fechaPago fechaPago,
 						f.moneda moneda,
@@ -124,7 +127,6 @@ class Reporte_master_ctrl extends CI_Controller {
 							)
 						inner join concepto c on c.id = cr.idConcepto
 						inner join factura f on f.id = cr.idFactura
-						inner join catestadofactura edo_fac on edo_fac.id = f.idEstadoFactura
 						inner join impuesto i on i.idConcepto = c.id
 					where
 						1 = 1
@@ -136,8 +138,6 @@ class Reporte_master_ctrl extends CI_Controller {
 				$appendQuery .= " AND f.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
 			if($fechaPagoDesde != "none") 
 				$appendQuery .= " AND f.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
-			if($idEstadoFactura != -1) 
-				$appendQuery .= " AND f.`idEstadoFactura` = ".$idEstadoFactura;
 			if($folioFactura != "none") 
 				$appendQuery .= " AND f.`folio` = '".$folioFactura."'";
 
@@ -147,7 +147,7 @@ class Reporte_master_ctrl extends CI_Controller {
 			if(count($conceptosFactura)>0){
 				//Vaciar resultados homogéneos de facturación en concepto de cotización correspondiente
 				$conceptoHomogeneo = $conceptosFactura[0];
-				$concepto->estadoFactura = $conceptoHomogeneo->estadoFactura;
+				//$concepto->estadoFactura = $conceptoHomogeneo->estadoFactura;
 				//$concepto->tipoConcepto = $conceptoHomogeneo->tipoConcepto;
 				$concepto->folio = $conceptoHomogeneo->folio;
 				$concepto->fechaPago = $conceptoHomogeneo->fechaPago;
