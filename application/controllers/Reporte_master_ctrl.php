@@ -163,12 +163,12 @@ class Reporte_master_ctrl extends CI_Controller {
 
 				if($concepto->idEstadoFactura == 22){
 					//Cancelado
-					$concepto->estadoFactura = "CANCELADA";
+					//$concepto->estadoFactura = "CANCELADA";
 				}else if($concepto->idEstadoFactura == 24){
 					//No pagado
-					$concepto->estadoFactura = "NO PAGADO";
+					//$concepto->estadoFactura = "NO PAGADO";
 				}else{
-					$concepto->estadoFactura = "NO DEFINIDO";
+					//$concepto->estadoFactura = "NO DEFINIDO";
 				}
 
 				if($conceptoHomogeneo->moneda == "MXN"){
@@ -193,18 +193,18 @@ class Reporte_master_ctrl extends CI_Controller {
 
 				if($concepto->idEstadoFactura == 22){
 					//Cancelado
-					$concepto->estadoFactura = "CANCELADA";
+					//$concepto->estadoFactura = "CANCELADA";
 					$concepto->subtotal = $concepto->montoFechaFactura;
 					$concepto->total = $concepto->totalConceptoCotizacion;
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
 				}else if($concepto->idEstadoFactura == 23){
 					//Por facturar
-					$concepto->estadoFactura = "POR FACTURAR";
+					//$concepto->estadoFactura = "POR FACTURAR";
 					$concepto->subtotal = $concepto->montoFechaFactura;
 					$concepto->total = $concepto->totalConceptoCotizacion;
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
 				}else{
-					$concepto->estadoFactura = "NO DEFINIDO";
+					//$concepto->estadoFactura = "NO DEFINIDO";
 					$concepto->cantidadIVA = 0;
 					$concepto->subtotal = 0;
 					$concepto->total = 0;
