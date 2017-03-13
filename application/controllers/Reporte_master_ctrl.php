@@ -197,12 +197,14 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->subtotal = $concepto->montoFechaFactura;
 					$concepto->total = $concepto->totalConceptoCotizacion;
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
+					array_push($result_array, $concepto);
 				}else if($concepto->idEstadoFactura == 23){
 					//Por facturar
 					//$concepto->estadoFactura = "POR FACTURAR";
 					$concepto->subtotal = $concepto->montoFechaFactura;
 					$concepto->total = $concepto->totalConceptoCotizacion;
 					$concepto->cantidadIVA = ($concepto->total) - ($concepto->subtotal);
+					array_push($result_array, $concepto);
 				}else{
 					//$concepto->estadoFactura = "NO DEFINIDO";
 					$concepto->cantidadIVA = 0;
