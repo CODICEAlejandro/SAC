@@ -1,7 +1,11 @@
-function appendDireccionesOperativas(data, removeActual = true){
+function appendDireccionesOperativas(data, removeActual){
 	var formulario = null;
 	var appendSection = $("#existent-section-direccion-operativa");
 	var currentElement = 0;
+
+	if(removeActual === undefined){
+		removeActual = true;
+	}
 
 	if(removeActual){
 		appendSection.find("*").remove();

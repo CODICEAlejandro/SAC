@@ -1,8 +1,10 @@
-function appendContactos(appendSection, data = null){
+function appendContactos(appendSection, data){
 	var form = $("#sc-agenda").clone(true);
 	form.find("form").unbind("submit");
 
-	alert(data.correo);
+	if(data === undefined){
+		data = null;
+	}
 
 	if(data == null){
 		form.attr("id", "sc_new_contacto");

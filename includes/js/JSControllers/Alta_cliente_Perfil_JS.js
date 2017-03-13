@@ -1,7 +1,11 @@
-function appendProfile(appendSection, data = null){
+function appendProfile(appendSection, data){
 	var section = $("#sc-perfil").clone(true);
 	var form = section.find("form.form_perfil");
 	form.unbind("submit");
+
+	if(data === undefined){
+		data = null;
+	}
 
 	form.find("#btn-eliminar-perfil").click(function(event){
 		event.preventDefault();

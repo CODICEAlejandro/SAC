@@ -82,7 +82,7 @@ $(function(){
 	$(".btn-guardar-nota").click(function(event){
 		event.preventDefault();
 
-		var nuevaNota = $(this).html();
+		var nuevaNota = $(this).parent().find("#nota-seguimiento").html();
 		var id = $(this).attr("data-id");
 
 		$.ajax({

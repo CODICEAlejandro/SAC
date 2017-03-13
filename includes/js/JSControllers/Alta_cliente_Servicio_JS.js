@@ -1,7 +1,11 @@
-function appendServicio(appendSection, data = null){
+function appendServicio(appendSection, data){
 	var section = $("#sc-servicio").clone(true);
 	var form = section.find("form.form_servicio");
 	form.unbind("submit");
+
+	if(data === undefined){
+		data = null;
+	}
 
 	form.find("#btn-eliminar-servicio").click(function(event){
 		event.preventDefault();

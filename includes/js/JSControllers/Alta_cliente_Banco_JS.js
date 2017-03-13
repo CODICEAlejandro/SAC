@@ -5,11 +5,15 @@ function appendBancosAsociados(data){
 		appendFormBanco($("#existent-section-banco"), data[k]);
 }
 
-function appendFormBanco(appendSection, data = null){
+function appendFormBanco(appendSection, data){
 	var form = $("#sc-banco").clone(true);
 
 	form.attr("id", "sc-banco-appended");
 	form.unbind('submit');
+
+	if(data === undefined){
+		data = null;
+	}
 
 	if(data != null){
 		// Se trata de un formulario para edición
@@ -48,10 +52,14 @@ function appendFormBanco(appendSection, data = null){
 	form.appendTo(appendSection);
 }
 
-function traerDireccionesFiscalesBanco(currentForm, currentSelection = null){
+function traerDireccionesFiscalesBanco(currentForm, currentSelection){
 	var idPadre = $("#cCliente").val();
 	var form = currentForm;
 	var select = form.find("#idDireccionFiscal");
+
+	if(currentSelection === undefined){
+		currentSelection = null;
+	}
 
 	$.ajax({
 		url: pageController+'/traerDireccionesFiscales_AJAX/'+idPadre,

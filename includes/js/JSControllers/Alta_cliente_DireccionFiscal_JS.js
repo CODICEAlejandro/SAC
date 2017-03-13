@@ -1,9 +1,13 @@
 //************************* Appends
 
-function appendDireccionesFiscales(data, removeActual = true){
+function appendDireccionesFiscales(data, removeActual){
 	var formulario = null;
 	var appendSection = $("#existent-section-direccion-fiscal");
 	var currentElement = 0;
+
+	if(removeActual === undefined){
+		removeActual = true;
+	}
 
 	if(removeActual){
 		appendSection.find("*").remove();
