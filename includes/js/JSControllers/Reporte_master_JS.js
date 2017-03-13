@@ -195,7 +195,7 @@ function retrieveData(){
 				table.append("<tr></tr>");
 				lastRow = table.find("tr:last-child");
 
-				lastRow.append("<td id='col-estadoFactura'>"+appendedEstadoFactura+"</td>");
+				lastRow.append("<td id='col-estadoFactura'>"+mainData[k].estadoFactura+"</td>");
 				lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
 				lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
 				lastRow.append("<td><input class='form-control' id='col-fechaPago' value='"+mainData[k].fechaPago+"' style='width: 150px;' disabled></td>");
