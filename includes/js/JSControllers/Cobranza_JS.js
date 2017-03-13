@@ -85,8 +85,6 @@ $(function(){
 		var nuevaNota = $(this).closest("td").find("#nota-seguimiento").val();
 		var id = $(this).attr("data-id");
 
-		alert(nuevaNota);
-
 		$.ajax({
 			url: baseURL+'index.php/Cobranza_ctrl/guardarNotaSeguimiento',
 			dataType: 'text',
