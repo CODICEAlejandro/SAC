@@ -82,8 +82,10 @@ $(function(){
 	$(".btn-guardar-nota").click(function(event){
 		event.preventDefault();
 
-		var nuevaNota = $(this).parent().find("#nota-seguimiento").html();
+		var nuevaNota = $(this).closest("td").find("#nota-seguimiento").html();
 		var id = $(this).attr("data-id");
+
+		alert(nuevaNota);
 
 		$.ajax({
 			url: baseURL+'index.php/Cobranza_ctrl/guardarNotaSeguimiento',
