@@ -165,6 +165,8 @@ function pintarFechasDisponibles(){
 			idFechaFactura = totalFechasFactura[k][0];
 			option = totalFechasFactura[k][1];
 
+			alert(respaldo+" VS "+idFechaFactura);
+
 			if(respaldo != idFechaFactura){
 				//Verifica que el ID en cuestión no esté en la lista de no disponibles
 				for(i=0, j=matches.length; i<j; i++){
@@ -177,6 +179,8 @@ function pintarFechasDisponibles(){
 
 			if(flag) cSelect.append(option);
 		}
+
+		cSelect.val(respaldo);
 	});
 }
 
