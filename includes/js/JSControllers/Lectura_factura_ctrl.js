@@ -202,6 +202,7 @@ $(function(){
 	$(".btn-add-matched-select").click(function(event){
 		event.preventDefault();
 		addMatchedSelect($(this));
+		pintarFechasDisponibles();
 	});
 
 	$("#folioFactura").change(function(){
