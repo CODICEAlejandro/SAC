@@ -128,7 +128,11 @@ function deleteMatch(sender){
 	var currentMatches = parentRow.find("#append-section-matchCol").find(".clone-match-col").size();
 	if(currentMatches > 1){
 		sender.closest(".clone-match-col").remove();
-	}else alert("Por lo menos debe existir una fecha de factura asociada para cada concepto");
+		return true;
+	}else{
+		alert("Por lo menos debe existir una fecha de factura asociada para cada concepto");
+		return false;
+	}
 }
 
 function pintarFechasDisponibles(){
@@ -192,9 +196,9 @@ $(function(){
 
 	$(".btn-delete-match").click(function(event){
 		event.preventDefault();
-		deleteMatch($(this));
-
-		pintarFechasDisponibles();
+		
+		if(deleteMatch($(this)))
+			pintarFechasDisponibles();
 	});
 
 	$(".btn-add-matched-select").click(function(event){
