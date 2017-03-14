@@ -12,6 +12,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script type="text/javascript">
 		var baseURL = "<?php echo base_url(); ?>";
+		var fechasFacturaDisponibles = new Array();
+		var fechasFacturaConMatch = new Array();
+
 		<?php if (isset($factura)){ ?>
 
 		var factura = jQuery.parseJSON('<?php echo json_encode($factura); ?>'.replace(/\s+/g,""));
