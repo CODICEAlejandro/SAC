@@ -426,11 +426,11 @@ class Reporte_master_ctrl extends CI_Controller {
 		$xls->setCellValue("Proyecto"); $xls->nextCol();
 		$xls->setCellValue("Inicio de proyecto"); $xls->nextCol();
 		$xls->setCellValue("Fin de proyecto"); $xls->nextCol();
-		$xls->setCellValue("Razón social"); $xls->nextCol();
+		// $xls->setCellValue("Razón social"); $xls->nextCol();
 		$xls->setCellValue("Fecha de venta"); $xls->nextCol();
 		$xls->setCellValue("Junta de arranque"); $xls->nextCol();
 		$xls->setCellValue("Cerrador"); $xls->nextCol();
-		$xls->setCellValue("Responsable"); $xls->nextCol();
+		// $xls->setCellValue("Responsable"); $xls->nextCol();
 		$xls->setCellValue("Account Manager"); $xls->nextCol();
 		$xls->setCellValue("IVA"); $xls->nextCol();
 		$xls->setCellValue("Monto de IVA"); $xls->nextCol();
@@ -461,11 +461,11 @@ class Reporte_master_ctrl extends CI_Controller {
 			$xls->setCellValue($row->tituloCotizacion); $xls->nextCol();
 			$xls->setCellValue($row->inicioProyecto); $xls->nextCol();
 			$xls->setCellValue($row->finProyecto); $xls->nextCol();
-			$xls->setCellValue($row->razonSocial); $xls->nextCol();
+			// $xls->setCellValue($row->razonSocial); $xls->nextCol();
 			$xls->setCellValue($row->fechaVenta); $xls->nextCol();
 			$xls->setCellValue($row->fechaJuntaArranque); $xls->nextCol();
 			$xls->setCellValue($row->cerrador); $xls->nextCol();
-			$xls->setCellValue($row->responsable); $xls->nextCol();
+			// $xls->setCellValue($row->responsable); $xls->nextCol();
 			$xls->setCellValue($row->accountManager); $xls->nextCol();
 			$xls->setCellValue($row->tasa); $xls->nextCol();
 			$xls->setCellValue($row->cantidadIVA); $xls->nextCol();
