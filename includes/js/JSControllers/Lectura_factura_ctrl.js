@@ -49,25 +49,36 @@ function retrieveFechasFactura(idCliente){
 			var k, n;
 			var appendedDescription;
 
-			// Limpieza de los select
-			appendSection.find("*").remove();
-
-			appendSection.append('<option value="-1">Ninguno</option>');
-
+			totalFechasFactura = response;
 			for(k=0, n=response.length; k<n; k++){
-				appendedDescription =  '<option value="'+response[k].idFechaFactura+'">';
-				appendedDescription += response[k].folioCotizacion+' - ';
-				appendedDescription += response[k].referenciaFecha+' - ';
-				appendedDescription += response[k].fechaFactura;
-				appendedDescription += '</option>';
+				fechasFacturaDisponibles.push(k);
+			}
 
-				appendSection.append(appendedDescription);
-			}			
+			pintarFechasFacturaDisponibles();
 		},
 		error: function(){
 			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
 		}
 	});
+}
+
+function pintarFechasFacturaDisponibles(){
+	var appendSection = $("#conceptos-tbl tbody select.idMatched");
+	var appendedDescription;
+
+	// Limpieza de los select
+	appendSection.find("*").remove();
+	appendSection.append('<option value="-1">Ninguno</option>');
+
+	for(k=0, n=fechasFacturaDisponibles.length; k<n; k++){
+		appendedDescription =  '<option value="'+totalFechasFactura[fechasFacturaDisponibles[k]].idFechaFactura+'">';
+		appendedDescription += totalFechasFactura[fechasFacturaDisponibles[k]].folioCotizacion+' - ';
+		appendedDescription += totalFechasFactura[fechasFacturaDisponibles[k]].referenciaFecha+' - ';
+		appendedDescription += totalFechasFactura[fechasFacturaDisponibles[k]].fechaFactura;
+		appendedDescription += '</option>';
+
+		appendSection.append(appendedDescription);
+	}			
 }
 
 function isFill(){
