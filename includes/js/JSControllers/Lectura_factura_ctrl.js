@@ -50,6 +50,8 @@ function retrieveFechasFactura(idCliente){
 			var appendedDescription;
 
 			totalFechasFactura = response;
+			fechasFacturaDisponibles = new Array();
+			
 			for(k=0, n=response.length; k<n; k++){
 				fechasFacturaDisponibles.push(k);
 			}
