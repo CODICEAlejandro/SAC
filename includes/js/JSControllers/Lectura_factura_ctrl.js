@@ -268,6 +268,7 @@ $(function(){
 			url: baseURL+'index.php/Lectura_factura_ctrl/getFechaFacturacion/'+idSel,
 			method: 'post',
 			dataType: 'json',
+			async: false,
 			success: function(response){
 				var importe = currentRow.find("span#importeFechaFactura");
 				var nota = currentRow.find("span#notaFechaFactura");
