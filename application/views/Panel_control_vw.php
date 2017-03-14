@@ -38,9 +38,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Alta_cliente_ctrl" style="text-align: left;">Ir a administrador</a>
-				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_info_codice_ctrl" style="text-align: left;">Información de facturación</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Alta_conceptos_cotizacion_ctrl" style="text-align: left;">Junta de arranque</a>
-				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_cotizacion_ctrl" style="text-align: left;">Seguimiento de cobranza</a>
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_cotizacion_ctrl" style="text-align: left; display: none;">Seguimiento de cobranza</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Facturacion/Consulta_conceptos_facturacion_ctrl" style="text-align: left;">Seguimiento de facturación</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Lectura_factura_ctrl" style="text-align: left;">Subir factura</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Cobranza_ctrl" style="text-align: left;">Cobranza</a>
@@ -72,6 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Facturacion/Captura_facturacion_ctrl" style="text-align: left;">Captura de facturación</a>
 				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Facturacion/Categorizacion_facturacion_ctrl" style="text-align: left;">Categorización de conceptos</a>
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Control_info_codice_ctrl" style="text-align: left;">Información de facturación</a>
 			</div>
 		</div>
 

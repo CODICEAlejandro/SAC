@@ -121,7 +121,7 @@ class Lectura_factura_ctrl extends CI_Controller {
 							fecha_factura f
 							left join concepto_cotizacion con on con.id = f.idConceptoCotizacion
 							left join cotizacion cot on cot.id = con.idCotizacion
-							left join catservicio cas on cas.id = con.idClasificacion_servicio
+							left join catclasificacion_servicio cas on cas.id = con.idClasificacion_servicio
 						where
 							f.id = ".$idFechaFacturacion."
 						";

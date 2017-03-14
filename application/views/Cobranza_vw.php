@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<th>Folio de la factura</th>
 					<th>Folio de la cotización</th>
 					<th>Cliente</th>
-					<th>Pagar</th>
+					<th>Pagado</th>
 					<th>Cancelar</th>
 					<th>Refacturar</th>
 					<th>Referencia</th>
@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td><?php echo $f->ref_fecha; ?></td>
 					<td><?php echo $f->desc_concepto_asociado; ?></td>
 					<td>
-						<textarea class="form-control" id="nota-seguimiento" cols="5" rows="3"><?php echo $f->nota_seguimiento; ?></textarea>
+						<textarea class="form-control" id="nota-seguimiento" cols="5" rows="3" style="width: 250px !important;"><?php echo $f->nota_seguimiento; ?></textarea>
 						<button class="form-control btn btn-primary btn-guardar-nota" data-id="<?php echo $f->id; ?>">Guardar</button>
 					</td>
 				</tr>
