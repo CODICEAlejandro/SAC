@@ -62,7 +62,7 @@ function retrieveFechasFactura(idCliente){
 				appendedDescription += response[k].fechaFactura;
 				appendedDescription += '</option>';
 
-				totalFechasFactura.push(response[k].idFechaFactura, appendedDescription);
+				totalFechasFactura.push(new Array(response[k].idFechaFactura, appendedDescription));
 				appendSection.append(appendedDescription);
 			}			
 		},
