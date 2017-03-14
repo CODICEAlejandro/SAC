@@ -49,9 +49,10 @@ function retrieveFechasFactura(idCliente){
 			var k, n;
 			var appendedDescription;
 
+			totalFechasFactura = new Array();
+
 			// Limpieza de los select
 			appendSection.find("*").remove();
-
 			appendSection.append('<option value="-1">Ninguno</option>');
 
 			for(k=0, n=response.length; k<n; k++){
@@ -61,6 +62,7 @@ function retrieveFechasFactura(idCliente){
 				appendedDescription += response[k].fechaFactura;
 				appendedDescription += '</option>';
 
+				totalFechasFactura.push(response[k].idFechaFactura, appendedDescription);
 				appendSection.append(appendedDescription);
 			}			
 		},
@@ -127,6 +129,55 @@ function deleteMatch(sender){
 	if(currentMatches > 1){
 		sender.closest(".clone-match-col").remove();
 	}else alert("Por lo menos debe existir una fecha de factura asociada para cada concepto");
+}
+
+function pintarFechasDisponibles(){
+	var selects = $("#conceptos-tbl tbody tr #matchCol .clone-match-col select.idMatched");
+	var cSelect;
+	var respaldo;
+	var matches = new Array();
+	var k, n, flag;
+	var i, j;
+	var idFechaFactura, option;
+
+	// matches = contiene la lista de id's de factura que ya han sido seleccionados
+	// totalFechasFactura = arreglo de arreglos de la forma = { {idFechaFactura, HTMLDeOption}, ... }
+
+	// Forma arreglo con matches
+	selects.each(function(index){
+		matches.push($(this).val());
+	});
+
+	// Forma options correspondientes con cada select, conservando la opción que actualmente está seleccionada
+	selects.each(function(index){
+		cSelect = $(this);
+		respaldo = cSelect.val();
+
+		//Limpia los options actuales
+		cSelect.find("*").remove();
+		cSelect.append('<option value="-1">Ninguno</option>');
+
+		//Agregar opciones que no estén en la lista de matches + la opción que está actualmente seleccionada
+		for(k=0, n=totalFechasFactura.length; k<n; k++){
+			flag = true;	//Para flag = true => Agrega option a select
+
+			//Verificar si el ID en cuestión es el seleccionado
+			idFechaFactura = totalFechasFactura[k][0];
+			option = totalFechasFactura[k][1];
+
+			if(respaldo != idFechaFactura){
+				//Verifica que el ID en cuestión no esté en la lista de no disponibles
+				for(i=0, j=matches.length; i<j; i++){
+					if(matches[i] == idFechaFactura){
+						flag = false;
+						break;
+					}
+				}
+			}
+
+			if(flag) cSelect.append(option);
+		}
+	});
 }
 
 $(function(){
