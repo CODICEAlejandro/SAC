@@ -14,6 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		var baseURL = "<?php echo base_url(); ?>";
 		var fechasFacturaDisponibles = new Array();
 		var fechasFacturaConMatch = new Array();
+		var totalFechasFactura = new Array();
 
 		<?php if (isset($factura)){ ?>
 

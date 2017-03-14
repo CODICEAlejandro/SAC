@@ -175,31 +175,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div 
 				class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
 			>
-				<table
-					class="table table-hover table-bordered"
-				>
-					<thead>
-						<tr>
-							<td></td>
-							<td>Facturado</td>
-							<td>No facturado</td>
-							<td>Total</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Pesos</td>
-							<td id="importeFacturadoPesos"></td>
-							<td id="importeNoFacturadoPesos"></td>
-							<td id="totalPesos"></td>
-						</tr>
-						<tr>
-							<td>Dólares</td>
-							<td id="importeFacturadoDolares"></td>
-							<td id="importeNoFacturadoDolares"></td>
-							<td id="totalDolares"></td>
-						</tr>
-					</tbody>
+				<table class="table table-hover table-bordered">
+					<tr>
+						<td rowspan="2"></td>
+						<td colspan="3">Facturado</td>
+						<td colspan="3">No facturado</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Subtotal</td>
+						<td>IVA</td>
+						<td>Total</td>
+						<td>Subtotal</td>
+						<td>IVA</td>
+						<td>Total</td>
+						<td>Total de totales</td>
+					</tr>
+					<tr>
+						<td>Pesos</td>
+						<td id="subtotalFacturadoPesos"></td>
+						<td id="ivaFacturadoPesos"></td>
+						<td id="importeFacturadoPesos"></td>
+						<td id="subtotalNoFacturadoPesos"></td>
+						<td id="ivaNoFacturadoPesos"></td>
+						<td id="importeNoFacturadoPesos"></td>
+						<td id="totalPesos"></td>
+					</tr>
+					<tr>
+						<td>Dólares</td>
+						<td id="subtotalFacturadoDolares"></td>
+						<td id="ivaFacturadoDolares"></td>
+						<td id="importeFacturadoDolares"></td>
+						<td id="subtotalNoFacturadoDolares"></td>
+						<td id="ivaNoFacturadoDolares"></td>
+						<td id="importeNoFacturadoDolares"></td>
+						<td id="totalDolares"></td>
+					</tr>
 				</table>
 			</div>
 		</div>

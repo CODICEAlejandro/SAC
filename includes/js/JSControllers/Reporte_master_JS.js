@@ -178,8 +178,17 @@ function retrieveData(){
 
 			$("#importeNoFacturadoPesos").html(analytics['importeNoFacturadoPesos']);
 			$("#importeNoFacturadoDolares").html(analytics['importeNoFacturadoDolares']);
+			$("#subtotalNoFacturadoPesos").html(analytics['subtotalNoFacturadoPesos']);
+			$("#subtotalNoFacturadoDolares").html(analytics['subtotalNoFacturadoDolares']);
+			$("#ivaNoFacturadoPesos").html(analytics['ivaNoFacturadoPesos']);
+			$("#ivaNoFacturadoDolares").html(analytics['ivaNoFacturadoDolares']);
+
 			$("#importeFacturadoPesos").html(analytics['importeFacturadoPesos']);
 			$("#importeFacturadoDolares").html(analytics['importeFacturadoDolares']);
+			$("#subtotalFacturadoPesos").html(analytics['subtotalFacturadoPesos']);
+			$("#subtotalFacturadoDolares").html(analytics['subtotalFacturadoDolares']);
+			$("#ivaFacturadoPesos").html(analytics['ivaFacturadoPesos']);
+			$("#ivaFacturadoDolares").html(analytics['ivaFacturadoDolares']);
 
 			$("#totalPesos").html( (analytics['importeNoFacturadoPesos'] + analytics['importeFacturadoPesos']) + " MXN" );
 			$("#totalDolares").html( (analytics['importeNoFacturadoDolares'] + analytics['importeFacturadoDolares']) + " USD");

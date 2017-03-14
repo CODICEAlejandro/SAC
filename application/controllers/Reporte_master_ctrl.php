@@ -49,6 +49,18 @@ class Reporte_master_ctrl extends CI_Controller {
 		$importeNoFacturadoPesos = 0;
 		$importeNoFacturadoDolares = 0;
 
+		$subtotalFacturadoPesos = 0;
+		$subtotalFacturadoDolares = 0;
+
+		$subtotalNoFacturadoPesos = 0;
+		$subtotalNoFacturadoDolares = 0;
+
+		$ivaFacturadoPesos = 0;
+		$ivaFacturadoDolares = 0;
+
+		$ivaNoFacturadoPesos = 0;
+		$ivaNoFacturadoDolares = 0;
+
 		// Obtener los todos los conceptos de las cotizaciones
 		$query1 = "select
 					ff.id id,
@@ -172,10 +184,19 @@ class Reporte_master_ctrl extends CI_Controller {
 				}
 
 				if($conceptoHomogeneo->moneda == "MXN"){
+					$ivaFacturadoPesos += $concepto->cantidadIVA;
+					$subtotalFacturadoPesos += $concepto->subtotal;
+
 					$importeFacturadoPesos += $concepto->total;
 				}else if($conceptoHomogeneo->moneda == "USD"){
+					$ivaFacturadoDolares += $concepto->cantidadIVA;
+					$subtotalFacturadoDolares += $concepto->subtotal;
+
 					$importeFacturadoDolares += $concepto->total;
 				}else{
+					$ivaFacturadoPesos += $concepto->cantidadIVA;
+					$subtotalFacturadoPesos += $concepto->subtotal;
+
 					$importeFacturadoPesos += $concepto->total;
 				}
 
@@ -206,6 +227,8 @@ class Reporte_master_ctrl extends CI_Controller {
 
 					array_push($result_array, $concepto);
 
+					$ivaNoFacturadoPesos += $concepto->cantidadIVA;
+					$subtotalNoFacturadoPesos += $concepto->subtotal;
 					$importeNoFacturadoPesos += $concepto->total;
 					$numeroConceptosSinFacturar++;
 
@@ -223,6 +246,8 @@ class Reporte_master_ctrl extends CI_Controller {
 
 					array_push($result_array, $concepto);
 
+					$ivaNoFacturadoPesos += $concepto->cantidadIVA;
+					$subtotalNoFacturadoPesos += $concepto->subtotal;
 					$importeNoFacturadoPesos += $concepto->total;
 					$numeroConceptosSinFacturar++;
 				}else{
@@ -252,8 +277,17 @@ class Reporte_master_ctrl extends CI_Controller {
 
 		$data['analytics']['importeNoFacturadoPesos'] = $importeNoFacturadoPesos;
 		$data['analytics']['importeNoFacturadoDolares'] = $importeNoFacturadoDolares;
+		$data['analytics']['subtotalNoFacturadoPesos'] = $subtotalNoFacturadoPesos;
+		$data['analytics']['subtotalNoFacturadoDolares'] = $subtotalNoFacturadoDolares;
+		$data['analytics']['ivaNoFacturadoPesos'] = $ivaNoFacturadoPesos;
+		$data['analytics']['ivaNoFacturadoDolares'] = $ivaNoFacturadoDolares;
+
 		$data['analytics']['importeFacturadoPesos'] = $importeFacturadoPesos;
 		$data['analytics']['importeFacturadoDolares'] = $importeFacturadoDolares;
+		$data['analytics']['subtotalFacturadoPesos'] = $subtotalFacturadoPesos;
+		$data['analytics']['subtotalFacturadoDolares'] = $subtotalFacturadoDolares;
+		$data['analytics']['ivaFacturadoPesos'] = $ivaFacturadoPesos;
+		$data['analytics']['ivaFacturadoDolares'] = $ivaFacturadoDolares;
 
 		return $data;
 	}
