@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td>
 						<input class="form-control datepicker" 
 								data-id="<?php echo $f->id; ?>"
-								value="<?php echo $f->fecha_final; ?>">
+								value="<?php echo $f->fecha_final; ?>" style="width: 100px !important;">
 						<input class="form-control datepicker-alt" id="datepicker-alt">
 					</td>
 					<td>
