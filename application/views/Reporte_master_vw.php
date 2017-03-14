@@ -175,7 +175,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div 
 				class="col-xs-12 col-sm-12 col-md-12 col-lg-12" 
 			>
-				<table class="table table-hover table-bordered">
+				<table class="table table-hover table-bordered" style="text-align: center;">
 					<tr>
 						<td rowspan="2"></td>
 						<td colspan="3">Facturado</td>
