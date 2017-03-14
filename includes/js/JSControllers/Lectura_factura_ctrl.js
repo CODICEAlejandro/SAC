@@ -189,6 +189,8 @@ $(function(){
 	$(".btn-delete-match").click(function(event){
 		event.preventDefault();
 		deleteMatch($(this));
+
+		pintarFechasDisponibles();
 	});
 
 	$(".btn-add-matched-select").click(function(event){
@@ -283,6 +285,7 @@ $(function(){
 		});		
 
 		isFill();
+		pintarFechasDisponibles();
 	});
 
 	$(".notasTextarea").change(function(){
