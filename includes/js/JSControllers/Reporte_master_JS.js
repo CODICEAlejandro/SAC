@@ -412,9 +412,11 @@ $(function(){
 		retrieveCotizaciones();
 	});
 
+	/*
 	$("#idCotizacion").change(function(event){
 		retrieveData();
 	});
+	*/
 
 	$("#btn-consultar-folio-factura").click(function(){
 		retrieveABill();
