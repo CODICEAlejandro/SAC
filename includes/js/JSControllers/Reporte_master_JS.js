@@ -359,11 +359,9 @@ function retrieveRazonesSociales(){
 function retrieveCotizaciones(){
 	var idCliente = $("#idCliente").val();
 	var appendSection = $("#idCotizacion");
-		alert("CHANGE1");
 
 	appendSection.find("*").remove();
 	appendSection.append("<option value='-1'>Mostrar todas</option>");
-		alert("CHANGE2");
 
 	$.ajax({
 		url: baseURL+'index.php/Reporte_master_ctrl/getCotizaciones/',
