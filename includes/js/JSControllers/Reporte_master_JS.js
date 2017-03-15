@@ -404,11 +404,16 @@ $(function(){
 	});
 
 	$("#idCliente").change(function(){
-		retrieveRazonesSociales();
+		// retrieveRazonesSociales();
+		retrieveCotizaciones();
 	});
 
 	$("#idRazonSocial").change(function(){
 		retrieveCotizaciones();
+	});
+
+	$("#idCotizacion").change(function(event){
+		retrieveData();
 	});
 
 	$("#btn-consultar-folio-factura").click(function(){

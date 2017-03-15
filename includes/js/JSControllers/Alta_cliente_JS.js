@@ -62,6 +62,18 @@ function checkEstadoActivo(){
 		$("#form-edita #labelEstado").html("Estado: Inactivo");
 	}
 
+	$.ajax({
+		url: pageController+'/consultarCliente_AJAX/'+cCliente,
+		method: 'post',
+		dataType: 'json',
+		success: function(response){
+			//Direcciones fiscales
+			appendDireccionesFiscales(response.direccionesFiscales);
+		},
+		error: function(){
+			alert("Ha ocurrido un error al intentar consultar el cliente seleccionado. Intente de nuevo, por favor.")
+		}
+	});
 }
 
 $(function(){
