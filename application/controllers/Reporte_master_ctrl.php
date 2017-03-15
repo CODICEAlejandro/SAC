@@ -369,7 +369,7 @@ class Reporte_master_ctrl extends CI_Controller {
 
 		$queryCotizaciones = "select * from cotizacion where idCliente = ".$idCliente;
 
-		echo json_encode($this->db->query($queryCotizaciones));
+		echo json_encode($this->db->query($queryCotizaciones)->result());
 	}
 
 	public function getABillAJAX(){
