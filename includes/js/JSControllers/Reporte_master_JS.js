@@ -357,7 +357,7 @@ function retrieveRazonesSociales(){
 }
 
 function retrieveCotizaciones(){
-	var id = $("#idRazonSocial").val();
+	var id = $("#idCliente").val();
 	var appendSection = $("#idCotizacion");
 
 	appendSection.find("*").remove();
@@ -366,7 +366,7 @@ function retrieveCotizaciones(){
 	$.ajax({
 		url: baseURL+'index.php/Reporte_master_ctrl/getCotizaciones/',
 		dataType: 'json',
-		data: {"idRazonSocial" : id},
+		data: {"idCliente" : idCliente},
 		method: 'post',
 		success: function(response){
 			var k, n;
