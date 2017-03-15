@@ -81,6 +81,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					c.fechaVenta fechaVenta,
 					c.fechaJuntaArranque fechaJuntaArranque,
 					c.titulo tituloCotizacion,
+					c.folio folioCotizacion,
 					cli.nombre cliente,
 					edo_fac.descripcion estadoFactura,
 					IF(c.contrato=1, 'SÍ', 'NO') contrato,

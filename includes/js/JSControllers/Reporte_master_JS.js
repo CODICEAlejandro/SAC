@@ -51,7 +51,8 @@ function retrieveABill(){
 				lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
 				lastRow.append("<td><input class='form-control' id='col-fechaPago' value='"+mainData[k].fechaPago+"' style='width: 150px;'></td>");
 				lastRow.append("<td id='col-cliente'>"+mainData[k].cliente+"</td>");
-				lastRow.append("<td id='col-id'>"+mainData[k].id+"</td>");
+				lastRow.append("<td id='col-id' style='display: none;'>"+mainData[k].id+"</td>");
+				lastRow.append("<td id='col-folio-cotizacion'>"+mainData[k].folioCotizacion+"</td>");
 				lastRow.append("<td id='col-subtotal'>"+mainData[k].subtotal+"</td>");
 				lastRow.append("<td id='col-moneda'>"+mainData[k].moneda+"</td>");
 				lastRow.append("<td id='col-fechaFactura'>"+mainData[k].fechaFactura+"</td>");
