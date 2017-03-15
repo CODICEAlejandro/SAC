@@ -406,6 +406,7 @@ $(function(){
 	$("#idCliente").change(function(){
 		// retrieveRazonesSociales();
 		retrieveCotizaciones();
+		alert("CHANGE");
 	});
 
 	$("#idRazonSocial").change(function(){
