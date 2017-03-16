@@ -43,7 +43,7 @@ function retrieveFechasFactura(idCliente){
 	$.ajax({
 		url: baseURL+'index.php/Lectura_factura_ctrl/getFechasFacturacion/'+idCliente,
 		method: 'post',
-		data: {'idCliente': idCliente, 'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta},
+		data: {'idCliente': JSON.stringify(idCliente), 'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta},
 		dataType: 'json',
 		success: function(response){
 			var k, n;
