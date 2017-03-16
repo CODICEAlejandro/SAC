@@ -83,14 +83,14 @@ class Lectura_factura_ctrl extends CI_Controller {
 	}
 
 	public function getFechasFacturacion(){
-		$idCliente = $this->input->post("idCliente");
+		$idCliente = json_decode($this->input->post("idCliente"));
 		//$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
 		$fechaDesde = $this->input->post("fecha_desde");
 		$fechaHasta = $this->input->post("fecha_hasta");
 		$whereIDCondition = "(";
 
 		for($k=0, $n=count($idCliente); $k<$n; $k++){
-			$whereIDCondition .= htmlentities($idCliente[$k], ENT_QUOTES, 'UTF-8').',';
+			$whereIDCondition .= (htmlentities($idCliente[$k], ENT_QUOTES, 'UTF-8')).',';
 		}
 
 		$whereIDCondition = substr($whereIDCondition, 0, -1);
