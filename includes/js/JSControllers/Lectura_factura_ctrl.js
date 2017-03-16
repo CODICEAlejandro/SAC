@@ -238,7 +238,7 @@ $(function(){
 	});
 
 	$(".slc-clienteAsociado").change(function(){
-		var clientePrincipal = $("#clientePrincipal").val();
+		var clientePrincipal = $("#clienteAsociado").val();
 
 		retrieveRazonesSociales(clientePrincipal);
 
