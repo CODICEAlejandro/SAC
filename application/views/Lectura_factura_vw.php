@@ -120,14 +120,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group">
 					<label>Cliente</label>
-					<select class="form-control" id="clienteAsociado">
-						<option value="-1">Ninguno</option>
-						<?php foreach($clientes as $cliente){ ?>
-						<option value="<?php echo $cliente->id; ?>">
-							<?php echo $cliente->nombre; ?>		
-						</option>
-						<?php } ?>
-					</select>
+					<div id="main-select-cliente">
+						<select class="form-control slc-clienteAsociado" id="clienteAsociado">
+							<option value="-1">Ninguno</option>
+							<?php foreach($clientes as $cliente){ ?>
+							<option value="<?php echo $cliente->id; ?>">
+								<?php echo $cliente->nombre; ?>		
+							</option>
+							<?php } ?>
+						</select>
+					</div>
+					<div id="append-section-cliente"></div>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-info" id="btn-agregar-cliente">Agregar cliente</button>
 				</div>
 				<div class="form-group">
 					<label>Razón social</label>
