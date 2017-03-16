@@ -253,6 +253,7 @@ $(function(){
 
 	$("#fecha_desde, #fecha_hasta").change(function(){
 		var idCliente = $("#clienteAsociado").val();
+		var s = "";
 
 		var sender;
 		var arrIDCliente = new Array();
@@ -261,6 +262,11 @@ $(function(){
 
 			arrIDCliente.push(sender.val());
 		});
+
+		for(var k=0; k<arrIDCliente.length; k++){
+			s+=arrIDCliente[k]+",";
+		}
+		alert(s);
 
 		retrieveFechasFactura(arrIDCliente);
 	});
