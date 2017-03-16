@@ -41,7 +41,7 @@ function retrieveFechasFactura(idCliente){
 	var fecha_hasta = $("#fecha_hasta_alt").val();
 
 	$.ajax({
-		url: baseURL+'index.php/Lectura_factura_ctrl/getFechasFacturacion/'+idCliente,
+		url: baseURL+'index.php/Lectura_factura_ctrl/getFechasFacturacion',
 		method: 'post',
 		data: {'idCliente': JSON.stringify(idCliente), 'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta},
 		dataType: 'json',
@@ -262,11 +262,6 @@ $(function(){
 
 			arrIDCliente.push(sender.val());
 		});
-
-		for(var k=0; k<arrIDCliente.length; k++){
-			s+=arrIDCliente[k]+",";
-		}
-		alert(s);
 
 		retrieveFechasFactura(arrIDCliente);
 	});
