@@ -237,8 +237,10 @@ $(function(){
 		factura.ordenCompra = $(this).val();
 	});
 
-	$("#clienteAsociado").change(function(){
-		retrieveRazonesSociales($(this).val());
+	$(".slc-clienteAsociado").change(function(){
+		var clientePrincipal = $("#clientePrincipal").val();
+
+		retrieveRazonesSociales(clientePrincipal);
 
 		var sender;
 		var arrIDCliente = new Array();
