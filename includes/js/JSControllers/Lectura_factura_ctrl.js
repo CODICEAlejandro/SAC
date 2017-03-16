@@ -192,6 +192,16 @@ $(function(){
 	initDatepicker("#fecha_desde", "#fecha_desde_alt", 'dd/mm/yy', 'yy-mm-dd');
 	initDatepicker("#fecha_hasta", "#fecha_hasta_alt", 'dd/mm/yy', 'yy-mm-dd');
 
+	$("#btn-agregar-cliente").click(function(){
+		var cloneSection = $("#main-select-cliente #clienteAsociado").clone(true);
+		var appendSection = $("#append-section-cliente");
+
+		cloneSection.removeAttr("id");
+		cloneSection.val("-1");
+
+		appendSection.append(cloneSection);
+	});
+
 	$(".btn-delete-match").click(function(event){
 		event.preventDefault();
 		
