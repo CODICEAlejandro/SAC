@@ -87,6 +87,14 @@ class Lectura_factura_ctrl extends CI_Controller {
 		$idCliente = htmlentities($idCliente, ENT_QUOTES, 'UTF-8');
 		$fechaDesde = $this->input->post("fecha_desde");
 		$fechaHasta = $this->input->post("fecha_hasta");
+		$whereIDCondition = "(";
+
+		for($k=0, $n=count($idCliente); $k<$n; $k++){
+			$whereIDCondition .= htmlentities($idCliente[$k], ENT_QUOTES, 'UTF-8').',';
+		}
+
+		$whereIDCondition = substr($whereIDCondition, 0, -1);
+		$whereIDCondition .= ")";
 
 		$queryFechas = "select
 							f.id idFechaFactura,
@@ -98,7 +106,7 @@ class Lectura_factura_ctrl extends CI_Controller {
 							left join concepto_cotizacion con on con.id = f.idConceptoCotizacion
 							left join cotizacion cot on cot.id = con.idCotizacion
 						where
-							cot.idCliente = ".$idCliente."
+							cot.idCliente in ".$whereIDCondition."
 							and DATE(f.fecha_final) >= '".$fechaDesde."' and DATE(f.fecha_final) <= '".$fechaHasta."'
 						";
 

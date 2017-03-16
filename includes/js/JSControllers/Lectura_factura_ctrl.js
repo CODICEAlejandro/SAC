@@ -239,13 +239,30 @@ $(function(){
 
 	$("#clienteAsociado").change(function(){
 		retrieveRazonesSociales($(this).val());
-		retrieveFechasFactura($(this).val());
+
+		var sender;
+		var arrIDCliente = new Array();
+		$(".slc-clienteAsociado").each(function(index){
+			sender = $(this);
+
+			arrIDCliente.push(sender.val());
+		});
+
+		retrieveFechasFactura(arrIDCliente);
 	});
 
 	$("#fecha_desde, #fecha_hasta").change(function(){
 		var idCliente = $("#clienteAsociado").val();
 
-		retrieveFechasFactura(idCliente);
+		var sender;
+		var arrIDCliente = new Array();
+		$(".slc-clienteAsociado").each(function(index){
+			sender = $(this);
+
+			arrIDCliente.push(sender.val());
+		});
+
+		retrieveFechasFactura(arrIDCliente);
 	});
 
 	$(".idMatched").change(function(){
