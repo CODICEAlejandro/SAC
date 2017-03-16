@@ -193,7 +193,7 @@ $(function(){
 	initDatepicker("#fecha_hasta", "#fecha_hasta_alt", 'dd/mm/yy', 'yy-mm-dd');
 
 	$("#btn-agregar-cliente").click(function(){
-		var cloneSection = $("#main-select-cliente #clienteAsociado").clone(false);
+		var cloneSection = $("#main-select-cliente #clienteAsociado").clone(true);
 		var appendSection = $("#append-section-cliente");
 
 		cloneSection.removeAttr("id");
