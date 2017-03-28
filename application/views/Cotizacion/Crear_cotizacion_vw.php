@@ -77,52 +77,96 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				<div id="append-section-alcance"></div>
 
-				<div id="clone-section-alcance" class="clone-section-alcance">
-					<div class="row">
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-								<label>Título (*)</label>
-								<input type="text" id="titulo-alcance" class="form-control">
-							</div>
-						</div>
-						<div class="col-xs-6 col-sm-2 col-md-1 col-lg-1">
-							<div class="form-group">
-								<label>Orden</label>
-								<input type="text" id="orden-alcance" class="form-control">
-							</div>
-						</div>
-						<div class="col-xs-3 col-sm-2 col-md-3 col-lg-3" style="margin-top: 25px;">
-							<div class="form-group">
-								<button class="form-control btn btn-primary" id="btn-minus-alcance">-</button>
-							</div>
-						</div>
-						<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2" style="margin-top: 25px;">
-							<div class="form-group">
-								<button class="form-control btn btn-danger" id="btn-delete-alcance">x</button>
-							</div>
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<div class="form-group">
-								<label>Servicio (*)</label>
-								<select class="form-control" id="id-servicio-alcance">
-									<option value="-1">Seleccione una opción</option>
-									<?php foreach($servicio_alcance as $s){ ?>
-									<option value="<?php echo $s->id; ?>"><?php echo $s->clave; ?></option>
-									<?php } ?>
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>
-
 			</div>
 		</div>
 	</div>
 
 	<!-- Clone sections -->
-	<div id="clone-sections" style="">
+	<div id="clone-sections" style="display: none;">
 		
 	<!-- Clone section alcance -->
+	<div id="clone-section-alcance" class="clone-section-alcance">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					<label>Título (*)</label>
+					<input type="text" id="titulo-alcance" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-2 col-md-1 col-lg-1">
+				<div class="form-group">
+					<label>Orden</label>
+					<input type="text" id="orden-alcance" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-3 col-sm-2 col-md-3 col-lg-3" style="margin-top: 25px;">
+				<div class="form-group">
+					<button class="form-control btn btn-primary" id="btn-minus-alcance">-</button>
+				</div>
+			</div>
+			<div class="col-xs-3 col-sm-2 col-md-2 col-lg-2" style="margin-top: 25px;">
+				<div class="form-group">
+					<button class="form-control btn btn-danger" id="btn-delete-alcance">x</button>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+				<div class="form-group">
+					<label>Servicio (*)</label>
+					<select class="form-control" id="id-servicio-alcance">
+						<option value="-1">Seleccione una opción</option>
+						<?php foreach($servicio_alcance as $s){ ?>
+						<option value="<?php echo $s->id; ?>"><?php echo $s->descripcion; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+				<div class="form-group">
+					<label>Clasificación (*)</label>
+					<select class="form-control" id="id-servicio-alcance">
+						<option value="-1">Seleccione una opción</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group">
+					<button class="btn btn-warning form-control" id="btn-agregar-descripcion">Agregar descripción (*)</button>	
+				</div>
+				<!-- Sección de descriciones del alcance -->
+				<div id="append-section-descripcion"></div>					
+			</div>
+		</div>
+	</div>
+	<!-- Fin de clone section alcance -->
+
+	<!-- Clone section descripcion -->
+	<div id="clone-section-descripcion" class="clone-section-descripcion">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+				<div class="form-group">
+					<label>Título (*)</label>
+					<input type="text" id="titulo-descripcion" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" style="margin-top: 25px;">
+				<div class="form-group">
+					<button class="form-control btn-primary" id="btn-minus-descripcion">-</button>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" style="margin-top: 25px;">
+				<div class="form-group">
+					<button class="form-control btn-danger" id="btn-delete-descripcion">x</button>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group">
+					<label>Descripción (*)</label>
+					<textarea id="contenido-descripcion" class="form-control" rows="5"></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fin de clone section descripcion -->
 
 	</div>
 	<!-- Fin de clone sections -->
