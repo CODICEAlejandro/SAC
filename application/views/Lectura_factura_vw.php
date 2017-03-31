@@ -104,6 +104,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
+		<?php if(isset($status)){ ?>
+		<script type="text/javascript">alert("<?php echo $status; ?>");</script>
+		<?php } ?>
+
 		<?php if(isset($factura)){ ?>
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">

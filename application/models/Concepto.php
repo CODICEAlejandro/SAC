@@ -63,7 +63,7 @@ class Concepto extends CI_Model {
 		return $result;
 	}
 
-	public function save($recursive = true){
+	public function save($recursive = true, $nueva_fecha_final = false){
 		if($this->table == 'concepto_cotizacion'){
 			$data = array(
 						"monto" => $this->monto,
@@ -127,8 +127,13 @@ class Concepto extends CI_Model {
 								")";
 			$this->db->query($queryRelacion);
 
-			$ids_fechas_factura .= ($this->idMatched[$k][0]).",";
+			//Actualizar la fecha final
+			$query_actualiza_fecha = "update fecha_factura set fecha_final = '".$nueva_fecha_final."' 
+										where id = ".($this->idMatched[$k][0]);
+			$this->db->query($query_actualiza_fecha);
 
+			//Formar el where: in(range)
+			$ids_fechas_factura .= ($this->idMatched[$k][0]).",";
 		}
 
 		//Actualizar el estado de la factura en Fecha_factura.idEstadoFactura a NO PAGADO

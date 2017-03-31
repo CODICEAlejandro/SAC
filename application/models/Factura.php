@@ -119,7 +119,7 @@ class Factura extends CI_Model {
 
 		if($recursive){
 			foreach($this->conceptos as $concepto){
-				$idConcepto = $concepto->save($recursive);
+				$idConcepto = $concepto->save($recursive, $data["fechaPago"]);
 
 				echo "Relacionando concepto IDCONCEPTO => ".$idConcepto." ::: con ::: IDFACTURA => ".$idFactura."<br>";
 				$dataConcepto_factura = array(

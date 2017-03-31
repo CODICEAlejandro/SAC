@@ -50,6 +50,7 @@ function retrieveABill(){
 				lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
 				lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
 				lastRow.append("<td><input class='form-control' id='col-fechaPago' value='"+mainData[k].fechaPago+"' style='width: 150px;'></td>");
+				lastRow.append("<td id='col-confirmada'>"+mainData[k].fechaConfirmada+"</td>");
 				lastRow.append("<td id='col-cliente'>"+mainData[k].cliente+"</td>");
 				lastRow.append("<td id='col-id' style='display: none;'>"+mainData[k].id+"</td>");
 				lastRow.append("<td id='col-folio-cotizacion'>"+mainData[k].folioCotizacion+"</td>");
@@ -209,6 +210,7 @@ function retrieveData(){
 				lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
 				lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
 				lastRow.append("<td><input class='form-control' id='col-fechaPago' value='"+mainData[k].fechaPago+"' style='width: 150px;' disabled></td>");
+				lastRow.append("<td id='col-confirmada'>"+mainData[k].fechaConfirmada+"</td>");
 				lastRow.append("<td id='col-cliente'>"+mainData[k].cliente+"</td>");
 				lastRow.append("<td id='col-id' style='display: none;'>"+mainData[k].id+"</td>");
 				lastRow.append("<td id='col-folio-cotizacion'>"+mainData[k].folioCotizacion+"</td>");

@@ -234,6 +234,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>Folio</th>
 							<th>Total</th>
 							<th>Fecha de pago</th>
+							<th>Confirmada</th>
 							<th>Cliente</th>
 							<th>ID</th>
 							<th>Subtotal</th>

@@ -15,8 +15,7 @@ class Lectura_factura_ctrl extends CI_Controller {
 	public function index(){
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 
-		$this->load->view("Lectura_factura_vw", $data);
-		
+		$this->load->view("Lectura_factura_vw", $data);	
 	}
 
 	public function guardarFactura(){
@@ -349,15 +348,22 @@ class Lectura_factura_ctrl extends CI_Controller {
 		//Encabezados de factura
 		$objFactura->fechaFactura = explode("T", $atributosPrincipales["fecha"]->__toString())[0];
 		$objFactura->folio = $atributosPrincipales["serie"].$atributosPrincipales["folio"];
+		$estadoFolio = $this->db->query("select count(*) existencias from factura where folio = '".($objFactura->folio)."'")->row();
 
-		$data["generalFactura"] = $dataFactura;
-		$data["receptor"] = $dataReceptor;
-		$data['tiposConcepto'] = $this->db->get("cattipoconcepto")->result();
-		$data['clientes'] = $this->Cliente->traerTodo();
-		$data['menu'] = $this->load->view("Menu_principal", null, true);
-		$data['factura'] = $objFactura;
-		$data['estadosFactura'] = $this->db->query("select * from catestadofactura where id = 24")->result();
-		$this->load->view("Lectura_factura_vw", $data);
+		if($estadoFolio->existencias == 0){
+			$data["generalFactura"] = $dataFactura;
+			$data["receptor"] = $dataReceptor;
+			$data['tiposConcepto'] = $this->db->get("cattipoconcepto")->result();
+			$data['clientes'] = $this->Cliente->traerTodo();
+			$data['menu'] = $this->load->view("Menu_principal", null, true);
+			$data['factura'] = $objFactura;
+			$data['estadosFactura'] = $this->db->query("select * from catestadofactura where id = 24")->result();
+			$this->load->view("Lectura_factura_vw", $data);
+		}else{
+			$data['menu'] = $this->load->view("Menu_principal", null, true);
+			$data['status'] = "El folio ".($objFactura->folio)." ya existe en la base de datos. Contacte al administrador si desea removerla.";
+			$this->load->view("Lectura_factura_vw", $data);	
+		}
 	}
 
 }

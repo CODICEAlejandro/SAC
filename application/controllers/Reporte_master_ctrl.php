@@ -70,8 +70,9 @@ class Reporte_master_ctrl extends CI_Controller {
 					ff.idEstadoFactura idEstadoFactura,
 					ff.importe subtotal,
 					ff.fecha_final fechaPago,
-					(ff.importe * ((con_cot.iva/100)+1)) total,
-					(ff.importe - (ff.importe * ((con_cot.iva/100)+1))) cantidadIVA,
+					round((ff.importe * ((con_cot.iva/100)+1)),2) total,
+					round((ff.importe - (ff.importe * ((con_cot.iva/100)+1))),2) cantidadIVA,
+					if(ff.fecha_final_confirmada=1,'SÍ','NO') fechaConfirmada,
 					con_cot.iva tasa,
 					con_cot.descripcion descripcion,
 					con_cot.total totalConceptoCotizacion,
@@ -101,9 +102,9 @@ class Reporte_master_ctrl extends CI_Controller {
 				";
 
 		if($idCliente != -1) $appendQuery .= " AND c.`idCliente` = ".$idCliente;
-		if($idCotizacion != -1) $appendQuery .= " AND c.`folio` = '".$idCotizacion."'";
+		if($idCotizacion != -1) $appendQuery .= " AND c.`id` = ".$idCotizacion;
 		if($idEstadoFactura != -1) $appendQuery .= " AND ff.`idEstadoFactura` = ".$idEstadoFactura;
-
+		if($fechaPagoDesde != "none") $appendQuery .= " AND ff.`fecha_final` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
 
 		$query1 .= $appendQuery;
 		$conceptos_cotizacion = $this->db->query($query1)->result();
@@ -149,8 +150,6 @@ class Reporte_master_ctrl extends CI_Controller {
 
 			if($fechaFacturaDesde != "none") 
 				$appendQuery .= " AND f.`fechaFactura` BETWEEN '".$fechaFacturaDesde."' AND '".$fechaFacturaHasta."'";
-			if($fechaPagoDesde != "none") 
-				$appendQuery .= " AND f.`fechaPago` BETWEEN '".$fechaPagoDesde."' AND '".$fechaPagoHasta."'";
 			if($folioFactura != "none") 
 				$appendQuery .= " AND f.`folio` = '".$folioFactura."'";
 
@@ -206,7 +205,6 @@ class Reporte_master_ctrl extends CI_Controller {
 				array_push($result_array, $concepto);
 			}else{
 				$concepto->folio = 'NO DISPONIBLE';
-				$concepto->fechaPago = 'NO DISPONIBLE';
 				$concepto->moneda = 'NO DISPONIBLE';
 				$concepto->fechaFactura = 'NO DISPONIBLE';
 				$concepto->ordenCompra = 'NO DISPONIBLE';
@@ -276,19 +274,19 @@ class Reporte_master_ctrl extends CI_Controller {
 		$data['analytics']['numeroConceptosFacturados'] = $numeroConceptosFacturados;
 		$data['analytics']['numeroConceptosSinFacturar'] = $numeroConceptosSinFacturar;
 
-		$data['analytics']['importeNoFacturadoPesos'] = $importeNoFacturadoPesos;
-		$data['analytics']['importeNoFacturadoDolares'] = $importeNoFacturadoDolares;
-		$data['analytics']['subtotalNoFacturadoPesos'] = $subtotalNoFacturadoPesos;
-		$data['analytics']['subtotalNoFacturadoDolares'] = $subtotalNoFacturadoDolares;
-		$data['analytics']['ivaNoFacturadoPesos'] = $ivaNoFacturadoPesos;
-		$data['analytics']['ivaNoFacturadoDolares'] = $ivaNoFacturadoDolares;
+		$data['analytics']['importeNoFacturadoPesos'] = round($importeNoFacturadoPesos,2);
+		$data['analytics']['importeNoFacturadoDolares'] = round($importeNoFacturadoDolares,2);
+		$data['analytics']['subtotalNoFacturadoPesos'] = round($subtotalNoFacturadoPesos,2);
+		$data['analytics']['subtotalNoFacturadoDolares'] = round($subtotalNoFacturadoDolares,2);
+		$data['analytics']['ivaNoFacturadoPesos'] = round($ivaNoFacturadoPesos,2);
+		$data['analytics']['ivaNoFacturadoDolares'] = round($ivaNoFacturadoDolares,2);
 
-		$data['analytics']['importeFacturadoPesos'] = $importeFacturadoPesos;
-		$data['analytics']['importeFacturadoDolares'] = $importeFacturadoDolares;
-		$data['analytics']['subtotalFacturadoPesos'] = $subtotalFacturadoPesos;
-		$data['analytics']['subtotalFacturadoDolares'] = $subtotalFacturadoDolares;
-		$data['analytics']['ivaFacturadoPesos'] = $ivaFacturadoPesos;
-		$data['analytics']['ivaFacturadoDolares'] = $ivaFacturadoDolares;
+		$data['analytics']['importeFacturadoPesos'] = round($importeFacturadoPesos,2);
+		$data['analytics']['importeFacturadoDolares'] = round($importeFacturadoDolares,2);
+		$data['analytics']['subtotalFacturadoPesos'] = round($subtotalFacturadoPesos,2);
+		$data['analytics']['subtotalFacturadoDolares'] = round($subtotalFacturadoDolares,2);
+		$data['analytics']['ivaFacturadoPesos'] = round($ivaFacturadoPesos,2);
+		$data['analytics']['ivaFacturadoDolares'] = round($ivaFacturadoDolares,2);
 
 		return $data;
 	}
@@ -367,7 +365,17 @@ class Reporte_master_ctrl extends CI_Controller {
 	public function getCotizaciones(){
 		$idCliente = $this->input->post("idCliente");
 
-		$queryCotizaciones = "select * from cotizacion where idCliente = ".$idCliente;
+		$queryCotizaciones = "select * 
+							from cotizacion c1 
+							where 
+								exists(
+									select 1 
+									from 
+										concepto_cotizacion cc 
+										join fecha_factura ff on ff.idConceptoCotizacion = cc.id
+										join concepto_factura_cotizacion cfc on cfc.idFechaFactura = ff.id
+									where c1.id = cc.idCotizacion
+								) and idCliente = ".$idCliente;
 
 		echo json_encode($this->db->query($queryCotizaciones)->result());
 	}
