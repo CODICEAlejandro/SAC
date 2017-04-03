@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Listado_cotizacion_ctrl extends CI_Controller{
 	public function index(){
-<<<<<<< HEAD
 		$data["clientes"] = $this->db->query("select * from catcliente where estadoActivo=1 and tipo=0")->result();
 		$data["forma_pago"]= $this->db->query("select * from cat_tipo_cotizacion")->result();
 		$data["servicio_alcance"] = $this->db->query("select * from cattipoconcepto where tipo = 0")->result();
@@ -12,7 +11,6 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 												JOIN catusuario usu ON cot.accountManager = usu.id
 												ORDER BY creacion DESC LIMIT 10")->result();
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
-=======
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 		$data["cotizaciones"]= $this->db->query("SELECT cli.nombre nombre_cli, con.nombre nombre_acc, con.apellido apellido_acc, con.correo correo, sta.clave clave_status, cot.*, DATE_FORMAT(cot.fecha_alta, '%d-%m-%Y')  fecha_alta, DATE_FORMAT(cot.fecha_inicio_servicio, '%d-%m-%Y') fecha_inicio, DATE_FORMAT(cot.fecha_fin_servicio, '%d-%m-%Y') fecha_fin
 		FROM cotizacion_account cot
@@ -21,7 +19,6 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 		JOIN cat_status_cotizacion sta ON cot.status_cotizacion_id=sta.id
 		ORDER BY cot.fecha_alta DESC LIMIT 20")->result();
 
->>>>>>> a37d562e428362cc7d22da5679b58076af211308
 		$this->load->view("Cotizacion/Listado_cotizacion_vw", $data);
 	}
 
