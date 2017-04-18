@@ -1,3 +1,5 @@
+var nombreArchivo = "NULL";
+
 function subirArchivoPorAJAX(){
 	//Comprobar si existe archivo seleccionado
 	var archivo = $("#archivo-adjunto")[0].files[0];
@@ -26,12 +28,15 @@ function subirArchivoPorAJAX(){
 			cache: false,
 			contentType: false,
 			processData: false,
+			async: false,
 			beforeSend: function(){
+				$("#alert-subiendo-archivo").remove();
 				$("#archivo-adjunto").after("<div id='alert-subiendo-archivo'>Subiendo archivo</div>");
 			},
 			success: function(r){
 				if(r!="ERROR"){
 					$("#alert-subiendo-archivo").html("Subido");
+					nombreArchivo = r;
 				}else{
 					$("#alert-subiendo-archivo").html("ERROR");
 				}
@@ -41,6 +46,176 @@ function subirArchivoPorAJAX(){
 			}
 		});
 	}
+}
+
+function guardarCotizacion(){
+	var cliente = $("#id-cliente").val();
+	var contacto = $("#id-contacto").val();
+	var tituloCotizacion = $("#titulo-cotizacion").val();
+	var formaDePago = $("#id-forma-de-pago").val();
+	var objetivoCotizacion = $("#objetivo-cotizacion").val();
+	var introduccionCotizacion = $("#introduccion-cotizacion").val();
+	var notasCotizacion = $("#nota-cotizacion").val();
+
+	//Empaquetar los alcances
+	var alcances = new Array();
+	var objAlcances = $("#append-section-alcance .clone-section-alcance");
+	var tmpAlcance, tmpDescripcion, objDescripciones;
+	var fechaInicioServicioCotizacion = null, fechaFinServicioCotizacion = null;
+	var k, n, a;
+	var resultFechaString, resultFechaDate, tmpFechaString, tmpFechaDate;
+	var arrResult, arrTmp;
+
+	resultFechaString = null;
+
+	objAlcances.each(function(index){
+		var sender = $(this);
+		var cArrDate, cDate, arrDate, tmpDate, minDate;
+
+		tmpAlcance = {
+			titulo: sender.find("#titulo-alcance").val(),
+			orden: sender.find("#orden-alcance").val(),
+			servicio: sender.find("#id-servicio-alcance").val(),
+			clasificacion: sender.find("#id-servicio-alcance").val(),
+			descripciones: new Array(),
+			requerimientos: sender.find("#requerimientos-alcance").val(),
+			entregables: sender.find("#entregables-alcance").val(),
+			fechaInicioServicio: sender.find(".fecha-inicio-servicio-alt").first().val()
+		};
+
+		//Encontrar la fecha mínima de todos los alcances para asignarla a la fecha de inicio de servicio de la cotización
+		if(!resultFechaString){
+			resultFechaString = tmpAlcance.fechaInicioServicio;
+		}else{
+			arrResult = resultFechaString.split("-");	//Forma: yyyy-mm-dd
+			resultFechaDate = new Date(arrResult[0], parseInt(arrResult[1])-1, arrResult[2]);
+
+			arrTmp = tmpAlcance.fechaInicioServicio.split("-");
+			tmpFechaDate = new Date(arrTmp[0], parseInt(arrTmp[1])-1, arrTmp[2]);
+	
+			if(tmpFechaDate.getTime() < resultFechaDate.getTime()){
+				resultFechaString = tmpAlcance.fechaInicioServicio;
+			}
+		}
+		fechaInicioServicioCotizacion = resultFechaString;
+
+		//Empaquetar las descripciones del alcance actual
+		objDescripciones = sender.find("#append-section-descripcion .clone-section-descripcion");
+		objDescripciones.each(function(index){
+			var sender = $(this);
+			tmpDescripcion = {
+				titulo: sender.find("#titulo-descripcion").val(),
+				descripcion: sender.find("#contenido-descripcion").val()
+			}
+
+			tmpAlcance.descripciones.push(tmpDescripcion);
+		});
+
+		//Empaquetar los datos acorde a si es pago fijo o recurrente
+		//** Pagos recurrentes
+		if(formaDePago == 1){
+			tmpAlcance.periodicidad = sender.find("#bloque-pagos-recurrentes #id-periodicidad").val();
+			tmpAlcance.numeroParcialidades = sender.find("#bloque-pagos-recurrentes #numero-parcialidades").val();
+			tmpAlcance.montoParcialidad = sender.find("#bloque-pagos-recurrentes #monto-parcialidad").val();
+			//El cálculo de la fecha de término se realiza con base en el multilicador del catálogo y se hace en el controlador
+		}else if(formaDePago == 2){
+		//** Pagos fijos
+			tmpAlcance.precioTotal = sender.find("#bloque-pagos-fijos #precio-total").val();
+			tmpAlcance.porcentajeAnticipo = sender.find("#bloque-pagos-fijos #porcentaje-anticipo").val();
+			tmpAlcance.montoAnticipo = sender.find("#bloque-pagos-fijos #monto-anticipo").val();
+
+			//Empaquetar parcialidades
+			var parcialidades = new Array();
+			var parcialidadesObj = sender.find("#append-section-parcialidad .clone-section-parcialidad");
+			var tmpParcialidad;
+			var fechaFinServicioAlcance = null;
+
+			resultFechaString = null;
+
+			parcialidadesObj.each(function(index){
+				var sender = $(this);
+				tmpParcialidad = {
+					concepto: sender.find("#concepto-parcialidad").val(),
+					fecha: sender.find(".fecha-parcialidad-alt").first().val(),
+					porcentaje: sender.find("#porcentaje-parcialidad").val(),
+					monto: sender.find("#monto-parcialidad").val()
+				}
+
+				//Calcular la fecha del fin de servicio del alcance (max(parcialidad.fecha))
+				if(!resultFechaString){
+					resultFechaString = tmpParcialidad.fecha;
+				}else{
+					arrTmp = tmpParcialidad.fecha.split("-");
+					tmpFechaDate = new Date(arrTmp[0], parseInt(arrTmp[1])-1, arrTmp[2]);
+
+					arrResult = resultFechaString.split("-");
+					resultFechaDate = new Date(arrResult[0], parseInt(arrResult[1])-1, arrResult[2]);
+					
+					if(tmpFechaDate.getTime() > resultFechaDate.getTime()){
+						resultFechaString = tmpParcialidad.fecha;
+					}
+				}
+
+				fechaFinServicioAlcance = resultFechaString;
+				parcialidades.push(tmpParcialidad);
+			});
+
+			tmpAlcance.parcialidades = parcialidades;
+			tmpAlcance.fechaFinServicio = fechaFinServicioAlcance;
+
+			// **** Falta revisar que sucede con la fecha de fin de servicio del alcance para cuando éste no tiene parcialidades
+			// **** Esto para pagos fijos
+			// **** o ¿Es forzoso que haya por lo menos una parcialidad más el anticipo?
+
+			// Calcular la fecha fin máxima de los alcances para obtener la fecha de fin de servio de la cotización
+			// Solo es posible calcular para cuando la forma de pago es pagos fijos, pues sí contamos con la fecha final
+			if(!fechaFinServicioCotizacion){
+				fechaFinServicioCotizacion = fechaFinServicioAlcance;
+			}else{
+				resultFechaString = fechaFinServicioCotizacion;
+				arrResult = resultFechaString.split("-");
+				resultFechaDate = new Date(arrResult[0], parseInt(arrResult[1])-1, arrResult[2]);
+	
+				arrTmp = fechaFinServicioAlcance.split("-");
+				tmpFechaDate = new Date(arrTmp[0], parseInt(arrTmp[1])-1, arrTmp[2]);
+
+				if(tmpFechaDate.getTime() > resultFechaDate.getTime()){
+					fechaFinServicioCotizacion = fechaFinServicioAlcance;
+				}
+			}
+		}
+
+		alcances.push(tmpAlcance);
+	});
+
+	var cotizacion = {
+		cliente: cliente,
+		contacto: contacto,
+		titulo: tituloCotizacion,
+		formaDePago: formaDePago,
+		objetivo: objetivoCotizacion,
+		introduccion: introduccionCotizacion,
+		notas: notasCotizacion,
+		alcances: alcances,
+		nombreArchivo: nombreArchivo,
+		fechaInicioServicio: fechaInicioServicioCotizacion,
+		fechaFinServicio: fechaFinServicioCotizacion
+	}
+
+	$.ajax({
+		url: baseURL+'index.php/Cotizacion/Crear_cotizacion_ctrl/guardarCotizacion',
+		data: {'cotizacion': cotizacion},
+		dataType: 'json',
+		method: 'post',
+		async: false,
+		success: function(r){
+			alert("Cotización guardada con éxito.");
+		},
+		error: function(){
+			alert("Ha ocurrido un error al guardar. Intente de nuevo, por favor.");
+		}
+	});
+
 }
 
 function revisarCampos(){
@@ -75,25 +250,25 @@ function revisarCampos(){
 	//Revisión de opcionales
 	//** Pagos recurrentes
 	if(formaDePago == 1){
-		if($("#bloque-pagos-recurrentes #id-periodicidad").val() == "-1"){
+		if($(".bloque-pagos-recurrentes #id-periodicidad").val() == "-1"){
 			alert("Falta especificar la periodicidad de la cotización");
 			return false;
-		}else if($("#bloque-pagos-recurrentes #numero-parcialidades").val() == ""){
+		}else if($(".bloque-pagos-recurrentes #numero-parcialidades").val() == ""){
 			alert("Indique un valor válido para el número de parcialidades");
 			return false;
-		}else if($("#bloque-pagos-recurrentes #monto-parcialidad").val() == ""){
+		}else if($(".bloque-pagos-recurrentes #monto-parcialidad").val() == ""){
 			alert("Indique un valor válido para el monto de la parcialidad");
 			return false;
 		}
 	}else if(formaDePago == 2){
 	//** Pagos fijos
-		if($("#bloque-pagos-fijos #precio-total").val() == ""){
+		if($(".bloque-pagos-fijos #precio-total").val() == ""){
 			alert("Indique un valor válido para el precio total de la cotización");
 			return false;
-		}else if($("#bloque-pagos-fijos #porcentaje-anticipo").val() == ""){
+		}else if($(".bloque-pagos-fijos #porcentaje-anticipo").val() == ""){
 			alert("Indique un valor válido para el precio total de la cotización");
 			return false;
-		}else if($("#bloque-pagos-fijos #monto-anticipo").val() == ""){
+		}else if($(".bloque-pagos-fijos #monto-anticipo").val() == ""){
 			alert("Indique un valor válido para el precio total de la cotización");
 			return false;
 		}
@@ -271,9 +446,9 @@ function deleteParcialidad(padre){
 	}
 }
 
-function agregarParcialidad(){
+function agregarParcialidad(padre){
 	var cloneSection = $("#clone-section-parcialidad").clone(true);
-	var appendSection = $("#append-section-parcialidad");
+	var appendSection = padre.find("#append-section-parcialidad");
 
 	//Crear el campo de fecha
 	jInitDatepicker(cloneSection.find("#fecha-parcialidad"), cloneSection.find("#fecha-parcialidad-alt"),"dd/mm/yy","yy-mm-dd");
@@ -342,27 +517,29 @@ $(function(){
 
 		if(value == 2){
 			//Pagos fijos
-			$("#bloque-pagos-recurrentes").hide();
-			$("#bloque-pagos-fijos").show();
+			$(".bloque-pagos-recurrentes").hide();
+			$(".bloque-pagos-fijos").show();
 		}else if(value == 1){
 			//Pagos recurrentes
-			$("#bloque-pagos-recurrentes").show();
-			$("#bloque-pagos-fijos").hide();
+			$(".bloque-pagos-recurrentes").show();
+			$(".bloque-pagos-fijos").hide();
 		}else{
-			$("#bloque-pagos-recurrentes").hide();
-			$("#bloque-pagos-fijos").hide();
+			$(".bloque-pagos-recurrentes").hide();
+			$(".bloque-pagos-fijos").hide();
 		}
 	});
 
-	$("#btn-delete-parcialidad").click(function(event){
+	$(".btn-delete-parcialidad").click(function(event){
 		event.preventDefault();
 		var padre = $(this).closest(".clone-section-parcialidad");
 		deleteParcialidad(padre);	
 	});
 
-	$("#btn-agregar-parcialidad").click(function(event){
+	$(".btn-agregar-parcialidad").click(function(event){
 		event.preventDefault();
-		agregarParcialidad();
+		var padre = $(this).closest("#bloque-pagos-fijos");
+
+		agregarParcialidad(padre);
 	});
 
 	// Cálculos automáticos
@@ -435,8 +612,9 @@ $(function(){
 		event.preventDefault();
 		//revisarCampos();
 		subirArchivoPorAJAX();
+		guardarCotizacion();
 	});
 
-	$("#bloque-pagos-recurrentes").hide();
-	$("#bloque-pagos-fijos").hide();
+	$(".bloque-pagos-recurrentes").hide();
+	$(".bloque-pagos-fijos").hide();
 });

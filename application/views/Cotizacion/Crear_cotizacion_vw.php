@@ -84,47 +84,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<input type="submit" id="btn-guardar-cotizacion" class="form-control btn btn-default" value="Guardar cotización">
 				</div>
 			</div>
-
-			<!-- Opcionales: si se seleccionó pago recurrente o pago fijo -->
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="bloque-pagos-recurrentes">
-				<!-- Pagos recurrentes -->
-				<div class="form-group">
-					<label>Periodicidad</label>
-					<select id="id-periodicidad" class="form-control">
-						<option value="-1">Seleccione una opción</option>
-						<?php foreach($periodicidad as $p){ ?>
-						<option value="<?php echo $p->id ?>"><?php echo $p->clave; ?></option>
-						<?php } ?>
-					</select>
-				</div>
-				<div class="form-group">
-					<label>Número de parcialidades</label>
-					<input type="number" id="numero-parcialidades" class="form-control">
-				</div>
-				<div class="form-group">
-					<label>Monto de la parcialidad</label>
-					<input type="number" id="monto-parcialidad" class="form-control">
-				</div>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="bloque-pagos-fijos">
-				<!-- Pagos fijos -->
-				<div class="form-group">
-					<label>Precio total</label>
-					<input type="number" id="precio-total" class="form-control" value="0">
-				</div>
-				<div class="form-group">
-					<label>Porcentaje de anticipo (De 0 a 100)</label>
-					<input type="number" id="porcentaje-anticipo" class="form-control" value="0">
-				</div>
-				<div class="form-group">
-					<label>Monto de anticipo</label>
-					<input type="number" id="monto-anticipo" class="form-control" value="0">
-				</div>
-				<div class="form-group">
-					<button id="btn-agregar-parcialidad" class="btn btn-primary form-control">Agregar parcialidad</button>
-				</div>
-				<div id="append-section-parcialidad"></div>
-			</div>
 		</div>
 	</div>
 
@@ -213,6 +172,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 
+			<!-- Opcionales: si se seleccionó pago recurrente o pago fijo -->
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bloque-pagos-recurrentes" id="bloque-pagos-recurrentes">
+				<!-- Pagos recurrentes -->
+				<div class="form-group">
+					<label>Periodicidad</label>
+					<select id="id-periodicidad" class="form-control">
+						<option value="-1">Seleccione una opción</option>
+						<?php foreach($periodicidad as $p){ ?>
+						<option value="<?php echo $p->id ?>"><?php echo $p->clave; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Número de parcialidades</label>
+					<input type="number" id="numero-parcialidades" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Monto de la parcialidad</label>
+					<input type="number" id="monto-parcialidad" class="form-control">
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bloque-pagos-fijos" id="bloque-pagos-fijos">
+				<!-- Pagos fijos -->
+				<div class="form-group">
+					<label>Precio total</label>
+					<input type="number" id="precio-total" class="form-control" value="0">
+				</div>
+				<div class="form-group">
+					<label>Porcentaje de anticipo (De 0 a 100)</label>
+					<input type="number" id="porcentaje-anticipo" class="form-control" value="0">
+				</div>
+				<div class="form-group">
+					<label>Monto de anticipo</label>
+					<input type="number" id="monto-anticipo" class="form-control" value="0">
+				</div>
+				<div class="form-group">
+					<button id="btn-agregar-parcialidad" class="btn btn-primary form-control btn-agregar-parcialidad">Agregar parcialidad</button>
+				</div>
+				<div id="append-section-parcialidad"></div>
+			</div>
+
 			</div>
 		</div>
 	</div>
@@ -253,11 +253,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<!-- Fin de clone section descripcion -->
 
+	<!-- Clone section parcialidad -->
 	<div id="clone-section-parcialidad" class="clone-section-parcialidad">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top: 25px;">
 				<div class="form-group">
-					<button class="form-control btn btn-danger" id="btn-delete-parcialidad">x</button>
+					<button class="form-control btn btn-danger btn-delete-parcialidad" id="btn-delete-parcialidad">x</button>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -287,6 +288,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 	</div>
+	<!-- Fin clone section parcialidad -->
 
 	</div>
 	<!-- Fin de clone sections -->

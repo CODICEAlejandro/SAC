@@ -50,6 +50,56 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 			}
 		}else echo "ERROR";
 	}
+
+	public function guardarCotizacion(){
+		$cotizacion = $this->input->post("cotizacion");
+
+		$importeTotal = 0;	//Es la suma de los montos totales de todos los alcances
+		$fechaInicioServicioCotizacion = null;	//Es la fecha mínima de todos los alcances
+		$fechaFinServicioCotizacion = null;	//Es la fecha máxima de todos los alcances
+
+		//Formas las sentencias de los alcances
+		$alcances = $cotizacion["alcances"];
+		for($k=0, $n=count($alcances); $k<$n; $k++){
+			$a = $alcances[$k];
+			$orden = $a["orden"];
+			$servicio = $a["servicio"];
+			$clasificacionServicio = $a["clasificacion"];
+			$titulo = $a["titulo"];
+			$entregables = $a["entregables"];
+			$requerimientos = $a["requerimientos"];
+			$fechaInicioAlcance = $a["fechaInicioServicio"];
+
+			if(is_null($fechaInicioServicioCotizacion)){
+				$fechaInicioServicioCotizacion = 0;
+			}
+		}
+
+		//Formar la inserción en cotización_account
+		$dataDBLastCotizacion = $this->db->query("select ifnull(max(folio),999) maxFolio, ifnull(max(id),1) maxID from cotizacion_account")->row();
+		$idCotizacion = ($dataDBLastCotizacion->maxID)+1;
+		$folio = (int) ($dataDBLastCotizacion->maxFolio);
+		$folio = $folio+1;
+		$contacto = $cotizacion["contacto"];
+		$cliente = $cotizacion["cliente"];
+		$usuario = $cotizacion["usuario"];				//Extraer de la tabla de cliente
+		$tituloCotizacion = $cotizacion["titulo"];
+		$statusCotizacion = 1;
+		$tipoCotizacion = $cotizacion["formaDePago"];
+		$nombreArchivo = $cotizacion["nombreArchivo"];
+		$introduccion = $cotizacion["introduccion"];
+		$objetivo = $cotizacion["objetivo"];
+		$nota = $cotizacion["notas"];
+
+		if($nombreArchivo != "NULL"){
+			$nombreArchivo = "'".$nombreArchivo."'";
+		}
+
+		//Una vez que tenemos listos los parámetros calculados: importe total, fecha inicio y fecha fin, podemos
+		//construir el query dinámico que inserta en cotización_account
+		$query_cotizacion = "insert into cotizacion_account (id, folio, id_contacto, id_cliente, id_usuario, titulo, importe_total, fecha_inicio_servicio, fecha_fin_servicio, status_cotizacion_id, tipo_cotizacion_id, nombre_archivo, introduccion, objetivo, nota) 
+			values (".$idCotizacion.",'".$folio."',".$contacto.",".$cliente.",".$usuario.",'".$tituloCotizacion."',".$importeTotal.",'".$fechaInicioServicioCotizacion."','".$fechaFinServicioCotizacion."',".$statusCotizacion.",".$tipoCotizacion.",".$nombreArchivo.",'".$introduccion."','".$objetivo."','".$nota."')";
+	}
 } 
 
 ?>
