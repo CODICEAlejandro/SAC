@@ -175,6 +175,14 @@ $(function(){
 
 			clon.find("#btn-destroy-fecha").click(function(){
 				clon.remove();
+				$("#importe-fecha-factura").change();
+				if (append_section_fecha.find(".importe-fecha-factura").length == 0) {
+					var padre = append_section_fecha.closest(".clone-section-concepto").first();
+					var importeImp = padre.find("#importe-concepto");
+					var totalImp = padre.find("#total-concepto");
+					importeImp.val(0);
+					totalImp.val(0);
+				}
 			});
 		});
 
@@ -272,6 +280,7 @@ $(function(){
 			data: {"conceptos":JSON.stringify(conceptos),"idCliente":idCliente,"folioCotizacion":folioCotizacion,"notaCotizacion":notaCotizacion,"fechaJuntaArranque":fechaJuntaArranque,"fechaVenta":fechaVenta,"fechaInicioProyecto":fechaInicioProyecto,"fechaFinProyecto":fechaFinProyecto,"idCerrador":idCerrador,"accountManager":accountManager,"tituloCotizacion":tituloCotizacion},
 			success: function(response){
 				alert("Operación realizada con éxito");
+				location.href = baseURL+"index.php/Panel_control_ctrl";
 				//window.location.replace(baseURL+"index.php/Panel_control_ctrl");
 			},
 			error: function(){
