@@ -12,6 +12,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script type="text/javascript">
 		var baseURL = "<?php echo base_url(); ?>";
+		var totalFechasFactura = new Array();
+
 		<?php if (isset($factura)){ ?>
 
 		var factura = jQuery.parseJSON('<?php echo json_encode($factura); ?>'.replace(/\s+/g,""));
@@ -110,6 +112,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
+		<?php if(isset($status)){ ?>
+		<script type="text/javascript">alert("<?php echo $status; ?>");</script>
+		<?php } ?>
+
 		<?php if(isset($factura)){ ?>
 		<span id="carga-automatica-section">
 
@@ -128,14 +134,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group">
 					<label>Proveedor</label>
-					<select class="form-control" id="clienteAsociado">
-						<option value="-1">Ninguno</option>
-						<?php foreach($clientes as $cliente){ ?>
-						<option value="<?php echo $cliente->id; ?>">
-							<?php echo $cliente->nombre; ?>		
-						</option>
-						<?php } ?>
-					</select>
+					<div id="main-select-cliente">
+						<select class="form-control slc-clienteAsociado" id="clienteAsociado">
+							<option value="-1">Ninguno</option>
+							<?php foreach($clientes as $cliente){ ?>
+							<option value="<?php echo $cliente->id; ?>">
+								<?php echo $cliente->nombre; ?>		
+							</option>
+							<?php } ?>
+						</select>
+					</div>
+					<div id="append-section-proveedor"></div>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-info" id="btn-agregar-proveedor">Agregar proveedor</button>
 				</div>
 				<div class="form-group">
 					<label>Razón social</label>

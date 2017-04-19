@@ -41,17 +41,18 @@ function retrieveFechasFactura(idCliente){
 	var fecha_hasta = $("#fecha_hasta_alt").val();
 
 	$.ajax({
-		url: baseURL+'index.php/Lectura_factura_ctrl/getFechasFacturacion/'+idCliente,
+		url: baseURL+'index.php/Lectura_factura_ctrl/getFechasFacturacion/',
 		method: 'post',
-		data: {'idCliente': idCliente, 'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta},
+		data: {'idCliente': JSON.stringify(idCliente), 'fecha_desde': fecha_desde, 'fecha_hasta': fecha_hasta},
 		dataType: 'json',
 		success: function(response){
 			var k, n;
 			var appendedDescription;
 
+			totalFechasFactura = new Array();
+
 			// Limpieza de los select
 			appendSection.find("*").remove();
-
 			appendSection.append('<option value="-1">Ninguno</option>');
 
 			for(k=0, n=response.length; k<n; k++){
@@ -61,6 +62,7 @@ function retrieveFechasFactura(idCliente){
 				appendedDescription += response[k].fechaFactura;
 				appendedDescription += '</option>';
 
+				totalFechasFactura.push(new Array(response[k].idFechaFactura, appendedDescription));
 				appendSection.append(appendedDescription);
 			}			
 		},
@@ -121,12 +123,67 @@ function addMatchedSelect(sender){
 	servicio.html("");
 }
 
+function pintarFechasDisponibles(){
+	var selects = $("#conceptos-tbl tbody tr #matchCol .clone-match-col select.idMatched");
+	var cSelect;
+	var respaldo;
+	var matches = new Array();
+	var k, n, flag;
+	var i, j;
+	var idFechaFactura, option;
+
+	// matches = contiene la lista de id's de factura que ya han sido seleccionados
+	// totalFechasFactura = arreglo de arreglos de la forma = { {idFechaFactura, HTMLDeOption}, ... }
+
+	// Forma arreglo con matches
+	selects.each(function(index){
+		matches.push($(this).val());
+	});
+
+	// Forma options correspondientes con cada select, conservando la opción que actualmente está seleccionada
+	selects.each(function(index){
+		cSelect = $(this);
+		respaldo = cSelect.val();
+
+		//Limpia los options actuales
+		cSelect.find("*").remove();
+		cSelect.append('<option value="-1">Ninguno</option>');
+
+		//Agregar opciones que no estén en la lista de matches + la opción que está actualmente seleccionada
+		for(k=0, n=totalFechasFactura.length; k<n; k++){
+			flag = true;	//Para flag = true => Agrega option a select
+
+			//Verificar si el ID en cuestión es el seleccionado
+			idFechaFactura = totalFechasFactura[k][0];
+			option = totalFechasFactura[k][1];
+
+			if(respaldo != idFechaFactura){
+				//Verifica que el ID en cuestión no esté en la lista de no disponibles
+				for(i=0, j=matches.length; i<j; i++){
+					if(matches[i] == idFechaFactura){
+						flag = false;
+						break;
+					}
+				}
+			}
+
+			if(flag) cSelect.append(option);
+		}
+
+		cSelect.val(respaldo);
+	});
+}
+
 function deleteMatch(sender){
 	var parentRow = sender.closest("tr");
 	var currentMatches = parentRow.find("#append-section-matchCol").find(".clone-match-col").size();
 	if(currentMatches > 1){
 		sender.closest(".clone-match-col").remove();
-	}else alert("Por lo menos debe existir una fecha de factura asociada para cada concepto");
+		return true;
+	}else{
+		alert("Por lo menos debe existir una fecha de factura asociada para cada concepto");
+		return false;
+	}
 }
 
 
@@ -136,14 +193,27 @@ $(function(){
 	initDatepicker("#fecha_desde", "#fecha_desde_alt", 'dd/mm/yy', 'yy-mm-dd');
 	initDatepicker("#fecha_hasta", "#fecha_hasta_alt", 'dd/mm/yy', 'yy-mm-dd');
 
+	$("#btn-agregar-proveedor").click(function(){
+		var cloneSection = $("#main-select-cliente #clienteAsociado").clone(true);
+		var appendSection = $("#append-section-proveedor");
+
+		cloneSection.removeAttr("id");
+		cloneSection.val("-1");
+
+		appendSection.append(cloneSection);
+	});
+
 	$(".btn-delete-match").click(function(event){
 		event.preventDefault();
-		deleteMatch($(this));
+		
+		if(deleteMatch($(this)))
+			pintarFechasDisponibles();
 	});
 
 	$(".btn-add-matched-select").click(function(event){
 		event.preventDefault();
 		addMatchedSelect($(this));
+		pintarFechasDisponibles();
 	});
 
 	$("#folioFactura").change(function(){
@@ -168,15 +238,33 @@ $(function(){
 		factura.ordenCompra = $(this).val();
 	});
 
-	$("#clienteAsociado").change(function(){
-		retrieveRazonesSociales($(this).val());
-		retrieveFechasFactura($(this).val());
+	$(".slc-clienteAsociado").change(function(){
+		var clientePrincipal = $("#clienteAsociado").val();
+		var arrIDCliente = new Array();
+		var sender;
+
+		retrieveRazonesSociales(clientePrincipal);
+
+		$(".slc-clienteAsociado").each(function(index){
+			sender = $(this);
+
+			arrIDCliente.push(sender.val());
+		});
+
+		retrieveFechasFactura(arrIDCliente);
 	});
 
 	$("#fecha_desde, #fecha_hasta").change(function(){
-		var idCliente = $("#clienteAsociado").val();
+		var arrIDCliente = new Array();
+		var sender;
 
-		retrieveFechasFactura(idCliente);
+		$(".slc-clienteAsociado").each(function(index){
+			sender = $(this);
+
+			arrIDCliente.push(sender.val());
+		});
+
+		retrieveFechasFactura(arrIDCliente);
 	});
 
 	$(".idMatched").change(function(){
@@ -209,6 +297,7 @@ $(function(){
 			url: baseURL+'index.php/Lectura_factura_ctrl/getFechaFacturacion/'+idSel,
 			method: 'post',
 			dataType: 'json',
+			async: false,
 			success: function(response){
 				var importe = currentRow.find("span#importeFechaFactura");
 				var nota = currentRow.find("span#notaFechaFactura");
@@ -233,6 +322,7 @@ $(function(){
 		});		
 
 		isFill();
+		pintarFechasDisponibles();
 	});
 
 	$(".notasTextarea").change(function(){
