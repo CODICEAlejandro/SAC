@@ -64,9 +64,10 @@ function guardarCotizacion(){
 	var fechaInicioServicioCotizacion = null, fechaFinServicioCotizacion = null;
 	var k, n, a;
 	var resultFechaString, resultFechaDate, tmpFechaString, tmpFechaDate;
+	var resultFechaStringCotizacion;
 	var arrResult, arrTmp;
 
-	resultFechaString = null;
+	resultFechaStringCotizacion = null;
 
 	objAlcances.each(function(index){
 		var sender = $(this);
@@ -84,20 +85,20 @@ function guardarCotizacion(){
 		};
 
 		//Encontrar la fecha mínima de todos los alcances para asignarla a la fecha de inicio de servicio de la cotización
-		if(!resultFechaString){
-			resultFechaString = tmpAlcance.fechaInicioServicio;
+		if(!resultFechaStringCotizacion){
+			resultFechaStringCotizacion = tmpAlcance.fechaInicioServicio;
 		}else{
-			arrResult = resultFechaString.split("-");	//Forma: yyyy-mm-dd
+			arrResult = resultFechaStringCotizacion.split("-");	//Forma: yyyy-mm-dd
 			resultFechaDate = new Date(arrResult[0], parseInt(arrResult[1])-1, arrResult[2]);
 
 			arrTmp = tmpAlcance.fechaInicioServicio.split("-");
 			tmpFechaDate = new Date(arrTmp[0], parseInt(arrTmp[1])-1, arrTmp[2]);
-	
+
 			if(tmpFechaDate.getTime() < resultFechaDate.getTime()){
-				resultFechaString = tmpAlcance.fechaInicioServicio;
+				resultFechaStringCotizacion = tmpAlcance.fechaInicioServicio;
 			}
 		}
-		fechaInicioServicioCotizacion = resultFechaString;
+		fechaInicioServicioCotizacion = resultFechaStringCotizacion;
 
 		//Empaquetar las descripciones del alcance actual
 		objDescripciones = sender.find("#append-section-descripcion .clone-section-descripcion");
@@ -161,7 +162,14 @@ function guardarCotizacion(){
 			});
 
 			tmpAlcance.parcialidades = parcialidades;
-			tmpAlcance.fechaFinServicio = fechaFinServicioAlcance;
+
+			if(fechaFinServicioAlcance){
+				tmpAlcance.fechaFinServicio = fechaFinServicioAlcance;
+			}
+			else{
+				tmpAlcance.fechaFinServicio = tmpAlcance.fechaInicioServicio;
+				fechaFinServicioAlcance = tmpAlcance.fechaInicioServicio;
+			}
 
 			// **** Falta revisar que sucede con la fecha de fin de servicio del alcance para cuando éste no tiene parcialidades
 			// **** Esto para pagos fijos
@@ -330,7 +338,7 @@ function revisarCampos(){
 		}
 	});
 
-	if(!result) return result;
+	return result;
 }
 
 function cargarContactos(idCliente){
@@ -610,9 +618,10 @@ $(function(){
 
 	$("#btn-guardar-cotizacion").click(function(event){
 		event.preventDefault();
-		//revisarCampos();
-		subirArchivoPorAJAX();
-		guardarCotizacion();
+		if(revisarCampos()){
+			subirArchivoPorAJAX();
+			guardarCotizacion();
+		}
 	});
 
 	$(".bloque-pagos-recurrentes").hide();

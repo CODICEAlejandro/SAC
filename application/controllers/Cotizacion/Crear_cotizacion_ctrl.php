@@ -55,25 +55,8 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 		$cotizacion = $this->input->post("cotizacion");
 
 		$importeTotal = 0;	//Es la suma de los montos totales de todos los alcances
-		$fechaInicioServicioCotizacion = null;	//Es la fecha mínima de todos los alcances
-		$fechaFinServicioCotizacion = null;	//Es la fecha máxima de todos los alcances
-
-		//Formas las sentencias de los alcances
-		$alcances = $cotizacion["alcances"];
-		for($k=0, $n=count($alcances); $k<$n; $k++){
-			$a = $alcances[$k];
-			$orden = $a["orden"];
-			$servicio = $a["servicio"];
-			$clasificacionServicio = $a["clasificacion"];
-			$titulo = $a["titulo"];
-			$entregables = $a["entregables"];
-			$requerimientos = $a["requerimientos"];
-			$fechaInicioAlcance = $a["fechaInicioServicio"];
-
-			if(is_null($fechaInicioServicioCotizacion)){
-				$fechaInicioServicioCotizacion = 0;
-			}
-		}
+		$fechaInicioServicioCotizacion = $cotizacion["fechaInicioServicio"];	//Es la fecha mínima de todos los alcances
+		$fechaFinServicioCotizacion = $cotizacion["fechaFinServicio"];	//Es la fecha máxima de todos los alcances
 
 		//Formar la inserción en cotización_account
 		$dataDBLastCotizacion = $this->db->query("select ifnull(max(folio),999) maxFolio, ifnull(max(id),1) maxID from cotizacion_account")->row();
@@ -82,7 +65,7 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 		$folio = $folio+1;
 		$contacto = $cotizacion["contacto"];
 		$cliente = $cotizacion["cliente"];
-		$usuario = $cotizacion["usuario"];				//Extraer de la tabla de cliente
+		$usuario = $_SESSION['id'];				//Extraer de la tabla de cliente
 		$tituloCotizacion = $cotizacion["titulo"];
 		$statusCotizacion = 1;
 		$tipoCotizacion = $cotizacion["formaDePago"];
@@ -99,6 +82,38 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 		//construir el query dinámico que inserta en cotización_account
 		$query_cotizacion = "insert into cotizacion_account (id, folio, id_contacto, id_cliente, id_usuario, titulo, importe_total, fecha_inicio_servicio, fecha_fin_servicio, status_cotizacion_id, tipo_cotizacion_id, nombre_archivo, introduccion, objetivo, nota) 
 			values (".$idCotizacion.",'".$folio."',".$contacto.",".$cliente.",".$usuario.",'".$tituloCotizacion."',".$importeTotal.",'".$fechaInicioServicioCotizacion."','".$fechaFinServicioCotizacion."',".$statusCotizacion.",".$tipoCotizacion.",".$nombreArchivo.",'".$introduccion."','".$objetivo."','".$nota."')";
+
+		$this->db->query($query_cotizacion);
+
+		//Insertar los alcances
+		//Formas las sentencias de los alcances
+		if(isset($cotizacion["alcances"])){
+			$alcances = $cotizacion["alcances"];
+			for($k=0, $n=count($alcances); $k<$n; $k++){
+				$a = $alcances[$k];
+				$orden = $a["orden"];
+				$servicio = $a["servicio"];
+				$clasificacionServicio = $a["clasificacion"];
+				$titulo = $a["titulo"];
+				$entregables = $a["entregables"];
+				$requerimientos = $a["requerimientos"];
+				$fechaInicioAlcance = $a["fechaInicioServicio"];
+
+				$query_alcance = "insert into alcance_cotizacion(orden,id_clasificacion_servicio, id_cotizacion_account, titulo, entregables, requerimientos, fecha_inicio_servicio, fecha_fin_servicio, monto_total)
+					values(".$orden.",".$servicio.",".$idCotizacion.",'".$titulo."','".$entregables."','".$requerimientos."',
+					'".$fechaInicioAlcance."')";
+			}
+		}
+
+			//Insertar descripciones de alcance actual
+
+			//Elegir subtipo
+				//Pagos indefinidos
+				//Pagos fijos
+					//Insetar parcialidades
+				//Pagos recurrentes
+
+		echo json_encode("OK");
 	}
 } 
 
