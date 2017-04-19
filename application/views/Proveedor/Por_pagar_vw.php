@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		var baseURL = "<?php echo base_url(); ?>";
 	</script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/mainFunctions.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Facturacion/Por_pagar.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Proveedor/Por_pagar.js"></script>
 </head>
 <body>
 	<?=$menu ?>

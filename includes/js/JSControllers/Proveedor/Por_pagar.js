@@ -114,7 +114,7 @@ $(function(){
 	$(".datepicker").each(function(){
 		var partes = $(this).val().split("/");
 		var dia = partes[0];
-		var mes = partes[1];
+		var mes = partes[1]-1;
 		var anio = partes[2];
 
 		jInitDatepicker($(this), $(this).parent().find("#datepicker-alt"), "dd/mm/yy", "yy-mm-dd", new Date(anio, mes, dia));
