@@ -77,7 +77,7 @@ function guardarCotizacion(){
 			titulo: sender.find("#titulo-alcance").val(),
 			orden: sender.find("#orden-alcance").val(),
 			servicio: sender.find("#id-servicio-alcance").val(),
-			clasificacion: sender.find("#id-servicio-alcance").val(),
+			clasificacion: sender.find("#id-clasificacion-alcance").val(),
 			descripciones: new Array(),
 			requerimientos: sender.find("#requerimientos-alcance").val(),
 			entregables: sender.find("#entregables-alcance").val(),

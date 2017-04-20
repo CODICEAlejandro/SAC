@@ -102,16 +102,33 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 				$query_alcance = "insert into alcance_cotizacion(orden,id_clasificacion_servicio, id_cotizacion_account, titulo, entregables, requerimientos, fecha_inicio_servicio, fecha_fin_servicio, monto_total)
 					values(".$orden.",".$servicio.",".$idCotizacion.",'".$titulo."','".$entregables."','".$requerimientos."',
 					'".$fechaInicioAlcance."')";
+
+				$this->db->query($query_alcance);
+
+				//Se insertan las descripciones por alcance
+				$query_id_alcance = "SELECT max(id) id_alcance FROM alcance_cotizacion";
+				$id_alcance = $this->db->query($query_id_alcance);
+				$descripciones = $a["descripciones"];
+				if (isset($descripciones)) {
+					for ($i=0, $m=count($descripciones); $i < $m ; $i++) { 
+						$d = $descripciones[$i];
+						$titulo_desc = $d["titulo"];
+						$desc_alcance = $d["descripcion"];
+
+						$query_descripciones = "INSERT INTO descripcion_alcance(id_alcane,titulo,descripcion) VALUES(".$id_alcane.",'".$titulo_desc."','".$desc_alcance."')";
+
+						$this->db->query($query_descripciones);
+					}
+				}
 			}
 		}
 
-			//Insertar descripciones de alcance actual
 
-			//Elegir subtipo
-				//Pagos indefinidos
-				//Pagos fijos
-					//Insetar parcialidades
-				//Pagos recurrentes
+		//Elegir subtipo
+			//Pagos indefinidos
+			//Pagos fijos
+				//Insetar parcialidades
+			//Pagos recurrentes
 
 		echo json_encode("OK");
 	}
