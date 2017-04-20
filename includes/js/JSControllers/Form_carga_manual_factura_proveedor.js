@@ -30,19 +30,23 @@ function retrieveFechasFactura(idCliente){
 	// Appends Section en este caso apunta al select donde se hacen
 	// los matches correspondientes.
 	var appendSection = $('select.idMatched');
+	var fechaDesde = $("#fecha_desde_alt").val();
+	var fechaHasta = $("#fecha_hasta_alt").val();
 
 	// Limpieza de los select
 	appendSection.find("*").remove();
 	appendSection.append('<option value="-1">Ninguno</option>');
 
 	$.ajax({
-		url: baseURL+'index.php/Form_carga_manual_factura_proveedor_ctrl/getFechasFacturacion/'+idCliente,
+		url: baseURL+'index.php/Lectura_factura_ctrl/getFechasFacturacion',
 		method: 'post',
-		data: {'idCliente': idCliente},
+		data: {'idCliente': JSON.stringify(idCliente), 'fecha_desde':fechaDesde , 'fecha_hasta':fechaHasta},
 		dataType: 'json',
 		success: function(response){
 			var k, n;
 			var appendedDescription;
+
+			totalFechasFactura = new Array();
 
 			for(k=0, n=response.length; k<n; k++){
 				appendedDescription =  '<option value="'+response[k].idFechaFactura+'">';
@@ -51,12 +55,64 @@ function retrieveFechasFactura(idCliente){
 				appendedDescription += response[k].fechaFactura;
 				appendedDescription += '</option>';
 
+				totalFechasFactura.push(new Array(response[k].idFechaFactura, appendedDescription));
 				appendSection.append(appendedDescription);
 			}			
 		},
 		error: function(){
 			alert("Ha ocurrido un error. Intente de nuevo, por favor.");
 		}
+	});
+}
+
+function pintarFechasDisponibles(){
+	var selects = $("#conceptos-tbl tbody tr #matchCol .clone-match-col select.idMatched");
+	var cSelect;
+	var respaldo;
+	var matches = new Array();
+	var k, n, flag;
+	var i, j;
+	var idFechaFactura, option;
+
+	// matches = contiene la lista de id's de factura que ya han sido seleccionados
+	// totalFechasFactura = arreglo de arreglos de la forma = { {idFechaFactura, HTMLDeOption}, ... }
+
+	// Forma arreglo con matches
+	selects.each(function(index){
+		matches.push($(this).val());
+	});
+
+	// Forma options correspondientes con cada select, conservando la opción que actualmente está seleccionada
+	selects.each(function(index){
+		cSelect = $(this);
+		respaldo = cSelect.val();
+
+		//Limpia los options actuales
+		cSelect.find("*").remove();
+		cSelect.append('<option value="-1">Ninguno</option>');
+
+		//Agregar opciones que no estén en la lista de matches + la opción que está actualmente seleccionada
+		for(k=0, n=totalFechasFactura.length; k<n; k++){
+			flag = true;	//Para flag = true => Agrega option a select
+
+			//Verificar si el ID en cuestión es el seleccionado
+			idFechaFactura = totalFechasFactura[k][0];
+			option = totalFechasFactura[k][1];
+
+			if(respaldo != idFechaFactura){
+				//Verifica que el ID en cuestión no esté en la lista de no disponibles
+				for(i=0, j=matches.length; i<j; i++){
+					if(matches[i] == idFechaFactura){
+						flag = false;
+						break;
+					}
+				}
+			}
+
+			if(flag) cSelect.append(option);
+		}
+
+		cSelect.val(respaldo);
 	});
 }
 
@@ -74,6 +130,21 @@ function validate(){
 }
 
 $(function(){
+	initDatepicker("#fecha_desde", "#fecha_desde_alt", 'dd/mm/yy', 'yy-mm-dd');
+	initDatepicker("#fecha_hasta", "#fecha_hasta_alt", 'dd/mm/yy', 'yy-mm-dd');
+
+	$("#btn-agregar-proveedor").click(function(event){
+		event.preventDefault();
+
+		var cloneSection = $("#main-select-cliente #proveedor").clone(true);
+		var appendSection = $("#append-section-proveedor");
+
+		cloneSection.removeAttr("id");
+		cloneSection.val("-1");
+
+		appendSection.append(cloneSection);
+	});
+
 	//Función de append de conceptos en la tabla principal
 	$("#btn-add-concepto-factura").click(function(event){
 		event.preventDefault();
@@ -106,6 +177,7 @@ $(function(){
 
 			matchClon.find("#delete-item").click(function(){
 				matchClon.remove();
+				pintarFechasDisponibles();
 			});
 
 			matchClon.find("#contraer-item").click(function(){
@@ -114,19 +186,29 @@ $(function(){
 				if(contraerSection.is(":visible")) contraerSection.hide();
 				else contraerSection.show();
 			});
+
+			pintarFechasDisponibles();
 		});
 	});
 
 	//Función de reacción al cambio del combo principal del cliente actual, para traer las razones sociales
 	//correspondientes
 	$("#proveedor").change(function(){
-		retrieveRazonesSociales($(this).val());
+		var proveedorPrincipal = $("#proveedor").val();
+
+		retrieveRazonesSociales(proveedorPrincipal);
 	});
 
-	//Función de reacción al cambio de razón social general, para actualizar las fechas de facturación en 
-	//la tabla principal
-	$("#razonSocial").change(function(){
-		retrieveFechasFactura($(this).val());
+	$(".slc-proveedorAsignado, #fecha_desde, #fecha_hasta").change(function(){
+		var idProveedores = new Array();
+		var sender;
+
+		$(".slc-proveedorAsignado").each(function(index){
+			sender = $(this);
+			idProveedores.push(sender.val());
+		});
+
+		retrieveFechasFactura(idProveedores);		
 	});
 
 	//Función para guardar la factura actual en la base de datos

@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/mainFunctions.js"></script>
 
 	<script type="text/javascript">
+		var totalFechasFactura = new Array();
 		var baseURL = "<?php echo base_url(); ?>";
 	</script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Form_carga_manual_factura_proveedor.js"></script>
@@ -76,19 +77,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<form id="form-carga-manual-proveedor">
 			<div class="form-group">
 				<label>Proveedor</label>
-				<select name="proveedor" id="proveedor" class="form-control obligatorio">
-					<?php foreach($proveedores as $p){ ?>
-					<option value="<?php echo $p->id; ?>">
-					<?php echo $p->nombre; ?>
-					</option>
-					<?php } ?>
-				</select>
+				<div id="main-select-cliente">
+					<select name="proveedor" id="proveedor" class="form-control obligatorio slc-proveedorAsignado">
+						<option value="-1">Seleccione una opción</option>
+						<?php foreach($proveedores as $p){ ?>
+						<option value="<?php echo $p->id; ?>">
+						<?php echo $p->nombre; ?>
+						</option>
+						<?php } ?>
+					</select>
+				</div>
+				<div id="append-section-proveedor"></div>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-info" id="btn-agregar-proveedor">Agregar proveedor</button>
 			</div>
 			<div class="form-group">
 				<label>Razón social</label>
 				<select name="razonSocial" id="razonSocial" class="form-control obligatorio">
 					<option value="-1">Seleccione una opción</option>
 				</select>
+			</div>
+			<div class="form-group">
+				<label>Fecha desde donde se muestran las fechas de facturación</label>
+				<input type="text" id="fecha_desde" class="form-control datepicker">
+				<input type="text" id="fecha_desde_alt" class="form-control datepicker">
+			</div>
+			<div class="form-group">
+				<label>Fecha hasta donde se muestran las fechas de facturación</label>
+				<input type="text" id="fecha_hasta" class="form-control datepicker">
+				<input type="text" id="fecha_hasta_alt" class="form-control datepicker">
 			</div>
 		</form>
 
