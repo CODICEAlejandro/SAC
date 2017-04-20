@@ -378,6 +378,10 @@ $(function(){
 		});
 	});
 
+	$("select.idMatched").change(function(){
+		pintarFechasDisponibles();
+	});
+
 	initDatepicker("#fechaDeExpedicion", "#fechaDeExpedicion-alt", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fechaPago", "#fechaPagoAlt", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fechaCancelacion", "#fechaCancelacionAlt", "dd/mm/yy", "yy-mm-dd");
