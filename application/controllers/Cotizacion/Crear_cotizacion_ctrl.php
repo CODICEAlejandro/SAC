@@ -78,6 +78,44 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 			$nombreArchivo = "'".$nombreArchivo."'";
 		}
 
+		//Se calculará el importe total de acuerdo al tipo de pago
+		if (isset($cotizacion["alcances"])) {
+			$alcances = $cotizacion["alcances"];
+			$fechasFinPagos = array();//Variable paara calcular la máxima fecha de fin 
+			for ($i=0, $n=count($alcances); $i < $n; $i++) { 
+				$a = $alcances[$i];
+				if ($tipoCotizacion==1) { //Pagos recurrentes
+					$importeTotal+=$a["montoParcialidad"] * $a["numeroParcialidades"];
+					//$mult = $a["fechaFinServicioMult"];
+					$period = $a["periodicidad"];
+					$query_trae_meses = "SELECT meses FROM cat_periodicidad_alcance WHERE id=".$period;
+					$mult = $this->db->query($query_trae_meses)->row();
+					$mult = $mult->meses;
+					$mult = $mult*$a["numeroParcialidades"];
+					$fechaInicio = $a["fechaInicioServicio"];
+					$query_calcula_fecha = "SELECT (DATE_ADD('".$fechaInicio."',INTERVAL ".$mult." MONTH)) fecha FROM dual";
+					$fechaCalculada = $this->db->query($query_calcula_fecha)->row();
+					$fechaCalculada = $fechaCalculada->fecha;
+					array_push($fechasFinPagos, $fechaCalculada);
+				}
+				elseif ($tipoCotizacion==2) { //Pagos fijos
+					$importeTotal+=$a["precioTotal"];
+				}
+				else{
+					$importeTotal = 0;
+					//Mete en un arreglo las fechas de los alcances para seleccionar la máxima para pagos indefinidos
+					array_push($fechasFinPagos, $a["fechaInicioServicio"]);
+				}
+			}
+
+		}
+
+		//Calculo de la fecha de Fin servicio de cotizacion a través del cálculo de las fechas de fin para pagos recurrentes
+		if (($tipoCotizacion==1 || $tipoCotizacion==3) && isset($cotizacion["alcances"])) {
+			$fechaFinServicioCotizacion = max($fechasFinPagos);
+		}
+
+
 		//Una vez que tenemos listos los parámetros calculados: importe total, fecha inicio y fecha fin, podemos
 		//construir el query dinámico que inserta en cotización_account
 		$query_cotizacion = "insert into cotizacion_account (id, folio, id_contacto, id_cliente, id_usuario, titulo, importe_total, fecha_inicio_servicio, fecha_fin_servicio, status_cotizacion_id, tipo_cotizacion_id, nombre_archivo, introduccion, objetivo, nota) 
@@ -99,23 +137,97 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 				$requerimientos = $a["requerimientos"];
 				$fechaInicioAlcance = $a["fechaInicioServicio"];
 
+				if ($tipoCotizacion==1) { //Pagos recurrentes
+					$period = $a["periodicidad"];
+					$query_trae_meses = "SELECT meses FROM cat_periodicidad_alcance WHERE id=".$period;
+					$mult = $this->db->query($query_trae_meses)->row();
+					$mult = $mult->meses;
+					$mult = $mult * $a["numeroParcialidades"];
+					//$mult = $a["fechaFinServicioMult"];
+					$fechaCalculada = $this->db->query("SELECT (DATE_ADD('".$fechaInicioAlcance."',INTERVAL ".$mult." MONTH)) fecha FROM dual")->row();
+					$fechaCalculada=$fechaCalculada->fecha;
+					$fechaFinAlcance = $fechaCalculada;
+					$montoParcial = $a["montoParcialidad"];
+					$montoTotal = $montoParcial * $a["numeroParcialidades"];
+
+				}else { //Pagos fijos e indefinidos
+					if (isset($a["parcialidades"])) {
+						$p = $a["parcialidades"];
+
+						if (count($p)>0) {
+							$fechasParcialidades = array();
+							for ($j=0, $m=count($p); $j < $m ; $j++) {
+								$parcialidad = $p[$j]; 
+								array_push($fechasParcialidades, $parcialidad["fecha"]);
+							}
+							$fechaFinAlcance = max($fechasParcialidades);
+							$montoTotal= $a["precioTotal"];
+						}
+					}else{
+						//Si se trata de pagos fijos pero no hay parcialidades:
+							//La fecha de fin del alcance se toma como la de Inicio del Alcance
+							//El monto total es cero
+						$fechaFinAlcance = $fechaInicioAlcance;
+						$montoTotal= 0;
+					}
+					
+				}
+				
 				$query_alcance = "insert into alcance_cotizacion(orden,id_clasificacion_servicio, id_cotizacion_account, titulo, entregables, requerimientos, fecha_inicio_servicio, fecha_fin_servicio, monto_total)
-					values(".$orden.",".$servicio.",".$idCotizacion.",'".$titulo."','".$entregables."','".$requerimientos."',
-					'".$fechaInicioAlcance."')";
+					values(".$orden.",".$servicio.",".$idCotizacion.",'".$titulo."','".$entregables."','".$requerimientos."','".$fechaInicioAlcance."','".$fechaFinAlcance."',".$montoTotal.")";
+
+
 
 				$this->db->query($query_alcance);
 
 				//Se insertan las descripciones por alcance
 				$query_id_alcance = "SELECT max(id) id_alcance FROM alcance_cotizacion";
-				$id_alcance = $this->db->query($query_id_alcance);
-				$descripciones = $a["descripciones"];
-				if (isset($descripciones)) {
+				$id_alcance = $this->db->query($query_id_alcance)->row();
+				$id_alcance = $id_alcance->id_alcance;
+				
+
+				//Se insertan los datos en las tablas subtipos
+				if ($tipoCotizacion==1) { //Se inserta en subtipo_pago_recurrente
+					$numParcialidades= $a["numeroParcialidades"];
+
+					$this->db->query("INSERT INTO subtipo_pago_recurrente (id_alcance,id_periodicidad,numero_parcialidades,monto_parcialidad) VALUES(".$id_alcance.",".$period.",".$numParcialidades.",".$montoParcial.")");
+				}
+				elseif ($tipoCotizacion==2) { //Se inserta en subtipo_pago_fijo
+					if (isset($a["parcialidades"])) {
+						$p = $a["parcialidades"];
+
+						//Se inserta la parcialidad del anticipo
+						$montoAnticipo = $a["montoAnticipo"];
+						$porcentajeAnticipo = $a["porcentajeAnticipo"];
+
+						$this->db->query("INSERT INTO subtipo_pago_fijo (id_alcance, concepto, fecha, porcentaje_monto, monto_parcialidad) VALUES(".$id_alcance.",'Anticipo','',".$porcentajeAnticipo.",".$montoAnticipo.")");
+
+						if (count($p)>0) {
+							
+							for ($j=0, $m=count($p); $j < $m ; $j++) {
+								$parcialidad = $p[$j];
+								$fechaParcialidad = $parcialidad["fecha"];
+								$porcentajeParcialidad = $parcialidad["porcentaje"];
+								$concepto = $parcialidad["concepto"];
+								$monto = $parcialidad["monto"]; 
+
+								$this->db->query("INSERT INTO subtipo_pago_fijo (id_alcance,concepto,fecha,porcentaje_monto,monto_parcialidad) VALUES(".$id_alcance.",'".$concepto."','".$fechaParcialidad."',".$porcentajeParcialidad.",".$monto.")");
+								
+							}
+						}
+					}
+					
+				}
+
+				//Se insertan las descripciones por alcance
+				if (isset($a["descripciones"])) {
+					$descripciones = $a["descripciones"];
 					for ($i=0, $m=count($descripciones); $i < $m ; $i++) { 
 						$d = $descripciones[$i];
 						$titulo_desc = $d["titulo"];
 						$desc_alcance = $d["descripcion"];
 
-						$query_descripciones = "INSERT INTO descripcion_alcance(id_alcane,titulo,descripcion) VALUES(".$id_alcane.",'".$titulo_desc."','".$desc_alcance."')";
+						$query_descripciones = "INSERT INTO descripcion_alcance(id_alcance,titulo,descripcion) VALUES(".$id_alcance.",'".$titulo_desc."','".$desc_alcance."')";
 
 						$this->db->query($query_descripciones);
 					}

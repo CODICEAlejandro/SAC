@@ -167,13 +167,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group">
 					<label>Fecha de inicio del servicio (*)</label>
-					<input type="text" id="fecha-inicio-servicio" class="form-control">
+					<input type="text" id="fecha-inicio-servicio" class="form-control fecha-inicio-servicio">
 					<input type="text" id="fecha-inicio-servicio-alt" class="form-control fecha-inicio-servicio-alt">
 				</div>
 			</div>
 
 			<!-- Opcionales: si se seleccionó pago recurrente o pago fijo -->
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bloque-pagos-recurrentes" id="bloque-pagos-recurrentes">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 bloque-pagos-recurrentes" id="bloque-pagos-recurrentes"
+			style="width: 100%; border-bottom: 2px blue dotted; margin-bottom: 15px;">
 				<!-- Pagos recurrentes -->
 				<div class="form-group">
 					<label>Periodicidad</label>
@@ -197,15 +198,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<!-- Pagos fijos -->
 				<div class="form-group">
 					<label>Precio total</label>
-					<input type="number" id="precio-total" class="form-control" value="0">
+					<input type="number" id="precio-total" class="form-control precio-total" value="0">
 				</div>
 				<div class="form-group">
 					<label>Porcentaje de anticipo (De 0 a 100)</label>
-					<input type="number" id="porcentaje-anticipo" class="form-control" value="0">
+					<input type="number" id="porcentaje-anticipo" class="form-control porcentaje-anticipo" value="0">
 				</div>
 				<div class="form-group">
 					<label>Monto de anticipo</label>
-					<input type="number" id="monto-anticipo" class="form-control" value="0">
+					<input type="number" id="monto-anticipo" class="form-control monto-anticipo" value="0">
 				</div>
 				<div class="form-group">
 					<button id="btn-agregar-parcialidad" class="btn btn-primary form-control btn-agregar-parcialidad">Agregar parcialidad</button>
@@ -270,7 +271,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group">
 					<label>Fecha</label>
-					<input type="text" id="fecha-parcialidad" class="form-control">
+					<input type="text" id="fecha-parcialidad" class="form-control fecha-parcialidad">
 					<input type="text" id="fecha-parcialidad-alt" class="form-control fecha-parcialidad-alt">
 				</div>
 			</div>
