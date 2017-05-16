@@ -4,9 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <html>
 <head>
-	<title>JOBS</title>
-	<?php includeJQuery(); ?>
-	<?php includeBootstrap(); ?>
+	<!--<title>JOBS</title>-->
+	<?php //includeJQuery(); ?>
+	<?php //includeBootstrap(); ?>
 
 	<style type="text/css">
 		body {
