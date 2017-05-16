@@ -10,6 +10,8 @@ function buscaRegistros() {
 			alert("Debes ingresar los parámetros de búsqueda.");
 		}else{
 
+			location.href = "Listado_cotizacion_ctrl/busquedaRegistros";
+			/*
 			$.ajax({
 				url: baseURL+"index.php/Cotizacion/Listado_cotizacion_ctrl/busquedaRegistros",
 				method: "post",
@@ -49,6 +51,7 @@ function buscaRegistros() {
 					alert("Hubo un error al realizar la búsqueda");
 				}
 			});
+			*/
 		}
 	});
 	

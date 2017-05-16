@@ -79,15 +79,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $c->folio; ?></td>
 							<td><?php echo $c->nombre_cli; ?></td>
 							<td><?php echo $c->titulo; ?></td>
-							<td><?php echo $c->nombre_acc." ".$c->apellido_acc."<br>".$c->correo; ?></td>
+							<td><?php echo $c->nombre_cli." ".$c->apellido_cli."<br>".$c->correo; ?></td>
 							<td><?php echo $c->importe_total; ?></td>
-							<td><?php echo $c->fecha_alta; ?></td>
-							<td><?php echo $c->fecha_inicio; ?></td>
-							<td><?php echo $c->fecha_fin; ?></td>
+							<td><?php if($c->fecha_alta == "00-00-0000"){echo "Indefinida";}else{echo $c->fecha_alta;} ?></td>
+							<td><?php if($c->fecha_inicio == "00-00-0000"){echo "Indefinida";}else{echo $c->fecha_inicio;} ?></td>
+							<td><?php if($c->fecha_fin=="00-00-0000"){echo "Indefinida";}else{echo $c->fecha_fin;} ?></td>
 							<td><?php echo $c->nombre_acc; ?></td>
 							<td><?php echo $c->clave_status; ?></td>
 							<td>
-								<button class="btn btn-info">
+								<button class="btn btn-primary">
 									<span class="glyphicon glyphicon-new-window"></span>
 								</button>
 							</td>
@@ -158,6 +158,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</td>
 </tr>
 
+<div class="filtro-clone xs-12 sm-12 md-12 lg-12">
+	
+</div>
 
 </body>
 </html>

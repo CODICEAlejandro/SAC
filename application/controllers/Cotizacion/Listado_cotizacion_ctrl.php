@@ -12,10 +12,11 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 												ORDER BY creacion DESC LIMIT 10")->result();
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
-		$data["cotizaciones"]= $this->db->query("SELECT cli.nombre nombre_cli, con.nombre nombre_acc, con.apellido apellido_acc, con.correo correo, sta.clave clave_status, cot.*, DATE_FORMAT(cot.fecha_alta, '%d-%m-%Y')  fecha_alta, DATE_FORMAT(cot.fecha_inicio_servicio, '%d-%m-%Y') fecha_inicio, DATE_FORMAT(cot.fecha_fin_servicio, '%d-%m-%Y') fecha_fin
+		$data["cotizaciones"]= $this->db->query("SELECT cli.nombre nombre_cli, usu.nombre nombre_acc,con.nombre nombre_cli, con.apellido apellido_cli, con.correo correo, sta.clave clave_status, cot.*, DATE_FORMAT(cot.fecha_alta, '%d-%m-%Y')  fecha_alta, DATE_FORMAT(cot.fecha_inicio_servicio, '%d-%m-%Y') fecha_inicio, DATE_FORMAT(cot.fecha_fin_servicio, '%d-%m-%Y') fecha_fin
 		FROM cotizacion_account cot
 		JOIN catcliente cli ON cot.id_cliente = cli.id
 		JOIN contacto con ON cot.id_contacto = con.id
+		JOIN catusuario usu ON cot.id_usuario = usu.id
 		JOIN cat_status_cotizacion sta ON cot.status_cotizacion_id=sta.id
 		ORDER BY cot.fecha_alta DESC LIMIT 20")->result();
 
@@ -29,10 +30,11 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			$parametro = htmlentities($parametro,ENT_QUOTES,'UTF-8');
 
 			$cotizaciones= $this->db->query("
-				SELECT cli.nombre nombre_cli, con.nombre nombre_acc, con.apellido apellido_acc, con.correo correo, sta.clave clave_status, cot.*, DATE_FORMAT(cot.fecha_alta, '%d-%m-%Y')  fecha_alta, DATE_FORMAT(cot.fecha_inicio_servicio, '%d-%m-%Y') fecha_inicio, DATE_FORMAT(cot.fecha_fin_servicio, '%d-%m-%Y') fecha_fin
+				SELECT cli.nombre nombre_cli, usu.nombre nombre_acc,con.nombre nombre_cli, con.apellido apellido_acc, con.correo correo, sta.clave clave_status, cot.*, DATE_FORMAT(cot.fecha_alta, '%d-%m-%Y')  fecha_alta, DATE_FORMAT(cot.fecha_inicio_servicio, '%d-%m-%Y') fecha_inicio, DATE_FORMAT(cot.fecha_fin_servicio, '%d-%m-%Y') fecha_fin
 				FROM cotizacion_account cot
 				JOIN catcliente cli ON cot.id_cliente = cli.id
 				JOIN contacto con ON cot.id_contacto = con.id
+				JOIN catusuario usu ON cot.id_usuario = usu.id 
 				JOIN cat_status_cotizacion sta ON cot.status_cotizacion_id=sta.id
 				WHERE (cot.folio LIKE '%".$parametro."%'
 				OR cot.titulo LIKE '%".$parametro."%')
