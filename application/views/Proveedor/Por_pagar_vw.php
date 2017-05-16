@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<th>Estimada</th>
 					<th>Pagar</th>
 					<th>Cancelar</th>
-					<th>Refacturar</th>
+					<!--<th>Refacturar</th>-->
 					<th>Referencia</th>
 					<th>Concepto asociado</th>
 				</thead>
@@ -80,6 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<span class="glyphicon glyphicon-ban-circle"></span>
 						</button>
 					</td>
+					<!--
 					<td>
 						<button data-id="<?php echo $f->id; ?>" id="btn-refacturar"
 							class="btn btn-primary btn-refacturar"
@@ -88,6 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<span class=" glyphicon glyphicon-object-align-vertical"></span>
 						</button>
 					</td>
+					-->
 					<td><?php echo $f->ref_fecha; ?></td>
 					<td><?php echo $f->desc_concepto_asociado; ?></td>
 				</tr>
