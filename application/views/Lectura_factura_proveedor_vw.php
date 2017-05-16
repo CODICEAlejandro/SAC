@@ -378,6 +378,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<input type="text" id="fechaPagoAlt" class="form-control datepicker" style="margin-bottom: 15px; display: none;" readonly="true">
 			</div>
 		</div>
+		<!--
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label for="fechaCancelacion">Fecha de cancelación</label>
@@ -391,6 +392,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<input type="text" id="fechaCancelacionAlt" class="form-control datepicker" style="margin-bottom: 15px; display: none;" readonly="true">
 			</div>
 		</div>
+		-->
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<label for="ordenCompra">Orden de compra</label>

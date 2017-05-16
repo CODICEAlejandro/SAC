@@ -371,6 +371,7 @@ $(function(){
 			dataType: 'text',
 			success: function(response){
 				alert("Operación realizada con éxito");
+				location.href = baseURL+"index.php/Panel_control_ctrl";
 			},
 			error: function(){
 				alert("Ha ocurrdio un error. Inténte de nuevo más tarde, por favor.");
