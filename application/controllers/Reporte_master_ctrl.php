@@ -73,6 +73,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					round((ff.importe * ((con_cot.iva/100)+1)),2) total,
 					round((ff.importe - (ff.importe * ((con_cot.iva/100)+1))),2) cantidadIVA,
 					if(ff.fecha_final_confirmada=1,'SÍ','NO') fechaConfirmada,
+					IFNULL(ff.idBanco,'NO ASIGNADO') idBanco,
 					con_cot.iva tasa,
 					con_cot.descripcion descripcion,
 					con_cot.total totalConceptoCotizacion,
@@ -521,5 +522,13 @@ class Reporte_master_ctrl extends CI_Controller {
 
 		$xls->autosizeColumns();
 		$xls->out("Master_CODICE.xls");
+	}
+
+	public function traeBancos()
+	{
+		$query_trae_bancos = "SELECT * FROM catbanco";
+
+		$bancos = $this->db->query($query_trae_bancos)->result()
+		echo json_encode($bancos);
 	}
 }
