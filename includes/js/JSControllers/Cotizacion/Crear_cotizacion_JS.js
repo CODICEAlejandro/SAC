@@ -246,7 +246,8 @@ function guardarCotizacion(){
 		async: false,
 		success: function(r){
 			alert("Cotización guardada con éxito.");
-			location.href= "../Panel_control_ctrl";
+			//location.href= "../Panel_control_ctrl";
+			location.href = baseURL+"index.php/Panel_control_ctrl";
 		},
 		error: function(){
 			alert("Ha ocurrido un error al guardar. Intente de nuevo, por favor.");
