@@ -17,6 +17,11 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 								 ->result();
 		$data['usuario'] = $this->db->query("select id, nombre
 											from administrador
+											where activo='S'
+											union
+											select id, nombre
+											from director
+											where activo='S'
 											order by nombre")->result();
 		$data['account'] = $this->db->query("select * from catusuario where idPuesto in (4,5) and activo = 'S' order by nombre asc")->result();
 		$data['tipoConcepto'] = $this->db->query("select * from cattipoconcepto where tipo = 1")->result();
