@@ -199,25 +199,3 @@ $(function(){
 	});
 });
 
-/*
-window.onload= function(){
-
-	$(".btn-pagar").click(function(event){
-		event.preventDefault();
-		
-		//var f = $("#pagado");
-		//alert("entre");
-		$.fancybox.open({
-			src: "#pagado",
-			
-		});
-		
-		
-		$.fancybox.open({
-			src: '#pagado'
-			
-		});
-		
-	});
-};
-*/
