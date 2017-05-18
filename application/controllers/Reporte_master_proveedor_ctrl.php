@@ -74,6 +74,7 @@ class Reporte_master_proveedor_ctrl extends CI_Controller {
 					round((ff.importe * ((con_cot.iva/100)+1)),2) total,
 					round((ff.importe - (ff.importe * ((con_cot.iva/100)+1))),2) cantidadIVA,
 					if(ff.fecha_final_confirmada=1,'SÍ','NO') fechaConfirmada,
+					IFNULL(ff.idBanco,'NO ASIGNADO') idBanco,
 					con_cot.iva tasa,
 					con_cot.descripcion descripcion,
 					con_cot.total totalConceptoCotizacion,
@@ -343,6 +344,8 @@ class Reporte_master_proveedor_ctrl extends CI_Controller {
 
 		$idEstadoFactura = $this->input->post("idEstadoFactura");
 
+		$bancos = $this->db->query("SELECT * FROM catbanco ORDER BY nombre")->result();
+		
 		$data = $this->getContent(
 											$idCliente, 
 											$idRazonSocial, 
@@ -353,6 +356,7 @@ class Reporte_master_proveedor_ctrl extends CI_Controller {
 											$fechaPagoHasta,
 											$idEstadoFactura
 										);
+		$data["bancos"]= $bancos;
 
 		echo json_encode($data);
 	}
@@ -465,6 +469,7 @@ class Reporte_master_proveedor_ctrl extends CI_Controller {
 		$xls->setCellValue("Subtotal"); $xls->nextCol();
 		$xls->setCellValue("Moneda"); $xls->nextCol();
 		$xls->setCellValue("Fecha de factura"); $xls->nextCol();
+		$xls->setCellValue("Banco"); $xls->nextCol(); //Nueva Columna
 		$xls->setCellValue("Orden de compra"); $xls->nextCol();
 		$xls->setCellValue("Tipo de concepto"); $xls->nextCol();
 		$xls->setCellValue("Referencia"); $xls->nextCol();
@@ -488,6 +493,14 @@ class Reporte_master_proveedor_ctrl extends CI_Controller {
 
 		for($k=0, $n=count($data); $k<$n; $k++){
 			$row = $data[$k];
+
+			//Asigna nombre de banco
+			if ($row->idBanco!="NO ASIGNADO") {
+				$query_banco="SELECT nombre FROM catbanco WHERE id=".$row->idBanco;
+				$banco = $this->db->query($query_banco)->row();
+				$banco = $banco->nombre;
+			}	
+
 			$xls->nextLine();
 
 			$xls->setCellValue($row->estadoFactura); $xls->nextCol();
@@ -500,6 +513,11 @@ class Reporte_master_proveedor_ctrl extends CI_Controller {
 			$xls->setCellValue($row->subtotal); $xls->nextCol();
 			$xls->setCellValue($row->moneda); $xls->nextCol();
 			$xls->setCellValue($row->fechaFactura); $xls->nextCol();
+			if ($row->idBanco !="NO ASIGNADO") { //Indica en el excel si tiene o no banco asignado
+				$xls->setCellValue($banco); $xls->nextCol(); //Nueva Columna
+			}else{
+				$xls->setCellValue($row->idBanco); $xls->nextCol(); //Nueva Columna
+			}
 			$xls->setCellValue($row->ordenCompra); $xls->nextCol();
 			$xls->setCellValue($row->tipoConcepto); $xls->nextCol();
 			$xls->setCellValue($row->referencia); $xls->nextCol();
@@ -522,5 +540,36 @@ class Reporte_master_proveedor_ctrl extends CI_Controller {
 
 		$xls->autosizeColumns();
 		$xls->out("Master_CODICE.xls");
+	}
+
+	public function actualizaBanco()
+	{	
+		$idBanco = htmlentities($this->input->post("idBanco"),ENT_QUOTES,'UTF-8');
+		$idFechaFactura = htmlentities($this->input->post("idFechaFactura"),ENT_QUOTES,'UTF-8');
+
+		$query_actualiza_banco = "UPDATE fecha_factura SET idBanco=";
+		if ($idBanco!= -1) {
+			$query_actualiza_banco.=$idBanco;
+		}else{
+			$query_actualiza_banco.='NULL';
+		}
+		$query_actualiza_banco.=" WHERE id=".$idFechaFactura;
+		for ($i=0, $n=count($_SESSION["last_query_result"]); $i < $n; $i++) { 
+			if (($_SESSION["last_query_result"][$i]->id)==$idFechaFactura) {
+				if ($idBanco != -1) {
+					$_SESSION["last_query_result"][$i]->idBanco = $idBanco;
+					break;
+				}else{
+					$_SESSION["last_query_result"][$i]->idBanco = "NO ASIGNADO";
+					break;
+				}
+				
+			}
+		}
+		if ($this->db->query($query_actualiza_banco)) {
+			echo "Banco actualizado";
+		}else{
+			echo "Ocurrió un error al actualizar el banco";
+		}
 	}
 }

@@ -240,6 +240,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>Subtotal</th>
 							<th>Moneda</th>
 							<th>Fecha de factura</th>
+							<th>Banco</th>
 							<th>Orden de compra</th>
 							<th>Tipo</th>
 							<th>Referencia</th>
@@ -278,7 +279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</section>
 
 	<form
-		action="<?php echo base_url(); ?>index.php/Reporte_master_ctrl/setExcel"
+		action="<?php echo base_url(); ?>index.php/Reporte_master_proveedor_ctrl/setExcel"
 		method="post"
 		id="form-excel"
 		style="display: none;"

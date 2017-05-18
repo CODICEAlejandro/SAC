@@ -19,10 +19,11 @@ function retrieveABill(){
 			$("#cont-data-area").show();
 		},
 		success: function(response){
-			var k, n, lastRow;
+			var k, n, i, m, lastRow;
 
 			var mainData = response['mainData'];
 			var analytics = response['analytics'];
+			var bancos = response["bancos"]; //Arreglo que guarda el catálogo bancos
 			var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control'  style='width: 150px;'>";
 
 			for(k=0, n=estadosFactura.length; k<n; k++){
@@ -46,6 +47,21 @@ function retrieveABill(){
 				table.append("<tr></tr>");
 				lastRow = table.find("tr:last-child");
 
+				//Carga los combo boxes para banco
+				var combo = '<td id="col-banco"><div class="form-group" style="width: 200px;"><select id="slc_bancos" class="form-control slc_bancos">';
+				combo += '<option value="-1">Seleccione un banco</option>';
+				//alert(mainData[k].idBanco);
+				for (i = 0, m=bancos.length; i < m; i++) {
+					//alert(bancos[i].id+"=="+mainData[k].idBanco);
+					if (bancos[i].id == mainData[k].idBanco) {
+						combo += "<option value="+bancos[i].id+" selected>"+bancos[i].nombre+"</option>";
+					}else{
+						combo += "<option value="+bancos[i].id+" >"+bancos[i].nombre+"</option>";
+					}
+				}
+
+				combo += "</select></div></td>";
+
 				lastRow.append("<td id='col-estadoFactura'>"+appendedEstadoFactura+"</td>");
 				lastRow.append("<td id='col-folio'>"+mainData[k].folio+"</td>");
 				lastRow.append("<td id='col-total'>"+mainData[k].total+"</td>");
@@ -57,6 +73,7 @@ function retrieveABill(){
 				lastRow.append("<td id='col-subtotal'>"+mainData[k].subtotal+"</td>");
 				lastRow.append("<td id='col-moneda'>"+mainData[k].moneda+"</td>");
 				lastRow.append("<td id='col-fechaFactura'>"+mainData[k].fechaFactura+"</td>");
+				lastRow.append(combo); //Nueva columna
 				lastRow.append("<td id='col-ordenCompra'>"+mainData[k].ordenCompra+"</td>");
 				lastRow.append("<td id='col-tipoConcepto'>"+mainData[k].tipoConcepto+"</td>");
 				lastRow.append("<td id='col-referencia'>"+mainData[k].referencia+"</td>");
@@ -112,6 +129,12 @@ function retrieveABill(){
 
 					saveFechaPago(currentID, fechaPago);
 				});
+
+				lastRow.find("#slc_bancos").change(function() {
+					var idBanco = $(this).val();
+					var idFechaFactura = $(this).closest("tr").find("#col-id").html();
+					actualizaBanco(idBanco,idFechaFactura);	
+				});
 			}
 		},
 		error: function(){
@@ -160,10 +183,11 @@ function retrieveData(){
 			$("#cont-data-area").show();
 		},
 		success: function(response){
-			var k, n, lastRow;
+			var k, n, i, m, lastRow;
 
 			var mainData = response['mainData'];
 			var analytics = response['analytics'];
+			var bancos = response["bancos"]; //Arreglo que guarda el catálogo bancos
 
 			//var appendedEstadoFactura = "<select id='estadoFacturaSelect' class='form-control' style='width: 150px;'>";
 			var appendedEstadoFactura = "";
@@ -203,6 +227,21 @@ function retrieveData(){
 					}
 				}
 
+				//Carga los combo boxes para banco
+				var combo = '<td id="col-banco"><div class="form-group" style="width: 200px;"><select id="slc_bancos" class="form-control slc_bancos">';
+				combo += '<option value="-1">Seleccione un banco</option>';
+				
+				for (i = 0, m=bancos.length; i < m; i++) {
+					
+					if (bancos[i].id == mainData[k].idBanco) {
+						combo += "<option value="+bancos[i].id+" selected>"+bancos[i].nombre+"</option>";
+					}else{
+						combo += "<option value="+bancos[i].id+" >"+bancos[i].nombre+"</option>";
+					}
+				}
+
+				combo += "</select></div></td>";
+
 				table.append("<tr></tr>");
 				lastRow = table.find("tr:last-child");
 
@@ -217,6 +256,7 @@ function retrieveData(){
 				lastRow.append("<td id='col-subtotal'>"+mainData[k].subtotal+"</td>");
 				lastRow.append("<td id='col-moneda'>"+mainData[k].moneda+"</td>");
 				lastRow.append("<td id='col-fechaFactura'>"+mainData[k].fechaFactura+"</td>");
+				lastRow.append(combo); //Nueva columna
 				lastRow.append("<td id='col-ordenCompra'>"+mainData[k].ordenCompra+"</td>");
 				lastRow.append("<td id='col-tipoConcepto'>"+mainData[k].tipoConcepto+"</td>");
 				lastRow.append("<td id='col-referencia'>"+mainData[k].referencia+"</td>");
@@ -259,6 +299,12 @@ function retrieveData(){
 					button.removeClass().addClass("btn btn-warning");
 				});
 
+				lastRow.find("#slc_bancos").change(function() {
+					var idBanco = $(this).val();
+					var idFechaFactura = $(this).closest("tr").find("#col-id").html();
+					actualizaBanco(idBanco,idFechaFactura);	
+				});
+				
 				/*
 				lastRow.find("#estadoFacturaSelect").change(function(){
 					var currentID = $(this).attr("data-id");
@@ -397,6 +443,20 @@ function retrieveEstadosFactura(){
 	});
 }
 
+function actualizaBanco(idBanco, idFechaFactura) {
+	$.ajax({
+		url: baseURL+'index.php/Reporte_master_ctrl/actualizaBanco',
+		dataType: 'text',
+		method: 'post',
+		data: {"idBanco":idBanco, "idFechaFactura":idFechaFactura},
+		success: function(r) {
+			//alert(r);
+		},
+		error: function(r) {
+			alert(r);
+		}
+	});
+}
 
 $(function(){
 	$("#btn-consultar").click(function(event){
