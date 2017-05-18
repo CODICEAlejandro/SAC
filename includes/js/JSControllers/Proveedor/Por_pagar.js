@@ -6,16 +6,69 @@ $(function(){
 		var idFechaFactura = sender.data("id");
 
 		$.ajax({
-			url: baseURL+'index.php/Cobranza_ctrl/pagar/'+idFechaFactura,
-			dataType: 'text',
-			method: 'post',
+			url: baseURL+'index.php/Proveedor/Por_pagar_ctrl/traerBancosAsociados',
+			dataType: "json",
+			method: "post",
 			success: function(r){
-				sender.closest('tr').remove();
+				var i;
+				var l = r.length;
+
+				var div = $("#pagado");
+				div.find("#confirm-pago").attr("data-id",idFechaFactura);
+				var sel = div.find("#bancos_asoc");
+				sel.find("*").remove();
+				sel.append('<option value="-1">Seleccione una opción</option>');
+
+				for (i = 0; i < l; i++) {
+					sel.append("<option value="+r[i].id+">"+r[i].nombre+"</option>");
+				}
+
+				$.fancybox.open({
+					'src': "#pagado",
+					'autoSize': false,
+					'width': 600,
+					'height':500
+
+				});
+
+				$(".confirm-pago").click(function(event) {
+					event.preventDefault();
+
+					var btn_confirm = $(this);
+
+					var idFechaFactura = btn_confirm.attr("data-id");
+
+					var idBanco = btn_confirm.closest("#pagado").find("#bancos_asoc").val();
+
+					if (idBanco!=-1) {
+
+						$.ajax({
+							url: baseURL+"index.php/Proveedor/Por_pagar_ctrl/pagar/"+idBanco+"/"+idFechaFactura,
+							dataType: "text",
+							method: "post",
+							data: {"idBanco":idBanco, "idFechaFactura": idFechaFactura},
+							success: function(r) {
+								//alert("Se actualizó el banco");
+								sender.closest('tr').remove();
+								$.fancybox.close();
+							},
+							error: function () {
+								alert("Ocurrió un error al actualizar banco");
+							}
+						});
+
+					}else{
+						alert("Debe seleccionar un banco para confirmar el pago");
+					}
+				});
+
 			},
-			error: function(){
-				alert('Ha ocurrido un error. Intente de nuevo, por favor.');
+			error: function() {
+				alert("Ocurrió un error al cargar los bancos");
 			}
 		});
+
+		
 	});
 
 	$(".btn-cancelar").click(function(event){

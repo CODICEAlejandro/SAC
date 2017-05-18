@@ -23,6 +23,7 @@ class Por_pagar_ctrl extends CI_Controller {
 		$this->load->view("Proveedor/Por_pagar_vw", $data);
 	}
 
+	/*
 	public function pagar($idFechaFactura){
 		$idFechaFactura = htmlentities($idFechaFactura, ENT_QUOTES, 'UTF-8');
 		$query_actualiza_estado = "update fecha_factura set idEstadoFactura = 21 where id = ".$idFechaFactura;
@@ -30,6 +31,7 @@ class Por_pagar_ctrl extends CI_Controller {
 		$this->db->query($query_actualiza_estado);
 		echo "OK";
 	}
+	*/
 
 	public function cancelar($idFechaFactura, $key_candidate, $action){
 		$idFechaFactura = htmlentities($idFechaFactura, ENT_QUOTES, 'UTF-8');
@@ -127,6 +129,26 @@ class Por_pagar_ctrl extends CI_Controller {
 		$query_actualiza_estado = "update fecha_factura set fecha_final = '".$fecha."' where id = ".$idFechaFactura;
 		$this->db->query($query_actualiza_estado);
 		echo "OK";
+	}
+
+	public function traerBancosAsociados(){
+
+		$query_trae_bancos_asoc = "SELECT * FROM catbanco";
+
+		$result =$this->db->query($query_trae_bancos_asoc)->result();
+		echo json_encode($result);
+	}
+
+	public function pagar($idBanco,$idFechaFactura)
+	{	
+		$idBanco = htmlentities($this->input->post("idBanco"), ENT_QUOTES, 'UTF-8');
+		$idFechaFactura = htmlentities($this->input->post("idFechaFactura"), ENT_QUOTES, 'UTF-8');
+		$query_actualiza_estado = "UPDATE fecha_factura SET idEstadoFactura = 21, idBanco=".$idBanco." WHERE id = ".$idFechaFactura;
+		
+		if($this->db->query($query_actualiza_estado))
+			echo "OK";
+		else
+			echo "FAIL";
 	}
 }
 ?>

@@ -12,6 +12,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script type="text/javascript">
 		var baseURL = "<?php echo base_url(); ?>";
 	</script>
+	<!--Fancybox-->
+
+	<script type="text/javascript" src="<?php echo base_url();?>includes/fancybox-3.0/dist/jquery.fancybox.js"></script>
+	<link rel="stylesheet" href="<?php echo base_url();?>includes/fancybox-3.0/dist/jquery.fancybox.css" type="text/css" media="screen" />
+
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/mainFunctions.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>includes/js/JSControllers/Proveedor/Por_pagar.js"></script>
 </head>
@@ -96,6 +101,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php } ?>
 				</tbody>
 			</table>
+		</div>
+	</div>
+
+	<div id ="pagado" class="pagado xs-12 sm-12 md-12 lg-12" style="display: none; width: 600px;height: 150px;">
+		<div class="form-group">
+			<label for="bancos">Bancos Asociados</label>
+			<select name="bancos" id="bancos_asoc" class="form-control"></select>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-info form-control confirm-pago" id="confirm-pago" data-id="-1">Confirmar pago</button>
 		</div>
 	</div>
 </body>
