@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 
 <!DOCTYPE html>
@@ -240,6 +241,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>Subtotal</th>
 							<th>Moneda</th>
 							<th>Fecha de factura</th>
+							<th>Banco</th>
 							<th>Orden de compra</th>
 							<th>Tipo</th>
 							<th>Referencia</th>
