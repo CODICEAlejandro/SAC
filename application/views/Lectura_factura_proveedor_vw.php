@@ -92,7 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="row">
 							<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
 								<label>Seleccione el archivo XML que contiene la información de la factura</label>
-								<input type="file" name="fileXML" class="form-control">
+								<input type="file" name="fileXML" class="form-control" accept=".xml,.XML">
 							</div>
 							<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
 								<p style="text-align: center; margin-top: 12px;"><b>ó</b></p>
