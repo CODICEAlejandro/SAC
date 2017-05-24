@@ -176,7 +176,10 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 		// Datos propios del receptor (Para el caso del cliente)
 		// Para el caso del proveedor, se toman los datos del emisor
 		$cliente = $xml->xpath("//cfdi:Emisor")[0]->attributes();
-		$dataReceptor["razonSocial"] = htmlentities($cliente->nombre->__toString(), ENT_QUOTES, 'UTF-8');
+		if(isset($cliente->nombre))
+			$dataReceptor["razonSocial"] = htmlentities($cliente->nombre->__toString(), ENT_QUOTES, 'UTF-8');
+		else
+			$dataReceptor["razonSocial"] = "SIN RAZÓN SOCIAL EN XML";
 		$dataReceptor["rfc"] = htmlentities($cliente->rfc->__toString(), ENT_QUOTES, 'UTF-8');
 
 		// Obtener el cliente sugerido si es que existe el RFC asociado con alguna de sus
