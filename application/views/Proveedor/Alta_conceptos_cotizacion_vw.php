@@ -127,17 +127,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<div style="width: 100%; border-bottom: 2px gray solid; margin-top: 15px; margin-bottom: 15px;"></div>
 
-		<div class="row" style="margin-top: 15px; margin-bottom: 15px;">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<button class="btn btn-success form-control" id="btn-save-cotizacion" style="margin-bottom: 15px;">Guardar y finalizar</button>
-			</div>
-		</div>
-
 		<div class="row" id="append-section-concepto"></div>
 
 		<div class="row" style="margin-top: 15px; margin-bottom: 15px;">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<button class="btn btn-primary form-control" id="btn-add-concepto" style="margin-bottom: 15px;">Agregar concepto</button>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<button class="btn btn-success form-control" id="btn-save-cotizacion" style="margin-bottom: 15px;">Guardar y finalizar</button>
 			</div>
 		</div>
 	</div>
