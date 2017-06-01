@@ -77,7 +77,8 @@ class Reporte_master_ctrl extends CI_Controller {
 					con_cot.iva tasa,
 					con_cot.descripcion descripcion,
 					con_cot.total totalConceptoCotizacion,
-					tipo_con.descripcion tipoConcepto,
+					IFNULL(clas_serv.clave, 'SIN SERVICIO') servicio,
+					tipo_con.descripcion clasificacion,
 					c.inicioProyecto inicioProyecto,
 					c.finProyecto finProyecto,
 					c.fechaVenta fechaVenta,
@@ -93,6 +94,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					fecha_factura ff
 					inner join catestadofactura edo_fac on edo_fac.id = ff.idEstadoFactura
 					left join concepto_cotizacion con_cot on con_cot.id = ff.idConceptoCotizacion
+					left join catclasificacion_servicio clas_serv on con_cot.idClasificacion_servicio = clas_serv.id
 					left join cotizacion c on c.id = con_cot.idCotizacion
 					left join catusuario ce on ce.id = c.idCerrador
 					left join catusuario ac on ac.id = c.accountManager
@@ -471,7 +473,8 @@ class Reporte_master_ctrl extends CI_Controller {
 		$xls->setCellValue("Fecha de factura"); $xls->nextCol();
 		$xls->setCellValue("Banco"); $xls->nextCol(); //Nueva Columna
 		$xls->setCellValue("Orden de compra"); $xls->nextCol();
-		$xls->setCellValue("Tipo de concepto"); $xls->nextCol();
+		$xls->setCellValue("Servicio"); $xls->nextCol(); //Nueva columna
+		$xls->setCellValue("Clasificación"); $xls->nextCol();
 		$xls->setCellValue("Referencia"); $xls->nextCol();
 		$xls->setCellValue("Descripción"); $xls->nextCol();
 		$xls->setCellValue("Proyecto"); $xls->nextCol();
@@ -519,7 +522,8 @@ class Reporte_master_ctrl extends CI_Controller {
 				$xls->setCellValue($row->idBanco); $xls->nextCol(); //Nueva Columna
 			}
 			$xls->setCellValue($row->ordenCompra); $xls->nextCol();
-			$xls->setCellValue($row->tipoConcepto); $xls->nextCol();
+			$xls->setCellValue($row->servicio); $xls->nextCol();
+			$xls->setCellValue($row->clasificacion); $xls->nextCol();
 			$xls->setCellValue($row->referencia); $xls->nextCol();
 			$xls->setCellValue($row->descripcion); $xls->nextCol();
 			$xls->setCellValue($row->tituloCotizacion); $xls->nextCol();

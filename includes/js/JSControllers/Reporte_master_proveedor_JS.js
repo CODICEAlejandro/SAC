@@ -75,7 +75,8 @@ function retrieveABill(){
 				lastRow.append("<td id='col-fechaFactura'>"+mainData[k].fechaFactura+"</td>");
 				lastRow.append(combo); //Nueva columna
 				lastRow.append("<td id='col-ordenCompra'>"+mainData[k].ordenCompra+"</td>");
-				lastRow.append("<td id='col-tipoConcepto'>"+mainData[k].tipoConcepto+"</td>");
+				lastRow.append("<td id='col-servicio'>"+mainData[k].servicio+"</td>")
+				lastRow.append("<td id='col-clasificacion'>"+mainData[k].clasificacion+"</td>");
 				lastRow.append("<td id='col-referencia'>"+mainData[k].referencia+"</td>");
 				lastRow.append("<td id='col-descripcion'>"+mainData[k].descripcion+"</td>");
 				lastRow.append("<td id='col-tituloCotizacion'>"+mainData[k].tituloCotizacion+"</td>");
@@ -227,8 +228,16 @@ function retrieveData(){
 					}
 				}
 
+				var disabled = "";
+				//Busca si se tiene un banco asignado
+				for (i = 0, m=bancos.length; i < m; i++) {
+					
+					if (bancos[i].id == mainData[k].idBanco) 
+						disabled= "disabled";
+				}
+				
 				//Carga los combo boxes para banco
-				var combo = '<td id="col-banco"><div class="form-group" style="width: 200px;"><select id="slc_bancos" class="form-control slc_bancos">';
+				var combo = '<td id="col-banco"><div class="form-group" style="width: 200px;"><select id="slc_bancos" class="form-control slc_bancos" '+disabled+'>';
 				combo += '<option value="-1">Seleccione un banco</option>';
 				
 				for (i = 0, m=bancos.length; i < m; i++) {
@@ -258,7 +267,8 @@ function retrieveData(){
 				lastRow.append("<td id='col-fechaFactura'>"+mainData[k].fechaFactura+"</td>");
 				lastRow.append(combo); //Nueva columna
 				lastRow.append("<td id='col-ordenCompra'>"+mainData[k].ordenCompra+"</td>");
-				lastRow.append("<td id='col-tipoConcepto'>"+mainData[k].tipoConcepto+"</td>");
+				lastRow.append("<td id='col-servicio'>"+mainData[k].servicio+"</td>");
+				lastRow.append("<td id='col-clasificacion'>"+mainData[k].clasificacion+"</td>");
 				lastRow.append("<td id='col-referencia'>"+mainData[k].referencia+"</td>");
 				lastRow.append("<td id='col-descripcion'>"+mainData[k].descripcion+"</td>");
 				lastRow.append("<td id='col-tituloCotizacion'>"+mainData[k].tituloCotizacion+"</td>");

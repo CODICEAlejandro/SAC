@@ -243,7 +243,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>Fecha de factura</th>
 							<th>Banco</th>
 							<th>Orden de compra</th>
-							<th>Tipo</th>
+							<th>Servicio</th>
+							<th>Clasificación</th>
 							<th>Referencia</th>
 							<th>Concepto</th>
 							<th>Proyecto</th>

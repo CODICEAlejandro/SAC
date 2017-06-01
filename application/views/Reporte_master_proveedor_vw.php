@@ -235,14 +235,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>Total</th>
 							<th>Fecha de pago</th>
 							<th>Confirmada</th>
-							<th>Cliente</th>
+							<th>Proveedor</th>
 							<th>ID</th>
 							<th>Subtotal</th>
 							<th>Moneda</th>
 							<th>Fecha de factura</th>
 							<th>Banco</th>
 							<th>Orden de compra</th>
-							<th>Tipo</th>
+							<th>Servicio</th>
+							<th>Clasificación</th>
 							<th>Referencia</th>
 							<th>Concepto</th>
 							<th>Proyecto</th>
