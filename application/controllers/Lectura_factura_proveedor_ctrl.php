@@ -311,8 +311,10 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 				$objFactura->pushConcepto($objConcepto);				
 			}
 
-			$objFactura->totalEnLetra = "SIN INFO EN XML";
-
+			if (isset($atributosPrincipales["TotalEnLetra"])) 
+				$objFactura->totalEnLetra = $atributosPrincipales["TotalEnLetra"]->__toString();
+			else
+				$objFactura->totalEnLetra = "SIN INFO EN XML";
 
 			if(isset($atributosPrincipales["Moneda"]))
 				$objFactura->moneda = $atributosPrincipales["Moneda"]->__toString();

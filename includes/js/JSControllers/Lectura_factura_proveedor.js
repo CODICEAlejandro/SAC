@@ -343,6 +343,9 @@ $(function(){
 		else
 			factura.estaCancelada = 0;
 	});
+	$("#totalEnLetra").change(function(){
+		factura.totalEnLetra = $("#totalEnLetra").val();
+	});
 
 	$("#btn-guardar-factura").click(function(event){
 		event.preventDefault();

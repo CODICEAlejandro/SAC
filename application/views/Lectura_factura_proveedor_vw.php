@@ -310,7 +310,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				<div>
 					<label>Total en letra: </label>
-					<span><?php echo $factura->totalEnLetra; ?></span>
+					<?php if($factura->totalEnLetra != "SIN INFO EN XML"){ ?>
+						<span><?php echo $factura->totalEnLetra; ?></span>
+					<?php }else{ ?>
+						<input type="text" id="totalEnLetra" class="form-control" placeholder="Ingresa la cantidad en letra">
+					<?php } ?>
 				</div>
 				<div>
 					<label>Forma de pago: </label>
