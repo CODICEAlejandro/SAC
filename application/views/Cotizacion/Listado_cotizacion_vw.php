@@ -38,12 +38,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<option value="-1">Selecciona una opción</option>
 						<option value="1">Cliente</option>
 						<option value="2">Usuario</option>
-						<option value="3">Folio</option>
-						<option value="4">Status</option>
-						<option value="5">Fecha</option>
-						<option value="6">Vigentes/Vencidas</option>
+						<option value="3">Status</option>
+						<option value="4">Fecha de alta</option>
+						<option value="5">Facturas Vigentes</option>
+						<option value="6">Facturas Vencidas</option>
 					</select>
-					<input type="submit" class="form-control btn btn-info" value="Filtrar">
+					<button id="btn-search-by-filter" class="form-control btn btn-info">Filtrar</button>
 				</div>
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 					<label>Buscar:</label>
@@ -75,39 +75,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</thead>
 				<tbody id="cuerpoTabla">
 					<?php foreach ($cotizaciones as $c){ ?>
-						<tr id="contenidoTabla">
+						<tr class="contenidoTabla">
 							<td><?php echo $c->folio; ?></td>
 							<td><?php echo $c->nombre_cli; ?></td>
 							<td><?php echo $c->titulo; ?></td>
-							<td><?php echo $c->nombre_cli." ".$c->apellido_cli."<br>".$c->correo; ?></td>
+							<td><?php echo $c->nombre_con." ".$c->apellido_con."<br>".$c->correo; ?></td>
 							<td><?php echo $c->importe_total; ?></td>
 							<td><?php if($c->fecha_alta == "00-00-0000"){echo "Indefinida";}else{echo $c->fecha_alta;} ?></td>
 							<td><?php if($c->fecha_inicio == "00-00-0000"){echo "Indefinida";}else{echo $c->fecha_inicio;} ?></td>
 							<td><?php if($c->fecha_fin=="00-00-0000"){echo "Indefinida";}else{echo $c->fecha_fin;} ?></td>
 							<td><?php echo $c->nombre_acc; ?></td>
-							<td><?php echo $c->clave_status; ?></td>
+							<td class="status_cot"><?php echo $c->clave_status; ?></td>
 							<td>
-								<button class="btn btn-primary">
+								<button class="btn btn-primary btn-PDF" id="btn-genera-PDF" data-id="<?php echo $c->id; ?>">
 									<span class="glyphicon glyphicon-new-window"></span>
 								</button>
 							</td>
 							<td>
-								<button class="btn btn-warning">
+								<button class="btn btn-warning btn-edit" id="btn-editar" data-id="<?php echo $c->id; ?>">
 									<span class="glyphicon glyphicon-edit"></span>
 								</button>
 							</td>
 							<td>
-								<button class="btn btn-success">
+								<button class="btn btn-success btn-aprobar" id="btn-aprobar" data-id="<?php echo $c->id; ?>">
 									<span class="glyphicon glyphicon-ok"></span>
 								</button>
 							</td>
 							<td>
-								<button class="btn btn-danger">
+								<button class="btn btn-danger btn-cancelar" id="btn-cancelar" data-id="<?php echo $c->id; ?>">
 									<span class="glyphicon glyphicon-remove"></span>
 								</button>
 							</td>
 							<td>
-								<button class="btn btn-primary">
+								<button class="btn btn-primary btn-duplicar" id="btn-duplicar" data-id="<?php echo $c->id; ?>">
 									<span class="glyphicon glyphicon-duplicate"></span>
 								</button>
 							</td>
