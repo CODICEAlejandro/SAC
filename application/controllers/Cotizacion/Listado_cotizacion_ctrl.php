@@ -519,7 +519,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			$pdf->AddPage();
 			//$pdf->AddFont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/cotizacion/fonts/gotham-black.ttf','',$_SERVER['DOCUMENT_ROOT'].'JOBS/includes/tcpdf/fonts/gotham-bold.php');
 			//$pdf->SetFont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/cotizacion/fonts/gotham-black.ttf','','');
-			$gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
+			$gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
 			$pdf->SetFont($gotham_medium,'',9,'',false);
 			$pdf->WriteHTML($body2,true,false,true,false,'');
 			$pdf->SetMargins(20,20,20,true);
@@ -529,7 +529,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			$pdf->WriteHTML($body3,true,false,true,false,'');
 			//$pdf->Image($img64);
 
-			$folder = $_SERVER['DOCUMENT_ROOT']."JOBS/img/";
+			$folder = $_SERVER['DOCUMENT_ROOT']."img/";
 
 			$nombre = "pdf_";
 
@@ -563,7 +563,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 				    <div class="bottom" align="right">
 				        <span style="color: #7e7e7e;">Aplicaciones Códice parar Internet, SC</span>
 				    </div>';
-			$gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
+			$gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
 			$this->SetFont($gotham_medium,'',9,'',false);
 
 			$this->SetY(-15);
