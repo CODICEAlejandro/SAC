@@ -354,8 +354,11 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 
 
 			/////////////////////////Aquí empieza la generación del PDF
+			$archivo_estilos = fopen($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/cotizacion/css/main.css', "r") or die("Unable to open file!");
+			$archivo_css =  fread($archivo_estilos,filesize($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/cotizacion/css/main.css'));
+			fclose($archivo_estilos);
 
-
+			
 			$body1 = '
 			<!doctype html>
 			<html class="no-js" lang="">
@@ -368,7 +371,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 			    <!-- Place favicon.ico in the root directory -->
-			    <style>'.(file_get_contents(base_url()."includes/cotizacion/css/main.css")).'</style>
+			    <style>'.$archivo_css.'</style>
 			</head>
 			<body>
 			    <!--[if lt IE 8]>
@@ -400,7 +403,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 			    <!-- Place favicon.ico in the root directory -->
-			    <style>'.(file_get_contents(base_url()."includes/cotizacion/css/main.css")).'</style>
+			    <style>'.$archivo_css.'</style>
 			</head>
 			<body>
 				<div class="container">
@@ -441,7 +444,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 			    <!-- Place favicon.ico in the root directory -->
-			    <style>'.(file_get_contents(base_url()."includes/cotizacion/css/main.css")).'</style>
+			    <style>'.$archivo_css.'</style>
 			</head>
 			<body>
 
