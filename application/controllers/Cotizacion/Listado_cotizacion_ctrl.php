@@ -354,8 +354,8 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 
 
 			/////////////////////////Aquí empieza la generación del PDF
-			$archivo_estilos = fopen($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/cotizacion/css/main.css', "r") or die("Unable to open file!");
-			$archivo_css =  fread($archivo_estilos,filesize($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/cotizacion/css/main.css'));
+			$archivo_estilos = fopen(base_url().'includes/cotizacion/css/main.css', "r") or die("Unable to open file!");
+			$archivo_css =  fread($archivo_estilos,filesize(base_url().'includes/cotizacion/css/main.css'));
 			fclose($archivo_estilos);
 
 			
