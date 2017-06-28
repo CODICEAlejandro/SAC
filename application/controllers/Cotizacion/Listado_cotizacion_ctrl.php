@@ -2,6 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 include_once 'includes/tcpdf/tcpdf.php';
 
+ini_set("allow_url_fopen", 1);
+
 class Listado_cotizacion_ctrl extends CI_Controller{
 	public function index(){
 		$data["clientes"] = $this->db->query("select * from catcliente where estadoActivo=1 and tipo=0")->result();
@@ -380,7 +382,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			        <br><br><br><br><br><br><br><br><br>
 			        <div class="bloqueLeft" align="center">
 			           
-			            <img src="'.base_url().'includes/cotizacion/img/direccion.png" alt="">
+			            <img src="'.base_url().'includes/cotizacion/img/direccion.PNG" alt="">
 			        </div>
 			    </div>
 			</body>
@@ -526,7 +528,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 
 			$folder = $_SERVER['DOCUMENT_ROOT']."JOBS/img/";
 
-			$nombre = "pdf_prueba";
+			$nombre = "pdf_";
 
 			while (file_exists($folder.$nombre.".pdf")) {
 				$nombre .= rand(0,9);			
