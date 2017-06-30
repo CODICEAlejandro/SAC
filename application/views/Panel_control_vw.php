@@ -61,6 +61,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
+		<!-- Control de proveedores -->
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h3>Comercial</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Cotizacion/Crear_cotizacion_ctrl" style="text-align: left;">Creación de cotización</a>
+				<a class="btn list-group-item" href="<?php echo base_url(); ?>index.php/Cotizacion/Listado_cotizacion_ctrl" style="text-align: left;">Edición de cotización</a>
+			</div>
+		</div>
+
 		<!-- Facturación -->
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

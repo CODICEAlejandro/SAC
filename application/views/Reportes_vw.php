@@ -19,6 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="list-group">
 					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Reporte_tiempos_tareas_ctrl'; ?>" style="text-align: left;">Panorámico de tiempos y tareas</a>
 					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Reporte_acumulado_tiempo_ctrl'; ?>" style="text-align: left;">Acumulado en tiempo</a>
+					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Reporte_porcentaje_cumplimiento_ctrl'; ?>" style="text-align: left;">Reporte de porcentaje de cumplimiento</a>
 					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Reporte_rentabilidad_ctrl'; ?>" style="text-align: left;">Reporte de rentabilidad</a>
 					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Reporte_control_tareas_ctrl'; ?>" style="text-align: left;">Control de tareas</a>
 					<a class="btn list-group-item" href="<?php echo base_url().'index.php/Reporte_master_ctrl'; ?>" style="text-align: left;">Reporte master cliente</a>
