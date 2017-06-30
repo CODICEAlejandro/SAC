@@ -169,7 +169,7 @@ function realizarBusquedaPorFiltro(){
 }
 
 function editarCotizacion() {
-	$(".btn-edit").click(function(event){
+	$("#cuerpoTabla").delegate(".btn-edit","click",function(event){
 		event.preventDefault();
 
 		var idCotizacion = $(this).attr("data-id");
@@ -179,7 +179,7 @@ function editarCotizacion() {
 }
 
 function aprobarCotizacion(){
-	$(".btn-aprobar").click(function(event){
+	$("#cuerpoTabla").delegate(".btn-aprobar","click", function(event){
 		event.preventDefault();
 
 		var btn_aprobar = $(this);
@@ -191,7 +191,7 @@ function aprobarCotizacion(){
 			dataType: 'text',
 			data: {'idCotizacion':idCotizacion},
 			success: function(r) {
-				alert(btn_aprobar.closest("tr").find(".status_cot").html()+" Cotizacion_id: "+btn_aprobar.attr("data-id"));
+				//alert(btn_aprobar.closest("tr").find(".status_cot").html()+" Cotizacion_id: "+btn_aprobar.attr("data-id"));
 				btn_aprobar.closest("tr").find(".status_cot").html("Aprobada");
 			},
 			error: function(r) {
@@ -202,7 +202,7 @@ function aprobarCotizacion(){
 }
 
 function cancelarCotizacion(){
-	$(".btn-cancelar").click(function(event){
+	$("#cuerpoTabla").delegate(".btn-cancelar","click",function(event){
 		event.preventDefault();
 
 		var btn_cancelar = $(this);
@@ -225,7 +225,7 @@ function cancelarCotizacion(){
 }
 
 function duplicarCotizacion(){
-	$(".btn-duplicar").click(function(event){
+	$("#cuerpoTabla").delegate(".btn-duplicar","click",function(event){
 		event.preventDefault();
 
 		var btn_duplicar= $(this);
@@ -248,7 +248,7 @@ function duplicarCotizacion(){
 }
 
 function generaPDF(){
-	$(".btn-PDF").click(function(event) {
+	$("#cuerpoTabla").delegate(".btn-PDF","click",function(event) {
 		event.preventDefault();
 
 		var btn_pdf = $(this);
@@ -296,18 +296,20 @@ function actualizaTabla(r){
 		lastRow.append("<td id='fecha_inicio'>"+a.fecha_inicio+"</td>");
 		lastRow.append("<td id='fecha_fin'>"+a.fecha_fin+"</td>");
 		lastRow.append("<td id='nombreAcc'>"+a.nombre_acc+"</td>");
-		lastRow.append("<td id='status'>"+a.clave_status+"</td>");
-		lastRow.append('<td><button class="btn btn-info"><span class="glyphicon glyphicon-new-window"></span></button></td>');
+		lastRow.append("<td class='status_cot' id='status'>"+a.clave_status+"</td>");
+		lastRow.append('<td><button class="btn btn-primary btn-PDF" data-id="'+a.id+'"><span class="glyphicon glyphicon-new-window"></span></button></td>');
 		lastRow.append('<td><button class="btn btn-warning btn-edit" id="btn-editar" data-id="'+a.id+'"><span class="glyphicon glyphicon-edit"></span></button></td>');
-		lastRow.append('<td><button class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button></td>');
-		lastRow.append('<td><button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>');
-		lastRow.append('<td><button class="btn btn-primary"><span class="glyphicon glyphicon-duplicate"></span></button></td>');
+		lastRow.append('<td><button class="btn btn-success btn-aprobar" data-id="'+a.id+'"><span class="glyphicon glyphicon-ok"></span></button></td>');
+		lastRow.append('<td><button class="btn btn-danger btn-cancelar" data-id="'+a.id+'"><span class="glyphicon glyphicon-remove"></span></button></td>');
+		lastRow.append('<td><button class="btn btn-primary btn-duplicar" data-id="'+a.id+'"><span class="glyphicon glyphicon-duplicate"></span></button></td>');
 
+		/*
 		editarCotizacion();
 		aprobarCotizacion();
 		cancelarCotizacion();
 		duplicarCotizacion();
 		generaPDF();
+		*/
 	}
 }
 
