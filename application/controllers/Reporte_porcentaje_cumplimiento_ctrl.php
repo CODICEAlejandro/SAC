@@ -9,20 +9,40 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 		$data['menu'] = $this->load->view('Menu_principal',null,false);
 
 		$fechaFin = date('Y-m-d');
-		$fechaInicio = strtotime ( '-1 day' , strtotime ( $fechaFin ) ) ;
-		$fechaInicio = date ( 'Y-m-d' , $fechaInicio );
 		$diaInicio = date ('w');
-		if($diaInicio == 0){
-			$diaInicio = 6;
-		}
-		else{
-			$diaInicio -= 1;
-		}
-		$fechaInicioDT = new DateTime($fechaInicio);
-		$fechaFinDT = new DateTime($fechaFin);
+		if($diaInicio == 0){ //Si es domingo
+			$fechaInicio = strtotime ( '-2 day' , strtotime ( $fechaFin ) ) ;
+			$fechaInicio = date ( 'Y-m-d' , $fechaInicio );
+			$diaInicio = 5;
 
-		$diasIntervalo = $fechaInicioDT->diff($fechaFinDT);
-		$diasIntervalo = $diasIntervalo->d;
+			$fechaInicioDT = new DateTime($fechaInicio);
+			$fechaFinDT = new DateTime($fechaFin);
+
+			$diasIntervalo = $fechaInicioDT->diff($fechaFinDT);
+			$diasIntervalo = $diasIntervalo->d;
+		}
+		elseif($diaInicio == 1){ //Si es lunes
+			$fechaInicio = strtotime ( '-3 day' , strtotime ( $fechaFin ) ) ;
+			$fechaInicio = date ( 'Y-m-d' , $fechaInicio );
+			$diaInicio = 5;
+
+			$fechaInicioDT = new DateTime($fechaInicio);
+			$fechaFinDT = new DateTime($fechaFin);
+
+			$diasIntervalo = $fechaInicioDT->diff($fechaFinDT);
+			$diasIntervalo = $diasIntervalo->d;
+		}else{
+			$fechaInicio = strtotime ( '-1 day' , strtotime ( $fechaFin ) ) ;
+			$fechaInicio = date ( 'Y-m-d' , $fechaInicio );
+			$diaInicio -= 1;
+
+			$fechaInicioDT = new DateTime($fechaInicio);
+			$fechaFinDT = new DateTime($fechaFin);
+
+			$diasIntervalo = $fechaInicioDT->diff($fechaFinDT);
+			$diasIntervalo = $diasIntervalo->d;
+		}
+		
 
 		$diasIntervalo = $this->obtenDiasIntervalo($diaInicio,$diasIntervalo);
 
@@ -30,7 +50,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 		
 
 		////////Trae datos de consultores
-		$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves, (horasViernes-1) horasViernes  
+		$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves,  horasViernes  
 			FROM catusuario u WHERE u.idArea NOT IN (5,8) AND u.activo = 'S' ORDER BY u.nombre ASC";
 
 		$consultores  = $this->db->query($query_trae_consultores)->result();
@@ -69,7 +89,16 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 
     		$consultores[$i]->porcentaje = $porcentaje;
     	}
-    	$data['users']= array();
+    	
+    	/*
+    	//Ordena de mayor a menor por el porcentaje de cumplimiento
+    	foreach ($consultores as $clave => $fila) {
+    		$porcentaje[$clave] = $fila->porcentaje;
+    	}
+    	array_multisort($porcentaje,SORT_DESC,$consultores);
+
+    	*/
+
     	$data['users'] = $consultores;
 
     	//////////////Trae datos para Códice
@@ -79,7 +108,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 
 		$codice = new \stdClass;
 
-		$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves, (horasViernes-1) horasViernes 
+		$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves,  horasViernes 
 			FROM catusuario u WHERE u.idArea NOT IN (5,8) AND u.activo = 'S' ORDER BY u.nombre ASC";
 
 		$consultores  = $this->db->query($query_trae_consultores)->result();
@@ -181,7 +210,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 			$fechaFin = $_POST["fechaFin"];
 			$diasIntervalo = $_POST["diasIntervalo"];
 
-			$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves, (horasViernes-1) horasViernes  
+			$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves, horasViernes  
 				FROM catusuario u WHERE u.idArea NOT IN (5,8) AND u.activo = 'S' ORDER BY u.nombre ASC";
 
 			$consultores  = $this->db->query($query_trae_consultores)->result();
@@ -241,7 +270,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 
 			$codice = new \stdClass;
 
-			$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves, (horasViernes-1) horasViernes  
+			$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves, horasViernes  
 				FROM catusuario u WHERE u.idArea NOT IN (5,8) AND u.activo = 'S' ORDER BY u.nombre ASC";
 
 			$consultores  = $this->db->query($query_trae_consultores)->result();
@@ -411,6 +440,12 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 
     		$act_consultor = $this->db->query($query_trae_act_consultor)->result();
 
+    		foreach ($act_consultor as $c) {
+    			if($c->idEstadoTarea==1){
+    				$c->tiempoReal = $c->tiempoEstimado;
+    			}
+    		}
+
     		echo json_encode($act_consultor);
 
 		}
@@ -423,7 +458,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 			$fechaFin = $_POST["fechaFin"];
 			$idCliente = $_POST["idCliente"];
 
-			$query_trae_act_cliente = "SELECT DATE_FORMAT(t.creacion,'%d-%m-%Y') creacion, c.nombre cliente, c.id idCliente, u.nombre consultor, p.nombre proyecto, t.titulo titulo, t.tiempo tiempoReal, t.tiempoEstimado tiempoEstimado, t.idEstado estadoTarea
+			$query_trae_act_cliente = "SELECT DATE_FORMAT(t.creacion,'%d-%m-%Y') creacion, c.nombre cliente, c.id idCliente, u.nombre consultor, p.nombre proyecto, t.titulo titulo, t.tiempo tiempoReal, t.tiempoEstimado tiempoEstimado, t.idEstado idEstadoTarea
 				FROM cattarea t JOIN  catproyecto p ON t.idProyecto = p.id
 				JOIN catcliente c ON p.idCliente = c.id
 				JOIN catusuario u ON t.idResponsable = u.id
@@ -432,6 +467,12 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 				ORDER BY t.creacion DESC";
 
     		$act_cliente = $this->db->query($query_trae_act_cliente)->result();
+
+    		foreach ($act_cliente as $c) {
+    			if($c->idEstadoTarea==1){
+    				$c->tiempoReal = $c->tiempoEstimado;
+    			}
+    		}
 
     		echo json_encode($act_cliente);
 
@@ -452,6 +493,12 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 				ORDER BY u.nombre ASC, t.creacion DESC";
 
     		$act_codice = $this->db->query($query_trae_act_codice)->result();
+
+    		foreach ($act_codice as $c) {
+    			if($c->idEstadoTarea==1){
+    				$c->tiempoReal = $c->tiempoEstimado;
+    			}
+    		}
 
     		echo json_encode($act_codice);
 

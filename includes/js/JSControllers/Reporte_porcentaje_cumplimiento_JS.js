@@ -3,9 +3,36 @@ $(function(){
 	var cDay = (cDate.getUTCDate().toString().length < 2)? "0"+cDate.getUTCDate()-1: cDate.getUTCDate()-1;
 	var cMonth = (cDate.getUTCMonth().toString().length < 2)? "0"+(cDate.getUTCMonth()+1): cDate.getUTCMonth()+1;
 	var cYear = cDate.getUTCFullYear();
+	var ultimoDia = new Date(cDate.getFullYear(), cDate.getMonth(), 0); //Último día del mes pasado
+	var uDay = (ultimoDia.getUTCDate().toString().length < 2)? "0"+ultimoDia.getUTCDate(): ultimoDia.getUTCDate();
+	var uMonth = (ultimoDia.getUTCMonth().toString().length < 2)? "0"+(ultimoDia.getUTCMonth()+1): ultimoDia.getUTCMonth()+1;
+	var uYear = ultimoDia.getUTCFullYear();
 
-	$("#dateDesde").val(cDay+'/'+cMonth+'/'+cYear);
-	$("#dateHasta").val((cDay+1)+'/'+cMonth+'/'+cYear);
+	if(cDate.getDay()==0){
+		$("#dateDesde").val((cDay-2)+'/'+cMonth+'/'+cYear);
+		$("#dateHasta").val((cDay+1)+'/'+cMonth+'/'+cYear);
+	}else if(cDate.getDay()==6){
+		$("#dateDesde").val((cDay-1)+'/'+cMonth+'/'+cYear);
+		$("#dateHasta").val((cDay+2)+'/'+cMonth+'/'+cYear);
+	}else if(cDate.getDay()==1){
+		
+		if(cDate.getUTCDate()-3 == 0){//Si el lunes es dia 3
+			$("#dateDesde").val((uDay)+'/'+(uMonth)+'/'+uYear);
+			$("#dateHasta").val((cDay+1)+'/'+cMonth+'/'+cYear);
+		}else if(cDate.getUTCDate()-3 == -1){ //Si el lunes es día 2
+			$("#dateDesde").val((uDay-1)+'/'+(uMonth)+'/'+uYear);
+			$("#dateHasta").val((cDay+1)+'/'+cMonth+'/'+cYear);
+		}else if(cDate.getUTCDate()-3 == -2){//Si el lunes es día 1
+			$("#dateDesde").val((uDay-2)+'/'+(uMonth)+'/'+uYear);
+			$("#dateHasta").val((cDay+1)+'/'+cMonth+'/'+cYear);
+		}else{//Si cae en otro día
+			$("#dateDesde").val((cDay-3)+'/'+cMonth+'/'+cYear);
+			$("#dateHasta").val((cDay+1)+'/'+cMonth+'/'+cYear);
+		}
+	}else{
+		$("#dateDesde").val(cDay+'/'+cMonth+'/'+cYear);
+		$("#dateHasta").val((cDay+1)+'/'+cMonth+'/'+cYear);
+	}
 
 
 	$("#dateDesde, #dateHasta").change(function(){
@@ -21,24 +48,20 @@ $(function(){
 			if(objDateDesde > objDateHasta) $("#dateHasta").val($("#dateDesde").val());
 		}
 	});
-	/*
-	$("#form-dates").submit(function(event){
-		event.preventDefault();
-		$.ajax({
-			url: '<?php echo base_url()."index.php/Reporte_acumulado_tiempo_ctrl/refreshTimes" ?>',
-			method: 'POST',
-			dataType: 'text',
-			data: $('#form-dates').serialize(),
-			success: function(response){
-				$("#tablaConsultores tbody").html(response);
-			}
-		});
-	});
-
-	$("#form-dates").submit();
-	*/
-	$("#dateDesde").datepicker({ dateFormat: 'dd/mm/yy', defaultDate: -1 });
-	$("#dateHasta").datepicker({ dateFormat: 'dd/mm/yy'});
+	
+	if(cDate.getDay()==0){ //Si es día domingo
+		$("#dateDesde").datepicker({ dateFormat: 'dd/mm/yy', defaultDate: -2 });
+		$("#dateHasta").datepicker({ dateFormat: 'dd/mm/yy', defaultDate: +1 });
+	}else if(cDate.getDay()==6){ //Si es día sábado
+		$("#dateDesde").datepicker({ dateFormat: 'dd/mm/yy', defaultDate: -1 });
+		$("#dateHasta").datepicker({ dateFormat: 'dd/mm/yy', defaultDate: +2 });
+	}else if(cDate.getDay() == 1){ //Si es día lunes
+		$("#dateDesde").datepicker({ dateFormat: 'dd/mm/yy', defaultDate: -3 });
+		$("#dateHasta").datepicker({ dateFormat: 'dd/mm/yy'});
+	}else{
+		$("#dateDesde").datepicker({ dateFormat: 'dd/mm/yy', defaultDate: -1 });
+		$("#dateHasta").datepicker({ dateFormat: 'dd/mm/yy'});
+	}
 });
 
 function recalcular() {
