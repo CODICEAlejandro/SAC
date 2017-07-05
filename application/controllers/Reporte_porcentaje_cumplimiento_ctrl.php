@@ -98,6 +98,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
     	array_multisort($porcentaje,SORT_DESC,$consultores);
 
     	*/
+    	$this->array_sort_by($consultores,'porcentaje',SORT_DESC);
 
     	$data['users'] = $consultores;
 
@@ -193,6 +194,8 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 
 		}
 
+		$this->array_sort_by($clientes,'porcentaje',SORT_DESC);
+
 		$data['clientes'] = $clientes;
 
 		
@@ -249,6 +252,9 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 
 	    		$consultores[$i]->porcentaje = $porcentaje;
 	    	}
+
+	    	$this->array_sort_by($consultores,'porcentaje',SORT_DESC);
+
 			echo json_encode($consultores);
 		}
 	}
@@ -366,6 +372,8 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 				$clientes[$i]->porcentaje = $this->obtenPorcentajeCumplimiento($horasTotales,$tiempoReal[0],$tiempoReal[1]);
 
 			}
+
+			$this->array_sort_by($clientes,'porcentaje',SORT_DESC);
 
 			echo json_encode($clientes);
 		}
@@ -542,6 +550,17 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 		return $numDias;
 	}
 	
+
+	public function array_sort_by(&$arrIni, $col, $order = SORT_ASC) 
+	{
+	    $arrAux = array();
+	    foreach ($arrIni as $key=> $row) 
+	    {
+	        $arrAux[$key] = is_object($row) ? $arrAux[$key] = $row->$col : $row[$col];
+	        $arrAux[$key] = strtolower($arrAux[$key]);
+	    }
+	    array_multisort($arrAux, $order, $arrIni);
+	}
 }
 
 ?>
