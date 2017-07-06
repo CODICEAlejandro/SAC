@@ -50,7 +50,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 		
 
 		////////Trae datos de consultores
-		$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves,  horasViernes  
+		$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, horasLunes, horasMartes, horasMiercoles, horasJueves,  horasViernes  
 			FROM catusuario u WHERE u.idArea NOT IN (5,8) AND u.activo = 'S' ORDER BY u.nombre ASC";
 
 		$consultores  = $this->db->query($query_trae_consultores)->result();
@@ -109,7 +109,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 
 		$codice = new \stdClass;
 
-		$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves,  horasViernes 
+		$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, horasLunes, horasMartes, horasMiercoles, horasJueves,  horasViernes 
 			FROM catusuario u WHERE u.idArea NOT IN (5,8) AND u.activo = 'S' ORDER BY u.nombre ASC";
 
 		$consultores  = $this->db->query($query_trae_consultores)->result();
@@ -213,7 +213,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 			$fechaFin = $_POST["fechaFin"];
 			$diasIntervalo = $_POST["diasIntervalo"];
 
-			$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves, horasViernes  
+			$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, horasLunes, horasMartes, horasMiercoles, horasJueves, horasViernes  
 				FROM catusuario u WHERE u.idArea NOT IN (5,8) AND u.activo = 'S' ORDER BY u.nombre ASC";
 
 			$consultores  = $this->db->query($query_trae_consultores)->result();
@@ -276,7 +276,7 @@ class Reporte_porcentaje_cumplimiento_ctrl extends CI_Controller {
 
 			$codice = new \stdClass;
 
-			$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, (horasLunes-1) horasLunes, (horasMartes-1) horasMartes, (horasMiercoles-1) horasMiercoles, (horasJueves-1) horasJueves, horasViernes  
+			$query_trae_consultores = "SELECT 0 porcentaje, '00:00' tiempoReal, nombre, id idConsultor, horasLunes, horasMartes, horasMiercoles, horasJueves, horasViernes  
 				FROM catusuario u WHERE u.idArea NOT IN (5,8) AND u.activo = 'S' ORDER BY u.nombre ASC";
 
 			$consultores  = $this->db->query($query_trae_consultores)->result();
