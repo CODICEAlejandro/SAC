@@ -161,6 +161,18 @@ function realizarBusquedaPorFiltro(){
 					}
 				});
 
+			}else if(filtro=="7"){
+				$.ajax({
+					url: baseURL+'index.php/Cotizacion/Listado_cotizacion_ctrl/traeTodo',
+					method: 'post',
+					dataType: 'json',
+					success: function(r) {
+						actualizaTabla(r);
+					},
+					error: function(r) {
+						alert("Ocurrió un error al realizar la búsqueda.");
+					}
+				});
 			}
 		}else{
 			alert("Debes seleccionar una opción para filtrar.");

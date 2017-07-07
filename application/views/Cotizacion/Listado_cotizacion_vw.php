@@ -42,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<option value="4">Fecha de alta</option>
 						<option value="5">Facturas Vigentes</option>
 						<option value="6">Facturas Vencidas</option>
+						<option value="7">Todas las cotizaciones</option>
 					</select>
 					<button id="btn-search-by-filter" class="form-control btn btn-info">Filtrar</button>
 				</div>
