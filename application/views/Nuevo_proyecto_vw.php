@@ -210,6 +210,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<option>SERVICIO</option>
 							<option>CAMPAÑA</option>
 							<option>MANTENIMIENTO</option>
+							<option>REDES SOCIALES Y CAMPAÑA</option>
+							<option>CONTENIDO</option>
 							<option>Tipo 1</option>
 							<option>Tipo 2</option>
 							<option>Tipo 3</option>
