@@ -14,6 +14,7 @@ class Nuevo_proyecto_ctrl extends CI_Controller {
 
 		$data['proyectos'] = $this->Proyecto->traerTodo_AI();
 		$data['clientes'] = $this->Cliente->traerTodo();
+		$data['tipo_proyecto'] = $this->db->query("SELECT id,clave FROM cattipoproyecto")->result();
 		$data['menu'] = $this->load->view('Menu_principal',null,true);
 
 		$this->load->view('Nuevo_proyecto_vw', $data);

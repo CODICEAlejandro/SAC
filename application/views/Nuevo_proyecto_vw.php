@@ -35,8 +35,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$("#rowEditaProyecto #nombre").val(response.nombre);
 					$("#rowEditaProyecto #idCotizacion").val(response.idCotizacion);
 					$("#rowEditaProyecto #idCliente").val(response.idCliente);
-					$("#rowEditaProyecto #tipo").val(response.tipo);
+					//$("#rowEditaProyecto #tipo").val(response.tipo);
 					$("#rowEditaProyecto #estado").val(response.estado);
+
+					var listaTipos = $("#rowEditaProyecto #tipo");
+					
+
+					listaTipos.find("option").each(function(){
+						$(this).removeAttr("selected");
+						if($(this).val() == response.tipo_proyecto){
+							$(this).attr("selected","selected");
+						}
+					});
 
 					toogleButtonActive();
 				},
@@ -67,13 +77,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			var nombre = $("#rowEditaProyecto #nombre").val();
 			var idCotizacion = $("#rowEditaProyecto #idCotizacion").val();
 			var idCliente = $("#rowEditaProyecto #idCliente").val();
-			var tipo = $("#rowEditaProyecto #tipo").val();
+			//var tipo = $("#rowEditaProyecto #tipo").val();
 			var estadoActivo = $("#rowEditaProyecto #estado").val();
+			var tipo_proyecto = $("#rowEditaProyecto #tipo").val();
 
 			$.ajax({
 				url: '<?php echo base_url(); ?>index.php/Nuevo_proyecto_ctrl/actualizarProyecto_AJAX/'+currentProyect,
 				method: 'post',
-				data: {'nombre': nombre, 'idCotizacion': idCotizacion, 'idCliente': idCliente, 'tipo':tipo, 'estado': estadoActivo},
+				data: {'nombre': nombre, 'idCotizacion': idCotizacion, 'idCliente': idCliente, 'estado': estadoActivo, 'tipo_proyecto':tipo_proyecto},
 				dataType: 'json',
 				success: function(response){
 					if(response.status == 'OK'){
@@ -103,13 +114,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			var nombre = $("#rowNuevoProyecto #nombre").val();
 			var idCotizacion = $("#rowNuevoProyecto #idCotizacion").val();
 			var idCliente = $("#rowNuevoProyecto #idCliente").val();
-			var tipo = $("#rowNuevoProyecto #tipo").val();
+			//var tipo = $("#rowNuevoProyecto #tipo").val();
 			var estadoActivo = $("#rowNuevoProyecto #estado").val();
+			var tipo_proyecto = $("#rowNuevoProyecto #tipo").val();
 
 			$.ajax({
 				url: '<?php echo base_url(); ?>index.php/Nuevo_proyecto_ctrl/nuevoProyecto_AJAX',
 				method: 'post',
-				data: {'nombre': nombre, 'idCotizacion': idCotizacion, 'idCliente': idCliente, 'tipo':tipo, 'estado': estadoActivo},
+				data: {'nombre': nombre, 'idCotizacion': idCotizacion, 'idCliente': idCliente, 'estado': estadoActivo, 'tipo_proyecto':tipo_proyecto},
 				dataType: 'json',
 				success: function(response){
 					if(response.status == 'OK'){
@@ -206,15 +218,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label>Tipo</label>
 						<select name="tipo" id="tipo" class="form-control">
-							<option>DESARROLLO</option>
-							<option>SERVICIO</option>
-							<option>CAMPAÑA</option>
-							<option>MANTENIMIENTO</option>
-							<option>REDES SOCIALES Y CAMPAÑA</option>
-							<option>CONTENIDO</option>
-							<option>Tipo 1</option>
-							<option>Tipo 2</option>
-							<option>Tipo 3</option>
+						<?php foreach ($tipo_proyecto as $t) { ?>
+							<option value="<?php echo $t->id; ?>"><?php echo $t->clave; ?></option>
+						
+						<?php } ?>
+							
 						</select>
 					</div>
 					<div class="form-group">
@@ -250,15 +258,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label>Tipo</label>
 						<select name="tipo" id="tipo" class="form-control">
-							<option>DESARROLLO</option>
-							<option>SERVICIO</option>
-							<option>CAMPAÑA</option>
-							<option>MANTENIMIENTO</option>
-							<option>REDES SOCIALES Y CAMPAÑA</option>
-							<option>CONTENIDO</option>
-							<option>Tipo 1</option>
-							<option>Tipo 2</option>
-							<option>Tipo 3</option>
+						<?php foreach ($tipo_proyecto as $t) { ?>
+							<option value="<?php echo $t->id; ?>"><?php echo $t->clave; ?></option>
+						
+						<?php } ?>
 						</select>
 					</div>
 					<div class="form-group">
