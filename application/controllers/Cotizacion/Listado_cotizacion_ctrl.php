@@ -75,7 +75,11 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 		if(isset($_POST)){
 
 			$fecha_inicio = $_POST["fecha_inicio"];
+			$fecha_inicio_aux = explode("-", $fecha_inicio);
+			$fecha_inicio = $fecha_inicio_aux[2]."-".$fecha_inicio_aux[1]."-".$fecha_inicio_aux[0];
 			$fecha_fin = $_POST["fecha_fin"];
+			$fecha_fin_aux = explode("-", $fecha_fin);
+			$fecha_fin = $fecha_fin_aux[2]."-".$fecha_fin_aux[1]."-".$fecha_fin_aux[0];
 
 			$query_fecha = "SELECT cli.nombre nombre_cli, usu.nombre nombre_acc,con.nombre nombre_con, con.apellido apellido_con, con.correo correo, sta.clave clave_status, cot.*, DATE_FORMAT(cot.fecha_alta, '%d-%m-%Y')  fecha_alta, DATE_FORMAT(cot.fecha_inicio_servicio, '%d-%m-%Y') fecha_inicio, DATE_FORMAT(cot.fecha_fin_servicio, '%d-%m-%Y') fecha_fin
 				FROM cotizacion_account cot
@@ -85,6 +89,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 				JOIN cat_status_cotizacion sta ON cot.status_cotizacion_id=sta.id
 				WHERE (cot.fecha_alta >='".$fecha_inicio."' AND cot.fecha_alta<='".$fecha_fin."')
 				ORDER BY cot.fecha_alta DESC";
+
 			$cotizaciones = $this->db->query($query_fecha)->result();
 
 			echo json_encode($cotizaciones);
