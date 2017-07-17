@@ -26,7 +26,7 @@ $(function(){
 			$("#dateDesde").val((uDay-2)+'/'+(uMonth)+'/'+uYear);
 			$("#dateHasta").val((cDay+1)+'/'+cMonth+'/'+cYear);
 		}else{//Si cae en otro día
-			$("#dateDesde").val((cDay-3)+'/'+cMonth+'/'+cYear);
+			$("#dateDesde").val((cDay-2)+'/'+cMonth+'/'+cYear);
 			$("#dateHasta").val((cDay+1)+'/'+cMonth+'/'+cYear);
 		}
 	}else{
