@@ -184,7 +184,7 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 
 		// Obtener el cliente sugerido si es que existe el RFC asociado con alguna de sus
 		// direcciones fiscales
-		$cliente_sugerido = $this->db->query("select cc.nombre as nombre
+		$cliente_sugerido = $this->db->query("select cc.nombre as nombre, cc.id idCliente
 											from
 												catcliente cc inner join direccionfiscal df on df.idPadre = cc.id
 											where rfc = '".$dataReceptor["rfc"]."'")->row();
@@ -346,7 +346,17 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 		//Encabezados de factura
 		$objFactura->fechaFactura = explode("T", $atributosPrincipales["fecha"]->__toString())[0];
 		$objFactura->folio = $atributosPrincipales["serie"].$atributosPrincipales["folio"];
-		$estadoFolio = $this->db->query("select count(*) existencias from factura where folio = '".($objFactura->folio)."'")->row();
+		//$estadoFolio = $this->db->query("select count(*) existencias from factura where folio = '".($objFactura->folio)."'")->row();
+		$estadoFolio = $this->db->query("SELECT COUNT(*) existencias FROM factura f
+		JOIN concepto_factura_rel fr ON f.id = fr.idFactura
+		JOIN concepto c ON fr.idConcepto = c.id
+		JOIN concepto_factura_cotizacion fc ON c.id = fc.idConceptoFactura
+		JOIN fecha_factura ff ON fc.idFechaFactura = ff.id
+		JOIN concepto_cotizacion cc ON ff.idConceptoCotizacion = cc.id
+		JOIN cotizacion cot ON cc.idCotizacion = cot.id
+		JOIN catcliente cli ON cot.idCliente = cli.id
+		WHERE f.folio = '".($objFactura->folio)."'
+		AND cli.id = ".$cliente_sugerido->idCliente."")->row();
 
 		if($estadoFolio->existencias == 0){
 			$data["generalFactura"] = $dataFactura;
@@ -359,7 +369,7 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 			$this->load->view("Lectura_factura_proveedor_vw", $data);
 		}else{
 			$data['menu'] = $this->load->view("Menu_principal", null, true);
-			$data['status'] = "El folio ".($objFactura->folio)." ya existe en la base de datos. Contacte al administrador si desea removerla.";
+			$data['status'] = "El folio ".($objFactura->folio)." ya existe en la base de datos para ese proveedor. Contacte al administrador si desea removerla.";
 			$this->load->view("Lectura_factura_proveedor_vw", $data);	
 		}
 
