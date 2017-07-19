@@ -7,6 +7,8 @@ function filtro(){
 		var filtro = sel.val();
 
 		$("#mesClon").remove();
+		$("#trimestreClon").remove();
+		$("#semestreClon").remove();
 		$("#anioFiltro").remove();
 		$("#fechasClon").remove();
 
@@ -19,12 +21,26 @@ function filtro(){
 			clon_mes.show();
 		
 		}else if(filtro==2){
+			var clon_trimestre = $("#appendTrimestreClon").clone(true);
+
+			clon_trimestre.find("#trimestre").attr("id", "trimestreClon");
+			$("#appendFiltros").append(clon_trimestre.html());
+			
+			clon_trimestre.show();
+		}else if(filtro==3){
+			var clon_semestre = $("#appendSemestreClon").clone(true);
+
+			clon_semestre.find("#semestre").attr("id", "semestreClon");
+			$("#appendFiltros").append(clon_semestre.html());
+			
+			clon_semestre.show();	
+		}else if(filtro==4){
 			var fecha = new Date();
 			var anio = fecha.getUTCFullYear();
 
 			$("#appendFiltros").append('<input id="anioFiltro" class="form-control" style="margin-top: 20px;" type="number" name="quantity" min="2016" max="'+anio+'" value="'+anio+'">')
 
-		}else if(filtro==3){
+		}else if(filtro==5){
 			var clon_fechas = $("#appendFechasClon").clone(true);
 
 			clon_fechas.find("#fechas_busqueda").attr("id", "fechasClon");
@@ -91,85 +107,42 @@ function generaReporte(){
 				$("#form-excel").submit();
 			}
 		}else if(filtro=="2"){
+			var trimestre = $("#trimestreClon").val();
+
+			if(trimestre=="-1"){
+				alert("Debes seleccionar un trimestre.");
+			}else{
+				periodo=2;
+				$("#form-excel").append('<input name="periodo" value="'+periodo+'"><input name="trimestre" value="'+trimestre+'">');
+				$("#form-excel").submit();
+			}
+		}else if(filtro=="3"){
+			var semestre = $("#semestreClon").val();
+
+			if(semestre=="-1"){
+				alert("Debes seleccionar un semestre.");
+			}else{
+				periodo=3;
+				$("#form-excel").append('<input name="periodo" value="'+periodo+'"><input name="semestre" value="'+semestre+'">');
+				$("#form-excel").submit();
+			}
+		}else if(filtro=="4"){
 			var anio = $("#anioFiltro").val();
-			periodo=2;
+			periodo=4;
 			$("#form-excel").append('<input name="periodo" value="'+periodo+'"><input name="anio" value="'+anio+'">');
 			$("#form-excel").submit();
 
-		}else if(filtro=="3"){
+		}else if(filtro=="5"){
 			var fechaInicio = $("#fechasClon").find("#fecha_inicio").val();
 			
 			var fechaFin = $("#fechasClon").find("#fecha_fin").val();
 
-			periodo = 3; 
+			periodo = 5; 
 
 			$("#form-excel").append('<input name="periodo" value="'+periodo+'"><input name="fechaInicio" value="'+fechaInicio+'"><input name="fechaFin" value="'+fechaFin+'">');
 			$("#form-excel").submit();
 		}
-		/*
-		if(filtro == "-1"){
-			alert("Debes seleccionar una opción");
-		}else if(filtro == "1"){ //Si se quiere generar reporte por mes
-
-			var mes = $("#mesClon").val();
-
-			if(mes=="-1"){
-				alert("Debes seleccionar un mes.");
-			}else{
-			
-				periodo=1; //Reporte Mensual
-				$.ajax({
-					url: baseURL+'index.php/Reporte_ingresos_ctrl/generaReporte',
-					method: 'post',
-					dataType: 'text',
-					data: { "mes":mes,"periodo":periodo},
-					success: function(r) {
-						//alert("Reporte generado con éxito")
-					},
-					error: function(r) {
-						alert("Ha ocurrido un error al generar el reporte");
-					}
-				});
-			}
-		}else if(filtro == "2"){ //Si se quiere generar un reporte Anual
-			var anio = $("#anioFiltro").val();
-			periodo=2; //Reporte anual
-			$.ajax({
-				url: baseURL+'index.php/Reporte_ingresos_ctrl/generaReporte',
-				method: 'post',
-				dataType: 'text',
-				data:{"anio":anio, "periodo":periodo},
-				success: function(r) {
-					alert("Reporte generado con éxito")
-				},
-				error: function(r) {
-					alert("Ha ocurrido un error al generar el reporte");
-				}
-			});
-
-		}else if(filtro == "3"){ //Si se quiere generar un reporte por fechas específicas
-
-
-			var fechaInicio = $("#fechasClon").find("#fecha_inicio").val();
-			
-			var fechaFin = $("#fechasClon").find("#fecha_fin").val();
-
-			periodo = 3; //Reporte fechas específicas
-			
-			$.ajax({
-				url: baseURL+'index.php/Reporte_ingresos_ctrl/generaReporte',
-				method: 'post',
-				dataType: 'text',
-				data:{ "fechaInicio": fechaInicio, "fechaFin": fechaFin, "periodo":periodo},
-				success: function(r) {
-					alert("Reporte generado con éxito")
-				},
-				error: function(r) {
-					alert("Ha ocurrido un error al generar el reporte");
-				}
-			});
-		}
-		*/
+		
 	});
 }
 

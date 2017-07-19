@@ -26,12 +26,44 @@ class Reporte_ingresos_ctrl extends CI_Controller{
 
 			}elseif($_POST["periodo"]==2){
 
+				$anio = date('Y');
+				$trimestre = $_POST["trimestre"];
+
+				if($trimestre==1){
+					$fechaInicio = $anio."-01-01";
+					$fechaFin = $anio."-03-31";
+				}elseif ($trimestre==2) {
+					$fechaInicio = $anio."-04-01";
+					$fechaFin = $anio."-06-30";
+				}elseif ($trimestre==3) {
+					$fechaInicio = $anio."-07-01";
+					$fechaFin = $anio."-09-30";
+				}elseif ($trimestre==4) {
+					$fechaInicio = $anio."-10-01";
+					$fechaFin = $anio."-12-31";
+				}
+
+			}elseif($_POST["periodo"]==3){
+
+				$anio = date('Y');
+				$semestre = $_POST["semestre"];
+
+				if($semestre == 1){
+					$fechaInicio = $anio."-01-01";
+					$fechaFin = $anio."-06-30";
+				}elseif ($semestre==2) {
+					$fechaInicio = $anio."-07-01";
+					$fechaFin = $anio."-12-31";
+				}
+
+			}elseif($_POST["periodo"]==4){
+
 				$anio = $_POST["anio"];
 
 				$fechaInicio = $anio."-01-01";
 				$fechaFin = $anio."-12-31";
 
-			}elseif($_POST["periodo"]==3){
+			}elseif($_POST["periodo"]==5){
 
 				$fechaInicio = $_POST["fechaInicio"];
 				$fechaInicioAux = explode("/", $fechaInicio);

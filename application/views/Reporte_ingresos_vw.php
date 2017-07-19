@@ -32,8 +32,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<select name="filtro" id="filtro" class="form-control">
 					<option value="-1" selected>Seleccione una opción</option>
 					<option value="1">Mensual</option>
-					<option value="2">Anual</option>
-					<option value="3">Fechas específicas</option>
+					<option value="2">Trimestral</option>
+					<option value="3">Semestral</option>
+					<option value="4">Anual</option>
+					<option value="5">Fechas específicas</option>
 				</select>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
@@ -57,6 +59,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<option value="10">Octubre</option>
 			<option value="11">Noviembre</option>
 			<option value="12">Diciembre</option>
+		</select>
+	</div>
+
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 appendTrimestre" style="display: none;" id="appendTrimestreClon">
+		<select name="trimestre" id="trimestre" class="form-control" style="margin-top: 20px;">
+			<option value="-1" selected>Selecciona una opción</option>
+			<option value="1">Primer trimestre (Enero - Marzo)</option>
+			<option value="2">Segundo trimestre (Abril - Junio)</option>
+			<option value="3">Tercer trimestre (Julio - Septiembre)</option>
+			<option value="4">Cuarto trimestre (Octubre - Diciembre)</option>
+		</select>
+	</div>
+
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 appendSemestre" style="display: none;" id="appendSemestreClon">
+		<select name="semestre" id="semestre" class="form-control" style="margin-top: 20px;">
+			<option value="-1" selected>Selecciona una opción</option>
+			<option value="1">Primer semestre (Enero - Junio)</option>
+			<option value="2">Segundo semestre (Julio - Diciembre)</option>
 		</select>
 	</div>
 
