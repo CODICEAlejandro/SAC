@@ -197,6 +197,9 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 		if(isset($namespaces["tfd"]))
 			$xml->registerXPathNamespace("tfd", $namespaces["tfd"]);
 
+		if (isset($namespaces["registrofiscal"])) 
+			$xml->registerXPathNamespace("registrofiscal",$namespaces["registrofiscal"]);
+
 		if(isset($namespaces["fx"])){
 			$xml->registerXPathNamespace("fx", $namespaces["fx"]);
 
@@ -346,8 +349,12 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 		//Encabezados de factura
 		$objFactura->fechaFactura = explode("T", $atributosPrincipales["fecha"]->__toString())[0];
 		$objFactura->folio = $atributosPrincipales["serie"].$atributosPrincipales["folio"];
+		if (empty($objFactura->folio)) {
+			$folio = $xml->xpath("//cfdi:Complemento/registrofiscal:CFDIRegistroFiscal");
+			$objFactura->folio = $folio[0]["Folio"];
+		}
 		//$estadoFolio = $this->db->query("select count(*) existencias from factura where folio = '".($objFactura->folio)."'")->row();
-		$estadoFolio = $this->db->query("SELECT COUNT(*) existencias FROM factura f
+		$query_trae_exist_folio = "SELECT COUNT(*) existencias FROM factura f
 		JOIN concepto_factura_rel fr ON f.id = fr.idFactura
 		JOIN concepto c ON fr.idConcepto = c.id
 		JOIN concepto_factura_cotizacion fc ON c.id = fc.idConceptoFactura
@@ -355,9 +362,14 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 		JOIN concepto_cotizacion cc ON ff.idConceptoCotizacion = cc.id
 		JOIN cotizacion cot ON cc.idCotizacion = cot.id
 		JOIN catcliente cli ON cot.idCliente = cli.id
-		WHERE f.folio = '".($objFactura->folio)."'
-		AND cli.id = ".$cliente_sugerido->idCliente."")->row();
+		WHERE f.folio = '".($objFactura->folio)."'";
 
+		if (isset($cliente_sugerido->idCliente)) {
+			$query_trae_exist_folio.= " AND cli.id = ".$cliente_sugerido->idCliente."";
+		}
+		
+		$estadoFolio = $this->db->query($query_trae_exist_folio)->row();
+		
 		if($estadoFolio->existencias == 0){
 			$data["generalFactura"] = $dataFactura;
 			$data["receptor"] = $dataReceptor;
