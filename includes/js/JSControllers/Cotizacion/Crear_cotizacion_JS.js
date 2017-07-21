@@ -55,6 +55,7 @@ function guardarCotizacion(){
 	var formaDePago = $("#id-forma-de-pago").val();
 	var objetivoCotizacion = $("#objetivo-cotizacion").val();
 	var introduccionCotizacion = $("#introduccion-cotizacion").val();
+	var requerimientosCotizacion = $("#requerimientos-cotizacion").val();
 	var notasCotizacion = $("#nota-cotizacion").val();
 
 	//Empaquetar los alcances
@@ -79,7 +80,7 @@ function guardarCotizacion(){
 			servicio: sender.find("#id-servicio-alcance").val(),
 			clasificacion: sender.find("#id-clasificacion-alcance").val(),
 			descripciones: new Array(),
-			requerimientos: sender.find("#requerimientos-alcance").val(),
+			//requerimientos: sender.find("#requerimientos-alcance").val(),
 			entregables: sender.find("#entregables-alcance").val(),
 			fechaInicioServicio: sender.find(".fecha-inicio-servicio-alt").first().val()
 		};
@@ -231,6 +232,7 @@ function guardarCotizacion(){
 		formaDePago: formaDePago,
 		objetivo: objetivoCotizacion,
 		introduccion: introduccionCotizacion,
+		requerimientos: requerimientosCotizacion,
 		notas: notasCotizacion,
 		alcances: alcances,
 		nombreArchivo: nombreArchivo,
@@ -278,6 +280,9 @@ function revisarCampos(){
 		return false;
 	}else if($("#introduccion-cotizacion").val().trim() == ""){
 		alert("Indique la introducción de la cotización");
+		return false;
+	}else if($("#requerimientos-cotizacion").val().trim() == ""){
+		alert("Indique los requerimientos de la cotización");
 		return false;
 	}else if($("#append-section-alcance .clone-section-alcance").size() == 0){
 		if(!confirm("Está a punto de guardar una cotización sin alcances. ¿Desea continuar?")){
@@ -333,9 +338,11 @@ function revisarCampos(){
 		}else if(sender.find("#id-clasificacion-alcance").val() == "-1"){
 			alert("Seleccione la clasificación de todos los alcances");
 			result = false;
+		/*
 		}else if(sender.find("#requerimientos-alcance").val().trim() == ""){
 			alert("Indique los requerimientos de todos los alcances");
 			result = false;
+		*/
 		}else if(sender.find("#entregables-alcance").val().trim() == ""){
 			alert("Indique los entregables de todos los alcance");
 			result = false;

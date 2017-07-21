@@ -55,6 +55,7 @@ function guardarCotizacion(){
 	var formaDePago = $("#id-forma-de-pago").val();
 	var objetivoCotizacion = $("#objetivo-cotizacion").val();
 	var introduccionCotizacion = $("#introduccion-cotizacion").val();
+	var requerimientosCotizacion = $("#requerimientos-cotizacion").val();
 	var notasCotizacion = $("#nota-cotizacion").val();
 
 	//Empaquetar los alcances
@@ -79,11 +80,11 @@ function guardarCotizacion(){
 			servicio: sender.find("#id-servicio-alcance").val(),
 			clasificacion: sender.find("#id-clasificacion-alcance").val(),
 			descripciones: new Array(),
-			requerimientos: sender.find("#requerimientos-alcance").val(),
+			//requerimientos: sender.find("#requerimientos-alcance").val(),
 			entregables: sender.find("#entregables-alcance").val(),
-			fechaInicioServicio: sender.find(".fecha-inicio-servicio-alt").first().val()
+			fechaInicioServicio: sender.find(".fecha-inicio-servicio").first().val()
 		};
-
+		tmpAlcance.fechaInicioServicio = modificaFecha(tmpAlcance.fechaInicioServicio);
 		//Encontrar la fecha mínima de todos los alcances para asignarla a la fecha de inicio de servicio de la cotización
 		if(!resultFechaStringCotizacion){
 			resultFechaStringCotizacion = tmpAlcance.fechaInicioServicio;
@@ -165,11 +166,12 @@ function guardarCotizacion(){
 				var sender = $(this);
 				tmpParcialidad = {
 					concepto: sender.find("#concepto-parcialidad").val(),
-					fecha: sender.find(".fecha-parcialidad-alt").first().val(),
+					fecha: sender.find(".fecha-parcialidad").first().val(),
 					porcentaje: sender.find("#porcentaje-parcialidad").val(),
 					monto: sender.find("#monto-parcialidad").val()
 				}
-
+				tmpParcialidad.fecha = modificaFecha(tmpParcialidad.fecha);
+				//alert("Concepto: "+tmpParcialidad.concepto+" Fecha: "+tmpParcialidad.fecha+" Porcentaje: "+tmpParcialidad.porcentaje+" Monto: "+tmpParcialidad.monto);
 				//Calcular la fecha del fin de servicio del alcance (max(parcialidad.fecha))
 				if(!resultFechaString){
 					resultFechaString = tmpParcialidad.fecha;
@@ -231,6 +233,7 @@ function guardarCotizacion(){
 		formaDePago: formaDePago,
 		objetivo: objetivoCotizacion,
 		introduccion: introduccionCotizacion,
+		requerimientos : requerimientosCotizacion,
 		notas: notasCotizacion,
 		alcances: alcances,
 		nombreArchivo: nombreArchivo,
@@ -296,6 +299,9 @@ function revisarCampos(){
 	}else if($("#introduccion-cotizacion").val().trim() == ""){
 		alert("Indique la introducción de la cotización");
 		return false;
+	}else if($("#requerimientos-cotizacion").val().trim() == ""){
+		alert("Indique los requerimientos de la cotización");
+		return false;
 	}else if($("#append-section-alcance .clone-section-alcance").size() == 0){
 		if(!confirm("Está a punto de guardar una cotización sin alcances. ¿Desea continuar?")){
 			return false;
@@ -349,9 +355,11 @@ function revisarCampos(){
 		}else if(sender.find("#id-clasificacion-alcance").val() == "-1"){
 			alert("Seleccione la clasificación de todos los alcances");
 			result = false;
+		/*
 		}else if(sender.find("#requerimientos-alcance").val().trim() == ""){
 			alert("Indique los requerimientos de todos los alcances");
 			result = false;
+		*/
 		}else if(sender.find("#entregables-alcance").val().trim() == ""){
 			alert("Indique los entregables de todos los alcance");
 			result = false;
@@ -544,6 +552,15 @@ function verificaFechas() {
 	return tieneFechasIncorrectas;
 }
 
+function modificaFecha(fechaSinFormato){
+	var fechaSplit = fechaSinFormato.split("/");
+	var dia = fechaSplit[0];
+	var mes = fechaSplit[1];
+	var anio = fechaSplit[2];
+
+	return anio+"-"+mes+"-"+dia;
+}
+
 $(function(){
 	$("#id-cliente").change(function(){
 		var idCliente = $(this).val();
@@ -554,52 +571,8 @@ $(function(){
 		event.preventDefault();
 		agregarAlcance();
 		crearOrdenAlcances();
-	});
 
-	$("#btn-minus-alcance").click(function(event){
-		event.preventDefault();
-		var padre = $(this).closest(".clone-section-alcance");
-		minusAlcance(padre);
-	});
-
-	$("#btn-delete-alcance").click(function(event){
-		event.preventDefault();
-		var padre = $(this).closest(".clone-section-alcance");
-		deleteAlcance(padre);
-	});
-
-	$("#btn-up-alcance").click(function(event){
-		event.preventDefault();
-		var padre = $(this).closest(".clone-section-alcance");
-		subirAlcance(padre);		
-	});
-
-	$("#btn-down-alcance").click(function(event){
-		event.preventDefault();
-		var padre = $(this).closest(".clone-section-alcance");
-		bajarAlcance(padre);		
-	});
-
-	$("#btn-agregar-descripcion").click(function(event){
-		event.preventDefault();
-		var padre = $(this).closest(".clone-section-alcance");
-		agregarDescripcion(padre);		
-	});
-
-	$("#btn-minus-descripcion").click(function(event){
-		event.preventDefault();
-		var padre = $(this).closest(".clone-section-descripcion");
-		minusDescripcion(padre);
-	});
-
-	$("#btn-delete-descripcion").click(function(event){
-		event.preventDefault();
-		var padre = $(this).closest(".clone-section-descripcion");
-		deleteDescripcion(padre);
-	});
-
-	$("#id-forma-de-pago").change(function(){
-		var value = $(this).val();
+		var value = $("#id-forma-de-pago").val();
 		var tipoCotizacion = $("#tipo_cotizacion_id").val();
 		if(value == 2){
 			//Pagos fijos
@@ -620,6 +593,87 @@ $(function(){
 
 					var clon= $("#clone-sections").find(".bloque-pagos-recurrentes").clone(true);
 					$(this).append(clon);
+					//revisarCampos();
+				});
+			}
+			$(".bloque-pagos-recurrentes").show();
+			$(".bloque-pagos-fijos").hide();
+		}else{
+			$(".bloque-pagos-recurrentes").hide();
+			$(".bloque-pagos-fijos").hide();
+		}
+	});
+
+	$("body").on("click","#btn-minus-alcance",function(event){
+		event.preventDefault();
+		var padre = $(this).closest(".clone-section-alcance");
+		minusAlcance(padre);
+	});
+
+	$("body").on("click","#btn-delete-alcance",function(event){
+		event.preventDefault();
+		var padre = $(this).closest(".clone-section-alcance");
+		deleteAlcance(padre);
+	});
+
+	$("body").on("click","#btn-up-alcance",function(event){
+		event.preventDefault();
+		var padre = $(this).closest(".clone-section-alcance");
+		subirAlcance(padre);
+	});
+
+	$("body").on("click","#btn-down-alcance",function(event){
+		event.preventDefault();
+		var padre = $(this).closest(".clone-section-alcance");
+		bajarAlcance(padre);
+	});
+
+	$("body").on("click","#btn-agregar-descripcion",function(event){
+		event.preventDefault();
+		var padre = $(this).closest(".clone-section-alcance");
+		agregarDescripcion(padre);
+	});
+
+	$("body").on("click","#btn-minus-descripcion",function(event){
+		event.preventDefault();
+		var padre = $(this).closest(".clone-section-descripcion");
+		minusDescripcion(padre);
+	});
+
+	$("body").on("click","#btn-delete-descripcion",function(event){
+		event.preventDefault();
+		var padre = $(this).closest(".clone-section-descripcion");
+		deleteDescripcion(padre);
+	});
+
+	
+
+	$("#id-forma-de-pago").change(function(){
+		var value = $(this).val();
+		var tipoCotizacion = $("#tipo_cotizacion_id").val();
+		if(value == 2){
+			//Pagos fijos
+			if(tipoCotizacion==1||tipoCotizacion==3){
+				$(".minus-section-carga").each(function(){
+
+					var clon= $("#clone-sections").find(".bloque-pagos-fijos").clone(true);
+					if($(this).find("#bloque-pagos-fijos").length==0){
+						$(this).append(clon);
+					}
+					//revisarCampos();
+				});
+			}
+			$(".bloque-pagos-recurrentes").hide();
+			$(".bloque-pagos-fijos").show();
+		}else if(value == 1){
+			//Pagos recurrentes
+			if(tipoCotizacion==2||tipoCotizacion==3){
+				$(".minus-section-carga").each(function(){
+
+					var clon= $("#clone-sections").find(".bloque-pagos-recurrentes").clone(true);
+					if($(this).find("#bloque-pagos-recurrentes").length==0){
+						$(this).append(clon);
+					}
 					//revisarCampos();
 				});
 			}
@@ -752,4 +806,5 @@ $(function(){
 		$(this).datepicker('setDate',new Date(anio,mes-1,dia));
 	});
 	//$(".fecha-parcialidad").datepicker('setDate', new Date(2017,0,10));
+
 });

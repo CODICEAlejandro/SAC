@@ -84,7 +84,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label for="introduccion-cotizacion">Introducción (*)</label>
 					<textarea class="form-control" id="introduccion-cotizacion" rows="5"><?php echo $cotizacion->introduccion; ?></textarea>
 				</div>
-
+				<div class="form-group">
+					<label for="requerimientos-cotizacion">Requerimientos (*)</label>
+					<textarea class="form-control" id="requerimientos-cotizacion" rows="5"><?php echo $cotizacion->requerimientos; ?></textarea>
+				</div>
 				<div class="form-group">
 					<label for="nota-cotizacion">Notas</label>
 					<textarea class="form-control" id="nota-cotizacion" rows="5"><?php echo $cotizacion->nota; ?></textarea>
@@ -105,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							$a = $alcances[$i];
 							//print_r($a);
 					?>
-					<div id="clone-section-alcance" class="clone-section-alcance">
+					<div  class="clone-section-alcance">
 						<div class="row">
 							<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 								<div class="form-group">
@@ -228,12 +231,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									
 									
 								</div>
+								<!--
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 									<div class="form-group">
 										<label>Requerimientos (*)</label>
 										<textarea class="form-control" rows="5" id="requerimientos-alcance"><?php echo $a->requerimientos; ?></textarea>
 									</div>
 								</div>
+								-->
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 									<div class="form-group">
 										<label>Entregables (*)</label>
@@ -315,7 +320,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												?>
 													<!--Se cargan parcialidades del alcance si es que tiene-->
 													<!-- Clone section parcialidad -->
-													<div id="clone-section-parcialidad" class="clone-section-parcialidad">
+													<div  class="clone-section-parcialidad">
 														<div class="row">
 															<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top: 25px;">
 																<div class="form-group">
@@ -446,12 +451,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<!-- Sección de descriciones del alcance -->
 				<div id="append-section-descripcion"></div>	
 			</div>
+			<!--
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group">
 					<label>Requerimientos (*)</label>
 					<textarea class="form-control" rows="5" id="requerimientos-alcance"></textarea>
 				</div>
 			</div>
+			-->
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group">
 					<label>Entregables (*)</label>

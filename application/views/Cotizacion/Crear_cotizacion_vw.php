@@ -67,7 +67,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label for="introduccion-cotizacion">Introducción (*)</label>
 					<textarea class="form-control" id="introduccion-cotizacion" rows="5"></textarea>
 				</div>
-
+				<div class="form-group">
+					<label for="requerimientos-cotizacion-cotizacion">Requerimientos (*)</label>
+					<textarea class="form-control" id="requerimientos-cotizacion" rows="5"></textarea>
+				</div>
 				<div class="form-group">
 					<label for="nota-cotizacion">Notas</label>
 					<textarea class="form-control" id="nota-cotizacion" rows="5"></textarea>
@@ -152,12 +155,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<!-- Sección de descriciones del alcance -->
 				<div id="append-section-descripcion"></div>	
 			</div>
+			<!--
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group">
 					<label>Requerimientos (*)</label>
 					<textarea class="form-control" rows="5" id="requerimientos-alcance"></textarea>
 				</div>
 			</div>
+			-->
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group">
 					<label>Entregables (*)</label>

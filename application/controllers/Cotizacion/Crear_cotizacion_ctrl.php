@@ -71,6 +71,7 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 		$tipoCotizacion = $cotizacion["formaDePago"];
 		$nombreArchivo = $cotizacion["nombreArchivo"];
 		$introduccion = $cotizacion["introduccion"];
+		$requerimientos = $cotizacion["requerimientos"];
 		$objetivo = $cotizacion["objetivo"];
 		$nota = $cotizacion["notas"];
 
@@ -118,8 +119,8 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 
 		//Una vez que tenemos listos los parámetros calculados: importe total, fecha inicio y fecha fin, podemos
 		//construir el query dinámico que inserta en cotización_account
-		$query_cotizacion = "insert into cotizacion_account (id, folio, id_contacto, id_cliente, id_usuario, titulo, importe_total, fecha_inicio_servicio, fecha_fin_servicio, status_cotizacion_id, tipo_cotizacion_id, nombre_archivo, introduccion, objetivo, nota) 
-			values (".$idCotizacion.",'".$folio."',".$contacto.",".$cliente.",".$usuario.",'".$tituloCotizacion."',".$importeTotal.",'".$fechaInicioServicioCotizacion."','".$fechaFinServicioCotizacion."',".$statusCotizacion.",".$tipoCotizacion.",".$nombreArchivo.",'".$introduccion."','".$objetivo."','".$nota."')";
+		$query_cotizacion = "insert into cotizacion_account (id, folio, id_contacto, id_cliente, id_usuario, titulo, importe_total, fecha_inicio_servicio, fecha_fin_servicio, status_cotizacion_id, tipo_cotizacion_id, nombre_archivo, introduccion, requerimientos, objetivo, nota) 
+			values (".$idCotizacion.",'".$folio."',".$contacto.",".$cliente.",".$usuario.",'".$tituloCotizacion."',".$importeTotal.",'".$fechaInicioServicioCotizacion."','".$fechaFinServicioCotizacion."',".$statusCotizacion.",".$tipoCotizacion.",".$nombreArchivo.",'".$introduccion."','".$requerimientos."','".$objetivo."','".$nota."')";
 
 		$this->db->query($query_cotizacion);
 
@@ -134,7 +135,7 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 				$clasificacionServicio = $a["clasificacion"];
 				$titulo = $a["titulo"];
 				$entregables = $a["entregables"];
-				$requerimientos = $a["requerimientos"];
+				//$requerimientos = $a["requerimientos"];
 				$fechaInicioAlcance = $a["fechaInicioServicio"];
 
 				if ($tipoCotizacion==1) { //Pagos recurrentes
@@ -173,8 +174,8 @@ class Crear_cotizacion_ctrl extends CI_Controller {
 					
 				}
 				
-				$query_alcance = "insert into alcance_cotizacion(orden,id_clasificacion_servicio, id_cotizacion_account, titulo, entregables, requerimientos, fecha_inicio_servicio, fecha_fin_servicio, monto_total)
-					values(".$orden.",".$servicio.",".$idCotizacion.",'".$titulo."','".$entregables."','".$requerimientos."','".$fechaInicioAlcance."','".$fechaFinAlcance."',".$montoTotal.")";
+				$query_alcance = "insert into alcance_cotizacion(orden,id_clasificacion_servicio, id_cotizacion_account, titulo, entregables, fecha_inicio_servicio, fecha_fin_servicio, monto_total)
+					values(".$orden.",".$clasificacionServicio.",".$idCotizacion.",'".$titulo."','".$entregables."','".$fechaInicioAlcance."','".$fechaFinAlcance."',".$montoTotal.")";
 
 
 
