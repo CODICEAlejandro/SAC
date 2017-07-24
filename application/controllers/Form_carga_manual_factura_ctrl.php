@@ -16,7 +16,7 @@ class Form_carga_manual_factura_ctrl extends CI_Controller {
 		$data['menu'] = $this->load->view("Menu_principal", null, true);
 		$data['clientes'] = $this->db->query('select id, nombre from catcliente where tipo = 0')->result();
 		$data['estadosFactura'] = $this->db->query("select * from catestadofactura where id = 24")->result();
-		$data["monedas"] = $this->db->query("select distinct moneda from  WHERE moneda NOT IN ('','SININFOENXML')")->result();
+		$data["monedas"] = $this->db->query("select distinct moneda from factura WHERE moneda NOT IN ('','SININFOENXML')")->result();
 
 		$this->load->view("Form_carga_manual_factura_vw", $data);
 		
