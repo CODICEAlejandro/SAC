@@ -364,6 +364,12 @@ $(function(){
 		});
 	});
 
+	$("#btn-carga-manual").click(function(event){
+		event.preventDefault();
+
+		window.location.replace(baseURL+"index.php/Form_carga_manual_factura_ctrl");
+	});
+
 	$("#ivaFactura").attr("readonly", true);
 	$("#importeFactura").attr("readonly", true);
 
