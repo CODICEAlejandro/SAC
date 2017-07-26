@@ -17,8 +17,43 @@ class Form_carga_manual_factura_ctrl extends CI_Controller {
 		$data['clientes'] = $this->db->query('select id, nombre from catcliente where tipo = 0')->result();
 		$data['estadosFactura'] = $this->db->query("select * from catestadofactura where id = 24")->result();
 		$data["monedas"] = $this->db->query("select distinct moneda from factura WHERE moneda NOT IN ('','SININFOENXML')")->result();
+		$folioEncontrado = $this->db->query("SELECT SUBSTR(f.folio,3,4) folio FROM factura f
+			JOIN concepto_factura_rel fr ON f.id = fr.idFactura
+			JOIN concepto c ON fr.idConcepto = c.id
+			JOIN concepto_factura_cotizacion fc ON c.id = fc.idConceptoFactura
+			JOIN fecha_factura ff ON fc.idFechaFactura = ff.id
+			JOIN concepto_cotizacion cc ON ff.idConceptoCotizacion = cc.id
+			JOIN cotizacion cot ON cc.idCotizacion = cot.id
+			JOIN catcliente cli ON cot.idCliente = cli.id
+			WHERE f.folio LIKE 'EF%'
+			AND cli.tipo = 0
+			ORDER BY f.folio DESC LIMIT 1")->row();
+
+		if(!empty($folioEncontrado)){
+			$data["folio"] = $this->generaFolio($folioEncontrado->folio);
+		}else{
+			$data["folio"] = "EF0001";
+		}
+
+		
 
 		$this->load->view("Form_carga_manual_factura_vw", $data);
+		
+	}
+
+	public function generaFolio($folio){
+
+		$folio = (int) $folio;
+		$folio++;
+
+		if(mb_strlen($folio)<4){
+			for($i=mb_strlen($folio);$i<4;$i++){
+				$folio = "0".$folio;
+			}
+		}
+		$folio = "EF".$folio;
+
+		return $folio;
 		
 	}
 
@@ -87,7 +122,8 @@ class Form_carga_manual_factura_ctrl extends CI_Controller {
 		$id_factura = $this->db->insert_id();
 		//Guardar data de los conceptos
 		for($k_concepto=0, $n_conceptos=count($conceptos); $k_concepto < $n_conceptos; $k_concepto++){
-			$concepto = htmlentities($conceptos[$k_concepto], ENT_QUOTES, 'UTF-8');
+			//$concepto = htmlentities($conceptos[$k_concepto], ENT_QUOTES, 'UTF-8');
+			$concepto = $conceptos[$k_concepto];
 			$monto = htmlentities($concepto->monto, ENT_QUOTES, 'UTF-8');
 			$descripcion = htmlentities($concepto->descripcion, ENT_QUOTES, 'UTF-8');
 			$nota = htmlentities($concepto->notas, ENT_QUOTES, 'UTF-8');
@@ -97,8 +133,8 @@ class Form_carga_manual_factura_ctrl extends CI_Controller {
 			$valorUnitario = htmlentities($concepto->valorUnitario, ENT_QUOTES, 'UTF-8');
 			$importe = htmlentities($concepto->importe, ENT_QUOTES, 'UTF-8');
 			$cantidadIVA = htmlentities($monto - $importe, ENT_QUOTES, 'UTF-8');
-			$impuestos = htmlentities($concepto->impuestos, ENT_QUOTES, 'UTF-8');
-			$matches = htmlentities($concepto->matches, ENT_QUOTES, 'UTF-8');
+			$impuestos = $concepto->impuestos;
+			$matches = $concepto->matches;
 
 			$query_concepto = "INSERT INTO `concepto` 
 									(`monto`, `estadoActivo`, `descripcion`, 
@@ -117,7 +153,7 @@ class Form_carga_manual_factura_ctrl extends CI_Controller {
 
 			//Guardar data de los impuestos asociados al concepto actual
 			for($k_impuesto = 0, $n_impuestos = count($impuestos); $k_impuesto<$n_impuestos; $k_impuesto++){
-				$impuesto = htmlentities($impuestos[$k_impuesto], ENT_QUOTES, 'UTF-8');
+				$impuesto = $impuestos[$k_impuesto];
 				$contexto = htmlentities($impuesto->contexto, ENT_QUOTES, 'UTF-8');
 				$operacion = htmlentities($impuesto->operacion, ENT_QUOTES, 'UTF-8');
 				$codigo = htmlentities($impuesto->codigo, ENT_QUOTES, 'UTF-8');
@@ -161,6 +197,11 @@ class Form_carga_manual_factura_ctrl extends CI_Controller {
 															".$total.", ".$subtotal.", ".$cantidadIVA.");
 													";
 				$this->db->query($query_relacional_factura_cotizacion);
+
+				//Cambiar el estado de la fecha de factura a no pagado
+				$query_estado_fecha_factura = "UPDATE fecha_factura SET idEstadoFactura = 24 WHERE id =".$idMatch;
+
+				$this->db->query($query_estado_fecha_factura);
 			}
 
 			$this->db->query($query_concepto_factura_rel);

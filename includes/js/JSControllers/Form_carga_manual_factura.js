@@ -242,8 +242,10 @@ $(function(){
 		var impuestos;
 		var matches;
 
-		var contexto, operacion, codigo, base, tasa, monto;
+		var contexto, operacion, codigo, base, tasa, montoImpuesto;
 		var idMatch;
+
+		/////////////////////**** SE COMENTARON ALGUNAS LÍNEAS DEBIDO A QUE PARA PAGOS EN EFECTIVO HAY MUCHOS CAMPOS QUE NO SON NECESARIOS O TIENEN UN VALOR POR DEFECTO
 
 		oRows.each(function(index){
 			current = $(this);
@@ -251,6 +253,13 @@ $(function(){
 			cantidad = current.find("#cantidadCol #cantidad").val();
 			unidadDeMedida = current.find("#unidadDeMedidaCol #unidadDeMedida").val();
 			descripcion = current.find("#descripcionCol #descripcion").val();
+			monto = current.find("#montoCol #monto").val();
+			valorUnitario = monto;
+			importe = monto;
+			precioLista = monto;
+			importeLista = monto;
+			importeTotal = monto;
+			/*
 			valorUnitario = current.find("#valorUnitarioCol #valorUnitario").val();
 			importe = current.find("#importeCol #importe").val();
 			precioLista = current.find("#precioListaCol #precioLista").val();
@@ -258,6 +267,8 @@ $(function(){
 			importeTotal = current.find("#importeTotalCol #importeTotal").val();
 			monto = current.find("#montoCol #monto").val();
 			textosDePosicion = current.find("#textosDePosicionCol #textosDePosicion").val();
+			*/
+			textosDePosicion="";
 			notas = current.find("#notasCol #notas").val();
 
 			impuestos = current.find("#impuestosCol .row-impuesto");
@@ -279,13 +290,13 @@ $(function(){
 					'matches': new Array()
 				};
 
-			impuestos.each(function(index){
-				contexto = $(this).find("#contexto").val();
-				operacion = $(this).find("#operacion").val();
-				codigo = $(this).find("#codigo").val();
-				base = $(this).find("#base").val();
-				tasa = $(this).find("#tasa").val();
-				monto = $(this).find("#monto").val();
+			if(impuestos.length ==0){
+				contexto = "SININFO";
+				operacion = "SININFO";
+				codigo = "IVA";
+				base = monto;
+				tasa = 0;
+				montoImpuesto = 0;
 
 				impuesto = {
 							'contexto':contexto,
@@ -293,15 +304,44 @@ $(function(){
 							'codigo':codigo,
 							'base':base,
 							'tasa':tasa,
-							'monto':monto
+							'monto':montoImpuesto
 						};
 
 				row.impuestos.push(impuesto);
-			});
+			}else if(impuestos.length>0){
+				impuestos.each(function(index){
+					/*
+					contexto = $(this).find("#contexto").val();
+					operacion = $(this).find("#operacion").val();
+					codigo = $(this).find("#codigo").val();
+					base = $(this).find("#base").val();
+					tasa = $(this).find("#tasa").val();
+					monto = $(this).find("#monto").val();
+					*/
+					contexto = "SININFO";
+					operacion = "SININFO";
+					codigo = "IVA";
+					base = monto;
+					tasa = 0;
+					montoImpuesto = 0;
+
+					impuesto = {
+								'contexto':contexto,
+								'operacion':operacion,
+								'codigo':codigo,
+								'base':base,
+								'tasa':tasa,
+								'monto':montoImpuesto
+							};
+
+					row.impuestos.push(impuesto);
+				});
+			}
 
 			matches.each(function(index){
 				idMatch = $(this).find("#idMatched").val();
-				importe = $(this).find("#importeFechaFactura").html();
+				//importe = $(this).find("#importeFechaFactura").html();
+				importe = monto;
 				match = {'id':idMatch, 'importe': importe};
 
 				row.matches.push(match);
@@ -318,6 +358,7 @@ $(function(){
 		var totalFactura = $("#total").val();
 		var totalEnLetra= $("#totalEnLetra").val();
 		var formaDePago = $("#formaDePago").val();
+		/*
 		var totalTrasladosFederales = $("#totalTrasladosFederales").val();
 		var totalIVATrasladado = $("#totalIVATrasladado").val();
 		var totalIEPSTrasladado = $("#totalIEPS").val();
@@ -327,11 +368,23 @@ $(function(){
 		var totalTrasladosLocales = $("#totalTrasladosLocales").val();
 		var totalRetencionesLocales = $("#totalRetencionesLocales").val();
 		var subtotalBruto = $("#subtotalBruto").val();
+		*/
+		var totalTrasladosFederales = 0;
+		var totalIVATrasladado = 0;
+		var totalIEPSTrasladado = 0;
+		var totalRetencionesFederales = 0;
+		var totalISRRetenido = 0;
+		var totalIVARetenido = 0;
+		var totalTrasladosLocales = 0;
+		var totalRetencionesLocales = 0;
+		var subtotalBruto = totalFactura;
 		var folioFactura = $("#folioFactura").val();
 		var estadoFactura = $("#estadoFactura").val();
 		var fechaDePago = $("#fechaPagoAlt").val();
-		var fechaDeCancelacion = $("#fechaCancelacionAlt").val();
-		var ordenDeCompra = $("#ordenCompra").val();
+		//var fechaDeCancelacion = $("#fechaCancelacionAlt").val();
+		var fechaDeCancelacion = "0000-00-00";//Se agregó esta linea por que no existe campo de fecha de cancelación
+		//var ordenDeCompra = $("#ordenCompra").val();
+		var ordenDeCompra = "NA";
 		var ivaFactura = $("#ivaFactura").val();
 		var importeFactura = $("#importeFactura").val();
 		var notasFactura = $("#notasFactura").val();

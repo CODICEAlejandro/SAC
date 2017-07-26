@@ -122,13 +122,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<th>Cantidad</th>
 					<th>Unidad de medida</th>
 					<th>Descripción</th>
+					<!--
 					<th>Valor unitario</th>
 					<th>Importe</th>
 					<th>Precio de lista</th>
 					<th>Importe de lista</th>
 					<th>Importe total</th>
+					-->
 					<th>Monto</th>
+					<!--
 					<th>Textos de posicion</th>
+					-->
 					<th>Impuestos</th>
 					<th>Notas</th>
 				</thead>
@@ -144,7 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</button>
 						</td>
 						<td id="cantidadCol">
-							<input type="text" id="cantidad" class="form-control">
+							<input type="text" id="cantidad" class="form-control" value=1>
 						</td>
 						<td id="unidadDeMedidaCol">
 							<input type="text" id="unidadDeMedida" class="form-control">
@@ -152,6 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td id="descripcionCol">
 							<textarea type="text" id="descripcion" class="form-control" rows="10" style="width: 200px;"></textarea>
 						</td>
+						<!--
 						<td id="valorUnitarioCol">
 							<input type="text" id="valorUnitario" class="form-control">
 						</td>
@@ -167,12 +172,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td id="importeTotalCol">
 							<input type="text" id="importeTotal" class="form-control">
 						</td>
+						-->
 						<td id="montoCol">
 							<input type="text" id="monto" class="form-control">
 						</td>
+						<!--
 						<td id="textosDePosicionCol">
 							<textarea class="form-control notasTextarea" id="textosDePosicion" class="form-control" rows="10" style="width: 200px;"></textarea>
 						</td>
+						-->
 						<td id="impuestosCol">
 							<span id="append-section-impuestoCol" class="append-section-impuestoCol">
 							</span>
@@ -234,6 +242,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label>Forma de pago: </label>
 					<input type="text" class="form-control" id="formaDePago">
 				</div>
+				<!--
 				<div class="form-group">
 					<label>Total de traslados federales: </label>
 					<input type="text" class="form-control" id="totalTrasladosFederales" value="0">
@@ -270,6 +279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label>Subtotal bruto: </label>
 					<input type="text" class="form-control" id="subtotalBruto" value="0">
 				</div>
+				-->
 			</form>
 		</div>
 	</div>
@@ -277,7 +287,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="row row-with-custom-border">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label for="folioFactura">Folio</label>
-			<input type="text" id="folioFactura" class="form-control" style="margin-bottom: 15px;">
+			<input type="text" id="folioFactura" class="form-control" style="margin-bottom: 15px;" value="<?php echo $folio; ?>" disabled>
 		</div>
 	</div>
 	<div class="row row-with-custom-border">
@@ -304,16 +314,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		-->
 	</div>
+	<!--
 	<div class="row row-with-custom-border">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label for="ordenCompra">Orden de compra</label>
 			<input type="text" id="ordenCompra" class="form-control" style="margin-bottom: 15px;">
 		</div>
 	</div>
+	-->
 	<div class="row row-with-custom-border">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label for="ivaFactura">IVA (%)</label>
-			<input type="text" id="ivaFactura" class="form-control" style="margin-bottom: 15px;" placeholder="0-100">
+			<input type="text" id="ivaFactura" class="form-control" style="margin-bottom: 15px;" placeholder="0-100" value=0>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label for="importeFactura">Importe</label>
