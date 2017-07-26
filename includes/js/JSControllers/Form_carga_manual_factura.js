@@ -436,6 +436,24 @@ $(function(){
 		pintarFechasDisponibles();
 	});
 
+	$(".montoConcepto").change(function(){
+		var subtotal = $("#subtotal");
+		var total = $("#total");
+		var importeFactura = $("#importeFactura");
+
+		var monto=0;
+
+		$(".montoConcepto").each(function(){
+			if($(this).closest(".clone-section-concepto-factura").attr("style")!="display: none;"){
+				monto += parseInt($(this).val());
+			}
+		});
+
+		subtotal.val(monto);
+		total.val(monto);
+		importeFactura.val(monto);
+	});
+
 	initDatepicker("#fechaDeExpedicion", "#fechaDeExpedicion-alt", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fechaPago", "#fechaPagoAlt", "dd/mm/yy", "yy-mm-dd");
 	initDatepicker("#fechaCancelacion", "#fechaCancelacionAlt", "dd/mm/yy", "yy-mm-dd");

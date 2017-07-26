@@ -174,7 +174,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</td>
 						-->
 						<td id="montoCol">
-							<input type="text" id="monto" class="form-control">
+							<input type="text" id="monto" class="form-control montoConcepto">
 						</td>
 						<!--
 						<td id="textosDePosicionCol">
@@ -325,11 +325,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="row row-with-custom-border">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label for="ivaFactura">IVA (%)</label>
-			<input type="text" id="ivaFactura" class="form-control" style="margin-bottom: 15px;" placeholder="0-100" value=0>
+			<input type="text" id="ivaFactura" class="form-control" style="margin-bottom: 15px;" placeholder="0-100" value=0 readonly>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<label for="importeFactura">Importe</label>
-			<input type="text" id="importeFactura" class="form-control" style="margin-bottom: 15px;">
+			<input type="text" id="importeFactura" class="form-control" style="margin-bottom: 15px;" value="0">
 		</div>
 	</div>
 
