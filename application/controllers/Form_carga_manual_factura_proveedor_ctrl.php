@@ -161,6 +161,11 @@ class Form_carga_manual_factura_proveedor_ctrl extends CI_Controller {
 															".$total.", ".$subtotal.", ".$cantidadIVA.");
 													";
 				$this->db->query($query_relacional_factura_cotizacion);
+
+				//Cambiar el estado de la fecha de factura a no pagado
+				$query_estado_fecha_factura = "UPDATE fecha_factura SET idEstadoFactura = 24 WHERE id =".$idMatch;
+
+				$this->db->query($query_estado_fecha_factura);
 			}
 
 			$this->db->query($query_concepto_factura_rel);
