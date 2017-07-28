@@ -134,12 +134,14 @@ class Alta_conceptos_cotizacion_ctrl extends CI_Controller {
 			$idCotizacion = $id_cotizacion;
 			$nota = $c->nota;
 			$iva = $c->iva;
+			$ivaRetenido = $c->ivaRetenido;
+			$isrRetenido = $c->isrRetenido;
 
 			$query_insertar_concepto = "insert into concepto_cotizacion(monto,descripcion,idTipoConcepto,
 																		idClasificacion_servicio,referencia,idCotizacion,
-																		nota,total,iva)
+																		nota,total,iva,ivaRetenido,isrRetenido)
 										values (".$monto.",'".$descripcion."',".$idTipoConcepto.",".$idClasificacionConcepto.",'".$referencia."',
-												".$idCotizacion.",'".$nota."',".$total.",".$iva.")";
+												".$idCotizacion.",'".$nota."',".$total.",".$iva.",".$ivaRetenido.",".$isrRetenido.")";
 
 			$this->db->query($query_insertar_concepto);
 			$id_concepto_cotizacion = $this->db->insert_id();

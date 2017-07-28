@@ -158,6 +158,8 @@ $(function(){
 				var importeImp = padre.find("#importe-concepto");
 				var totalImp = padre.find("#total-concepto");
 				var iva = (parseFloat(padre.find("#iva").val()) / 100) + 1;
+				var ivaRetenido = (parseFloat(padre.find("#iva-retenido").val().split("%")[0])/100);
+				var isrRetenido = (parseFloat(padre.find("#isr-retenido").val().split("%")[0])/100);
 				var valor = 0;
 
 				importes.each(function(i){
@@ -168,7 +170,7 @@ $(function(){
 					importeSuma += valor;
 				});
 
-				totalSuma = importeSuma * iva;
+				totalSuma = (importeSuma * iva)-(importeSuma*(ivaRetenido+isrRetenido));
 				importeImp.val(importeSuma.toFixed(2));
 				totalImp.val(totalSuma.toFixed(2));
 			});
@@ -191,10 +193,24 @@ $(function(){
 			var totalImp = cloneSection.find("#total-concepto");
 			var iva = (parseFloat(cloneSection.find("#iva").val()) / 100) + 1;
 
+			if(cloneSection.find("#iva").val()=="0"){
+				cloneSection.find("#iva-retenido").val("0%");
+				cloneSection.find("#isr-retenido").val("0%");
+
+			}else{
+				cloneSection.find("#iva-retenido").val("10.667%");
+				cloneSection.find("#isr-retenido").val("10%");
+
+			}
+
+			var ivaRetenido = (parseFloat(cloneSection.find("#iva-retenido").val().split("%")[0])/100);
+			var isrRetenido = (parseFloat(cloneSection.find("#isr-retenido").val().split("%")[0])/100);
+
 			if(importe == "") importe = 0;
 			else importe = parseFloat(importe);
 
-			totalImp.val((importe*iva).toFixed(2));
+			totalImp.val(((importe*iva)-(importe*(ivaRetenido+isrRetenido))).toFixed(2));
+
 		});
 
 		cloneSection.find("#btn-destroy-concepto").click(function(){
@@ -253,7 +269,9 @@ $(function(){
 				fechasFactura : new Array(),
 				servicio: current.find("#servicio-concepto").val(),
 				clasificacion: current.find("#clasificacion-concepto").val(),
-				iva: current.find("#iva").val()
+				iva: current.find("#iva").val(),
+				ivaRetenido: current.find("#iva-retenido").val().split("%")[0],
+				isrRetenido: current.find("#isr-retenido").val().split("%")[0]
 			};
 
 			sc_fecha_factura = current.find("#append-section-fecha-factura .clone-section-fecha-factura");
@@ -274,7 +292,7 @@ $(function(){
 		});
 
 		$.ajax({
-			url: baseURL+"index.php/Alta_conceptos_cotizacion_ctrl/guardarCotizacion",
+			url: baseURL+"index.php/Proveedor/Alta_conceptos_cotizacion_ctrl/guardarCotizacion",
 			method: 'post',
 			dataType: 'text',
 			data: {"conceptos":JSON.stringify(conceptos),"idCliente":idCliente,"folioCotizacion":folioCotizacion,"notaCotizacion":notaCotizacion,"fechaJuntaArranque":fechaJuntaArranque,"fechaVenta":fechaVenta,"fechaInicioProyecto":fechaInicioProyecto,"fechaFinProyecto":fechaFinProyecto,"idCerrador":idCerrador,"accountManager":accountManager,"tituloCotizacion":tituloCotizacion},

@@ -178,18 +178,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<label>Nota</label>
 				<input type="text" name="nota-concepto[]" id="nota-concepto" class="form-control">
 			</div>						
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+			<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
 				<label>IVA</label>
 				<select id="iva" class="form-control iva">
 					<option value="16">16%</option>
 					<option value="0">0%</option>
 				</select>
+			</div>
+			<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+				<label>Retención de IVA</label>
+				<input type="text" class="form-control" id="iva-retenido" readonly value="10.667%">
+			</div>
+			<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+				<label>Retención de ISR</label>
+				<input type="text" readonly id="isr-retenido" class="form-control" value="10%">
 			</div>					
-			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>Importe</label>
 				<input type="text" name="importe-concepto[]" id="importe-concepto" class="form-control" value="0" readonly="true">
 			</div>						
-			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<label>Total</label>
 				<input type="text" name="total-concepto[]" id="total-concepto" class="form-control" value="0" readonly="true">
 			</div>
