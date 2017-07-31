@@ -336,7 +336,7 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 							$totalImpuestosTrasladados += $t["importe"]->__toString();
 					}
 
-					if($totalImpuestosTrasladados!=0)
+					if(isset($totalImpuestosTrasladados)&&$totalImpuestosTrasladados!=0)
 						$objFactura->totalTrasladosFederales = $totalImpuestosTrasladados;
 				}
 				//$objFactura->totalIVATrasladado = $resImpuestos->xpath("cfdi:Traslados")[0]->__toString();
@@ -360,7 +360,7 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 							$totalImpuestosRetenidos += $r["importe"]->__toString();
 					}
 
-					if($totalImpuestosRetenidos!=0)
+					if(isset($totalImpuestosRetenidos)&&$totalImpuestosRetenidos!=0)
 						$objFactura->totalRetencionesFederales = $totalImpuestosRetenidos;
 				}
 				//$objFactura->totalISRRetenido = $resImpuestos->xpath("fx:TotalISRRetenido")[0]->__toString();
