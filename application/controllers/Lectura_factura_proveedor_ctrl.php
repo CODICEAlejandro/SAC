@@ -319,8 +319,10 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 				//print_r($resImpuestos["totalImpuestosTrasladados"]->__toString());
 				if(isset($resImpuestos["totalImpuestosTrasladados"]))
 					$objFactura->totalTrasladosFederales = $resImpuestos["totalImpuestosTrasladados"]->__toString();
+				else
+					$totalImpuestosTrasladados = 0;
 				$traslados = $resImpuestos->xpath("cfdi:Traslados");
-				if(isset($traslados)){
+				if(isset($traslados[0])){
 					for ($i=0,$n=count($traslados[0]->xpath("cfdi:Traslado"));$i<$n;$i++) {
 						$t = $traslados[0]->xpath("cfdi:Traslado")[$i]->attributes();
 						
@@ -329,14 +331,22 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 						}elseif($t["impuesto"]=="IEPS"){
 							$objFactura->totalIEPSTrasladado = $t["importe"]->__toString();
 						}
+
+						if(!isset($resImpuestos["totalImpuestosTrasladados"]))
+							$totalImpuestosTrasladados += $t["importe"]->__toString();
 					}
+
+					if($totalImpuestosTrasladados!=0)
+						$objFactura->totalTrasladosFederales = $totalImpuestosTrasladados;
 				}
 				//$objFactura->totalIVATrasladado = $resImpuestos->xpath("cfdi:Traslados")[0]->__toString();
 				//$objFactura->totalIEPSTrasladado = $resImpuestos->xpath("fx:TotalIEPSTrasladado")[0]->__toString();
 				if(isset($resImpuestos["totalImpuestosRetenidos"]))
 					$objFactura->totalRetencionesFederales = $resImpuestos["totalImpuestosRetenidos"]->__toString();
+				else
+					$totalImpuestosRetenidos = 0;
 				$retenciones = $resImpuestos->xpath("cfdi:Retenciones");
-				if(isset($retenciones)){
+				if(isset($retenciones[0])){
 					for ($i=0,$n=count($retenciones[0]->xpath("cfdi:Retencion"));$i<$n;$i++) {
 						$r = $retenciones[0]->xpath("cfdi:Retencion")[$i]->attributes();
 						
@@ -345,7 +355,13 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 						}elseif($r["impuesto"]=="ISR"){
 							$objFactura->totalISRRetenido = $r["importe"]->__toString();
 						}
+
+						if(!isset($resImpuestos["totalImpuestosRetenidos"]))
+							$totalImpuestosRetenidos += $r["importe"]->__toString();
 					}
+
+					if($totalImpuestosRetenidos!=0)
+						$objFactura->totalRetencionesFederales = $totalImpuestosRetenidos;
 				}
 				//$objFactura->totalISRRetenido = $resImpuestos->xpath("fx:TotalISRRetenido")[0]->__toString();
 				//$objFactura->totalIVARetenido = $resImpuestos->xpath("fx:TotalIVARetenido")[0]->__toString();
