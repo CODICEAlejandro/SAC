@@ -317,28 +317,34 @@ class Lectura_factura_proveedor_ctrl extends CI_Controller {
 				//Resumen de impuestos
 				$resImpuestos = $xml->xpath("//cfdi:Impuestos")[0];
 				//print_r($resImpuestos["totalImpuestosTrasladados"]->__toString());
-				$objFactura->totalTrasladosFederales = $resImpuestos["totalImpuestosTrasladados"]->__toString();
+				if(isset($resImpuestos["totalImpuestosTrasladados"]))
+					$objFactura->totalTrasladosFederales = $resImpuestos["totalImpuestosTrasladados"]->__toString();
 				$traslados = $resImpuestos->xpath("cfdi:Traslados");
-				for ($i=0,$n=count($traslados[0]->xpath("cfdi:Traslado"));$i<$n;$i++) {
-					$t = $traslados[0]->xpath("cfdi:Traslado")[$i]->attributes();
-					
-					if($t["impuesto"]=="IVA"){
-						$objFactura->totalIVATrasladado = $t["importe"]->__toString();
-					}elseif($t["impuesto"]=="IEPS"){
-						$objFactura->totalIEPSTrasladado = $t["importe"]->__toString();
+				if(isset($traslados)){
+					for ($i=0,$n=count($traslados[0]->xpath("cfdi:Traslado"));$i<$n;$i++) {
+						$t = $traslados[0]->xpath("cfdi:Traslado")[$i]->attributes();
+						
+						if($t["impuesto"]=="IVA"){
+							$objFactura->totalIVATrasladado = $t["importe"]->__toString();
+						}elseif($t["impuesto"]=="IEPS"){
+							$objFactura->totalIEPSTrasladado = $t["importe"]->__toString();
+						}
 					}
 				}
 				//$objFactura->totalIVATrasladado = $resImpuestos->xpath("cfdi:Traslados")[0]->__toString();
 				//$objFactura->totalIEPSTrasladado = $resImpuestos->xpath("fx:TotalIEPSTrasladado")[0]->__toString();
-				$objFactura->totalRetencionesFederales = $resImpuestos["totalImpuestosRetenidos"]->__toString();
+				if(isset($resImpuestos["totalImpuestosRetenidos"]))
+					$objFactura->totalRetencionesFederales = $resImpuestos["totalImpuestosRetenidos"]->__toString();
 				$retenciones = $resImpuestos->xpath("cfdi:Retenciones");
-				for ($i=0,$n=count($retenciones[0]->xpath("cfdi:Retencion"));$i<$n;$i++) {
-					$r = $retenciones[0]->xpath("cfdi:Retencion")[$i]->attributes();
-					
-					if($r["impuesto"]=="IVA"){
-						$objFactura->totalIVARetenido = $r["importe"]->__toString();
-					}elseif($r["impuesto"]=="ISR"){
-						$objFactura->totalISRRetenido = $r["importe"]->__toString();
+				if(isset($retenciones)){
+					for ($i=0,$n=count($retenciones[0]->xpath("cfdi:Retencion"));$i<$n;$i++) {
+						$r = $retenciones[0]->xpath("cfdi:Retencion")[$i]->attributes();
+						
+						if($r["impuesto"]=="IVA"){
+							$objFactura->totalIVARetenido = $r["importe"]->__toString();
+						}elseif($r["impuesto"]=="ISR"){
+							$objFactura->totalISRRetenido = $r["importe"]->__toString();
+						}
 					}
 				}
 				//$objFactura->totalISRRetenido = $resImpuestos->xpath("fx:TotalISRRetenido")[0]->__toString();
