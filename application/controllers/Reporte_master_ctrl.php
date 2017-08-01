@@ -160,52 +160,55 @@ class Reporte_master_ctrl extends CI_Controller {
 			$conceptosFactura = $this->db->query($query2)->result();
 
 			if(count($conceptosFactura)>0){
-				//Vaciar resultados homogéneos de facturación en concepto de cotización correspondiente
-				$conceptoHomogeneo = $conceptosFactura[0];
-				//$concepto->estadoFactura = $conceptoHomogeneo->estadoFactura;
-				//$concepto->tipoConcepto = $conceptoHomogeneo->tipoConcepto;
-				$concepto->folio = $conceptoHomogeneo->folio;
-				//$concepto->fechaPago = $conceptoHomogeneo->fechaPago;
-				$concepto->moneda = $conceptoHomogeneo->moneda;
-				$concepto->fechaFactura = $conceptoHomogeneo->fechaFactura;
-				$concepto->ordenCompra = $conceptoHomogeneo->ordenCompra;
-				$concepto->fechaCancelacion = $conceptoHomogeneo->fechaCancelacion;
-				$concepto->tasa = $conceptoHomogeneo->tasa;
-				$concepto->idConceptoFactura = "";
-				$concepto->cantidadIVA = $conceptoHomogeneo->cantidadIVA;
-				$concepto->subtotal = $conceptoHomogeneo->subtotal;
-				$concepto->total = $conceptoHomogeneo->total;
+				for($i=0,$n=count($conceptosFactura); $i<$n; $i++){
+					//Vaciar resultados homogéneos de facturación en concepto de cotización correspondiente
+					//$conceptoHomogeneo = $conceptosFactura[0];
+					$conceptoHomogeneo = $conceptosFactura[$i];
+					//$concepto->estadoFactura = $conceptoHomogeneo->estadoFactura;
+					//$concepto->tipoConcepto = $conceptoHomogeneo->tipoConcepto;
+					$concepto->folio = $conceptoHomogeneo->folio;
+					//$concepto->fechaPago = $conceptoHomogeneo->fechaPago;
+					$concepto->moneda = $conceptoHomogeneo->moneda;
+					$concepto->fechaFactura = $conceptoHomogeneo->fechaFactura;
+					$concepto->ordenCompra = $conceptoHomogeneo->ordenCompra;
+					$concepto->fechaCancelacion = $conceptoHomogeneo->fechaCancelacion;
+					$concepto->tasa = $conceptoHomogeneo->tasa;
+					$concepto->idConceptoFactura = "";
+					$concepto->cantidadIVA = $conceptoHomogeneo->cantidadIVA;
+					$concepto->subtotal = $conceptoHomogeneo->subtotal;
+					$concepto->total = $conceptoHomogeneo->total;
 
-				if($concepto->idEstadoFactura == 22){
-					//Cancelado
-					//$concepto->estadoFactura = "CANCELADA";
-				}else if($concepto->idEstadoFactura == 24){
-					//No pagado
-					//$concepto->estadoFactura = "NO PAGADO";
-				}else{
-					//$concepto->estadoFactura = "NO DEFINIDO";
+					if($concepto->idEstadoFactura == 22){
+						//Cancelado
+						//$concepto->estadoFactura = "CANCELADA";
+					}else if($concepto->idEstadoFactura == 24){
+						//No pagado
+						//$concepto->estadoFactura = "NO PAGADO";
+					}else{
+						//$concepto->estadoFactura = "NO DEFINIDO";
+					}
+
+					if($conceptoHomogeneo->moneda == "MXN"){
+						$ivaFacturadoPesos += $concepto->cantidadIVA;
+						$subtotalFacturadoPesos += $concepto->subtotal;
+
+						$importeFacturadoPesos += $concepto->total;
+					}else if($conceptoHomogeneo->moneda == "USD"){
+						$ivaFacturadoDolares += $concepto->cantidadIVA;
+						$subtotalFacturadoDolares += $concepto->subtotal;
+
+						$importeFacturadoDolares += $concepto->total;
+					}else{
+						$ivaFacturadoPesos += $concepto->cantidadIVA;
+						$subtotalFacturadoPesos += $concepto->subtotal;
+
+						$importeFacturadoPesos += $concepto->total;
+					}
+
+					$numeroConceptosFacturados++;
+					//Se agrego aquí en vez de abajo, solo cuando entra en esta condición se debe mostrar
+					array_push($result_array, $concepto);
 				}
-
-				if($conceptoHomogeneo->moneda == "MXN"){
-					$ivaFacturadoPesos += $concepto->cantidadIVA;
-					$subtotalFacturadoPesos += $concepto->subtotal;
-
-					$importeFacturadoPesos += $concepto->total;
-				}else if($conceptoHomogeneo->moneda == "USD"){
-					$ivaFacturadoDolares += $concepto->cantidadIVA;
-					$subtotalFacturadoDolares += $concepto->subtotal;
-
-					$importeFacturadoDolares += $concepto->total;
-				}else{
-					$ivaFacturadoPesos += $concepto->cantidadIVA;
-					$subtotalFacturadoPesos += $concepto->subtotal;
-
-					$importeFacturadoPesos += $concepto->total;
-				}
-
-				$numeroConceptosFacturados++;
-				//Se agrego aquí en vez de abajo, solo cuando entra en esta condición se debe mostrar
-				array_push($result_array, $concepto);
 			}else{
 				$concepto->folio = 'NO DISPONIBLE';
 				$concepto->moneda = 'NO DISPONIBLE';
@@ -234,7 +237,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					$importeNoFacturadoPesos += $concepto->total;
 					$numeroConceptosSinFacturar++;
 
-				}else if($concepto->idEstadoFactura == 23){
+				}else if($concepto->idEstadoFactura == 23 || $concepto->idEstadoFactura == 24){
 					//Por facturar
 					//$concepto->estadoFactura = "POR FACTURAR";
 					// $concepto->subtotal = $concepto->montoFechaFactura;
