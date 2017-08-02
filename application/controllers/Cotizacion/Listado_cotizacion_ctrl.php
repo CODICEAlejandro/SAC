@@ -259,8 +259,8 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			$max = $this->db->query("SELECT (max(folio)+1) folio, (max(id)+1) idCotizacion FROM cotizacion_account")->row();
 
 			//Se inserta cotización
-			$this->db->query("INSERT INTO cotizacion_account (id, folio, id_contacto, id_cliente, id_usuario, titulo, importe_total, fecha_inicio_servicio, fecha_fin_servicio, status_cotizacion_id, tipo_cotizacion_id, nombre_archivo, introduccion, objetivo, nota) 
-			values (".$max->idCotizacion.",'".$max->folio."',".$cot->id_contacto.",".$cot->id_cliente.",".$cot->id_usuario.",'".$cot->titulo."',".$cot->importe_total.",'".$cot->fecha_inicio_servicio."','".$cot->fecha_fin_servicio."',".$cot->status_cotizacion_id.",".$cot->tipo_cotizacion_id.",".$cot->nombre_archivo.",'".$cot->introduccion."','".$cot->objetivo."','".$cot->nota."')");
+			$this->db->query("INSERT INTO cotizacion_account (id, folio, id_contacto, id_cliente, id_usuario, titulo, importe_total, fecha_inicio_servicio, fecha_fin_servicio, status_cotizacion_id, tipo_cotizacion_id, nombre_archivo, introduccion, requerimientos, objetivo, nota) 
+			values (".$max->idCotizacion.",'".$max->folio."',".$cot->id_contacto.",".$cot->id_cliente.",".$cot->id_usuario.",'".$cot->titulo."',".$cot->importe_total.",'".$cot->fecha_inicio_servicio."','".$cot->fecha_fin_servicio."',".$cot->status_cotizacion_id.",".$cot->tipo_cotizacion_id.",".$cot->nombre_archivo.",'".$cot->introduccion."','".$cot->requerimientos."','".$cot->objetivo."','".$cot->nota."')");
 
 			$alc_cot = $this->db->query("SELECT ac.* FROM alcance_cotizacion ac 
 										 JOIN cotizacion_account ca ON ca.id=ac.id_cotizacion_account 
@@ -270,8 +270,8 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 
 			//Se insertan alcances por cotizacion
 			for ($i=0,$n=count($alc_cot); $i < $n; $i++) { 
-				$this->db->query("INSERT INTO alcance_cotizacion (id, orden,id_clasificacion_servicio, id_cotizacion_account, titulo, entregables, requerimientos, fecha_inicio_servicio, fecha_fin_servicio, monto_total)
-					VALUES(".($max_alc_cot->idAlcance+$i).",".$alc_cot[$i]->orden.",".$alc_cot[$i]->id_clasificacion_servicio.",".$max->idCotizacion.",'".$alc_cot[$i]->titulo."','".$alc_cot[$i]->entregables."','".$alc_cot[$i]->requerimientos."','".$alc_cot[$i]->fecha_inicio_servicio."','".$alc_cot[$i]->fecha_fin_servicio."',".$alc_cot[$i]->monto_total.")");
+				$this->db->query("INSERT INTO alcance_cotizacion (id, orden,id_clasificacion_servicio, id_cotizacion_account, titulo, entregables, fecha_inicio_servicio, fecha_fin_servicio, monto_total)
+					VALUES(".($max_alc_cot->idAlcance+$i).",".$alc_cot[$i]->orden.",".$alc_cot[$i]->id_clasificacion_servicio.",".$max->idCotizacion.",'".$alc_cot[$i]->titulo."','".$alc_cot[$i]->entregables."','".$alc_cot[$i]->fecha_inicio_servicio."','".$alc_cot[$i]->fecha_fin_servicio."',".$alc_cot[$i]->monto_total.")");
 			}
 
 			//Se insertan pagos recurrentes
@@ -314,6 +314,52 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			echo "Cotización duplicada con éxito";
 		}
 	}
+
+	public function fechaFormateada($fecha){
+		$fechaSplit = explode("/", $fecha);
+
+		switch($fechaSplit[1]){
+			case "01":
+				$fechaFormateada = "Enero, ".$fechaSplit[2];
+				break;
+			case "02":
+				$fechaFormateada = "Febrero, ".$fechaSplit[2];
+				break;
+			case "03":
+				$fechaFormateada = "Marzo, ".$fechaSplit[2];
+				break;
+			case "04":
+				$fechaFormateada = "Abril, ".$fechaSplit[2];
+				break;
+			case "05":
+				$fechaFormateada = "Mayo, ".$fechaSplit[2];
+				break;
+			case "06":
+				$fechaFormateada = "Junio, ".$fechaSplit[2];
+				break;
+			case "07":
+				$fechaFormateada = "Julio, ".$fechaSplit[2];
+				break;
+			case "08":
+				$fechaFormateada = "Agosto, ".$fechaSplit[2];
+				break;
+			case "09":
+				$fechaFormateada = "Septiembre, ".$fechaSplit[2];
+				break;
+			case "10":
+				$fechaFormateada = "Octubre, ".$fechaSplit[2];
+				break;
+			case "11":
+				$fechaFormateada = "Noviembre, ".$fechaSplit[2];
+				break;
+			case "12":
+				$fechaFormateada = "Diciembre, ".$fechaSplit[2];
+				break;
+		}
+
+		return $fechaFormateada;
+	}
+
 
 	public function generaPDF(){
 		if (isset($_POST)) {
@@ -369,12 +415,16 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 				}
 			}
 
+			$cotizacion->fechaCot = $this->fechaFormateada($cotizacion->fechaCot);
+			
 
 			/////////////////////////Aquí empieza la generación del PDF
+			
 			$archivo_estilos = fopen($_SERVER['DOCUMENT_ROOT'].'includes/cotizacion/css/main.css', "r") or die("Unable to open file!");
 			$archivo_css =  fread($archivo_estilos,filesize($_SERVER['DOCUMENT_ROOT'].'includes/cotizacion/css/main.css'));
 			fclose($archivo_estilos);
-
+			
+			//$archivo_css = file_get_contents(base_url()."includes/cotizacion/css/main.css");
 			
 			$body1 = '
 			<!doctype html>
@@ -401,8 +451,8 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			        </div>
 			        <br><br><br><br><br><br><br><br><br>
 			        <div class="bloqueLeft" align="center">
-			           
-			            <img src="'.base_url().'includes/cotizacion/img/direccion.PNG" alt="">
+			           <br><br><br><br>
+			            <img src="'.base_url().'includes/cotizacion/img/direccion.PNG" alt="" width="355.8" height="73.2">
 			        </div>
 			    </div>
 			</body>
@@ -428,18 +478,24 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			        <div class="clearfix"></div>
 			        <div class="contenedor">
 			        	<div align="right">
-			            	<span class="fecha">Fecha: '.$cotizacion->fechaCot.'</span>
+			            	<span class="fecha"><br><br>'.$cotizacion->fechaCot.'</span>
 			            </div>
-			            <h2>'.$cotizacion->nombreContacto.' '.$cotizacion->apellidoContacto.'</h2>
-			            <b><span style="color: #000;">'.$cotizacion->nombreCliente.'</span></b>
+
+			            <span class="titulo">'.$cotizacion->nombreContacto.' '.$cotizacion->apellidoContacto.'</span>
+			            <br><span class="titulo2" style="color: #000;">'.$cotizacion->nombreCliente.'</span>
+			            <br><br><br>
 			            <p>'.$cotizacion->introduccion.'</p>
-
+						<br><br><br><br><br><br>
 			            <div class="atencion">
-			                <p>Atentamente,</p>
-
-			                <p class="txt">'.$cotizacion->nombreAccount.'</p>
-			                <span>'.$cotizacion->puesto.'</span><br>
-			                <span class="txt"><br>Cel. 044 '.$cotizacion->telAccount.'</span>
+			            	<br><br><br><br><br><br>
+			                <p class="contacto">Atentamente<br><br>
+							'.$cotizacion->nombreAccount.'<br>
+							'.$cotizacion->puesto.'<br>
+							T. 59853400 <br>
+							C. 044'.$cotizacion->telAccount.'<br><br>
+							Aplicaciones Códice parar Internet, SC
+			                </p>
+			         
 			            </div>
 
 			        </div>
@@ -468,9 +524,9 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			    <div class="container">
 			        
 			        <div class="contenedor"><br><br>
-			            <h2>1.OBJETIVOS</h2>
+			            <h2>OBJETIVOS</h2>
 			            <p>'.$cotizacion->objetivo.'</p>
-			            <h2>2.SERVICIOS</h2>
+			            <h2>SERVICIOS</h2>
 			            <ul>';
 
 			foreach ($alcances as $a) {
@@ -479,43 +535,77 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			}
 
 			$body3.=    '</ul><br><br>
-						<h2>3.DESCRIPCIÓN DE SERVICIOS</h2>';
+						<h2>DESCRIPCIÓN DE SERVICIOS</h2>';
 
 			foreach ($alcances as $a) {
 				
-				$body3.= '<h2>'.$a->titulo.'.</h2>';	
+				$body3.= '<h2>'.$a->titulo.'</h2>';	
 
 				for($i=0, $n=count($a->descripciones); $i<$n; $i++){
 					$d = $a->descripciones[$i];
-					$body3.='<span class="txt" style="color: #000;">'.$d->titulo.'</span>';
+					$body3.='<span class="txt" >'.$d->titulo.'</span>';
 					$body3.='<p>'.$d->descripcion.'</p>';
 
 				}
 			}
 
-			$body3.= '<br><h2>4.PROPUESTA ECONÓMICA</h2>
+			$body3.='</div>
+				    <div class="clearfix"></div>
+				</div>
+			</body>
+			</html>';
+
+			$body4= '
+			<!doctype html>
+			<html class="no-js" lang="">
+
+			<head>
+			    <meta charset="utf-8">
+			    <meta http-equiv="x-ua-compatible" content="ie=edge">
+			    <title>Codice</title>
+			    <meta name="description" content="">
+			    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+			    <!-- Place favicon.ico in the root directory -->
+			    <style>'.$archivo_css.'</style>
+			</head>
+			<body>
+
+			    <div class="container">
+			        
+			        <div class="contenedor">
+					<br><h2>PROPUESTA ECONÓMICA</h2>
 			        <table align="center" border="1" cellpadding="1" >
-			            <tr style="background-color: #7f7f7f; color:#fff;">
+			            <tr style="background-color: #666666; color:#fff;">
 			                <th align="center">Descripción</th>
 			                <th align="center">Monto</th>
 			            </tr>';
 
 			foreach ($alcances as $a) {
 				
-				$body3.='<tr style="background-color: #efefef;">
+				$body4.='<tr style="background-color: #ffffff;">
 			                <td align="center">'.$a->titulo.'</td>
 			                <td align="center">'.number_format($a->monto_total,2).'</td>
 			            </tr>';
 			}
 
-			$body3.=	'<tr style="background-color: #efefef;">
+			$body4.=	'<tr style="background-color: #ffffff;">
 				            <td align="center" style="color: #000"><b>TOTAL</b></td>
 				            <td align="center" style="color: #000"><b>'.number_format($cotizacion->importe_total,2).'</b></td>
 				        </tr>
 			        </table>
-
+					<div class="contenedor">
+						<p>Precios expresados en pesos mexicanos. <br>
+						Precios NO incluyen el IVA.</p>
+					</div>
 			    </div>
-			    
+			    <div class="contenedor">
+					<p>Las páginas de este documento tienen información confidencial, por lo que su contenido no podrá ser duplicado, copiado, publicado o transmitido a ninguna otra entidad que no sea el legítimo destinatario de esta propuesta.
+					</p>
+					<p>Derechos Reservados © Códice, 2017<br>
+					El acceso a esta información es de carácter privado y confidencial y la misma está protegida por la Ley Federal del Derecho de Autor en favor de su titular. Prohibido su uso, reproducción parcial o total de esta obra, sin la previa autorización de su titular.
+					</p>
+			    </div>
 			    <div class="clearfix"></div>
 			</div>
 
@@ -524,6 +614,9 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			</html>';
 
 			$pdf = new MYPDF();
+			$pdf->setNombreCliente($cotizacion->nombreCliente);
+			$pdf->setNombreContacto($cotizacion->nombreContacto);
+			$pdf->setApellidoContacto($cotizacion->apellidoContacto);
 
 			//$pdf->SetPrintHeader(false);
 			//pdf->SetPrintFooter(false);
@@ -537,6 +630,7 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			//$pdf->AddFont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/cotizacion/fonts/gotham-black.ttf','',$_SERVER['DOCUMENT_ROOT'].'JOBS/includes/tcpdf/fonts/gotham-bold.php');
 			//$pdf->SetFont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/cotizacion/fonts/gotham-black.ttf','','');
 			$gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
+			//$gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
 			$pdf->SetFont($gotham_medium,'',9,'',false);
 			$pdf->WriteHTML($body2,true,false,true,false,'');
 			$pdf->SetMargins(20,20,20,true);
@@ -545,8 +639,11 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			//$pdf->SetFont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/cotizacion/fonts/gotham-medium.ttf','','');
 			$pdf->WriteHTML($body3,true,false,true,false,'');
 			//$pdf->Image($img64);
+			$pdf->AddPage();
+			$pdf->WriteHTML($body4,true,false,true,false,'');
 
 			$folder = $_SERVER['DOCUMENT_ROOT']."img/";
+			//$folder = $_SERVER['DOCUMENT_ROOT']."JOBS/img/";
 
 			$nombre = "pdf_";
 
@@ -566,21 +663,36 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 
 //Se declara el header y el footer del PDF a generar
 	class MYPDF extends TCPDF{
-				
+		
+
 		public function Header(){
-			$header ='<div class="logoTop" align="right">
-		            <img src="'.base_url().'includes/cotizacion/img/logo-top-codice.png" alt="">
-		          </div>';
-		    $this->SetY(5);
-			$this->WriteHTML($header,true,false,true,false,'');
+
+
+			if($this->PageNo()==2||$this->PageNo()==3){
+				$header ='<div class="logoTop" align="right">
+			            <img src="'.base_url().'includes/cotizacion/img/logo-codice-2.png" alt="" width="120" height="40">
+			          </div>';
+			    $this->SetY(10);
+				$this->WriteHTML($header,true,false,true,false,'');
+			}elseif($this->PageNo()>3){
+				$header ='<div class="logoTop" align="right">
+			            <span class="header" style="color: #7e7e7e;">'.$this->nombreContacto().' '.$this->apellidoContacto().': '.$this->nombreCliente().'</span>
+			          </div>';
+			    $gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
+				//$gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
+				$this->SetFont($gotham_medium,'',16,'',false);
+			    $this->SetY(12);
+				$this->WriteHTML($header,true,false,true,false,'');
+			}
 		}
 
 		public function Footer(){
 			$footer ='
 				    <div class="bottom" align="right">
-				        <span style="color: #7e7e7e;">Aplicaciones Códice parar Internet, SC</span>
+				        <span style="color: #7e7e7e;">Página '.$this->PageNo().'</span>
 				    </div>';
 			$gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
+			//$gotham_medium = TCPDF_FONTS::addTTFfont($_SERVER['DOCUMENT_ROOT'].'JOBS/includes/tcpdf/fonts/gotham-medium.ttf','TrueTypeUnicode','',32);
 			$this->SetFont($gotham_medium,'',9,'',false);
 
 			$this->SetY(-15);
@@ -589,4 +701,5 @@ class Listado_cotizacion_ctrl extends CI_Controller{
 			$this->WriteHTML($footer,true,false,true,false,'');
 		}
 	}
+
 ?>

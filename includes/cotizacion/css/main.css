@@ -190,6 +190,11 @@ body {
     float: right;
 }
 
+.logoTop span.header{
+    font-size: 16px;
+    color: #efefef;
+}
+
 .clearfix {
     clear: both;
 }
@@ -206,6 +211,15 @@ body {
     font-size: 12px;
     font-family: 'Conv_Gotham-Medium';
     display: block;
+}
+
+.contenedor span.titulo {
+    background: #efefef;
+    font-size: 16px;
+}
+.contenedor span.titulo2 {
+    background: #000000;
+    font-size: 22px;
 }
 
 .contenedor .fecha {
@@ -267,6 +281,10 @@ body {
     background: #efefef;
 }
 
+.contenedor p.titulo {
+    background: #efefef;
+    font-size: 24px;
+}
 .atencion {
     margin: 30px 0;
 }
@@ -283,6 +301,12 @@ body {
     font-family: 'Conv_Gotham-Medium';
     padding: 0;
     margin: 0;
+}
+
+.atencion p.contacto {
+    color: #a7a7a7;
+    font-size: 11px;
+    font-family: 'Gotham-Book';
 }
 
 .atencion span {

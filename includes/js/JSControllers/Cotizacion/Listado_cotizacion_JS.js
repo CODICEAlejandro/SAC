@@ -196,20 +196,23 @@ function aprobarCotizacion(){
 
 		var btn_aprobar = $(this);
 		var idCotizacion = btn_aprobar.attr("data-id");
+		var r = confirm("¿Estás seguro de que deseas aprobar la cotización?");
 
-		$.ajax({
-			url: baseURL+'index.php/Cotizacion/Listado_cotizacion_ctrl/aprobarCotizacion',
-			method: 'post',
-			dataType: 'text',
-			data: {'idCotizacion':idCotizacion},
-			success: function(r) {
-				//alert(btn_aprobar.closest("tr").find(".status_cot").html()+" Cotizacion_id: "+btn_aprobar.attr("data-id"));
-				btn_aprobar.closest("tr").find(".status_cot").html("Aprobada");
-			},
-			error: function(r) {
-				alert("Ocurrió un error al realizar la aprobación.");
-			}
-		});
+		if(r == true){
+			$.ajax({
+				url: baseURL+'index.php/Cotizacion/Listado_cotizacion_ctrl/aprobarCotizacion',
+				method: 'post',
+				dataType: 'text',
+				data: {'idCotizacion':idCotizacion},
+				success: function(r) {
+					//alert(btn_aprobar.closest("tr").find(".status_cot").html()+" Cotizacion_id: "+btn_aprobar.attr("data-id"));
+					btn_aprobar.closest("tr").find(".status_cot").html("Aprobada");
+				},
+				error: function(r) {
+					alert("Ocurrió un error al realizar la aprobación.");
+				}
+			});
+		}
 	});
 }
 
@@ -219,20 +222,23 @@ function cancelarCotizacion(){
 
 		var btn_cancelar = $(this);
 		var idCotizacion = btn_cancelar.attr("data-id");
+		var r = confirm("¿Estás seguro que deseas cancelar la cotización?");
 
-		$.ajax({
-			url: baseURL+'index.php/Cotizacion/Listado_cotizacion_ctrl/cancelarCotizacion',
-			method: 'post',
-			dataType: 'text',
-			data: {'idCotizacion':idCotizacion},
-			success: function(r) {
-				//alert(btn_cancelar.closest("tr").find(".status_cot").html()+" Cotizacion_id: "+btn_cancelar.attr("data-id"));
-				btn_cancelar.closest("tr").find(".status_cot").html("Cancelada");
-			},
-			error: function(r) {
-				alert("Ocurrió un error al realizar la cancelación.");
-			}
-		});
+		if(r == true){
+			$.ajax({
+				url: baseURL+'index.php/Cotizacion/Listado_cotizacion_ctrl/cancelarCotizacion',
+				method: 'post',
+				dataType: 'text',
+				data: {'idCotizacion':idCotizacion},
+				success: function(r) {
+					//alert(btn_cancelar.closest("tr").find(".status_cot").html()+" Cotizacion_id: "+btn_cancelar.attr("data-id"));
+					btn_cancelar.closest("tr").find(".status_cot").html("Cancelada");
+				},
+				error: function(r) {
+					alert("Ocurrió un error al realizar la cancelación.");
+				}
+			});
+		}
 	});
 }
 
@@ -242,20 +248,23 @@ function duplicarCotizacion(){
 
 		var btn_duplicar= $(this);
 		var idCotizacion = btn_duplicar.attr("data-id");
+		var r = confirm("¿Estás seguro que deseas duplicar la cotización?");
 
-		$.ajax({
-			url: baseURL+'index.php/Cotizacion/Listado_cotizacion_ctrl/duplicarCotizacion',
-			method: 'post',
-			dataType: 'text',
-			data: {'idCotizacion':idCotizacion},
-			success: function(r) {
-				//alert(r);
-				location.reload();
-			},
-			error: function(r) {
-				alert("Ocurrió un error al realizar la duplicación.");
-			}
-		});
+		if(r==true){
+			$.ajax({
+				url: baseURL+'index.php/Cotizacion/Listado_cotizacion_ctrl/duplicarCotizacion',
+				method: 'post',
+				dataType: 'text',
+				data: {'idCotizacion':idCotizacion},
+				success: function(r) {
+					//alert(r);
+					location.reload();
+				},
+				error: function(r) {
+					alert("Ocurrió un error al realizar la duplicación.");
+				}
+			});
+		}
 	});
 }
 

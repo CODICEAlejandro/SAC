@@ -1985,6 +1985,9 @@ class TCPDF {
 		$this->custom_xmp = '';
 		// Call cleanup method after script execution finishes or exit() is called.
 		// NOTE: This will not be executed if the process is killed with a SIGTERM or SIGKILL signal.
+		$this->nombreCliente = '';
+		$this->nombreContacto = '';
+		$this->apellidoContacto = '';
 		register_shutdown_function(array($this, '_destroy'), true);
 	}
 
@@ -2001,6 +2004,22 @@ class TCPDF {
 		// cleanup
 		$this->_destroy(true);
 	}
+
+	public function setNombreCliente($nombre){
+		$this->nombreCliente = $nombre;
+	}
+
+	public function setNombreContacto($nombre){
+		$this->nombreContacto = $nombre;
+	}
+
+	public function setApellidoContacto($apellido){
+		$this->apellidoContacto = $apellido;
+	}
+
+	public function nombreCliente(){return $this->nombreCliente;}
+	public function nombreContacto(){return $this->nombreContacto;}
+	public function apellidoContacto(){return $this->apellidoContacto;}
 
 	/**
 	 * Set the units of measure for the document.
