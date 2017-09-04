@@ -173,7 +173,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					$concepto->ordenCompra = $conceptoHomogeneo->ordenCompra;
 					$concepto->fechaCancelacion = $conceptoHomogeneo->fechaCancelacion;
 					$concepto->tasa = $conceptoHomogeneo->tasa;
-					$concepto->idConceptoFactura = "";
+					$concepto->idConceptoFactura = $conceptoHomogeneo->idConceptoFactura;
 					$concepto->cantidadIVA = $conceptoHomogeneo->cantidadIVA;
 					$concepto->subtotal = $conceptoHomogeneo->subtotal;
 					$concepto->total = $conceptoHomogeneo->total;
@@ -208,6 +208,7 @@ class Reporte_master_ctrl extends CI_Controller {
 					$numeroConceptosFacturados++;
 					//Se agrego aquí en vez de abajo, solo cuando entra en esta condición se debe mostrar
 					array_push($result_array, $concepto);
+
 				}
 			}else{
 				$concepto->folio = 'NO DISPONIBLE';
